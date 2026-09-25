@@ -1028,8 +1028,172 @@ async function loadRewards() {
 
 
         rewardsList.appendChild(box);
+const button =
+    document.createElement("button");
 
-    });
+button.textContent =
+    "🎁 Trocar por esta recompensa";
+
+button.style.marginTop =
+    "10px";
+
+button.addEventListener(
+    "click",
+    function() {
+        redeemReward(reward);
+    }
+);
+
+box.appendChild(button);    });
+
+}
+// =========================================
+// TROCAR RECOMPENSA
+// =========================================
+
+async function redeemReward(reward) {
+
+    const rewardsMessage =
+        document.getElementById(
+            "rewardsMessage"
+        );
+
+
+    rewardsMessage.textContent =
+        "A verificar os teus pontos...";
+
+
+    const sessionResult =
+        await supabaseClient.auth.getSession();
+
+
+    if (
+        !sessionResult.data.session
+    ) {
+
+        rewardsMessage.textContent =
+            "Tens de iniciar sessão.";
+
+        return;
+    }
+
+
+    const user =
+        sessionResult.data.session.user;
+
+
+    const profileResult =
+        await supabaseClient
+        .from("profiles")
+        .select("*")
+        .eq("id", user.id)
+        .limit(1);
+
+
+    if (profileResult.error) {
+
+        rewardsMessage.textContent =
+            "Erro: " +
+            profileResult.error.message;
+
+        return;
+    }
+
+
+    if (
+        !profileResult.data ||
+        profileResult.data.length === 0
+    ) {
+
+        rewardsMessage.textContent =
+            "Perfil não encontrado.";
+
+        return;
+    }
+
+
+    const profile =
+        profileResult.data[0];
+
+
+    const currentPoints =
+        Number(profile.points || 0);
+
+
+    if (
+        currentPoints <
+        Number(reward.points)
+    ) {
+
+        rewardsMessage.textContent =
+            "❌ Não tens pontos suficientes.";
+
+        return;
+    }
+
+
+    const newPoints =
+        currentPoints -
+        Number(reward.points);
+
+
+    const updateResult =
+        await supabaseClient
+        .from("profiles")
+        .update({
+
+            points: newPoints
+
+        })
+        .eq(
+            "id",
+            user.id
+        );
+
+
+    if (updateResult.error) {
+
+        rewardsMessage.textContent =
+            "Erro ao gastar pontos: " +
+            updateResult.error.message;
+
+        return;
+    }
+
+
+    const redemptionResult =
+        await supabaseClient
+        .from("redemptions")
+        .insert({
+
+            user_id: user.id,
+
+            reward_id: reward.id,
+
+            points_spent:
+                reward.points
+
+        });
+
+
+    if (redemptionResult.error) {
+
+        rewardsMessage.textContent =
+            "Os pontos foram alterados, mas houve um erro ao registar a recompensa.";
+
+        return;
+    }
+
+
+    document.getElementById(
+        "points"
+    ).textContent =
+        newPoints;
+
+
+    rewardsMessage.textContent =
+        "🎉 Recompensa desbloqueada: " +
+        reward.reward;
 
 }
     // =========================================
