@@ -6,6 +6,8 @@
 
     <title>MotoQuest</title>
 
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
     <style>
         * {
             box-sizing: border-box;
@@ -18,10 +20,9 @@
             color: white;
         }
 
-        .header {
-            background: #111;
-            padding: 25px 20px;
+        header {
             text-align: center;
+            padding: 25px 20px;
             border-bottom: 3px solid #ff6a00;
         }
 
@@ -35,21 +36,20 @@
         }
 
         .tagline {
-            margin-top: 6px;
-            color: #ccc;
-            font-size: 14px;
+            color: #bbb;
+            margin-top: 5px;
         }
 
         .points {
-            margin-top: 15px;
             display: inline-block;
+            margin-top: 15px;
             background: #ff6a00;
             padding: 10px 18px;
             border-radius: 20px;
             font-weight: bold;
         }
 
-        .container {
+        main {
             max-width: 600px;
             margin: auto;
             padding: 20px;
@@ -58,128 +58,103 @@
         .card {
             background: #1d1d1d;
             border-radius: 18px;
-            overflow: hidden;
+            padding: 25px;
             margin-bottom: 20px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
         }
 
-        .card-image {
-            height: 220px;
-            background:
-                linear-gradient(rgba(0,0,0,0.25), rgba(0,0,0,0.6)),
-                url("https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1000&q=80")
-                center/cover;
-        }
-
-        .card-content {
-            padding: 22px;
-        }
-
-        h1 {
+        h1, h2 {
             margin-top: 0;
-            font-size: 26px;
         }
 
-        h2 {
-            font-size: 18px;
-            margin-bottom: 8px;
-        }
-
-        .description {
-            color: #ccc;
-            line-height: 1.5;
-        }
-
-        .reward {
-            background: #292929;
-            border-left: 4px solid #ff6a00;
-            padding: 15px;
+        input {
+            width: 100%;
+            padding: 14px;
+            margin: 8px 0;
+            border: none;
             border-radius: 8px;
-            margin: 20px 0;
-        }
-
-        .reward strong {
-            color: #ff6a00;
-            font-size: 20px;
+            background: #292929;
+            color: white;
         }
 
         button {
             width: 100%;
-            padding: 16px;
+            padding: 15px;
+            margin-top: 10px;
             border: none;
-            border-radius: 10px;
+            border-radius: 9px;
             background: #ff6a00;
             color: white;
-            font-size: 17px;
+            font-size: 16px;
             font-weight: bold;
             cursor: pointer;
         }
 
         button:hover {
-            background: #e85f00;
+            background: #e85d00;
+        }
+
+        button.secondary {
+            background: #333;
         }
 
         button:disabled {
             background: #555;
-            cursor: not-allowed;
         }
 
-        .photo-box {
-            margin: 20px 0;
-        }
-
-        .photo-box label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: bold;
-        }
-
-        input[type="file"] {
-            width: 100%;
-            padding: 12px;
+        .challenge {
             background: #292929;
-            color: white;
-            border-radius: 8px;
+            padding: 20px;
+            border-radius: 12px;
+            margin-top: 15px;
         }
 
-        #status {
+        .reward {
+            color: #ff6a00;
+            font-weight: bold;
+            font-size: 20px;
+        }
+
+        #message {
+            padding: 15px;
+            margin-top: 15px;
+            border-radius: 8px;
             display: none;
-            margin-top: 20px;
-            padding: 16px;
-            border-radius: 10px;
-            line-height: 1.5;
         }
 
         .success {
             display: block !important;
-            background: #164d2b;
-            border: 1px solid #28a745;
+            background: #174d2a;
         }
 
         .error {
             display: block !important;
-            background: #501c1c;
-            border: 1px solid #dc3545;
+            background: #551c1c;
         }
 
         .info {
             display: block !important;
             background: #183c50;
-            border: 1px solid #2196f3;
         }
 
-        .footer {
+        .hidden {
+            display: none;
+        }
+
+        .logout {
+            background: #333;
+        }
+
+        footer {
             text-align: center;
-            color: #888;
-            padding: 30px 20px;
-            font-size: 13px;
+            color: #777;
+            padding: 30px;
         }
     </style>
 </head>
 
 <body>
 
-<header class="header">
+<header>
 
     <div class="logo">
         MOTO<span>QUEST</span>
@@ -189,170 +164,239 @@
         Explora. Conquista. Desfruta.
     </div>
 
-    <div class="points">
+    <div id="pointsBox" class="points hidden">
         ⭐ <span id="points">0</span> pontos
     </div>
 
 </header>
 
 
-<main class="container">
+<main>
 
-    <div class="card">
+    <!-- LOGIN / REGISTO -->
 
-        <div class="card-image"></div>
+    <section id="authCard" class="card">
 
-        <div class="card-content">
+        <h1>🏍️ Bem-vindo à MotoQuest</h1>
 
-            <h1>🏍️ Miradouro da Boneca</h1>
+        <p>
+            Cria uma conta e começa a ganhar pontos
+            enquanto descobres novos lugares.
+        </p>
 
-            <p class="description">
-                Completa este desafio visitando o Miradouro da Boneca
-                e ganha pontos para trocar por recompensas.
-            </p>
+        <input
+            type="email"
+            id="email"
+            placeholder="Email"
+        >
 
-            <div class="reward">
+        <input
+            type="password"
+            id="password"
+            placeholder="Palavra-passe"
+        >
 
-                <div>Recompensa do desafio</div>
+        <input
+            type="text"
+            id="name"
+            placeholder="Nome (apenas para registo)"
+        >
 
-                <strong>+100 pontos</strong>
+        <button onclick="register()">
+            Criar conta
+        </button>
 
-            </div>
+        <button class="secondary" onclick="login()">
+            Entrar
+        </button>
 
+        <div id="authMessage"></div>
 
-            <div class="photo-box">
-
-                <label for="photo">
-                    📷 Fotografia da visita
-                </label>
-
-                <input
-                    type="file"
-                    id="photo"
-                    accept="image/*"
-                    capture="environment"
-                >
-
-            </div>
-
-
-            <button id="validateButton" onclick="validateVisit()">
-                📍 VALIDAR VISITA
-            </button>
+    </section>
 
 
-            <div id="status"></div>
+    <!-- ÁREA DO UTILIZADOR -->
 
+    <section id="userCard" class="card hidden">
+
+        <h2>Olá, <span id="userName"></span>! 👋</h2>
+
+        <p>
+            Continua a explorar para ganhar mais pontos.
+        </p>
+
+        <button class="logout" onclick="logout()">
+            Terminar sessão
+        </button>
+
+    </section>
+
+
+    <!-- DESAFIOS -->
+
+    <section id="challengeCard" class="card hidden">
+
+        <h2>🏆 Desafios</h2>
+
+        <div id="challenges">
+            A carregar desafios...
         </div>
 
-    </div>
+    </section>
+
+
+    <div id="message"></div>
 
 </main>
 
 
-<footer class="footer">
-
+<footer>
     MotoQuest © 2026<br>
     Cada passeio é uma nova descoberta.
-
 </footer>
 
 
 <script>
 
     /*
-        ================================
-        CONFIGURAÇÃO DO DESAFIO
-        ================================
+    =====================================
+    CONFIGURAÇÃO SUPABASE
+    =====================================
     */
 
-    const challenge = {
+    const SUPABASE_URL =
+        "https://gqimkzovrabptxqheedq.supabase.co";
 
-        name: "Miradouro da Boneca",
+    const SUPABASE_KEY =
+        "sb_publishable_6PtfvoaY4V49YnCYifToyA_jQ1AXnPq";
 
-        /*
-            Coordenadas utilizadas no protótipo.
-            Se necessário, podes alterá-las.
-        */
 
-        latitude: 41.727793,
-        longitude: -8.171378,
+    const supabaseClient =
+        window.supabase.createClient(
+            SUPABASE_URL,
+            SUPABASE_KEY
+        );
 
-        /*
-            Distância máxima permitida.
-            150 metros neste exemplo.
-        */
 
-        radius: 150,
-
-        /*
-            Pontos atribuídos.
-        */
-
-        points: 100
-
-    };
+    let currentUser = null;
 
 
     /*
-        ================================
-        CARREGAR PONTOS
-        ================================
+    =====================================
+    REGISTAR UTILIZADOR
+    =====================================
     */
 
-    let totalPoints =
-        Number(localStorage.getItem("motoquest_points")) || 0;
+    async function register() {
 
-    document.getElementById("points").textContent = totalPoints;
+        const email =
+            document.getElementById("email").value.trim();
 
+        const password =
+            document.getElementById("password").value;
 
-    /*
-        Verifica se o desafio já foi concluído.
-    */
-
-    const challengeCompleted =
-        localStorage.getItem("miradouro_boneca_completed");
+        const name =
+            document.getElementById("name").value.trim();
 
 
-    if (challengeCompleted === "true") {
+        if (!email || !password || !name) {
 
-        const button =
-            document.getElementById("validateButton");
+            showAuthMessage(
+                "Preenche o nome, email e palavra-passe.",
+                "error"
+            );
 
-        button.disabled = true;
+            return;
+        }
 
-        button.textContent =
-            "✅ DESAFIO JÁ CONCLUÍDO";
+
+        const { data, error } =
+            await supabaseClient.auth.signUp({
+
+                email: email,
+
+                password: password
+
+            });
+
+
+        if (error) {
+
+            showAuthMessage(
+                error.message,
+                "error"
+            );
+
+            return;
+        }
+
+
+        /*
+        Criar perfil.
+        */
+
+        if (data.user) {
+
+            const { error: profileError } =
+                await supabaseClient
+                    .from("profiles")
+                    .insert({
+
+                        id: data.user.id,
+
+                        name: name,
+
+                        points: 0
+
+                    });
+
+
+            if (profileError) {
+
+                console.error(profileError);
+
+            }
+
+        }
+
+
+        showAuthMessage(
+            "✅ Conta criada! Verifica o teu email se o Supabase pedir confirmação.",
+            "success"
+        );
 
     }
 
 
     /*
-        ================================
-        FUNÇÃO PRINCIPAL
-        ================================
+    =====================================
+    LOGIN
+    =====================================
     */
 
-    function validateVisit() {
+    async function login() {
 
-        const status =
-            document.getElementById("status");
+        const email =
+            document.getElementById("email").value.trim();
 
-        const button =
-            document.getElementById("validateButton");
-
-        const photo =
-            document.getElementById("photo");
+        const password =
+            document.getElementById("password").value;
 
 
-        /*
-            Verificar fotografia.
-        */
+        const { data, error } =
+            await supabaseClient.auth.signInWithPassword({
 
-        if (!photo.files.length) {
+                email: email,
 
-            showStatus(
-                "📷 Para validar a visita, tira ou seleciona uma fotografia do local.",
+                password: password
+
+            });
+
+
+        if (error) {
+
+            showAuthMessage(
+                error.message,
                 "error"
             );
 
@@ -360,141 +404,330 @@
         }
 
 
-        /*
-            Verificar suporte de GPS.
-        */
+        currentUser = data.user;
 
-        if (!navigator.geolocation) {
+        await loadUser();
 
-            showStatus(
-                "❌ O teu dispositivo não suporta localização GPS.",
-                "error"
-            );
+    }
+
+
+    /*
+    =====================================
+    CARREGAR UTILIZADOR
+    =====================================
+    */
+
+    async function loadUser() {
+
+        if (!currentUser) return;
+
+
+        const { data, error } =
+            await supabaseClient
+                .from("profiles")
+                .select("*")
+                .eq("id", currentUser.id)
+                .single();
+
+
+        if (error) {
+
+            console.error(error);
 
             return;
         }
 
 
-        button.disabled = true;
-
-        button.textContent =
-            "📡 A verificar localização...";
+        document.getElementById("userName")
+            .textContent = data.name || "Motociclista";
 
 
-        showStatus(
-            "📡 A obter a tua localização. Permite o acesso ao GPS quando aparecer o pedido.",
+        document.getElementById("points")
+            .textContent = data.points || 0;
+
+
+        document.getElementById("authCard")
+            .classList.add("hidden");
+
+
+        document.getElementById("userCard")
+            .classList.remove("hidden");
+
+
+        document.getElementById("challengeCard")
+            .classList.remove("hidden");
+
+
+        document.getElementById("pointsBox")
+            .classList.remove("hidden");
+
+
+        loadChallenges();
+
+    }
+
+
+    /*
+    =====================================
+    CARREGAR DESAFIOS
+    =====================================
+    */
+
+    async function loadChallenges() {
+
+        const { data, error } =
+            await supabaseClient
+                .from("challenges")
+                .select("*");
+
+
+        if (error) {
+
+            document.getElementById("challenges")
+                .innerHTML =
+                "❌ Não foi possível carregar os desafios.";
+
+            console.error(error);
+
+            return;
+        }
+
+
+        const container =
+            document.getElementById("challenges");
+
+
+        container.innerHTML = "";
+
+
+        data.forEach(challenge => {
+
+            const div =
+                document.createElement("div");
+
+
+            div.className = "challenge";
+
+
+            div.innerHTML = `
+
+                <h3>📍 ${challenge.name}</h3>
+
+                <p>
+                    ${challenge.description || ""}
+                </p>
+
+                <p class="reward">
+                    ⭐ +${challenge.points} pontos
+                </p>
+
+                <button
+                    onclick="validateVisit(${challenge.id})"
+                >
+                    📍 Validar visita
+                </button>
+
+            `;
+
+
+            container.appendChild(div);
+
+        });
+
+    }
+
+
+    /*
+    =====================================
+    VALIDAR VISITA
+    =====================================
+    */
+
+    async function validateVisit(challengeId) {
+
+        showMessage(
+            "📡 A obter a tua localização...",
             "info"
         );
 
 
-        /*
-            Obter localização.
-        */
+        if (!navigator.geolocation) {
+
+            showMessage(
+                "❌ O teu dispositivo não suporta GPS.",
+                "error"
+            );
+
+            return;
+
+        }
+
+
+        const { data: challenge, error } =
+            await supabaseClient
+                .from("challenges")
+                .select("*")
+                .eq("id", challengeId)
+                .single();
+
+
+        if (error) {
+
+            showMessage(
+                "❌ Não foi possível carregar o desafio.",
+                "error"
+            );
+
+            return;
+
+        }
+
 
         navigator.geolocation.getCurrentPosition(
 
-            function(position) {
+            async function(position) {
 
-                const userLatitude =
+                const userLat =
                     position.coords.latitude;
 
-                const userLongitude =
+                const userLon =
                     position.coords.longitude;
 
 
-                /*
-                    Calcular distância.
-                */
-
                 const distance =
                     calculateDistance(
-                        userLatitude,
-                        userLongitude,
+
+                        userLat,
+
+                        userLon,
+
                         challenge.latitude,
+
                         challenge.longitude
+
                     );
 
 
-                console.log(
-                    "Distância:",
-                    distance,
-                    "metros"
-                );
+                if (distance > challenge.radius) {
 
-
-                /*
-                    Verificar se está dentro do raio.
-                */
-
-                if (distance <= challenge.radius) {
-
-                    completeChallenge(distance);
-
-                } else {
-
-                    button.disabled = false;
-
-                    button.textContent =
-                        "📍 TENTAR NOVAMENTE";
-
-
-                    showStatus(
+                    showMessage(
 
                         "❌ Visita não confirmada.<br><br>" +
 
-                        "Estás aproximadamente a <strong>" +
+                        "Estás aproximadamente a " +
+
                         Math.round(distance) +
-                        " metros</strong> do ponto definido.<br><br>" +
 
-                        "Aproxima-te do Miradouro da Boneca e tenta novamente.",
+                        " metros do local.<br><br>" +
 
+                        "Aproxima-te do ponto turístico e tenta novamente.",
+
+                        "error"
+
+                    );
+
+                    return;
+
+                }
+
+
+                /*
+                =====================================
+                ADICIONAR PONTOS
+                =====================================
+                */
+
+
+                const { data: profile, error: profileError } =
+                    await supabaseClient
+                        .from("profiles")
+                        .select("points")
+                        .eq("id", currentUser.id)
+                        .single();
+
+
+                if (profileError) {
+
+                    showMessage(
+                        "❌ Não foi possível encontrar o teu perfil.",
                         "error"
                     );
 
-                }
-
-            },
-
-            function(error) {
-
-                button.disabled = false;
-
-                button.textContent =
-                    "📍 TENTAR NOVAMENTE";
-
-
-                let message =
-                    "Não foi possível obter a tua localização.";
-
-
-                if (error.code === 1) {
-
-                    message =
-                        "🚫 Não autorizaste o acesso à localização. Ativa o GPS e permite o acesso à localização.";
-
-                }
-
-                else if (error.code === 2) {
-
-                    message =
-                        "📡 Não foi possível determinar a tua localização.";
-
-                }
-
-                else if (error.code === 3) {
-
-                    message =
-                        "⏱️ A localização demorou demasiado tempo. Tenta novamente.";
+                    return;
 
                 }
 
 
-                showStatus(
-                    "❌ " + message,
-                    "error"
+                const newPoints =
+                    (profile.points || 0) +
+                    challenge.points;
+
+
+                const { error: updateError } =
+                    await supabaseClient
+                        .from("profiles")
+                        .update({
+
+                            points: newPoints
+
+                        })
+                        .eq("id", currentUser.id);
+
+
+                if (updateError) {
+
+                    showMessage(
+                        "❌ Não foi possível guardar os pontos.",
+                        "error"
+                    );
+
+                    console.error(updateError);
+
+                    return;
+
+                }
+
+
+                document.getElementById("points")
+                    .textContent = newPoints;
+
+
+                showMessage(
+
+                    "🎉 <strong>Visita confirmada!</strong><br><br>" +
+
+                    "📍 Distância: " +
+                    Math.round(distance) +
+                    " metros<br><br>" +
+
+                    "⭐ Ganhaste <strong>+" +
+                    challenge.points +
+                    " pontos</strong>!<br><br>" +
+
+                    "🏆 Total: <strong>" +
+                    newPoints +
+                    " pontos</strong>",
+
+                    "success"
+
                 );
 
             },
+
+
+            function(error) {
+
+                showMessage(
+
+                    "❌ Não foi possível obter a localização. " +
+                    "Verifica se autorizaste o GPS no navegador.",
+
+                    "error"
+
+                );
+
+            },
+
 
             {
 
@@ -512,90 +745,9 @@
 
 
     /*
-        ================================
-        CONCLUIR DESAFIO
-        ================================
-    */
-
-    function completeChallenge(distance) {
-
-        /*
-            Adicionar pontos.
-        */
-
-        totalPoints =
-            totalPoints + challenge.points;
-
-
-        /*
-            Guardar pontos.
-        */
-
-        localStorage.setItem(
-            "motoquest_points",
-            totalPoints
-        );
-
-
-        /*
-            Marcar desafio como concluído.
-        */
-
-        localStorage.setItem(
-            "miradouro_boneca_completed",
-            "true"
-        );
-
-
-        /*
-            Atualizar interface.
-        */
-
-        document.getElementById("points")
-            .textContent = totalPoints;
-
-
-        const button =
-            document.getElementById("validateButton");
-
-
-        button.disabled = true;
-
-        button.textContent =
-            "✅ DESAFIO CONCLUÍDO";
-
-
-        /*
-            Mostrar sucesso.
-        */
-
-        showStatus(
-
-            "🎉 <strong>Visita confirmada!</strong><br><br>" +
-
-            "📍 Distância ao ponto: " +
-            Math.round(distance) +
-            " metros<br><br>" +
-
-            "⭐ Ganhaste <strong>+" +
-            challenge.points +
-            " pontos</strong>!<br><br>" +
-
-            "🏆 Total de pontos: <strong>" +
-            totalPoints +
-            "</strong>",
-
-            "success"
-
-        );
-
-    }
-
-
-    /*
-        ================================
-        CALCULAR DISTÂNCIA
-        ================================
+    =====================================
+    DISTÂNCIA GPS
+    =====================================
     */
 
     function calculateDistance(
@@ -605,63 +757,123 @@
         lon2
     ) {
 
-        const earthRadius = 6371000;
+        const R = 6371000;
 
-        const lat1Rad =
+        const p1 =
             lat1 * Math.PI / 180;
 
-        const lat2Rad =
+        const p2 =
             lat2 * Math.PI / 180;
 
-        const deltaLat =
-            (lat2 - lat1) * Math.PI / 180;
+        const dp =
+            (lat2 - lat1) *
+            Math.PI / 180;
 
-        const deltaLon =
-            (lon2 - lon1) * Math.PI / 180;
+        const dl =
+            (lon2 - lon1) *
+            Math.PI / 180;
 
 
         const a =
-            Math.sin(deltaLat / 2) *
-            Math.sin(deltaLat / 2) +
+            Math.sin(dp / 2) *
+            Math.sin(dp / 2) +
 
-            Math.cos(lat1Rad) *
-            Math.cos(lat2Rad) *
+            Math.cos(p1) *
+            Math.cos(p2) *
 
-            Math.sin(deltaLon / 2) *
-            Math.sin(deltaLon / 2);
+            Math.sin(dl / 2) *
+            Math.sin(dl / 2);
 
 
         const c =
-            2 * Math.atan2(
+            2 *
+            Math.atan2(
                 Math.sqrt(a),
                 Math.sqrt(1 - a)
             );
 
 
-        return earthRadius * c;
+        return R * c;
 
     }
 
 
     /*
-        ================================
-        MOSTRAR MENSAGEM
-        ================================
+    =====================================
+    LOGOUT
+    =====================================
     */
 
-    function showStatus(
-        message,
+    async function logout() {
+
+        await supabaseClient.auth.signOut();
+
+        location.reload();
+
+    }
+
+
+    /*
+    =====================================
+    MENSAGENS
+    =====================================
+    */
+
+    function showMessage(
+        text,
         type
     ) {
 
-        const status =
-            document.getElementById("status");
+        const element =
+            document.getElementById("message");
 
-        status.innerHTML = message;
+        element.innerHTML = text;
 
-        status.className = type;
+        element.className = type;
 
     }
+
+
+    function showAuthMessage(
+        text,
+        type
+    ) {
+
+        const element =
+            document.getElementById("authMessage");
+
+        element.innerHTML = text;
+
+        element.className = type;
+
+    }
+
+
+    /*
+    =====================================
+    VERIFICAR SESSÃO AO ABRIR
+    =====================================
+    */
+
+    async function checkSession() {
+
+        const { data } =
+            await supabaseClient.auth.getSession();
+
+
+        if (data.session) {
+
+            currentUser =
+                data.session.user;
+
+            await loadUser();
+
+        }
+
+    }
+
+
+    checkSession();
 
 </script>
 
