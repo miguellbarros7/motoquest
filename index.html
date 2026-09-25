@@ -30,7 +30,7 @@ header {
 
 header h1 {
     margin: 0;
-    font-size: 36px;
+    font-size: 38px;
 }
 
 header p {
@@ -44,12 +44,20 @@ header p {
     padding: 20px;
 }
 
+.screen {
+    min-height: 60vh;
+}
+
 .card {
     background: #1d1d1d;
     border-radius: 15px;
     padding: 20px;
     margin-bottom: 20px;
     box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+}
+
+.center {
+    text-align: center;
 }
 
 h2 {
@@ -97,30 +105,12 @@ button:hover {
     text-align: center;
 }
 
-.challenge {
-    border: 2px solid #333;
-    border-radius: 12px;
-    padding: 15px;
-    margin-top: 15px;
-}
-
+.challenge,
 .reward {
     border: 2px solid #333;
     border-radius: 12px;
     padding: 15px;
     margin-top: 15px;
-}
-
-.code {
-    margin-top: 15px;
-    padding: 15px;
-    background: #ff6a00;
-    color: white;
-    text-align: center;
-    font-size: 28px;
-    font-weight: bold;
-    border-radius: 10px;
-    letter-spacing: 3px;
 }
 
 .message {
@@ -129,22 +119,25 @@ button:hover {
     font-weight: bold;
 }
 
-.hidden {
-    display: none;
-}
-
-.center {
-    text-align: center;
-}
-
-.menu-button {
+.code {
     margin-top: 15px;
+    padding: 15px;
+    background: #ff6a00;
+    text-align: center;
+    font-size: 28px;
+    font-weight: bold;
+    border-radius: 10px;
+    letter-spacing: 3px;
 }
 
 footer {
     text-align: center;
     padding: 30px;
     color: #777;
+}
+
+.hidden {
+    display: none !important;
 }
 
 </style>
@@ -165,21 +158,35 @@ footer {
 <div class="container">
 
 
-<!-- MENU PRINCIPAL -->
+<!-- =========================
+     MENU PRINCIPAL
+========================= -->
 
-<div id="loginSection">
+<section id="homeScreen" class="screen">
 
     <div class="card center">
 
-        <h2>Bem-vindo ao MotoQuest</h2>
+        <h2>Bem-vindo ao MotoQuest 🏍️</h2>
 
         <p>
             Descobre novos lugares, completa desafios,
             ganha pontos e troca-os por recompensas.
         </p>
 
+        <button onclick="showLoginScreen()">
+            🔐 Entrar
+        </button>
+
     </div>
 
+</section>
+
+
+<!-- =========================
+     LOGIN / REGISTO
+========================= -->
+
+<section id="loginScreen" class="screen hidden">
 
     <div class="card">
 
@@ -226,12 +233,22 @@ footer {
 
     </div>
 
-</div>
+
+    <button
+        class="secondary"
+        onclick="showHomeScreen()"
+    >
+        ← Voltar
+    </button>
+
+</section>
 
 
-<!-- ÁREA DO UTILIZADOR -->
+<!-- =========================
+     ÁREA DO JOGADOR
+========================= -->
 
-<div id="app" style="display:none;">
+<section id="appScreen" class="screen hidden">
 
 
     <!-- PERFIL -->
@@ -245,7 +262,9 @@ footer {
             <strong id="profileName">-</strong>
         </p>
 
-        <p>Os teus pontos:</p>
+        <p>
+            Os teus pontos:
+        </p>
 
         <div
             class="points"
@@ -258,7 +277,7 @@ footer {
             class="secondary"
             onclick="logout()"
         >
-            Sair
+            🚪 Sair
         </button>
 
     </div>
@@ -276,9 +295,7 @@ footer {
 
         <div id="challenges">
 
-            <p>
-                A carregar desafios...
-            </p>
+            A carregar desafios...
 
         </div>
 
@@ -297,9 +314,7 @@ footer {
 
         <div id="rewards">
 
-            <p>
-                A carregar recompensas...
-            </p>
+            A carregar recompensas...
 
         </div>
 
@@ -312,8 +327,7 @@ footer {
     ></div>
 
 
-</div>
-
+</section>
 
 </div>
 
@@ -323,7 +337,6 @@ footer {
 MotoQuest © 2026
 
 </footer>
-
 
 
 <script>
@@ -346,9 +359,65 @@ const supabaseClient =
     );
 
 
+/* =========================
+   MUDAR ECRÃ
+========================= */
+
+function hideAllScreens() {
+
+    document
+        .getElementById("homeScreen")
+        .classList.add("hidden");
+
+    document
+        .getElementById("loginScreen")
+        .classList.add("hidden");
+
+    document
+        .getElementById("appScreen")
+        .classList.add("hidden");
+
+}
+
+
+function showHomeScreen() {
+
+    hideAllScreens();
+
+    document
+        .getElementById("homeScreen")
+        .classList.remove("hidden");
+
+    window.scrollTo(0, 0);
+}
+
+
+function showLoginScreen() {
+
+    hideAllScreens();
+
+    document
+        .getElementById("loginScreen")
+        .classList.remove("hidden");
+
+    window.scrollTo(0, 0);
+}
+
+
+function showAppScreen() {
+
+    hideAllScreens();
+
+    document
+        .getElementById("appScreen")
+        .classList.remove("hidden");
+
+    window.scrollTo(0, 0);
+}
+
 
 /* =========================
-   MENSAGENS
+   MENSAGEM
 ========================= */
 
 function showMessage(message) {
@@ -359,7 +428,6 @@ function showMessage(message) {
 }
 
 
-
 /* =========================
    REGISTAR
 ========================= */
@@ -367,15 +435,22 @@ function showMessage(message) {
 async function register() {
 
     const email =
-        document.getElementById("registerEmail").value.trim();
+        document
+            .getElementById("registerEmail")
+            .value
+            .trim();
 
     const password =
-        document.getElementById("registerPassword").value;
+        document
+            .getElementById("registerPassword")
+            .value;
 
 
     if (!email || !password) {
 
-        alert("Preenche o email e a palavra-passe.");
+        alert(
+            "Preenche o email e a palavra-passe."
+        );
 
         return;
     }
@@ -437,16 +512,15 @@ async function register() {
     );
 
 
-    document.getElementById(
-        "registerEmail"
-    ).value = "";
+    document
+        .getElementById("registerEmail")
+        .value = "";
 
-    document.getElementById(
-        "registerPassword"
-    ).value = "";
+    document
+        .getElementById("registerPassword")
+        .value = "";
 
 }
-
 
 
 /* =========================
@@ -456,10 +530,15 @@ async function register() {
 async function login() {
 
     const email =
-        document.getElementById("loginEmail").value.trim();
+        document
+            .getElementById("loginEmail")
+            .value
+            .trim();
 
     const password =
-        document.getElementById("loginPassword").value;
+        document
+            .getElementById("loginPassword")
+            .value;
 
 
     if (!email || !password) {
@@ -496,16 +575,15 @@ async function login() {
     await loadUser();
 
 
-    document.getElementById(
-        "loginEmail"
-    ).value = "";
+    document
+        .getElementById("loginEmail")
+        .value = "";
 
-    document.getElementById(
-        "loginPassword"
-    ).value = "";
+    document
+        .getElementById("loginPassword")
+        .value = "";
 
 }
-
 
 
 /* =========================
@@ -524,7 +602,7 @@ async function loadUser() {
 
     if (!session) {
 
-        showLogin();
+        showHomeScreen();
 
         return;
     }
@@ -532,16 +610,6 @@ async function loadUser() {
 
     const user =
         session.user;
-
-
-    document.getElementById(
-        "loginSection"
-    ).style.display = "none";
-
-
-    document.getElementById(
-        "app"
-    ).style.display = "block";
 
 
     const profileResult =
@@ -567,14 +635,15 @@ async function loadUser() {
             });
 
 
-        document.getElementById(
-            "profileName"
-        ).textContent =
+        document
+            .getElementById("profileName")
+            .textContent =
             user.email;
 
-        document.getElementById(
-            "profilePoints"
-        ).textContent =
+
+        document
+            .getElementById("profilePoints")
+            .textContent =
             "0";
 
     } else {
@@ -583,68 +652,27 @@ async function loadUser() {
             profileResult.data;
 
 
-        document.getElementById(
-            "profileName"
-        ).textContent =
+        document
+            .getElementById("profileName")
+            .textContent =
             profile.email || user.email;
 
 
-        document.getElementById(
-            "profilePoints"
-        ).textContent =
+        document
+            .getElementById("profilePoints")
+            .textContent =
             profile.points || 0;
+
     }
 
+
+    showAppScreen();
 
     loadChallenges();
 
     loadRewards();
 
 }
-
-
-
-/* =========================
-   MENU PRINCIPAL
-========================= */
-
-function showLogin() {
-
-    document.getElementById(
-        "app"
-    ).style.display = "none";
-
-
-    document.getElementById(
-        "loginSection"
-    ).style.display = "block";
-
-
-    document.getElementById(
-        "profileName"
-    ).textContent = "-";
-
-
-    document.getElementById(
-        "profilePoints"
-    ).textContent = "0";
-
-
-    document.getElementById(
-        "message"
-    ).innerHTML = "";
-
-
-    window.scrollTo({
-
-        top: 0,
-
-        behavior: "smooth"
-
-    });
-
-}
-
 
 
 /* =========================
@@ -656,15 +684,24 @@ async function logout() {
     await supabaseClient.auth.signOut();
 
 
-    showLogin();
+    document
+        .getElementById("profileName")
+        .textContent = "-";
 
 
-    alert(
-        "Sessão terminada. Voltaste ao menu principal."
-    );
+    document
+        .getElementById("profilePoints")
+        .textContent = "0";
+
+
+    document
+        .getElementById("message")
+        .innerHTML = "";
+
+
+    showHomeScreen();
 
 }
-
 
 
 /* =========================
@@ -682,9 +719,9 @@ async function loadChallenges() {
 
     if (result.error) {
 
-        document.getElementById(
-            "challenges"
-        ).innerHTML =
+        document
+            .getElementById("challenges")
+            .innerHTML =
             "Erro ao carregar desafios.";
 
         return;
@@ -697,9 +734,9 @@ async function loadChallenges() {
 
     if (!challenges.length) {
 
-        document.getElementById(
-            "challenges"
-        ).innerHTML =
+        document
+            .getElementById("challenges")
+            .innerHTML =
             "Ainda não existem desafios.";
 
         return;
@@ -748,16 +785,15 @@ async function loadChallenges() {
     });
 
 
-    document.getElementById(
-        "challenges"
-    ).innerHTML = html;
+    document
+        .getElementById("challenges")
+        .innerHTML = html;
 
 }
 
 
-
 /* =========================
-   GPS
+   DISTÂNCIA GPS
 ========================= */
 
 function calculateDistance(
@@ -769,18 +805,14 @@ function calculateDistance(
 
     const R = 6371000;
 
-
     const rad =
         Math.PI / 180;
-
 
     const dLat =
         (lat2 - lat1) * rad;
 
-
     const dLon =
         (lon2 - lon1) * rad;
-
 
     const a =
         Math.sin(dLat / 2) *
@@ -792,7 +824,6 @@ function calculateDistance(
         Math.sin(dLon / 2) *
         Math.sin(dLon / 2);
 
-
     const c =
         2 *
         Math.atan2(
@@ -800,11 +831,9 @@ function calculateDistance(
             Math.sqrt(1 - a)
         );
 
-
     return R * c;
 
 }
-
 
 
 /* =========================
@@ -858,7 +887,6 @@ async function validateChallenge(
 
             const userLat =
                 position.coords.latitude;
-
 
             const userLon =
                 position.coords.longitude;
@@ -944,9 +972,9 @@ async function validateChallenge(
             }
 
 
-            document.getElementById(
-                "profilePoints"
-            ).textContent =
+            document
+                .getElementById("profilePoints")
+                .textContent =
                 newPoints;
 
 
@@ -962,7 +990,7 @@ async function validateChallenge(
 
         },
 
-        function(error) {
+        function() {
 
             showMessage(
 
@@ -989,7 +1017,6 @@ async function validateChallenge(
 }
 
 
-
 /* =========================
    RECOMPENSAS
 ========================= */
@@ -1005,9 +1032,9 @@ async function loadRewards() {
 
     if (result.error) {
 
-        document.getElementById(
-            "rewards"
-        ).innerHTML =
+        document
+            .getElementById("rewards")
+            .innerHTML =
             "Erro ao carregar recompensas.";
 
         return;
@@ -1020,9 +1047,9 @@ async function loadRewards() {
 
     if (!rewards.length) {
 
-        document.getElementById(
-            "rewards"
-        ).innerHTML =
+        document
+            .getElementById("rewards")
+            .innerHTML =
             "Ainda não existem recompensas.";
 
         return;
@@ -1069,12 +1096,11 @@ async function loadRewards() {
     });
 
 
-    document.getElementById(
-        "rewards"
-    ).innerHTML = html;
+    document
+        .getElementById("rewards")
+        .innerHTML = html;
 
 }
-
 
 
 /* =========================
@@ -1112,7 +1138,6 @@ function generateRewardCode() {
     return code;
 
 }
-
 
 
 /* =========================
@@ -1263,15 +1288,15 @@ async function redeemReward(rewardId) {
     }
 
 
-    document.getElementById(
-        "profilePoints"
-    ).textContent =
+    document
+        .getElementById("profilePoints")
+        .textContent =
         newPoints;
 
 
-    document.getElementById(
-        "message"
-    ).innerHTML =
+    document
+        .getElementById("message")
+        .innerHTML =
 
         "🎉 <strong>Recompensa trocada com sucesso!</strong>" +
 
@@ -1286,7 +1311,6 @@ async function redeemReward(rewardId) {
         "</div>";
 
 }
-
 
 
 /* =========================
@@ -1305,17 +1329,18 @@ async function checkSession() {
 
     } else {
 
-        showLogin();
+        showHomeScreen();
 
     }
 
 }
 
 
-/* Iniciar */
+/* =========================
+   INICIAR
+========================= */
 
 checkSession();
-
 
 </script>
 
