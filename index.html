@@ -1,154 +1,337 @@
 <!DOCTYPE html>
 <html lang="pt">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MotoQuest</title>
 
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: #111;
-            color: white;
-            margin: 0;
-            padding: 20px;
-        }
+<title>MotoQuest</title>
 
-        .container {
-            max-width: 700px;
-            margin: auto;
-        }
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-        h1 {
-            color: #ff6600;
-            text-align: center;
-        }
+<style>
 
-        h2 {
-            color: #ff6600;
-        }
+* {
+    box-sizing: border-box;
+}
 
-        .box {
-            background: #222;
-            padding: 20px;
-            margin-top: 20px;
-            border-radius: 12px;
-        }
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #111;
+    color: white;
+}
 
-        input {
-            width: 100%;
-            padding: 12px;
-            margin: 8px 0;
-            box-sizing: border-box;
-            border-radius: 8px;
-            border: none;
-        }
+header {
+    background: #ff6a00;
+    padding: 25px 20px;
+    text-align: center;
+}
 
-        button {
-            background: #ff6600;
-            color: white;
-            border: none;
-            padding: 12px 18px;
-            margin: 6px 4px 6px 0;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: bold;
-        }
+header h1 {
+    margin: 0;
+    font-size: 36px;
+}
 
-        button:hover {
-            background: #e65c00;
-        }
+header p {
+    margin: 8px 0 0;
+    font-size: 17px;
+}
 
-        .reward {
-            background: #333;
-            padding: 15px;
-            margin-top: 12px;
-            border-radius: 10px;
-        }
+.container {
+    max-width: 700px;
+    margin: auto;
+    padding: 20px;
+}
 
-        .points {
-            font-size: 28px;
-            color: #ff6600;
-            font-weight: bold;
-        }
+.card {
+    background: #1d1d1d;
+    border-radius: 15px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+}
 
-        .code {
-            background: #111;
-            border: 2px dashed #ff6600;
-            padding: 15px;
-            margin-top: 15px;
-            text-align: center;
-            border-radius: 10px;
-            font-size: 24px;
-            font-weight: bold;
-            letter-spacing: 3px;
-            color: #ff6600;
-        }
+h2 {
+    color: #ff6a00;
+}
 
-        #message {
-            margin-top: 15px;
-            padding: 10px;
-        }
-    </style>
+input {
+    width: 100%;
+    padding: 14px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+}
+
+button {
+    width: 100%;
+    padding: 14px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 8px;
+    background: #ff6a00;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #e85f00;
+}
+
+.secondary {
+    background: #333;
+}
+
+.secondary:hover {
+    background: #444;
+}
+
+.points {
+    font-size: 35px;
+    font-weight: bold;
+    color: #ff6a00;
+    text-align: center;
+}
+
+.challenge {
+    border: 2px solid #333;
+    border-radius: 12px;
+    padding: 15px;
+    margin-top: 15px;
+}
+
+.reward {
+    border: 2px solid #333;
+    border-radius: 12px;
+    padding: 15px;
+    margin-top: 15px;
+}
+
+.code {
+    margin-top: 15px;
+    padding: 15px;
+    background: #ff6a00;
+    color: white;
+    text-align: center;
+    font-size: 28px;
+    font-weight: bold;
+    border-radius: 10px;
+    letter-spacing: 3px;
+}
+
+.message {
+    text-align: center;
+    margin: 15px 0;
+    font-weight: bold;
+}
+
+.hidden {
+    display: none;
+}
+
+.center {
+    text-align: center;
+}
+
+.menu-button {
+    margin-top: 15px;
+}
+
+footer {
+    text-align: center;
+    padding: 30px;
+    color: #777;
+}
+
+</style>
+
 </head>
 
 <body>
 
+<header>
+
+<h1>🏍️ MotoQuest</h1>
+
+<p>Explora. Conquista. Desfruta.</p>
+
+</header>
+
+
 <div class="container">
 
-    <h1>🏍️ MotoQuest</h1>
 
-    <div class="box">
-        <h2>Entrar / Registar</h2>
+<!-- MENU PRINCIPAL -->
 
-        <input id="name" type="text" placeholder="Nome">
-        <input id="email" type="email" placeholder="Email">
-        <input id="password" type="password" placeholder="Password">
+<div id="loginSection">
 
-        <button id="registerButton">Registar</button>
-        <button id="loginButton">Entrar</button>
+    <div class="card center">
 
-        <div id="message"></div>
-    </div>
-
-    <div class="box">
-        <h2>👤 O meu perfil</h2>
-
-        <p>Nome: <span id="profileName">-</span></p>
-
-        <p>Pontos:</p>
-
-        <div class="points" id="profilePoints">0</div>
-
-        <button id="logoutButton">Sair</button>
-    </div>
-
-    <div class="box">
-        <h2>🎯 Desafio</h2>
+        <h2>Bem-vindo ao MotoQuest</h2>
 
         <p>
-            Visita o <strong>Miradouro da Boneca</strong>
-            e valida a tua visita através do GPS.
+            Descobre novos lugares, completa desafios,
+            ganha pontos e troca-os por recompensas.
         </p>
 
-        <button id="challengeButton">
-            📍 Validar visita
-        </button>
     </div>
 
-    <div class="box">
-        <h2>🎁 Recompensas</h2>
 
-        <div id="rewards">
-            A carregar recompensas...
-        </div>
+    <div class="card">
+
+        <h2>🔐 Entrar</h2>
+
+        <input
+            type="email"
+            id="loginEmail"
+            placeholder="Email"
+        >
+
+        <input
+            type="password"
+            id="loginPassword"
+            placeholder="Palavra-passe"
+        >
+
+        <button onclick="login()">
+            Entrar
+        </button>
+
+    </div>
+
+
+    <div class="card">
+
+        <h2>📝 Criar conta</h2>
+
+        <input
+            type="email"
+            id="registerEmail"
+            placeholder="Email"
+        >
+
+        <input
+            type="password"
+            id="registerPassword"
+            placeholder="Palavra-passe"
+        >
+
+        <button onclick="register()">
+            Registar
+        </button>
+
     </div>
 
 </div>
 
+
+<!-- ÁREA DO UTILIZADOR -->
+
+<div id="app" style="display:none;">
+
+
+    <!-- PERFIL -->
+
+    <div class="card">
+
+        <h2>👤 O teu perfil</h2>
+
+        <p>
+            Utilizador:
+            <strong id="profileName">-</strong>
+        </p>
+
+        <p>Os teus pontos:</p>
+
+        <div
+            class="points"
+            id="profilePoints"
+        >
+            0
+        </div>
+
+        <button
+            class="secondary"
+            onclick="logout()"
+        >
+            Sair
+        </button>
+
+    </div>
+
+
+    <!-- DESAFIOS -->
+
+    <div class="card">
+
+        <h2>🗺️ Desafios</h2>
+
+        <p>
+            Visita locais incríveis e ganha pontos.
+        </p>
+
+        <div id="challenges">
+
+            <p>
+                A carregar desafios...
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- RECOMPENSAS -->
+
+    <div class="card">
+
+        <h2>🎁 Recompensas</h2>
+
+        <p>
+            Usa os teus pontos para obter recompensas.
+        </p>
+
+        <div id="rewards">
+
+            <p>
+                A carregar recompensas...
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div
+        id="message"
+        class="message"
+    ></div>
+
+
+</div>
+
+
+</div>
+
+
+<footer>
+
+MotoQuest © 2026
+
+</footer>
+
+
+
 <script>
+
+
+/* =========================
+   SUPABASE
+========================= */
 
 const SUPABASE_URL =
     "https://gqimkzovrabptxqheedq.supabase.co";
@@ -157,157 +340,425 @@ const SUPABASE_KEY =
     "sb_publishable_6PtfvoaY4V49YnCYifToyA_jQ1AXnPq";
 
 const supabaseClient =
-    supabase.createClient(
+    window.supabase.createClient(
         SUPABASE_URL,
         SUPABASE_KEY
     );
 
 
-function showMessage(text) {
 
-    document.getElementById("message").textContent = text;
+/* =========================
+   MENSAGENS
+========================= */
+
+function showMessage(message) {
+
+    document.getElementById("message").innerHTML =
+        message;
+
 }
 
+
+
+/* =========================
+   REGISTAR
+========================= */
 
 async function register() {
 
-    const name =
-        document.getElementById("name").value;
-
     const email =
-        document.getElementById("email").value;
+        document.getElementById("registerEmail").value.trim();
 
     const password =
-        document.getElementById("password").value;
+        document.getElementById("registerPassword").value;
+
 
     if (!email || !password) {
 
-        showMessage(
-            "Preenche o email e a password."
+        alert("Preenche o email e a palavra-passe.");
+
+        return;
+    }
+
+
+    if (password.length < 6) {
+
+        alert(
+            "A palavra-passe deve ter pelo menos 6 caracteres."
         );
 
         return;
     }
+
 
     const result =
         await supabaseClient.auth.signUp({
+
             email: email,
+
             password: password
+
         });
+
 
     if (result.error) {
 
-        showMessage(result.error.message);
-        return;
-    }
-
-    const user = result.data.user;
-
-    if (!user) {
-
-        showMessage(
-            "Utilizador criado. Faz login."
+        alert(
+            "Erro ao criar conta: " +
+            result.error.message
         );
 
         return;
     }
 
-    const profileResult =
+
+    const user =
+        result.data.user;
+
+
+    if (user) {
+
         await supabaseClient
             .from("profiles")
             .upsert({
+
                 id: user.id,
-                name: name,
+
+                email: user.email,
+
                 points: 0
+
             });
-
-    if (profileResult.error) {
-
-        showMessage(
-            "Conta criada, mas houve um problema no perfil."
-        );
-
-        console.log(profileResult.error);
-
-        return;
     }
 
-    showMessage(
-        "Conta criada com sucesso!"
+
+    alert(
+        "Conta criada com sucesso! Já podes entrar."
     );
 
-    await loadProfile();
+
+    document.getElementById(
+        "registerEmail"
+    ).value = "";
+
+    document.getElementById(
+        "registerPassword"
+    ).value = "";
+
 }
 
+
+
+/* =========================
+   LOGIN
+========================= */
 
 async function login() {
 
     const email =
-        document.getElementById("email").value;
+        document.getElementById("loginEmail").value.trim();
 
     const password =
-        document.getElementById("password").value;
+        document.getElementById("loginPassword").value;
 
-    const result =
-        await supabaseClient.auth.signInWithPassword({
-            email: email,
-            password: password
-        });
 
-    if (result.error) {
+    if (!email || !password) {
 
-        showMessage(result.error.message);
+        alert(
+            "Preenche o email e a palavra-passe."
+        );
+
         return;
     }
 
-    showMessage(
-        "Login efetuado com sucesso!"
-    );
 
-    await loadProfile();
+    const result =
+        await supabaseClient.auth.signInWithPassword({
+
+            email: email,
+
+            password: password
+
+        });
+
+
+    if (result.error) {
+
+        alert(
+            "Erro ao entrar: " +
+            result.error.message
+        );
+
+        return;
+    }
+
+
+    await loadUser();
+
+
+    document.getElementById(
+        "loginEmail"
+    ).value = "";
+
+    document.getElementById(
+        "loginPassword"
+    ).value = "";
+
 }
 
 
-async function loadProfile() {
+
+/* =========================
+   CARREGAR UTILIZADOR
+========================= */
+
+async function loadUser() {
 
     const sessionResult =
         await supabaseClient.auth.getSession();
 
+
     const session =
         sessionResult.data.session;
 
+
     if (!session) {
+
+        showLogin();
+
         return;
     }
+
 
     const user =
         session.user;
 
+
+    document.getElementById(
+        "loginSection"
+    ).style.display = "none";
+
+
+    document.getElementById(
+        "app"
+    ).style.display = "block";
+
+
     const profileResult =
         await supabaseClient
             .from("profiles")
-            .select("name, points")
+            .select("*")
             .eq("id", user.id)
             .single();
 
+
     if (profileResult.error) {
 
-        console.log(profileResult.error);
-        return;
+        await supabaseClient
+            .from("profiles")
+            .upsert({
+
+                id: user.id,
+
+                email: user.email,
+
+                points: 0
+
+            });
+
+
+        document.getElementById(
+            "profileName"
+        ).textContent =
+            user.email;
+
+        document.getElementById(
+            "profilePoints"
+        ).textContent =
+            "0";
+
+    } else {
+
+        const profile =
+            profileResult.data;
+
+
+        document.getElementById(
+            "profileName"
+        ).textContent =
+            profile.email || user.email;
+
+
+        document.getElementById(
+            "profilePoints"
+        ).textContent =
+            profile.points || 0;
     }
+
+
+    loadChallenges();
+
+    loadRewards();
+
+}
+
+
+
+/* =========================
+   MENU PRINCIPAL
+========================= */
+
+function showLogin() {
+
+    document.getElementById(
+        "app"
+    ).style.display = "none";
+
+
+    document.getElementById(
+        "loginSection"
+    ).style.display = "block";
+
 
     document.getElementById(
         "profileName"
-    ).textContent =
-        profileResult.data.name ||
-        user.email;
+    ).textContent = "-";
+
 
     document.getElementById(
         "profilePoints"
-    ).textContent =
-        profileResult.data.points || 0;
+    ).textContent = "0";
+
+
+    document.getElementById(
+        "message"
+    ).innerHTML = "";
+
+
+    window.scrollTo({
+
+        top: 0,
+
+        behavior: "smooth"
+
+    });
+
 }
 
+
+
+/* =========================
+   LOGOUT
+========================= */
+
+async function logout() {
+
+    await supabaseClient.auth.signOut();
+
+
+    showLogin();
+
+
+    alert(
+        "Sessão terminada. Voltaste ao menu principal."
+    );
+
+}
+
+
+
+/* =========================
+   DESAFIOS
+========================= */
+
+async function loadChallenges() {
+
+    const result =
+        await supabaseClient
+            .from("challenges")
+            .select("*")
+            .order("id");
+
+
+    if (result.error) {
+
+        document.getElementById(
+            "challenges"
+        ).innerHTML =
+            "Erro ao carregar desafios.";
+
+        return;
+    }
+
+
+    const challenges =
+        result.data;
+
+
+    if (!challenges.length) {
+
+        document.getElementById(
+            "challenges"
+        ).innerHTML =
+            "Ainda não existem desafios.";
+
+        return;
+    }
+
+
+    let html = "";
+
+
+    challenges.forEach(challenge => {
+
+        html += `
+
+        <div class="challenge">
+
+            <h3>
+                🏍️ ${challenge.name}
+            </h3>
+
+            <p>
+                ${challenge.description || ""}
+            </p>
+
+            <p>
+                🎯 <strong>
+                ${challenge.points} pontos
+                </strong>
+            </p>
+
+            <button
+                onclick="validateChallenge(
+                    ${challenge.id},
+                    ${challenge.latitude},
+                    ${challenge.longitude},
+                    ${challenge.radius},
+                    ${challenge.points}
+                )"
+            >
+                📍 Validar visita
+            </button>
+
+        </div>
+
+        `;
+
+    });
+
+
+    document.getElementById(
+        "challenges"
+    ).innerHTML = html;
+
+}
+
+
+
+/* =========================
+   GPS
+========================= */
 
 function calculateDistance(
     lat1,
@@ -316,299 +767,65 @@ function calculateDistance(
     lon2
 ) {
 
-    const earthRadius = 6371000;
+    const R = 6371000;
 
-    const lat1Rad =
-        lat1 * Math.PI / 180;
 
-    const lat2Rad =
-        lat2 * Math.PI / 180;
+    const rad =
+        Math.PI / 180;
 
-    const deltaLat =
-        (lat2 - lat1) * Math.PI / 180;
 
-    const deltaLon =
-        (lon2 - lon1) * Math.PI / 180;
+    const dLat =
+        (lat2 - lat1) * rad;
+
+
+    const dLon =
+        (lon2 - lon1) * rad;
+
 
     const a =
-        Math.sin(deltaLat / 2) *
-        Math.sin(deltaLat / 2) +
-        Math.cos(lat1Rad) *
-        Math.cos(lat2Rad) *
-        Math.sin(deltaLon / 2) *
-        Math.sin(deltaLon / 2);
+        Math.sin(dLat / 2) *
+        Math.sin(dLat / 2) +
+
+        Math.cos(lat1 * rad) *
+        Math.cos(lat2 * rad) *
+
+        Math.sin(dLon / 2) *
+        Math.sin(dLon / 2);
+
 
     const c =
-        2 * Math.atan2(
+        2 *
+        Math.atan2(
             Math.sqrt(a),
             Math.sqrt(1 - a)
         );
 
-    return earthRadius * c;
+
+    return R * c;
+
 }
 
 
-async function validateChallenge() {
 
-    showMessage(
-        "A obter a tua localização..."
-    );
-
-    if (!navigator.geolocation) {
-
-        showMessage(
-            "O teu dispositivo não suporta GPS."
-        );
-
-        return;
-    }
-
-    navigator.geolocation.getCurrentPosition(
-
-        async function(position) {
-
-            const userLat =
-                position.coords.latitude;
-
-            const userLon =
-                position.coords.longitude;
-
-            const challengeResult =
-                await supabaseClient
-                    .from("challenges")
-                    .select("*")
-                    .eq(
-                        "name",
-                        "Miradouro da Boneca"
-                    )
-                    .single();
-
-            if (challengeResult.error) {
-
-                showMessage(
-                    "Erro ao encontrar o desafio."
-                );
-
-                console.log(
-                    challengeResult.error
-                );
-
-                return;
-            }
-
-            const challenge =
-                challengeResult.data;
-
-            const distance =
-                calculateDistance(
-                    userLat,
-                    userLon,
-                    challenge.latitude,
-                    challenge.longitude
-                );
-
-            if (distance > challenge.radius) {
-
-                showMessage(
-                    "Estás a " +
-                    Math.round(distance) +
-                    " metros do local."
-                );
-
-                return;
-            }
-
-            const sessionResult =
-                await supabaseClient.auth.getSession();
-
-            const session =
-                sessionResult.data.session;
-
-            if (!session) {
-
-                showMessage(
-                    "Tens de iniciar sessão primeiro."
-                );
-
-                return;
-            }
-
-            const user =
-                session.user;
-
-            const profileResult =
-                await supabaseClient
-                    .from("profiles")
-                    .select("points")
-                    .eq("id", user.id)
-                    .single();
-
-            if (profileResult.error) {
-
-                showMessage(
-                    "Erro ao encontrar o teu perfil."
-                );
-
-                return;
-            }
-
-            const currentPoints =
-                profileResult.data.points || 0;
-
-            const newPoints =
-                currentPoints +
-                challenge.points;
-
-            const updateResult =
-                await supabaseClient
-                    .from("profiles")
-                    .update({
-                        points: newPoints
-                    })
-                    .eq("id", user.id);
-
-            if (updateResult.error) {
-
-                showMessage(
-                    "Erro ao atualizar os pontos."
-                );
-
-                console.log(
-                    updateResult.error
-                );
-
-                return;
-            }
-
-            document.getElementById(
-                "profilePoints"
-            ).textContent =
-                newPoints;
-
-            showMessage(
-                "🎉 Visita validada! Ganhaste " +
-                challenge.points +
-                " pontos."
-            );
-        },
-
-        function(error) {
-
-            showMessage(
-                "Não foi possível obter a localização."
-            );
-
-            console.log(error);
-        }
-    );
-}
-
-
-async function loadRewards() {
-
-    const rewardsDiv =
-        document.getElementById("rewards");
-
-    const result =
-        await supabaseClient
-            .from("rewards")
-            .select("*")
-            .order("points", {
-                ascending: true
-            });
-
-    if (result.error) {
-
-        rewardsDiv.textContent =
-            "Erro ao carregar as recompensas.";
-
-        console.log(result.error);
-
-        return;
-    }
-
-    if (!result.data || result.data.length === 0) {
-
-        rewardsDiv.textContent =
-            "Ainda não existem recompensas.";
-
-        return;
-    }
-
-    rewardsDiv.innerHTML = "";
-
-    result.data.forEach(
-        function(reward) {
-
-            const rewardDiv =
-                document.createElement("div");
-
-            rewardDiv.className =
-                "reward";
-
-            rewardDiv.innerHTML =
-                "<h3>🎁 " +
-                reward.name +
-                "</h3>" +
-
-                "<p>" +
-                (reward.description || "") +
-                "</p>" +
-
-                "<p><strong>" +
-                reward.points +
-                " pontos</strong></p>" +
-
-                "<p>🏆 " +
-                reward.reward +
-                "</p>" +
-
-                "<button onclick=\"redeemReward(" +
-                reward.id +
-                ")\">" +
-
-                "Trocar recompensa" +
-
-                "</button>";
-
-            rewardsDiv.appendChild(
-                rewardDiv
-            );
-        }
-    );
-}
-
-
-function generateRewardCode() {
-
-    const characters =
-        "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
-
-    let code = "MQ-";
-
-    for (let i = 0; i < 6; i++) {
-
-        const randomIndex =
-            Math.floor(
-                Math.random() *
-                characters.length
-            );
-
-        code +=
-            characters[randomIndex];
-    }
-
-    return code;
-}
-
-
-async function redeemReward(rewardId) {
+/* =========================
+   VALIDAR DESAFIO
+========================= */
+
+async function validateChallenge(
+    challengeId,
+    latitude,
+    longitude,
+    radius,
+    points
+) {
 
     const sessionResult =
         await supabaseClient.auth.getSession();
 
+
     const session =
         sessionResult.data.session;
+
 
     if (!session) {
 
@@ -619,8 +836,312 @@ async function redeemReward(rewardId) {
         return;
     }
 
+
+    if (!navigator.geolocation) {
+
+        showMessage(
+            "O teu dispositivo não suporta GPS."
+        );
+
+        return;
+    }
+
+
+    showMessage(
+        "📍 A verificar a tua localização..."
+    );
+
+
+    navigator.geolocation.getCurrentPosition(
+
+        async function(position) {
+
+            const userLat =
+                position.coords.latitude;
+
+
+            const userLon =
+                position.coords.longitude;
+
+
+            const distance =
+                calculateDistance(
+                    userLat,
+                    userLon,
+                    latitude,
+                    longitude
+                );
+
+
+            if (distance > radius) {
+
+                showMessage(
+
+                    "❌ Estás a " +
+                    Math.round(distance) +
+                    " metros do local.<br><br>" +
+
+                    "Aproxima-te do local para validar a visita."
+
+                );
+
+                return;
+            }
+
+
+            const user =
+                session.user;
+
+
+            const profileResult =
+                await supabaseClient
+                    .from("profiles")
+                    .select("points")
+                    .eq("id", user.id)
+                    .single();
+
+
+            if (profileResult.error) {
+
+                showMessage(
+                    "Erro ao encontrar o teu perfil."
+                );
+
+                return;
+            }
+
+
+            const currentPoints =
+                profileResult.data.points || 0;
+
+
+            const newPoints =
+                currentPoints + points;
+
+
+            const updateResult =
+                await supabaseClient
+                    .from("profiles")
+                    .update({
+
+                        points: newPoints
+
+                    })
+                    .eq("id", user.id);
+
+
+            if (updateResult.error) {
+
+                showMessage(
+                    "Erro ao adicionar os pontos."
+                );
+
+                console.log(
+                    updateResult.error
+                );
+
+                return;
+            }
+
+
+            document.getElementById(
+                "profilePoints"
+            ).textContent =
+                newPoints;
+
+
+            showMessage(
+
+                "🎉 Visita validada!<br><br>" +
+
+                "Ganhaste <strong>" +
+                points +
+                " pontos</strong>."
+
+            );
+
+        },
+
+        function(error) {
+
+            showMessage(
+
+                "❌ Não foi possível obter a localização.<br><br>" +
+
+                "Verifica se o GPS está ativo e permite o acesso à localização."
+
+            );
+
+        },
+
+        {
+
+            enableHighAccuracy: true,
+
+            timeout: 10000,
+
+            maximumAge: 0
+
+        }
+
+    );
+
+}
+
+
+
+/* =========================
+   RECOMPENSAS
+========================= */
+
+async function loadRewards() {
+
+    const result =
+        await supabaseClient
+            .from("rewards")
+            .select("*")
+            .order("points");
+
+
+    if (result.error) {
+
+        document.getElementById(
+            "rewards"
+        ).innerHTML =
+            "Erro ao carregar recompensas.";
+
+        return;
+    }
+
+
+    const rewards =
+        result.data;
+
+
+    if (!rewards.length) {
+
+        document.getElementById(
+            "rewards"
+        ).innerHTML =
+            "Ainda não existem recompensas.";
+
+        return;
+    }
+
+
+    let html = "";
+
+
+    rewards.forEach(reward => {
+
+        html += `
+
+        <div class="reward">
+
+            <h3>
+                🎁 ${reward.name}
+            </h3>
+
+            <p>
+                ${reward.description || ""}
+            </p>
+
+            <p>
+                💰 <strong>
+                ${reward.points} pontos
+                </strong>
+            </p>
+
+            <p>
+                🏆 ${reward.reward}
+            </p>
+
+            <button
+                onclick="redeemReward(${reward.id})"
+            >
+                Trocar recompensa
+            </button>
+
+        </div>
+
+        `;
+
+    });
+
+
+    document.getElementById(
+        "rewards"
+    ).innerHTML = html;
+
+}
+
+
+
+/* =========================
+   CÓDIGO DA RECOMPENSA
+========================= */
+
+function generateRewardCode() {
+
+    const characters =
+        "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+
+
+    let code = "MQ-";
+
+
+    for (
+        let i = 0;
+        i < 6;
+        i++
+    ) {
+
+        const randomIndex =
+            Math.floor(
+                Math.random() *
+                characters.length
+            );
+
+
+        code +=
+            characters[randomIndex];
+
+    }
+
+
+    return code;
+
+}
+
+
+
+/* =========================
+   TROCAR RECOMPENSA
+========================= */
+
+async function redeemReward(rewardId) {
+
+    const sessionResult =
+        await supabaseClient.auth.getSession();
+
+
+    const session =
+        sessionResult.data.session;
+
+
+    if (!session) {
+
+        showMessage(
+            "Tens de iniciar sessão primeiro."
+        );
+
+        return;
+    }
+
+
     const user =
         session.user;
+
 
     const rewardResult =
         await supabaseClient
@@ -628,6 +1149,7 @@ async function redeemReward(rewardId) {
             .select("*")
             .eq("id", rewardId)
             .single();
+
 
     if (rewardResult.error) {
 
@@ -638,8 +1160,10 @@ async function redeemReward(rewardId) {
         return;
     }
 
+
     const reward =
         rewardResult.data;
+
 
     const profileResult =
         await supabaseClient
@@ -647,6 +1171,7 @@ async function redeemReward(rewardId) {
             .select("points")
             .eq("id", user.id)
             .single();
+
 
     if (profileResult.error) {
 
@@ -657,8 +1182,10 @@ async function redeemReward(rewardId) {
         return;
     }
 
+
     const currentPoints =
         profileResult.data.points || 0;
+
 
     if (currentPoints < reward.points) {
 
@@ -669,20 +1196,28 @@ async function redeemReward(rewardId) {
         return;
     }
 
+
     const rewardCode =
         generateRewardCode();
+
 
     const redemptionResult =
         await supabaseClient
             .from("redemptions")
             .insert({
+
                 user_id: user.id,
+
                 reward_id: reward.id,
+
                 points_spent: reward.points,
+
                 reward_code: rewardCode
+
             })
             .select()
             .single();
+
 
     if (redemptionResult.error) {
 
@@ -697,17 +1232,22 @@ async function redeemReward(rewardId) {
         return;
     }
 
+
     const newPoints =
         currentPoints -
         reward.points;
+
 
     const updateResult =
         await supabaseClient
             .from("profiles")
             .update({
+
                 points: newPoints
+
             })
             .eq("id", user.id);
+
 
     if (updateResult.error) {
 
@@ -722,88 +1262,60 @@ async function redeemReward(rewardId) {
         return;
     }
 
+
     document.getElementById(
         "profilePoints"
     ).textContent =
         newPoints;
 
+
     document.getElementById(
         "message"
     ).innerHTML =
-        "🎉 Recompensa trocada com sucesso!" +
+
+        "🎉 <strong>Recompensa trocada com sucesso!</strong>" +
+
         "<br><br>" +
+
         "Apresenta este código no estabelecimento:" +
+
         "<div class='code'>" +
+
         rewardCode +
+
         "</div>";
+
 }
 
 
-async function logout() {
 
-    await supabaseClient.auth.signOut();
-
-    document.getElementById(
-        "profileName"
-    ).textContent = "-";
-
-    document.getElementById(
-        "profilePoints"
-    ).textContent = "0";
-
-    showMessage(
-        "Sessão terminada."
-    );
-}
-
+/* =========================
+   VERIFICAR SESSÃO
+========================= */
 
 async function checkSession() {
 
     const result =
         await supabaseClient.auth.getSession();
 
+
     if (result.data.session) {
 
-        await loadProfile();
+        await loadUser();
+
+    } else {
+
+        showLogin();
+
     }
 
-    await loadRewards();
 }
 
 
-document
-    .getElementById("registerButton")
-    .addEventListener(
-        "click",
-        register
-    );
-
-
-document
-    .getElementById("loginButton")
-    .addEventListener(
-        "click",
-        login
-    );
-
-
-document
-    .getElementById("challengeButton")
-    .addEventListener(
-        "click",
-        validateChallenge
-    );
-
-
-document
-    .getElementById("logoutButton")
-    .addEventListener(
-        "click",
-        logout
-    );
-
+/* Iniciar */
 
 checkSession();
+
 
 </script>
 
