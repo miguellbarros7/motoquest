@@ -23,7 +23,7 @@
         .container {
             width: 90%;
             max-width: 500px;
-            margin: 0 auto;
+            margin: auto;
         }
 
         header {
@@ -126,13 +126,14 @@
 
     <header>
         <h1>🏍️ MotoQuest</h1>
+
         <div class="slogan">
             Explora. Conquista. Desfruta.
         </div>
     </header>
 
 
-    <!-- AUTENTICAÇÃO -->
+    <!-- LOGIN / REGISTO -->
 
     <section id="auth" class="card">
 
@@ -175,7 +176,10 @@
 
         <div class="card">
 
-            <h2>Olá, <span id="userName">Motard</span>! 👋</h2>
+            <h2>
+                Olá,
+                <span id="userName">Motard</span>! 👋
+            </h2>
 
             <p style="text-align:center;">
                 Os teus pontos
@@ -197,11 +201,13 @@
                 <h3>📍 Miradouro da Boneca</h3>
 
                 <p>
-                    Visita o Miradouro da Boneca e valida a tua visita.
+                    Visita o Miradouro da Boneca
+                    e valida a tua visita.
                 </p>
 
                 <p>
-                    🏆 Recompensa: <strong>100 pontos</strong>
+                    🏆 Recompensa:
+                    <strong>100 pontos</strong>
                 </p>
 
                 <button id="challengeButton">
@@ -210,14 +216,19 @@
 
             </div>
 
-            <div id="challengeMessage" class="message"></div>
+            <div
+                id="challengeMessage"
+                class="message">
+            </div>
 
         </div>
 
 
         <div class="card">
 
-            <button id="logoutButton" class="secondary">
+            <button
+                id="logoutButton"
+                class="secondary">
                 Sair
             </button>
 
@@ -235,9 +246,9 @@
 
 <script>
 
-    // ==========================================
-    // CONFIGURAÇÃO SUPABASE
-    // ==========================================
+    // =========================================
+    // SUPABASE
+    // =========================================
 
     const SUPABASE_URL =
         "https://gqimkzovrabptxqheedq.supabase.co";
@@ -252,12 +263,15 @@
         );
 
 
-    // ==========================================
-    // ELEMENTOS DA PÁGINA
-    // ==========================================
+    // =========================================
+    // ELEMENTOS
+    // =========================================
 
-    const auth = document.getElementById("auth");
-    const app = document.getElementById("app");
+    const auth =
+        document.getElementById("auth");
+
+    const app =
+        document.getElementById("app");
 
     const authMessage =
         document.getElementById("authMessage");
@@ -266,9 +280,9 @@
         document.getElementById("challengeMessage");
 
 
-    // ==========================================
-    // MENSAGENS
-    // ==========================================
+    // =========================================
+    // MENSAGEM
+    // =========================================
 
     function showMessage(element, text) {
 
@@ -277,20 +291,25 @@
     }
 
 
-    // ==========================================
-    // REGISTO
-    // ==========================================
+    // =========================================
+    // REGISTAR
+    // =========================================
 
     async function register() {
 
         const name =
-            document.getElementById("name").value.trim();
+            document.getElementById("name")
+            .value
+            .trim();
 
         const email =
-            document.getElementById("email").value.trim();
+            document.getElementById("email")
+            .value
+            .trim();
 
         const password =
-            document.getElementById("password").value;
+            document.getElementById("password")
+            .value;
 
 
         if (!name || !email || !password) {
@@ -310,49 +329,45 @@
         );
 
 
-        const {
-            data,
-            error
-        } = await supabaseClient.auth.signUp({
+        const result =
+            await supabaseClient.auth.signUp({
 
-            email: email,
+                email: email,
 
-            password: password
+                password: password
 
-        });
+            });
 
 
-        if (error) {
+        if (result.error) {
 
             showMessage(
                 authMessage,
-                "Erro no registo: " + error.message
+                "Erro: " +
+                result.error.message
             );
 
             return;
         }
 
 
-        if (!data.user) {
+        if (!result.data.user) {
 
             showMessage(
                 authMessage,
-                "A conta foi criada. Verifica o teu email se for necessário."
+                "Conta criada. Verifica o email."
             );
 
             return;
         }
 
 
-        // Criar perfil
-
-        const {
-            error: profileError
-        } = await supabaseClient
+        const profileResult =
+            await supabaseClient
             .from("profiles")
             .upsert({
 
-                id: data.user.id,
+                id: result.data.user.id,
 
                 name: name,
 
@@ -361,12 +376,12 @@
             });
 
 
-        if (profileError) {
+        if (profileResult.error) {
 
             showMessage(
                 authMessage,
-                "Conta criada, mas houve um erro no perfil: " +
-                profileError.message
+                "Erro no perfil: " +
+                profileResult.error.message
             );
 
             return;
@@ -375,33 +390,38 @@
 
         showMessage(
             authMessage,
-            "Conta criada com sucesso! 🎉"
+            "Conta criada! 🎉"
         );
 
 
-        await loadProfile(data.user);
+        await loadProfile(
+            result.data.user
+        );
 
     }
 
 
-    // ==========================================
+    // =========================================
     // LOGIN
-    // ==========================================
+    // =========================================
 
     async function login() {
 
         const email =
-            document.getElementById("email").value.trim();
+            document.getElementById("email")
+            .value
+            .trim();
 
         const password =
-            document.getElementById("password").value;
+            document.getElementById("password")
+            .value;
 
 
         if (!email || !password) {
 
             showMessage(
                 authMessage,
-                "Introduz o email e a password."
+                "Introduz email e password."
             );
 
             return;
@@ -414,48 +434,39 @@
         );
 
 
-        const {
-            data,
-            error
-        } = await supabaseClient.auth.signInWithPassword({
+        const result =
+            await supabaseClient.auth
+            .signInWithPassword({
 
-            email: email,
+                email: email,
 
-            password: password
+                password: password
 
-        });
+            });
 
 
-        if (error) {
+        if (result.error) {
 
             showMessage(
                 authMessage,
-                "Erro ao entrar: " + error.message
+                "Erro: " +
+                result.error.message
             );
 
             return;
         }
 
 
-        if (!data.user) {
-
-            showMessage(
-                authMessage,
-                "Não foi possível encontrar o utilizador."
-            );
-
-            return;
-        }
-
-
-        await loadProfile(data.user);
+        await loadProfile(
+            result.data.user
+        );
 
     }
 
 
-    // ==========================================
+    // =========================================
     // CARREGAR PERFIL
-    // ==========================================
+    // =========================================
 
     async function loadProfile(user) {
 
@@ -465,130 +476,68 @@
         );
 
 
-        const {
-            data: profiles,
-            error
-        } = await supabaseClient
+        const result =
+            await supabaseClient
             .from("profiles")
             .select("*")
             .eq("id", user.id)
             .limit(1);
 
 
-        if (error) {
+        if (result.error) {
 
             showMessage(
                 authMessage,
                 "Erro ao carregar perfil: " +
-                error.message
+                result.error.message
             );
 
             return;
         }
 
 
-        if (!profiles || profiles.length === 0) {
+        if (
+            !result.data ||
+            result.data.length === 0
+        ) {
 
-            // Se o perfil ainda não existir,
-            // tentamos criá-lo.
-
-            const {
-                error: createError
-            } = await supabaseClient
-                .from("profiles")
-                .insert({
-
-                    id: user.id,
-
-                    name: user.email,
-
-                    points: 0
-
-                });
-
-
-            if (createError) {
-
-                showMessage(
-                    authMessage,
-                    "Perfil não encontrado: " +
-                    createError.message
-                );
-
-                return;
-            }
-
-
-            // Tentar carregar novamente
-
-            const {
-                data: newProfiles,
-                error: reloadError
-            } = await supabaseClient
-                .from("profiles")
-                .select("*")
-                .eq("id", user.id)
-                .limit(1);
-
-
-            if (reloadError) {
-
-                showMessage(
-                    authMessage,
-                    "Erro ao carregar perfil: " +
-                    reloadError.message
-                );
-
-                return;
-            }
-
-
-            if (!newProfiles || newProfiles.length === 0) {
-
-                showMessage(
-                    authMessage,
-                    "Não foi possível criar o perfil."
-                );
-
-                return;
-            }
-
-
-            showApp(newProfiles[0]);
+            showMessage(
+                authMessage,
+                "Perfil não encontrado."
+            );
 
             return;
         }
 
 
-        showApp(profiles[0]);
+        const profile =
+            result.data[0];
 
-    }
 
-
-    // ==========================================
-    // MOSTRAR APLICAÇÃO
-    // ==========================================
-
-    function showApp(profile) {
-
-        document.getElementById("userName").textContent =
+        document.getElementById(
+            "userName"
+        ).textContent =
             profile.name || "Motard";
 
 
-        document.getElementById("points").textContent =
+        document.getElementById(
+            "points"
+        ).textContent =
             profile.points || 0;
 
 
-        auth.style.display = "none";
+        auth.style.display =
+            "none";
 
-        app.style.display = "block";
+        app.style.display =
+            "block";
 
     }
 
 
-    // ==========================================
-    // VALIDAR DESAFIO
-    // ==========================================
+    // =========================================
+    // GPS / DESAFIO
+    // =========================================
 
     async function validateChallenge() {
 
@@ -598,23 +547,18 @@
         );
 
 
-        // Obter utilizador
-
-        const {
-            data: sessionData,
-            error: sessionError
-        } = await supabaseClient.auth.getSession();
+        const sessionResult =
+            await supabaseClient.auth
+            .getSession();
 
 
         if (
-            sessionError ||
-            !sessionData.session ||
-            !sessionData.session.user
+            !sessionResult.data.session
         ) {
 
             showMessage(
                 challengeMessage,
-                "Tens de iniciar sessão primeiro."
+                "Tens de iniciar sessão."
             );
 
             return;
@@ -622,34 +566,36 @@
 
 
         const user =
-            sessionData.session.user;
+            sessionResult.data.session.user;
 
 
-        // Obter desafio
-
-        const {
-            data: challenges,
-            error: challengeError
-        } = await supabaseClient
+        const challengeResult =
+            await supabaseClient
             .from("challenges")
             .select("*")
-            .eq("name", "Miradouro da Boneca")
+            .eq(
+                "name",
+                "Miradouro da Boneca"
+            )
             .limit(1);
 
 
-        if (challengeError) {
+        if (challengeResult.error) {
 
             showMessage(
                 challengeMessage,
-                "Erro ao encontrar desafio: " +
-                challengeError.message
+                "Erro: " +
+                challengeResult.error.message
             );
 
             return;
         }
 
 
-        if (!challenges || challenges.length === 0) {
+        if (
+            !challengeResult.data ||
+            challengeResult.data.length === 0
+        ) {
 
             showMessage(
                 challengeMessage,
@@ -661,16 +607,14 @@
 
 
         const challenge =
-            challenges[0];
+            challengeResult.data[0];
 
-
-        // Verificar GPS
 
         if (!navigator.geolocation) {
 
             showMessage(
                 challengeMessage,
-                "O teu navegador não suporta GPS."
+                "GPS não disponível."
             );
 
             return;
@@ -681,19 +625,12 @@
 
             async function(position) {
 
-                const userLatitude =
-                    position.coords.latitude;
-
-                const userLongitude =
-                    position.coords.longitude;
-
-
                 const distance =
                     calculateDistance(
 
-                        userLatitude,
+                        position.coords.latitude,
 
-                        userLongitude,
+                        position.coords.longitude,
 
                         challenge.latitude,
 
@@ -702,13 +639,16 @@
                     );
 
 
-                if (distance > challenge.radius) {
+                if (
+                    distance >
+                    challenge.radius
+                ) {
 
                     showMessage(
 
                         challengeMessage,
 
-                        "❌ Ainda estás a " +
+                        "❌ Estás a " +
                         Math.round(distance) +
                         " metros do local."
 
@@ -718,37 +658,31 @@
                 }
 
 
-                // Localização confirmada
-
                 showMessage(
 
                     challengeMessage,
 
-                    "📍 Localização confirmada! A atribuir pontos..."
+                    "📍 Localização confirmada!"
 
                 );
 
 
-                // Obter perfil atual
-
-                const {
-                    data: profiles,
-                    error: profileError
-                } = await supabaseClient
+                const profileResult =
+                    await supabaseClient
                     .from("profiles")
                     .select("*")
                     .eq("id", user.id)
                     .limit(1);
 
 
-                if (profileError) {
+                if (profileResult.error) {
 
                     showMessage(
 
                         challengeMessage,
 
-                        "Erro ao carregar pontos: " +
-                        profileError.message
+                        "Erro: " +
+                        profileResult.error.message
 
                     );
 
@@ -756,7 +690,10 @@
                 }
 
 
-                if (!profiles || profiles.length === 0) {
+                if (
+                    !profileResult.data ||
+                    profileResult.data.length === 0
+                ) {
 
                     showMessage(
 
@@ -771,42 +708,44 @@
 
 
                 const profile =
-                    profiles[0];
+                    profileResult.data[0];
 
 
-                const currentPoints =
-                    Number(profile.points || 0);
+                const oldPoints =
+                    Number(
+                        profile.points || 0
+                    );
 
 
                 const newPoints =
-                    currentPoints +
-                    Number(challenge.points || 100);
+                    oldPoints +
+                    Number(
+                        challenge.points || 100
+                    );
 
 
-                // Atualizar pontos
-
-                const {
-                    data: updatedProfiles,
-                    error: updateError
-                } = await supabaseClient
+                const updateResult =
+                    await supabaseClient
                     .from("profiles")
                     .update({
 
                         points: newPoints
 
                     })
-                    .eq("id", user.id)
-                    .select();
+                    .eq(
+                        "id",
+                        user.id
+                    );
 
 
-                if (updateError) {
+                if (updateResult.error) {
 
                     showMessage(
 
                         challengeMessage,
 
-                        "Erro ao atualizar pontos: " +
-                        updateError.message
+                        "Erro ao guardar pontos: " +
+                        updateResult.error.message
 
                     );
 
@@ -814,7 +753,9 @@
                 }
 
 
-                document.getElementById("points").textContent =
+                document.getElementById(
+                    "points"
+                ).textContent =
                     newPoints;
 
 
@@ -822,9 +763,9 @@
 
                     challengeMessage,
 
-                    "🎉 Desafio concluído! Ganhaste " +
+                    "🎉 Ganhou " +
                     challenge.points +
-                    " pontos."
+                    " pontos!"
 
                 );
 
@@ -833,32 +774,19 @@
 
             function(error) {
 
-                if (error.code === 1) {
+                showMessage(
 
-                    showMessage(
+                    challengeMessage,
 
-                        challengeMessage,
+                    "Erro GPS: " +
+                    error.message
 
-                        "❌ Tens de permitir o acesso à localização."
-
-                    );
-
-                } else {
-
-                    showMessage(
-
-                        challengeMessage,
-
-                        "Erro ao obter localização: " +
-                        error.message
-
-                    );
-
-                }
+                );
 
             },
 
             {
+
                 enableHighAccuracy: true,
 
                 timeout: 15000,
@@ -872,57 +800,47 @@
     }
 
 
-    // ==========================================
-    // CALCULAR DISTÂNCIA
-    // ==========================================
+    // =========================================
+    // DISTÂNCIA
+    // =========================================
 
     function calculateDistance(
 
-        latitude1,
-
-        longitude1,
-
-        latitude2,
-
-        longitude2
+        lat1,
+        lon1,
+        lat2,
+        lon2
 
     ) {
 
-        const earthRadius = 6371000;
+        const R = 6371000;
 
+        const p1 =
+            lat1 * Math.PI / 180;
 
-        const lat1 =
-            latitude1 * Math.PI / 180;
+        const p2 =
+            lat2 * Math.PI / 180;
 
-        const lat2 =
-            latitude2 * Math.PI / 180;
-
-
-        const deltaLatitude =
-            (latitude2 - latitude1) *
+        const dp =
+            (lat2 - lat1) *
             Math.PI / 180;
 
-
-        const deltaLongitude =
-            (longitude2 - longitude1) *
+        const dl =
+            (lon2 - lon1) *
             Math.PI / 180;
 
 
         const a =
+            Math.sin(dp / 2) *
+            Math.sin(dp / 2) +
 
-            Math.sin(deltaLatitude / 2) *
-            Math.sin(deltaLatitude / 2)
-
-            +
-
-            Math.cos(lat1) *
-            Math.cos(lat2) *
-            Math.sin(deltaLongitude / 2) *
-            Math.sin(deltaLongitude / 2);
+            Math.cos(p1) *
+            Math.cos(p2) *
+            Math.sin(dl / 2) *
+            Math.sin(dl / 2);
 
 
         const c =
-
             2 *
             Math.atan2(
                 Math.sqrt(a),
@@ -930,26 +848,30 @@
             );
 
 
-        return earthRadius * c;
+        return R * c;
 
     }
 
 
-    // ==========================================
-    // LOGOUT
-    // ==========================================
+    // =========================================
+    // SAIR
+    // =========================================
 
     async function logout() {
 
         await supabaseClient.auth.signOut();
 
 
-        app.style.display = "none";
+        app.style.display =
+            "none";
 
-        auth.style.display = "block";
+        auth.style.display =
+            "block";
 
 
-        document.getElementById("password").value = "";
+        document.getElementById(
+            "password"
+        ).value = "";
 
 
         showMessage(
@@ -960,9 +882,9 @@
     }
 
 
-    // ==========================================
+    // =========================================
     // BOTÕES
-    // ==========================================
+    // =========================================
 
     document
         .getElementById("registerButton")
@@ -996,36 +918,24 @@
         );
 
 
-    // ==========================================
-    // VERIFICAR SESSÃO AO ABRIR
-    // ==========================================
+    // =========================================
+    // VERIFICAR SESSÃO
+    // =========================================
 
     async function checkSession() {
 
-        const {
-            data,
-            error
-        } = await supabaseClient.auth.getSession();
-
-
-        if (error) {
-
-            console.error(
-                "Erro ao verificar sessão:",
-                error
-            );
-
-            return;
-        }
+        const result =
+            await supabaseClient.auth
+            .getSession();
 
 
         if (
-            data.session &&
-            data.session.user
+            result.data &&
+            result.data.session
         ) {
 
             await loadProfile(
-                data.session.user
+                result.data.session.user
             );
 
         }
@@ -1033,7 +943,9 @@
     }
 
 
-    // Iniciar
+    // =========================================
+    // INICIAR
+    // =========================================
 
     checkSession();
 
