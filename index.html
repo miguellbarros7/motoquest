@@ -934,12 +934,110 @@
             logout
         );
 
+// =========================================
+// RECOMPENSAS
+// =========================================
 
+async function loadRewards() {
+
+    const rewardsList =
+        document.getElementById("rewardsList");
+
+    const rewardsMessage =
+        document.getElementById("rewardsMessage");
+
+    rewardsList.innerHTML =
+        "A carregar recompensas...";
+
+
+    const result =
+        await supabaseClient
+        .from("rewards")
+        .select("*")
+        .order("points", {
+            ascending: true
+        });
+
+
+    if (result.error) {
+
+        rewardsList.innerHTML = "";
+
+        rewardsMessage.textContent =
+            "Erro ao carregar recompensas: " +
+            result.error.message;
+
+        return;
+    }
+
+
+    if (
+        !result.data ||
+        result.data.length === 0
+    ) {
+
+        rewardsList.innerHTML =
+            "Ainda não existem recompensas.";
+
+        return;
+    }
+
+
+    rewardsList.innerHTML = "";
+
+
+    result.data.forEach(function(reward) {
+
+        const box =
+            document.createElement("div");
+
+        box.style.border =
+            "1px solid #333";
+
+        box.style.borderRadius =
+            "12px";
+
+        box.style.padding =
+            "15px";
+
+        box.style.marginTop =
+            "12px";
+
+
+        box.innerHTML = `
+
+            <h3 style="color:#ff6a00;">
+                🎁 ${reward.name}
+            </h3>
+
+            <p>
+                ${reward.description || ""}
+            </p>
+
+            <p>
+                🏆 <strong>
+                    ${reward.points} pontos
+                </strong>
+            </p>
+
+            <p>
+                🎟️ ${reward.reward}
+            </p>
+
+        `;
+
+
+        rewardsList.appendChild(box);
+
+    });
+
+}
     // =========================================
     // VERIFICAR SESSÃO
     // =========================================
 
-    async function checkSession() {
+    async function checkSession();
+loadRewards(); {
 
         const result =
             await supabaseClient.auth
