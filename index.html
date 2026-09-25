@@ -366,7 +366,7 @@
     // LOGIN
     // ==============================
 
-    onst { data: profiles, error } =
+    const { data: profiles, error } =
     await supabaseClient
         .from("profiles")
         .select("*")
