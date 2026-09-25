@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>MotoQuest</title>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -105,9 +104,7 @@
         <h2>Entrar / Registar</h2>
 
         <input id="name" type="text" placeholder="Nome">
-
         <input id="email" type="email" placeholder="Email">
-
         <input id="password" type="password" placeholder="Password">
 
         <button id="registerButton">Registar</button>
@@ -116,14 +113,10 @@
         <div id="message"></div>
     </div>
 
-
     <div class="box">
         <h2>👤 O meu perfil</h2>
 
-        <p>
-            Nome:
-            <span id="profileName">-</span>
-        </p>
+        <p>Nome: <span id="profileName">-</span></p>
 
         <p>Pontos:</p>
 
@@ -131,7 +124,6 @@
 
         <button id="logoutButton">Sair</button>
     </div>
-
 
     <div class="box">
         <h2>🎯 Desafio</h2>
@@ -146,7 +138,6 @@
         </button>
     </div>
 
-
     <div class="box">
         <h2>🎁 Recompensas</h2>
 
@@ -156,7 +147,6 @@
     </div>
 
 </div>
-
 
 <script>
 
@@ -175,8 +165,7 @@ const supabaseClient =
 
 function showMessage(text) {
 
-    document.getElementById("message").textContent =
-        text;
+    document.getElementById("message").textContent = text;
 }
 
 
@@ -208,10 +197,7 @@ async function register() {
 
     if (result.error) {
 
-        showMessage(
-            result.error.message
-        );
-
+        showMessage(result.error.message);
         return;
     }
 
@@ -241,9 +227,7 @@ async function register() {
             "Conta criada, mas houve um problema no perfil."
         );
 
-        console.log(
-            profileResult.error
-        );
+        console.log(profileResult.error);
 
         return;
     }
@@ -272,10 +256,7 @@ async function login() {
 
     if (result.error) {
 
-        showMessage(
-            result.error.message
-        );
-
+        showMessage(result.error.message);
         return;
     }
 
@@ -311,10 +292,7 @@ async function loadProfile() {
 
     if (profileResult.error) {
 
-        console.log(
-            profileResult.error
-        );
-
+        console.log(profileResult.error);
         return;
     }
 
@@ -544,17 +522,12 @@ async function loadRewards() {
         rewardsDiv.textContent =
             "Erro ao carregar as recompensas.";
 
-        console.log(
-            result.error
-        );
+        console.log(result.error);
 
         return;
     }
 
-    if (
-        !result.data ||
-        result.data.length === 0
-    ) {
+    if (!result.data || result.data.length === 0) {
 
         rewardsDiv.textContent =
             "Ainda não existem recompensas.";
@@ -699,6 +672,31 @@ async function redeemReward(rewardId) {
     const rewardCode =
         generateRewardCode();
 
+    const redemptionResult =
+        await supabaseClient
+            .from("redemptions")
+            .insert({
+                user_id: user.id,
+                reward_id: reward.id,
+                points_spent: reward.points,
+                reward_code: rewardCode
+            })
+            .select()
+            .single();
+
+    if (redemptionResult.error) {
+
+        showMessage(
+            "Erro ao guardar a recompensa. Os pontos não foram retirados."
+        );
+
+        console.log(
+            redemptionResult.error
+        );
+
+        return;
+    }
+
     const newPoints =
         currentPoints -
         reward.points;
@@ -714,34 +712,11 @@ async function redeemReward(rewardId) {
     if (updateResult.error) {
 
         showMessage(
-            "Erro ao gastar os pontos."
+            "A recompensa foi registada, mas houve um erro nos pontos."
         );
 
         console.log(
             updateResult.error
-        );
-
-        return;
-    }
-
-    const redemptionResult =
-        await supabaseClient
-            .from("redemptions")
-            .insert({
-                user_id: user.id,
-                reward_id: reward.id,
-                points_spent: reward.points,
-                reward_code: rewardCode
-            });
-
-    if (redemptionResult.error) {
-
-        showMessage(
-            "Erro ao guardar a recompensa."
-        );
-
-        console.log(
-            redemptionResult.error
         );
 
         return;
@@ -752,10 +727,9 @@ async function redeemReward(rewardId) {
     ).textContent =
         newPoints;
 
-    const message =
-        document.getElementById("message");
-
-    message.innerHTML =
+    document.getElementById(
+        "message"
+    ).innerHTML =
         "🎉 Recompensa trocada com sucesso!" +
         "<br><br>" +
         "Apresenta este código no estabelecimento:" +
