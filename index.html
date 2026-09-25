@@ -18,16 +18,17 @@
 
         header {
             background: #ff6a00;
-            padding: 20px;
             text-align: center;
+            padding: 25px;
         }
 
-        h1 {
+        header h1 {
             margin: 0;
+            font-size: 32px;
         }
 
         main {
-            max-width: 600px;
+            max-width: 500px;
             margin: auto;
             padding: 20px;
         }
@@ -44,15 +45,16 @@
             box-sizing: border-box;
             padding: 14px;
             margin: 7px 0;
+            border: 0;
             border-radius: 8px;
-            border: none;
+            font-size: 16px;
         }
 
         button {
             width: 100%;
             padding: 14px;
-            margin-top: 8px;
-            border: none;
+            margin-top: 10px;
+            border: 0;
             border-radius: 8px;
             background: #ff6a00;
             color: white;
@@ -65,40 +67,31 @@
             background: #333;
         }
 
-        .points {
-            font-size: 28px;
-            color: #ff6a00;
-            font-weight: bold;
-        }
-
-        .success {
-            color: #4caf50;
-            margin-top: 10px;
-        }
-
-        .error {
-            color: #ff4444;
-            margin-top: 10px;
-        }
-
         #app {
             display: none;
         }
 
-        #logout {
+        .points {
+            font-size: 30px;
+            color: #ff6a00;
+            font-weight: bold;
+        }
+
+        .message {
             margin-top: 15px;
+            padding: 10px;
+            border-radius: 8px;
         }
 
         .challenge {
             border: 1px solid #444;
             padding: 15px;
             border-radius: 10px;
-            margin-top: 15px;
+            margin-top: 20px;
         }
 
         .small {
             color: #aaa;
-            font-size: 14px;
         }
     </style>
 </head>
@@ -113,33 +106,34 @@
 <main>
 
     <!-- LOGIN / REGISTO -->
+
     <section id="auth">
 
         <h2>Entrar na MotoQuest</h2>
 
         <input
-            type="email"
             id="email"
+            type="email"
             placeholder="Email"
         >
 
         <input
-            type="password"
             id="password"
+            type="password"
             placeholder="Palavra-passe"
         >
 
         <input
-            type="text"
             id="name"
-            placeholder="Nome (apenas para criar conta)"
+            type="text"
+            placeholder="Nome (para criar conta)"
         >
 
-        <button onclick="register()">
+        <button id="registerButton">
             Criar conta
         </button>
 
-        <button class="secondary" onclick="login()">
+        <button id="loginButton" class="secondary">
             Entrar
         </button>
 
@@ -149,9 +143,10 @@
 
 
     <!-- APLICAÇÃO -->
+
     <section id="app">
 
-        <h2>Olá, <span id="userName"></span>! 👋</h2>
+        <h2>Olá, <span id="userName"></span> 👋</h2>
 
         <p>Os teus pontos:</p>
 
@@ -159,20 +154,21 @@
             ⭐ <span id="points">0</span>
         </div>
 
+
         <div class="challenge">
 
             <h2>📍 Miradouro da Boneca</h2>
 
             <p>
-                Visita o Miradouro da Boneca e ganha
-                <strong>100 pontos</strong>.
+                Visita o Miradouro da Boneca
+                e ganha <strong>100 pontos</strong>.
             </p>
 
             <p class="small">
-                Tens de estar no local para validar a visita.
+                Tens de estar perto do local para validar a visita.
             </p>
 
-            <button onclick="validateChallenge()">
+            <button id="challengeButton">
                 Validar visita
             </button>
 
@@ -180,7 +176,8 @@
 
         </div>
 
-        <button id="logout" class="secondary" onclick="logout()">
+
+        <button id="logoutButton" class="secondary">
             Sair da conta
         </button>
 
@@ -191,15 +188,16 @@
 
 <script>
 
-    // =========================
+    // ==============================
     // SUPABASE
-    // =========================
+    // ==============================
 
     const SUPABASE_URL =
         "https://gqimkzovrabptxqheedq.supabase.co";
 
     const SUPABASE_KEY =
         "sb_publishable_6PtfvoaY4V49YnCYifToyA_jQ1AXnPq";
+
 
     const supabaseClient =
         window.supabase.createClient(
@@ -211,57 +209,92 @@
     let currentUser = null;
 
 
-    // =========================
-    // MENSAGENS
-    // =========================
+    // ==============================
+    // ELEMENTOS
+    // ==============================
 
-    function showAuthMessage(message, type = "") {
+    const auth =
+        document.getElementById("auth");
 
-        const element =
-            document.getElementById("authMessage");
+    const app =
+        document.getElementById("app");
 
-        element.textContent = message;
+    const emailInput =
+        document.getElementById("email");
 
-        element.className = type;
+    const passwordInput =
+        document.getElementById("password");
+
+    const nameInput =
+        document.getElementById("name");
+
+    const authMessage =
+        document.getElementById("authMessage");
+
+    const challengeMessage =
+        document.getElementById("challengeMessage");
+
+
+    // ==============================
+    // MENSAGEM
+    // ==============================
+
+    function message(element, text, success = false) {
+
+        element.textContent = text;
+
+        element.className = "message";
+
+        if (success) {
+            element.style.background = "#164d25";
+        } else {
+            element.style.background = "#4d1616";
+        }
     }
 
 
-    function showChallengeMessage(message, type = "") {
-
-        const element =
-            document.getElementById("challengeMessage");
-
-        element.textContent = message;
-
-        element.className = type;
-    }
-
-
-    // =========================
+    // ==============================
     // CRIAR CONTA
-    // =========================
+    // ==============================
 
     async function register() {
 
         const email =
-            document.getElementById("email").value.trim();
+            emailInput.value.trim();
 
         const password =
-            document.getElementById("password").value;
+            passwordInput.value;
 
         const name =
-            document.getElementById("name").value.trim();
+            nameInput.value.trim();
 
 
         if (!email || !password || !name) {
 
-            showAuthMessage(
-                "Preenche o nome, email e palavra-passe.",
-                "error"
+            message(
+                authMessage,
+                "Preenche o nome, email e palavra-passe."
             );
 
             return;
         }
+
+
+        if (password.length < 6) {
+
+            message(
+                authMessage,
+                "A palavra-passe deve ter pelo menos 6 caracteres."
+            );
+
+            return;
+        }
+
+
+        message(
+            authMessage,
+            "A criar conta..."
+        );
 
 
         const { data, error } =
@@ -275,9 +308,9 @@
 
         if (error) {
 
-            showAuthMessage(
-                error.message,
-                "error"
+            message(
+                authMessage,
+                error.message
             );
 
             return;
@@ -286,16 +319,15 @@
 
         if (!data.user) {
 
-            showAuthMessage(
-                "Não foi possível criar a conta.",
-                "error"
+            message(
+                authMessage,
+                "Não foi possível criar a conta."
             );
 
             return;
         }
 
 
-        // Criar perfil
         const { error: profileError } =
             await supabaseClient
                 .from("profiles")
@@ -312,45 +344,52 @@
 
         if (profileError) {
 
-            showAuthMessage(
-                "Conta criada, mas houve um problema ao criar o perfil: "
-                + profileError.message,
-                "error"
+            message(
+                authMessage,
+                "Conta criada, mas houve um problema no perfil: "
+                + profileError.message
             );
 
             return;
         }
 
 
-        showAuthMessage(
-            "Conta criada com sucesso! 🎉",
-            "success"
+        message(
+            authMessage,
+            "Conta criada com sucesso! Agora podes entrar.",
+            true
         );
     }
 
 
-    // =========================
+    // ==============================
     // LOGIN
-    // =========================
+    // ==============================
 
     async function login() {
 
         const email =
-            document.getElementById("email").value.trim();
+            emailInput.value.trim();
 
         const password =
-            document.getElementById("password").value;
+            passwordInput.value;
 
 
         if (!email || !password) {
 
-            showAuthMessage(
-                "Introduz o email e a palavra-passe.",
-                "error"
+            message(
+                authMessage,
+                "Introduz o email e a palavra-passe."
             );
 
             return;
         }
+
+
+        message(
+            authMessage,
+            "A entrar..."
+        );
 
 
         const { data, error } =
@@ -359,122 +398,97 @@
                 email: email,
 
                 password: password
+
             });
 
 
         if (error) {
 
-            showAuthMessage(
-                error.message,
-                "error"
+            message(
+                authMessage,
+                error.message
             );
 
             return;
         }
 
 
-        currentUser = data.user;
+        currentUser =
+            data.user;
 
-        await loadUser();
+
+        await loadProfile();
     }
 
 
-    // =========================
-    // CARREGAR UTILIZADOR
-    // =========================
+    // ==============================
+    // PERFIL
+    // ==============================
 
-    async function loadUser() {
+    async function loadProfile() {
 
-        if (!currentUser) return;
+        if (!currentUser) {
+            return;
+        }
 
 
-        let { data: profile, error } =
+        const { data: profile, error } =
             await supabaseClient
                 .from("profiles")
                 .select("*")
                 .eq("id", currentUser.id)
-                .maybeSingle();
+                .single();
 
 
-        // Se ainda não existir perfil, cria um
-        if (!profile) {
+        if (error) {
 
-            const name =
-                document.getElementById("name").value.trim()
-                || "Motociclista";
-
-
-            const { data: newProfile, error: createError } =
-                await supabaseClient
-                    .from("profiles")
-                    .insert({
-
-                        id: currentUser.id,
-
-                        name: name,
-
-                        points: 0
-
-                    })
-                    .select()
-                    .single();
-
-
-            if (createError) {
-
-                showAuthMessage(
-                    "Erro ao criar o perfil: "
-                    + createError.message,
-                    "error"
-                );
-
-                return;
-            }
-
-
-            profile = newProfile;
-        }
-
-
-        document.getElementById("userName").textContent =
-            profile.name;
-
-        document.getElementById("points").textContent =
-            profile.points || 0;
-
-
-        document.getElementById("auth").style.display =
-            "none";
-
-        document.getElementById("app").style.display =
-            "block";
-    }
-
-
-    // =========================
-    // VALIDAR DESAFIO
-    // =========================
-
-    async function validateChallenge() {
-
-        showChallengeMessage(
-            "A verificar a tua localização...",
-            ""
-        );
-
-
-        if (!currentUser) {
-
-            showChallengeMessage(
-                "Tens de entrar na tua conta primeiro.",
-                "error"
+            message(
+                authMessage,
+                "Erro ao carregar o perfil: "
+                + error.message
             );
 
             return;
         }
 
 
-        // Procurar o desafio na base de dados
+        document.getElementById("userName")
+            .textContent = profile.name;
+
+
+        document.getElementById("points")
+            .textContent = profile.points || 0;
+
+
+        auth.style.display = "none";
+
+        app.style.display = "block";
+    }
+
+
+    // ==============================
+    // VALIDAR DESAFIO
+    // ==============================
+
+    async function validateChallenge() {
+
+        if (!currentUser) {
+
+            message(
+                challengeMessage,
+                "Tens de entrar primeiro."
+            );
+
+            return;
+        }
+
+
+        message(
+            challengeMessage,
+            "A procurar a tua localização..."
+        );
+
+
         const { data: challenges, error } =
             await supabaseClient
                 .from("challenges")
@@ -483,25 +497,26 @@
                 .limit(1);
 
 
-        if (error || !challenges || !challenges.length) {
+        if (error || !challenges.length) {
 
-            showChallengeMessage(
-                "Não foi possível encontrar o desafio.",
-                "error"
+            message(
+                challengeMessage,
+                "Não foi possível encontrar o desafio."
             );
 
             return;
         }
 
 
-        const challenge = challenges[0];
+        const challenge =
+            challenges[0];
 
 
         if (!navigator.geolocation) {
 
-            showChallengeMessage(
-                "O teu navegador não suporta localização GPS.",
-                "error"
+            message(
+                challengeMessage,
+                "O teu navegador não suporta GPS."
             );
 
             return;
@@ -512,18 +527,18 @@
 
             async function(position) {
 
-                const userLat =
+                const lat =
                     position.coords.latitude;
 
-                const userLon =
+                const lon =
                     position.coords.longitude;
 
 
                 const distance =
                     calculateDistance(
 
-                        userLat,
-                        userLon,
+                        lat,
+                        lon,
 
                         challenge.latitude,
                         challenge.longitude
@@ -536,22 +551,20 @@
 
                 if (distance > radius) {
 
-                    showChallengeMessage(
+                    message(
+                        challengeMessage,
 
-                        "Estás a cerca de "
+                        "Estás a "
                         + Math.round(distance)
                         + " metros do local. "
-                        + "Aproxima-te do Miradouro da Boneca.",
-
-                        "error"
+                        + "Aproxima-te do Miradouro da Boneca."
                     );
 
                     return;
                 }
 
 
-                // Ler pontos atuais
-                const { data: profile, error: profileError } =
+                const { data: profile, error } =
                     await supabaseClient
                         .from("profiles")
                         .select("points")
@@ -559,11 +572,11 @@
                         .single();
 
 
-                if (profileError) {
+                if (error) {
 
-                    showChallengeMessage(
-                        "Erro ao carregar os pontos.",
-                        "error"
+                    message(
+                        challengeMessage,
+                        "Erro ao carregar os pontos."
                     );
 
                     return;
@@ -572,7 +585,7 @@
 
                 const newPoints =
                     (profile.points || 0)
-                    + challenge.points;
+                    + (challenge.points || 100);
 
 
                 const { error: updateError } =
@@ -586,53 +599,52 @@
 
                 if (updateError) {
 
-                    showChallengeMessage(
-                        "Erro ao adicionar pontos: "
-                        + updateError.message,
-                        "error"
+                    message(
+                        challengeMessage,
+                        "Erro ao atualizar os pontos: "
+                        + updateError.message
                     );
 
                     return;
                 }
 
 
-                document.getElementById("points").textContent =
-                    newPoints;
+                document.getElementById("points")
+                    .textContent = newPoints;
 
 
-                showChallengeMessage(
+                message(
+                    challengeMessage,
                     "🎉 Visita validada! Ganhaste "
                     + challenge.points
                     + " pontos!",
-                    "success"
+                    true
                 );
 
             },
 
-            function(error) {
 
-                showChallengeMessage(
-                    "Não foi possível obter a tua localização. "
-                    + "Permite o acesso à localização no navegador.",
-                    "error"
+            function() {
+
+                message(
+                    challengeMessage,
+                    "Permite o acesso à localização no navegador."
                 );
 
             },
 
             {
                 enableHighAccuracy: true,
-
                 timeout: 10000,
-
                 maximumAge: 0
             }
         );
     }
 
 
-    // =========================
-    // DISTÂNCIA GPS
-    // =========================
+    // ==============================
+    // DISTÂNCIA
+    // ==============================
 
     function calculateDistance(
         lat1,
@@ -643,13 +655,12 @@
 
         const R = 6371000;
 
+
         const dLat =
-            (lat2 - lat1) *
-            Math.PI / 180;
+            (lat2 - lat1) * Math.PI / 180;
 
         const dLon =
-            (lon2 - lon1) *
-            Math.PI / 180;
+            (lon2 - lon1) * Math.PI / 180;
 
 
         const a =
@@ -677,9 +688,9 @@
     }
 
 
-    // =========================
+    // ==============================
     // LOGOUT
-    // =========================
+    // ==============================
 
     async function logout() {
 
@@ -687,20 +698,59 @@
 
         currentUser = null;
 
-        document.getElementById("app").style.display =
-            "none";
+        app.style.display = "none";
 
-        document.getElementById("auth").style.display =
-            "block";
+        auth.style.display = "block";
 
-        document.getElementById("authMessage").textContent =
-            "";
+        emailInput.value = "";
+
+        passwordInput.value = "";
+
+        nameInput.value = "";
+
+        authMessage.textContent = "";
     }
 
 
-    // =========================
+    // ==============================
+    // BOTÕES
+    // ==============================
+
+    document
+        .getElementById("registerButton")
+        .addEventListener(
+            "click",
+            register
+        );
+
+
+    document
+        .getElementById("loginButton")
+        .addEventListener(
+            "click",
+            login
+        );
+
+
+    document
+        .getElementById("challengeButton")
+        .addEventListener(
+            "click",
+            validateChallenge
+        );
+
+
+    document
+        .getElementById("logoutButton")
+        .addEventListener(
+            "click",
+            logout
+        );
+
+
+    // ==============================
     // VERIFICAR SESSÃO
-    // =========================
+    // ==============================
 
     async function checkSession() {
 
@@ -713,7 +763,7 @@
             currentUser =
                 data.session.user;
 
-            await loadUser();
+            await loadProfile();
         }
     }
 
