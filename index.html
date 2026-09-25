@@ -366,59 +366,39 @@
     // LOGIN
     // ==============================
 
-    async function login() {
+    onst { data: profiles, error } =
+    await supabaseClient
+        .from("profiles")
+        .select("*")
+        .eq("id", currentUser.id)
+        .limit(1);
 
-        const email =
-            emailInput.value.trim();
+if (error) {
+    message(
+        authMessage,
+        "Erro ao carregar o perfil: " + error.message
+    );
+    return;
+}
 
-        const password =
-            passwordInput.value;
+if (!profiles || profiles.length === 0) {
+    message(
+        authMessage,
+        "Perfil não encontrado."
+    );
+    return;
+}
 
+const profile = profiles[0];
 
-        if (!email || !password) {
+document.getElementById("userName").textContent =
+    profile.name;
 
-            message(
-                authMessage,
-                "Introduz o email e a palavra-passe."
-            );
+document.getElementById("points").textContent =
+    profile.points || 0;
 
-            return;
-        }
-
-
-        message(
-            authMessage,
-            "A entrar..."
-        );
-
-
-        const { data, error } =
-            await supabaseClient.auth.signInWithPassword({
-
-                email: email,
-
-                password: password
-
-            });
-
-
-        if (error) {
-
-            message(
-                authMessage,
-                error.message
-            );
-
-            return;
-        }
-
-
-        currentUser =
-            data.user;
-
-
-        await loadProfile();
-    }
+auth.style.display = "none";
+app.style.display = "block";
 
 
     // ==============================
