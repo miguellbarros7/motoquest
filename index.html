@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>MotoQuest</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #111;
+            color: white;
+        }
+
+        .header {
+            background: #111;
+            padding: 25px 20px;
+            text-align: center;
+            border-bottom: 3px solid #ff6a00;
+        }
+
+        .logo {
+            font-size: 32px;
+            font-weight: bold;
+        }
+
+        .logo span {
+            color: #ff6a00;
+        }
+
+        .tagline {
+            margin-top: 6px;
+            color: #ccc;
+            font-size: 14px;
+        }
+
+        .points {
+            margin-top: 15px;
+            display: inline-block;
+            background: #ff6a00;
+            padding: 10px 18px;
+            border-radius: 20px;
+            font-weight: bold;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+        }
+
+        .card {
+            background: #1d1d1d;
+            border-radius: 18px;
+            overflow: hidden;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+        }
+
+        .card-image {
+            height: 220px;
+            background:
+                linear-gradient(rgba(0,0,0,0.25), rgba(0,0,0,0.6)),
+                url("https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1000&q=80")
+                center/cover;
+        }
+
+        .card-content {
+            padding: 22px;
+        }
+
+        h1 {
+            margin-top: 0;
+            font-size: 26px;
+        }
+
+        h2 {
+            font-size: 18px;
+            margin-bottom: 8px;
+        }
+
+        .description {
+            color: #ccc;
+            line-height: 1.5;
+        }
+
+        .reward {
+            background: #292929;
+            border-left: 4px solid #ff6a00;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        .reward strong {
+            color: #ff6a00;
+            font-size: 20px;
+        }
+
+        button {
+            width: 100%;
+            padding: 16px;
+            border: none;
+            border-radius: 10px;
+            background: #ff6a00;
+            color: white;
+            font-size: 17px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #e85f00;
+        }
+
+        button:disabled {
+            background: #555;
+            cursor: not-allowed;
+        }
+
+        .photo-box {
+            margin: 20px 0;
+        }
+
+        .photo-box label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        input[type="file"] {
+            width: 100%;
+            padding: 12px;
+            background: #292929;
+            color: white;
+            border-radius: 8px;
+        }
+
+        #status {
+            display: none;
+            margin-top: 20px;
+            padding: 16px;
+            border-radius: 10px;
+            line-height: 1.5;
+        }
+
+        .success {
+            display: block !important;
+            background: #164d2b;
+            border: 1px solid #28a745;
+        }
+
+        .error {
+            display: block !important;
+            background: #501c1c;
+            border: 1px solid #dc3545;
+        }
+
+        .info {
+            display: block !important;
+            background: #183c50;
+            border: 1px solid #2196f3;
+        }
+
+        .footer {
+            text-align: center;
+            color: #888;
+            padding: 30px 20px;
+            font-size: 13px;
+        }
+    </style>
+</head>
+
+<body>
+
+<header class="header">
+
+    <div class="logo">
+        MOTO<span>QUEST</span>
+    </div>
+
+    <div class="tagline">
+        Explora. Conquista. Desfruta.
+    </div>
+
+    <div class="points">
+        ⭐ <span id="points">0</span> pontos
+    </div>
+
+</header>
+
+
+<main class="container">
+
+    <div class="card">
+
+        <div class="card-image"></div>
+
+        <div class="card-content">
+
+            <h1>🏍️ Miradouro da Boneca</h1>
+
+            <p class="description">
+                Completa este desafio visitando o Miradouro da Boneca
+                e ganha pontos para trocar por recompensas.
+            </p>
+
+            <div class="reward">
+
+                <div>Recompensa do desafio</div>
+
+                <strong>+100 pontos</strong>
+
+            </div>
+
+
+            <div class="photo-box">
+
+                <label for="photo">
+                    📷 Fotografia da visita
+                </label>
+
+                <input
+                    type="file"
+                    id="photo"
+                    accept="image/*"
+                    capture="environment"
+                >
+
+            </div>
+
+
+            <button id="validateButton" onclick="validateVisit()">
+                📍 VALIDAR VISITA
+            </button>
+
+
+            <div id="status"></div>
+
+        </div>
+
+    </div>
+
+</main>
+
+
+<footer class="footer">
+
+    MotoQuest © 2026<br>
+    Cada passeio é uma nova descoberta.
+
+</footer>
+
+
+<script>
+
+    /*
+        ================================
+        CONFIGURAÇÃO DO DESAFIO
+        ================================
+    */
+
+    const challenge = {
+
+        name: "Miradouro da Boneca",
+
+        /*
+            Coordenadas utilizadas no protótipo.
+            Se necessário, podes alterá-las.
+        */
+
+        latitude: 41.727793,
+        longitude: -8.171378,
+
+        /*
+            Distância máxima permitida.
+            150 metros neste exemplo.
+        */
+
+        radius: 150,
+
+        /*
+            Pontos atribuídos.
+        */
+
+        points: 100
+
+    };
+
+
+    /*
+        ================================
+        CARREGAR PONTOS
+        ================================
+    */
+
+    let totalPoints =
+        Number(localStorage.getItem("motoquest_points")) || 0;
+
+    document.getElementById("points").textContent = totalPoints;
+
+
+    /*
+        Verifica se o desafio já foi concluído.
+    */
+
+    const challengeCompleted =
+        localStorage.getItem("miradouro_boneca_completed");
+
+
+    if (challengeCompleted === "true") {
+
+        const button =
+            document.getElementById("validateButton");
+
+        button.disabled = true;
+
+        button.textContent =
+            "✅ DESAFIO JÁ CONCLUÍDO";
+
+    }
+
+
+    /*
+        ================================
+        FUNÇÃO PRINCIPAL
+        ================================
+    */
+
+    function validateVisit() {
+
+        const status =
+            document.getElementById("status");
+
+        const button =
+            document.getElementById("validateButton");
+
+        const photo =
+            document.getElementById("photo");
+
+
+        /*
+            Verificar fotografia.
+        */
+
+        if (!photo.files.length) {
+
+            showStatus(
+                "📷 Para validar a visita, tira ou seleciona uma fotografia do local.",
+                "error"
+            );
+
+            return;
+        }
+
+
+        /*
+            Verificar suporte de GPS.
+        */
+
+        if (!navigator.geolocation) {
+
+            showStatus(
+                "❌ O teu dispositivo não suporta localização GPS.",
+                "error"
+            );
+
+            return;
+        }
+
+
+        button.disabled = true;
+
+        button.textContent =
+            "📡 A verificar localização...";
+
+
+        showStatus(
+            "📡 A obter a tua localização. Permite o acesso ao GPS quando aparecer o pedido.",
+            "info"
+        );
+
+
+        /*
+            Obter localização.
+        */
+
+        navigator.geolocation.getCurrentPosition(
+
+            function(position) {
+
+                const userLatitude =
+                    position.coords.latitude;
+
+                const userLongitude =
+                    position.coords.longitude;
+
+
+                /*
+                    Calcular distância.
+                */
+
+                const distance =
+                    calculateDistance(
+                        userLatitude,
+                        userLongitude,
+                        challenge.latitude,
+                        challenge.longitude
+                    );
+
+
+                console.log(
+                    "Distância:",
+                    distance,
+                    "metros"
+                );
+
+
+                /*
+                    Verificar se está dentro do raio.
+                */
+
+                if (distance <= challenge.radius) {
+
+                    completeChallenge(distance);
+
+                } else {
+
+                    button.disabled = false;
+
+                    button.textContent =
+                        "📍 TENTAR NOVAMENTE";
+
+
+                    showStatus(
+
+                        "❌ Visita não confirmada.<br><br>" +
+
+                        "Estás aproximadamente a <strong>" +
+                        Math.round(distance) +
+                        " metros</strong> do ponto definido.<br><br>" +
+
+                        "Aproxima-te do Miradouro da Boneca e tenta novamente.",
+
+                        "error"
+                    );
+
+                }
+
+            },
+
+            function(error) {
+
+                button.disabled = false;
+
+                button.textContent =
+                    "📍 TENTAR NOVAMENTE";
+
+
+                let message =
+                    "Não foi possível obter a tua localização.";
+
+
+                if (error.code === 1) {
+
+                    message =
+                        "🚫 Não autorizaste o acesso à localização. Ativa o GPS e permite o acesso à localização.";
+
+                }
+
+                else if (error.code === 2) {
+
+                    message =
+                        "📡 Não foi possível determinar a tua localização.";
+
+                }
+
+                else if (error.code === 3) {
+
+                    message =
+                        "⏱️ A localização demorou demasiado tempo. Tenta novamente.";
+
+                }
+
+
+                showStatus(
+                    "❌ " + message,
+                    "error"
+                );
+
+            },
+
+            {
+
+                enableHighAccuracy: true,
+
+                timeout: 15000,
+
+                maximumAge: 0
+
+            }
+
+        );
+
+    }
+
+
+    /*
+        ================================
+        CONCLUIR DESAFIO
+        ================================
+    */
+
+    function completeChallenge(distance) {
+
+        /*
+            Adicionar pontos.
+        */
+
+        totalPoints =
+            totalPoints + challenge.points;
+
+
+        /*
+            Guardar pontos.
+        */
+
+        localStorage.setItem(
+            "motoquest_points",
+            totalPoints
+        );
+
+
+        /*
+            Marcar desafio como concluído.
+        */
+
+        localStorage.setItem(
+            "miradouro_boneca_completed",
+            "true"
+        );
+
+
+        /*
+            Atualizar interface.
+        */
+
+        document.getElementById("points")
+            .textContent = totalPoints;
+
+
+        const button =
+            document.getElementById("validateButton");
+
+
+        button.disabled = true;
+
+        button.textContent =
+            "✅ DESAFIO CONCLUÍDO";
+
+
+        /*
+            Mostrar sucesso.
+        */
+
+        showStatus(
+
+            "🎉 <strong>Visita confirmada!</strong><br><br>" +
+
+            "📍 Distância ao ponto: " +
+            Math.round(distance) +
+            " metros<br><br>" +
+
+            "⭐ Ganhaste <strong>+" +
+            challenge.points +
+            " pontos</strong>!<br><br>" +
+
+            "🏆 Total de pontos: <strong>" +
+            totalPoints +
+            "</strong>",
+
+            "success"
+
+        );
+
+    }
+
+
+    /*
+        ================================
+        CALCULAR DISTÂNCIA
+        ================================
+    */
+
+    function calculateDistance(
+        lat1,
+        lon1,
+        lat2,
+        lon2
+    ) {
+
+        const earthRadius = 6371000;
+
+        const lat1Rad =
+            lat1 * Math.PI / 180;
+
+        const lat2Rad =
+            lat2 * Math.PI / 180;
+
+        const deltaLat =
+            (lat2 - lat1) * Math.PI / 180;
+
+        const deltaLon =
+            (lon2 - lon1) * Math.PI / 180;
+
+
+        const a =
+            Math.sin(deltaLat / 2) *
+            Math.sin(deltaLat / 2) +
+
+            Math.cos(lat1Rad) *
+            Math.cos(lat2Rad) *
+
+            Math.sin(deltaLon / 2) *
+            Math.sin(deltaLon / 2);
+
+
+        const c =
+            2 * Math.atan2(
+                Math.sqrt(a),
+                Math.sqrt(1 - a)
+            );
+
+
+        return earthRadius * c;
+
+    }
+
+
+    /*
+        ================================
+        MOSTRAR MENSAGEM
+        ================================
+    */
+
+    function showStatus(
+        message,
+        type
+    ) {
+
+        const status =
+            document.getElementById("status");
+
+        status.innerHTML = message;
+
+        status.className = type;
+
+    }
+
+</script>
+
+</body>
+</html>
