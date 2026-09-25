@@ -437,7 +437,7 @@
                 .from("profiles")
                 .select("*")
                 .eq("id", currentUser.id)
-                .single();
+              .maybeSingle()
 
 
         if (error) {
