@@ -3,125 +3,80 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>MotoQuest</title>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
     <style>
-        * {
-            box-sizing: border-box;
-        }
-
         body {
-            margin: 0;
             font-family: Arial, sans-serif;
             background: #111;
             color: white;
+            margin: 0;
+            padding: 20px;
         }
 
         .container {
-            width: 90%;
-            max-width: 500px;
+            max-width: 700px;
             margin: auto;
         }
 
-        header {
-            text-align: center;
-            padding: 35px 10px 20px;
-        }
-
         h1 {
-            color: #ff6a00;
-            font-size: 42px;
-            margin: 0;
+            color: #ff6600;
+            text-align: center;
         }
 
-        .slogan {
-            margin-top: 8px;
-            color: #ddd;
+        h2 {
+            color: #ff6600;
         }
 
-        .card {
-            background: #1c1c1c;
-            padding: 25px;
-            border-radius: 16px;
+        .box {
+            background: #222;
+            padding: 20px;
             margin-top: 20px;
+            border-radius: 12px;
         }
 
         input {
             width: 100%;
-            padding: 14px;
-            margin-top: 10px;
-            border: none;
+            padding: 12px;
+            margin: 8px 0;
+            box-sizing: border-box;
             border-radius: 8px;
-            font-size: 16px;
+            border: none;
         }
 
         button {
-            width: 100%;
-            padding: 14px;
-            margin-top: 12px;
-            border: none;
-            border-radius: 8px;
-            background: #ff6a00;
+            background: #ff6600;
             color: white;
-            font-size: 16px;
-            font-weight: bold;
+            border: none;
+            padding: 12px 18px;
+            margin: 6px 4px 6px 0;
+            border-radius: 8px;
             cursor: pointer;
+            font-weight: bold;
         }
 
         button:hover {
-            opacity: 0.9;
+            background: #e65c00;
         }
 
-        .secondary {
+        .reward {
             background: #333;
+            padding: 15px;
+            margin-top: 12px;
+            border-radius: 10px;
         }
 
         .points {
-            font-size: 32px;
-            color: #ff6a00;
+            font-size: 28px;
+            color: #ff6600;
             font-weight: bold;
-            text-align: center;
-            margin: 15px 0;
         }
 
-        .message {
+        #message {
             margin-top: 15px;
             padding: 10px;
-            border-radius: 8px;
-            text-align: center;
-            min-height: 20px;
-        }
-
-        .challenge,
-        .reward {
-            border: 1px solid #333;
-            border-radius: 12px;
-            padding: 18px;
-            margin-top: 15px;
-        }
-
-        .challenge h3,
-        .reward h3 {
-            margin-top: 0;
-            color: #ff6a00;
-        }
-
-        .reward button {
-            margin-top: 10px;
-        }
-
-        #app {
-            display: none;
-        }
-
-        footer {
-            text-align: center;
-            color: #777;
-            padding: 30px 10px;
-            font-size: 13px;
         }
     </style>
 </head>
@@ -130,1196 +85,404 @@
 
 <div class="container">
 
-    <header>
-        <h1>🏍️ MotoQuest</h1>
+    <h1>🏍️ MotoQuest</h1>
 
-        <div class="slogan">
-            Explora. Conquista. Desfruta.
-        </div>
-    </header>
+    <div class="box">
+        <h2>Entrar / Registar</h2>
+
+        <input id="name" type="text" placeholder="Nome">
+
+        <input id="email" type="email" placeholder="Email">
+
+        <input id="password" type="password" placeholder="Password">
+
+        <button id="registerButton">Registar</button>
+        <button id="loginButton">Entrar</button>
+
+        <div id="message"></div>
+    </div>
 
 
-    <!-- AUTENTICAÇÃO -->
+    <div class="box">
+        <h2>👤 O meu perfil</h2>
 
-    <section id="auth" class="card">
+        <p>Nome: <span id="profileName">-</span></p>
 
-        <h2>Entrar no MotoQuest</h2>
+        <p>Pontos:</p>
+        <div class="points" id="profilePoints">0</div>
 
-        <input
-            type="text"
-            id="name"
-            placeholder="Nome"
-        >
+        <button id="logoutButton">Sair</button>
+    </div>
 
-        <input
-            type="email"
-            id="email"
-            placeholder="Email"
-        >
 
-        <input
-            type="password"
-            id="password"
-            placeholder="Password"
-        >
+    <div class="box">
+        <h2>🎯 Desafio</h2>
 
-        <button id="registerButton">
-            Criar conta
+        <p>
+            Visita o <strong>Miradouro da Boneca</strong> e valida a tua visita através do GPS.
+        </p>
+
+        <button id="challengeButton">
+            📍 Validar visita
         </button>
-
-        <button id="loginButton" class="secondary">
-            Entrar
-        </button>
-
-        <div id="authMessage" class="message"></div>
-
-    </section>
+    </div>
 
 
-    <!-- APLICAÇÃO -->
+    <div class="box">
+        <h2>🎁 Recompensas</h2>
 
-    <section id="app">
-
-        <!-- PERFIL -->
-
-        <div class="card">
-
-            <h2>
-                Olá,
-                <span id="userName">Motard</span>! 👋
-            </h2>
-
-            <p style="text-align:center;">
-                Os teus pontos
-            </p>
-
-            <div class="points">
-                <span id="points">0</span> pontos
-            </div>
-
+        <div id="rewards">
+            A carregar recompensas...
         </div>
-
-
-        <!-- DESAFIOS -->
-
-        <div class="card">
-
-            <h2>🎯 Desafios</h2>
-
-            <div class="challenge">
-
-                <h3>📍 Miradouro da Boneca</h3>
-
-                <p>
-                    Visita o Miradouro da Boneca
-                    e valida a tua visita.
-                </p>
-
-                <p>
-                    🏆 Recompensa:
-                    <strong>100 pontos</strong>
-                </p>
-
-                <button id="challengeButton">
-                    📍 Validar visita
-                </button>
-
-            </div>
-
-            <div
-                id="challengeMessage"
-                class="message">
-            </div>
-
-        </div>
-
-
-        <!-- RECOMPENSAS -->
-
-        <div class="card">
-
-            <h2>🎁 Recompensas</h2>
-
-            <p>
-                Usa os teus pontos para desbloquear
-                recompensas.
-            </p>
-
-            <div id="rewardsList">
-                A carregar recompensas...
-            </div>
-
-            <div
-                id="rewardsMessage"
-                class="message">
-            </div>
-
-        </div>
-
-
-        <!-- SAIR -->
-
-        <div class="card">
-
-            <button
-                id="logoutButton"
-                class="secondary">
-                Sair
-            </button>
-
-        </div>
-
-    </section>
-
-
-    <footer>
-        MotoQuest © 2026
-    </footer>
+    </div>
 
 </div>
 
 
 <script>
 
-    // =========================================
-    // SUPABASE
-    // =========================================
+const SUPABASE_URL = "https://gqimkzovrabptxqheedq.supabase.co";
 
-    const SUPABASE_URL =
-        "https://gqimkzovrabptxqheedq.supabase.co";
+const SUPABASE_KEY = "sb_publishable_6PtfvoaY4V49YnCYifToyA_jQ1AXnPq";
 
-    const SUPABASE_KEY =
-        "sb_publishable_6PtfvoaY4V49YnCYifToyA_jQ1AXnPq";
-
-    const supabaseClient =
-        window.supabase.createClient(
-            SUPABASE_URL,
-            SUPABASE_KEY
-        );
+const supabaseClient = supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+);
 
 
-    // =========================================
-    // ELEMENTOS
-    // =========================================
-
-    const auth =
-        document.getElementById("auth");
-
-    const app =
-        document.getElementById("app");
-
-    const authMessage =
-        document.getElementById("authMessage");
-
-    const challengeMessage =
-        document.getElementById("challengeMessage");
-
-    const rewardsMessage =
-        document.getElementById("rewardsMessage");
+function showMessage(text) {
+    document.getElementById("message").textContent = text;
+}
 
 
-    // =========================================
-    // MENSAGENS
-    // =========================================
+async function register() {
 
-    function showMessage(element, text) {
+    const name = document.getElementById("name").value;
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
 
-        element.textContent = text;
-
+    if (!email || !password) {
+        showMessage("Preenche o email e a password.");
+        return;
     }
 
+    const result = await supabaseClient.auth.signUp({
+        email: email,
+        password: password
+    });
 
-    // =========================================
-    // REGISTO
-    // =========================================
-
-    async function register() {
-
-        const name =
-            document.getElementById("name")
-            .value
-            .trim();
-
-        const email =
-            document.getElementById("email")
-            .value
-            .trim();
-
-        const password =
-            document.getElementById("password")
-            .value;
-
-
-        if (!name || !email || !password) {
-
-            showMessage(
-                authMessage,
-                "Preenche nome, email e password."
-            );
-
-            return;
-        }
-
-
-        showMessage(
-            authMessage,
-            "A criar conta..."
-        );
-
-
-        const result =
-            await supabaseClient.auth.signUp({
-
-                email: email,
-
-                password: password
-
-            });
-
-
-        if (result.error) {
-
-            showMessage(
-                authMessage,
-                "Erro: " +
-                result.error.message
-            );
-
-            return;
-        }
-
-
-        if (!result.data.user) {
-
-            showMessage(
-                authMessage,
-                "Conta criada. Verifica o email."
-            );
-
-            return;
-        }
-
-
-        const profileResult =
-            await supabaseClient
-            .from("profiles")
-            .upsert({
-
-                id: result.data.user.id,
-
-                name: name,
-
-                points: 0
-
-            });
-
-
-        if (profileResult.error) {
-
-            showMessage(
-                authMessage,
-                "Erro no perfil: " +
-                profileResult.error.message
-            );
-
-            return;
-        }
-
-
-        showMessage(
-            authMessage,
-            "Conta criada! 🎉"
-        );
-
-
-        await loadProfile(
-            result.data.user
-        );
-
+    if (result.error) {
+        showMessage(result.error.message);
+        return;
     }
 
+    const user = result.data.user;
 
-    // =========================================
-    // LOGIN
-    // =========================================
-
-    async function login() {
-
-        const email =
-            document.getElementById("email")
-            .value
-            .trim();
-
-        const password =
-            document.getElementById("password")
-            .value;
-
-
-        if (!email || !password) {
-
-            showMessage(
-                authMessage,
-                "Introduz email e password."
-            );
-
-            return;
-        }
-
-
-        showMessage(
-            authMessage,
-            "A entrar..."
-        );
-
-
-        const result =
-            await supabaseClient.auth
-            .signInWithPassword({
-
-                email: email,
-
-                password: password
-
-            });
-
-
-        if (result.error) {
-
-            showMessage(
-                authMessage,
-                "Erro: " +
-                result.error.message
-            );
-
-            return;
-        }
-
-
-        await loadProfile(
-            result.data.user
-        );
-
+    if (!user) {
+        showMessage("Utilizador criado. Faz login.");
+        return;
     }
 
+    const profileResult = await supabaseClient
+        .from("profiles")
+        .upsert({
+            id: user.id,
+            name: name,
+            points: 0
+        });
 
-    // =========================================
-    // CARREGAR PERFIL
-    // =========================================
-
-    async function loadProfile(user) {
-
-        showMessage(
-            authMessage,
-            "A carregar perfil..."
-        );
-
-
-        const result =
-            await supabaseClient
-            .from("profiles")
-            .select("*")
-            .eq("id", user.id)
-            .limit(1);
-
-
-        if (result.error) {
-
-            showMessage(
-                authMessage,
-                "Erro ao carregar perfil: " +
-                result.error.message
-            );
-
-            return;
-        }
-
-
-        if (
-            !result.data ||
-            result.data.length === 0
-        ) {
-
-            showMessage(
-                authMessage,
-                "Perfil não encontrado."
-            );
-
-            return;
-        }
-
-
-        const profile =
-            result.data[0];
-
-
-        document.getElementById(
-            "userName"
-        ).textContent =
-            profile.name || "Motard";
-
-
-        document.getElementById(
-            "points"
-        ).textContent =
-            profile.points || 0;
-
-
-        auth.style.display =
-            "none";
-
-        app.style.display =
-            "block";
-
-
-        await loadRewards();
-
+    if (profileResult.error) {
+        showMessage("Conta criada, mas houve um problema no perfil.");
+        console.log(profileResult.error);
+        return;
     }
 
+    showMessage("Conta criada com sucesso!");
+    await loadProfile();
+}
 
-    // =========================================
-    // DESAFIO GPS
-    // =========================================
 
-    async function validateChallenge() {
+async function login() {
 
-        showMessage(
-            challengeMessage,
-            "A verificar localização..."
-        );
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
 
+    const result = await supabaseClient.auth.signInWithPassword({
+        email: email,
+        password: password
+    });
 
-        const sessionResult =
-            await supabaseClient.auth
-            .getSession();
+    if (result.error) {
+        showMessage(result.error.message);
+        return;
+    }
 
+    showMessage("Login efetuado com sucesso!");
 
-        if (
-            !sessionResult.data.session
-        ) {
+    await loadProfile();
+}
 
-            showMessage(
-                challengeMessage,
-                "Tens de iniciar sessão."
-            );
 
-            return;
-        }
+async function loadProfile() {
 
+    const sessionResult = await supabaseClient.auth.getSession();
 
-        const user =
-            sessionResult.data.session.user;
+    const session = sessionResult.data.session;
 
+    if (!session) {
+        return;
+    }
 
-        const challengeResult =
-            await supabaseClient
-            .from("challenges")
-            .select("*")
-            .eq(
-                "name",
-                "Miradouro da Boneca"
-            )
-            .limit(1);
+    const user = session.user;
 
+    const profileResult = await supabaseClient
+        .from("profiles")
+        .select("name, points")
+        .eq("id", user.id)
+        .single();
 
-        if (challengeResult.error) {
+    if (profileResult.error) {
+        console.log(profileResult.error);
+        return;
+    }
 
-            showMessage(
-                challengeMessage,
-                "Erro ao encontrar desafio: " +
-                challengeResult.error.message
-            );
+    document.getElementById("profileName").textContent =
+        profileResult.data.name || user.email;
 
-            return;
-        }
+    document.getElementById("profilePoints").textContent =
+        profileResult.data.points || 0;
+}
 
 
-        if (
-            !challengeResult.data ||
-            challengeResult.data.length === 0
-        ) {
+function calculateDistance(lat1, lon1, lat2, lon2) {
 
-            showMessage(
-                challengeMessage,
-                "Desafio não encontrado."
-            );
+    const earthRadius = 6371000;
 
-            return;
-        }
+    const lat1Rad = lat1 * Math.PI / 180;
+    const lat2Rad = lat2 * Math.PI / 180;
 
+    const deltaLat = (lat2 - lat1) * Math.PI / 180;
+    const deltaLon = (lon2 - lon1) * Math.PI / 180;
 
-        const challenge =
-            challengeResult.data[0];
+    const a =
+        Math.sin(deltaLat / 2) * Math.sin(deltaLat / 2) +
+        Math.cos(lat1Rad) *
+        Math.cos(lat2Rad) *
+        Math.sin(deltaLon / 2) *
+        Math.sin(deltaLon / 2);
 
+    const c = 2 * Math.atan2(
+        Math.sqrt(a),
+        Math.sqrt(1 - a)
+    );
 
-        if (!navigator.geolocation) {
+    return earthRadius * c;
+}
 
-            showMessage(
-                challengeMessage,
-                "GPS não disponível."
-            );
 
-            return;
-        }
+async function validateChallenge() {
 
+    showMessage("A obter a tua localização...");
 
-        navigator.geolocation.getCurrentPosition(
+    if (!navigator.geolocation) {
+        showMessage("O teu dispositivo não suporta GPS.");
+        return;
+    }
 
-            async function(position) {
+    navigator.geolocation.getCurrentPosition(
 
-                const distance =
-                    calculateDistance(
+        async function(position) {
 
-                        position.coords.latitude,
+            const userLat = position.coords.latitude;
+            const userLon = position.coords.longitude;
 
-                        position.coords.longitude,
-
-                        challenge.latitude,
-
-                        challenge.longitude
-
-                    );
-
-
-                if (
-                    distance >
-                    challenge.radius
-                ) {
-
-                    showMessage(
-
-                        challengeMessage,
-
-                        "❌ Estás a " +
-                        Math.round(distance) +
-                        " metros do local."
-
-                    );
-
-                    return;
-                }
-
-
-                showMessage(
-
-                    challengeMessage,
-
-                    "📍 Localização confirmada!"
-
-                );
-
-
-                const profileResult =
-                    await supabaseClient
-                    .from("profiles")
-                    .select("*")
-                    .eq("id", user.id)
-                    .limit(1);
-
-
-                if (profileResult.error) {
-
-                    showMessage(
-
-                        challengeMessage,
-
-                        "Erro: " +
-                        profileResult.error.message
-
-                    );
-
-                    return;
-                }
-
-
-                if (
-                    !profileResult.data ||
-                    profileResult.data.length === 0
-                ) {
-
-                    showMessage(
-
-                        challengeMessage,
-
-                        "Perfil não encontrado."
-
-                    );
-
-                    return;
-                }
-
-
-                const profile =
-                    profileResult.data[0];
-
-
-                const oldPoints =
-                    Number(
-                        profile.points || 0
-                    );
-
-
-                const newPoints =
-                    oldPoints +
-                    Number(
-                        challenge.points || 100
-                    );
-
-
-                const updateResult =
-                    await supabaseClient
-                    .from("profiles")
-                    .update({
-
-                        points: newPoints
-
-                    })
-                    .eq(
-                        "id",
-                        user.id
-                    );
-
-
-                if (updateResult.error) {
-
-                    showMessage(
-
-                        challengeMessage,
-
-                        "Erro ao guardar pontos: " +
-                        updateResult.error.message
-
-                    );
-
-                    return;
-                }
-
-
-                document.getElementById(
-                    "points"
-                ).textContent =
-                    newPoints;
-
-
-                showMessage(
-
-                    challengeMessage,
-
-                    "🎉 Ganhou " +
-                    challenge.points +
-                    " pontos!"
-
-                );
-
-            },
-
-
-            function(error) {
-
-                showMessage(
-
-                    challengeMessage,
-
-                    "Erro GPS: " +
-                    error.message
-
-                );
-
-            },
-
-            {
-
-                enableHighAccuracy: true,
-
-                timeout: 15000,
-
-                maximumAge: 0
-
+            const challengeResult = await supabaseClient
+                .from("challenges")
+                .select("*")
+                .eq("name", "Miradouro da Boneca")
+                .single();
+
+            if (challengeResult.error) {
+                showMessage("Erro ao encontrar o desafio.");
+                console.log(challengeResult.error);
+                return;
             }
 
-        );
+            const challenge = challengeResult.data;
 
-    }
-
-
-    // =========================================
-    // CALCULAR DISTÂNCIA
-    // =========================================
-
-    function calculateDistance(
-        lat1,
-        lon1,
-        lat2,
-        lon2
-    ) {
-
-        const R = 6371000;
-
-        const p1 =
-            lat1 * Math.PI / 180;
-
-        const p2 =
-            lat2 * Math.PI / 180;
-
-        const dp =
-            (lat2 - lat1) *
-            Math.PI / 180;
-
-        const dl =
-            (lon2 - lon1) *
-            Math.PI / 180;
-
-
-        const a =
-            Math.sin(dp / 2) *
-            Math.sin(dp / 2) +
-
-            Math.cos(p1) *
-            Math.cos(p2) *
-            Math.sin(dl / 2) *
-            Math.sin(dl / 2);
-
-
-        const c =
-            2 *
-            Math.atan2(
-                Math.sqrt(a),
-                Math.sqrt(1 - a)
+            const distance = calculateDistance(
+                userLat,
+                userLon,
+                challenge.latitude,
+                challenge.longitude
             );
 
+            if (distance > challenge.radius) {
 
-        return R * c;
-
-    }
-
-
-    // =========================================
-    // CARREGAR RECOMPENSAS
-    // =========================================
-
-    async function loadRewards() {
-
-        const rewardsList =
-            document.getElementById(
-                "rewardsList"
-            );
-
-
-        rewardsList.innerHTML =
-            "A carregar recompensas...";
-
-
-        const result =
-            await supabaseClient
-            .from("rewards")
-            .select("*")
-            .order(
-                "points",
-                {
-                    ascending: true
-                }
-            );
-
-
-        if (result.error) {
-
-            rewardsList.innerHTML =
-                "Erro ao carregar recompensas.";
-
-            showMessage(
-                rewardsMessage,
-                result.error.message
-            );
-
-            return;
-        }
-
-
-        if (
-            !result.data ||
-            result.data.length === 0
-        ) {
-
-            rewardsList.innerHTML =
-                "Ainda não existem recompensas.";
-
-            return;
-        }
-
-
-        rewardsList.innerHTML = "";
-
-
-        result.data.forEach(
-            function(reward) {
-
-                const box =
-                    document.createElement(
-                        "div"
-                    );
-
-
-                box.className =
-                    "reward";
-
-
-                const title =
-                    document.createElement(
-                        "h3"
-                    );
-
-                title.textContent =
-                    "🎁 " +
-                    reward.name;
-
-
-                const description =
-                    document.createElement(
-                        "p"
-                    );
-
-                description.textContent =
-                    reward.description || "";
-
-
-                const points =
-                    document.createElement(
-                        "p"
-                    );
-
-                points.innerHTML =
-                    "🏆 <strong>" +
-                    reward.points +
-                    " pontos</strong>";
-
-
-                const rewardText =
-                    document.createElement(
-                        "p"
-                    );
-
-                rewardText.textContent =
-                    "🎟️ " +
-                    reward.reward;
-
-
-                const button =
-                    document.createElement(
-                        "button"
-                    );
-
-
-                button.textContent =
-                    "🎁 Trocar pontos";
-
-
-                button.addEventListener(
-                    "click",
-                    function() {
-
-                        redeemReward(
-                            reward
-                        );
-
-                    }
+                showMessage(
+                    "Estás a " +
+                    Math.round(distance) +
+                    " metros do local. Aproxima-te para validar."
                 );
 
-
-                box.appendChild(
-                    title
-                );
-
-                box.appendChild(
-                    description
-                );
-
-                box.appendChild(
-                    points
-                );
-
-                box.appendChild(
-                    rewardText
-                );
-
-                box.appendChild(
-                    button
-                );
-
-
-                rewardsList.appendChild(
-                    box
-                );
-
+                return;
             }
-        );
 
+            const sessionResult = await supabaseClient.auth.getSession();
+
+            const session = sessionResult.data.session;
+
+            if (!session) {
+                showMessage("Tens de iniciar sessão primeiro.");
+                return;
+            }
+
+            const user = session.user;
+
+            const profileResult = await supabaseClient
+                .from("profiles")
+                .select("points")
+                .eq("id", user.id)
+                .single();
+
+            if (profileResult.error) {
+                showMessage("Erro ao encontrar o teu perfil.");
+                return;
+            }
+
+            const currentPoints = profileResult.data.points || 0;
+
+            const newPoints = currentPoints + challenge.points;
+
+            const updateResult = await supabaseClient
+                .from("profiles")
+                .update({
+                    points: newPoints
+                })
+                .eq("id", user.id);
+
+            if (updateResult.error) {
+                showMessage("Erro ao atualizar os pontos.");
+                console.log(updateResult.error);
+                return;
+            }
+
+            document.getElementById("profilePoints").textContent = newPoints;
+
+            showMessage(
+                "🎉 Visita validada! Ganhaste " +
+                challenge.points +
+                " pontos."
+            );
+        },
+
+        function(error) {
+
+            showMessage(
+                "Não foi possível obter a localização. Permite o acesso ao GPS."
+            );
+
+            console.log(error);
+        }
+    );
+}
+
+
+async function loadRewards() {
+
+    const rewardsDiv = document.getElementById("rewards");
+
+    const result = await supabaseClient
+        .from("rewards")
+        .select("*")
+        .order("points", {
+            ascending: true
+        });
+
+    if (result.error) {
+
+        rewardsDiv.textContent =
+            "Erro ao carregar as recompensas.";
+
+        console.log(result.error);
+
+        return;
     }
 
+    if (!result.data || result.data.length === 0) {
 
-    // =========================================
-    // TROCAR RECOMPENSA
-    // =========================================
+        rewardsDiv.textContent =
+            "Ainda não existem recompensas.";
 
-    async function redeemReward(reward) {
-
-        showMessage(
-            rewardsMessage,
-            "A verificar os teus pontos..."
-        );
-
-
-        const sessionResult =
-            await supabaseClient.auth
-            .getSession();
-
-
-        if (
-            !sessionResult.data.session
-        ) {
-
-            showMessage(
-                rewardsMessage,
-                "Tens de iniciar sessão."
-            );
-
-            return;
-        }
-
-
-        const user =
-            sessionResult.data.session.user;
-
-
-        const profileResult =
-            await supabaseClient
-            .from("profiles")
-            .select("*")
-            .eq("id", user.id)
-            .limit(1);
-
-
-        if (profileResult.error) {
-
-            showMessage(
-                rewardsMessage,
-                "Erro ao carregar perfil: " +
-                profileResult.error.message
-            );
-
-            return;
-        }
-
-
-        if (
-            !profileResult.data ||
-            profileResult.data.length === 0
-        ) {
-
-            showMessage(
-                rewardsMessage,
-                "Perfil não encontrado."
-            );
-
-            return;
-        }
-
-
-        const profile =
-            profileResult.data[0];
-
-
-        const currentPoints =
-            Number(
-                profile.points || 0
-            );
-
-
-        const rewardPoints =
-            Number(
-                reward.points || 0
-            );
-
-
-        if (
-            currentPoints <
-            rewardPoints
-        ) {
-
-            showMessage(
-                rewardsMessage,
-                "❌ Não tens pontos suficientes."
-            );
-
-            return;
-        }
-
-
-        const newPoints =
-            currentPoints -
-            rewardPoints;
-
-
-        const updateResult =
-            await supabaseClient
-            .from("profiles")
-            .update({
-
-                points: newPoints
-
-            })
-            .eq(
-                "id",
-                user.id
-            );
-
-
-        if (updateResult.error) {
-
-            showMessage(
-                rewardsMessage,
-                "Erro ao gastar pontos: " +
-                updateResult.error.message
-            );
-
-            return;
-        }
-
-
-        const redemptionResult =
-            await supabaseClient
-            .from("redemptions")
-            .insert({
-
-                user_id: user.id,
-
-                reward_id: reward.id,
-
-                points_spent: rewardPoints
-
-            });
-
-
-        if (redemptionResult.error) {
-
-            showMessage(
-                rewardsMessage,
-                "Erro ao registar recompensa: " +
-                redemptionResult.error.message
-            );
-
-            return;
-        }
-
-
-        document.getElementById(
-            "points"
-        ).textContent =
-            newPoints;
-
-
-        showMessage(
-            rewardsMessage,
-            "🎉 Recompensa desbloqueada: " +
-            reward.reward
-        );
-
+        return;
     }
 
+    rewardsDiv.innerHTML = "";
 
-    // =========================================
-    // LOGOUT
-    // =========================================
+    result.data.forEach(function(reward) {
 
-    async function logout() {
+        const rewardDiv = document.createElement("div");
 
-        await supabaseClient.auth.signOut();
+        rewardDiv.className = "reward";
 
+        rewardDiv.innerHTML =
+            "<h3>🎁 " + reward.name + "</h3>" +
+            "<p>" + (reward.description || "") + "</p>" +
+            "<p><strong>" + reward.points + " pontos</strong></p>" +
+            "<p>🏆 " + reward.reward + "</p>";
 
-        app.style.display =
-            "none";
+        rewardsDiv.appendChild(rewardDiv);
 
-        auth.style.display =
-            "block";
-
-
-        document.getElementById(
-            "password"
-        ).value = "";
+    });
+}
 
 
-        showMessage(
-            authMessage,
-            "Sessão terminada."
-        );
+async function logout() {
 
+    await supabaseClient.auth.signOut();
+
+    document.getElementById("profileName").textContent = "-";
+
+    document.getElementById("profilePoints").textContent = "0";
+
+    showMessage("Sessão terminada.");
+}
+
+
+async function checkSession() {
+
+    const result = await supabaseClient.auth.getSession();
+
+    if (result.data.session) {
+        await loadProfile();
     }
 
-
-    // =========================================
-    // BOTÕES
-    // =========================================
-
-    document
-        .getElementById("registerButton")
-        .addEventListener(
-            "click",
-            register
-        );
+    await loadRewards();
+}
 
 
-    document
-        .getElementById("loginButton")
-        .addEventListener(
-            "click",
-            login
-        );
+document
+    .getElementById("registerButton")
+    .addEventListener("click", register);
 
 
-    document
-        .getElementById("challengeButton")
-        .addEventListener(
-            "click",
-            validateChallenge
-        );
+document
+    .getElementById("loginButton")
+    .addEventListener("click", login);
 
 
-    document
-        .getElementById("logoutButton")
-        .addEventListener(
-            "click",
-            logout
-        );
+document
+    .getElementById("challengeButton")
+    .addEventListener("click", validateChallenge);
 
 
-    // =========================================
-    // VERIFICAR SESSÃO
-    // =========================================
-
-    async function checkSession() {
-
-        const result =
-            await supabaseClient.auth
-            .getSession();
+document
+    .getElementById("logoutButton")
+    .addEventListener("click", logout);
 
 
-        if (
-            result.data &&
-            result.data.session
-        ) {
-
-            await loadProfile(
-                result.data.session.user
-            );
-
-        }
-
-    }
-
-
-    // =========================================
-    // INICIAR
-    // =========================================
-
-    checkSession();
+checkSession();
 
 </script>
 
