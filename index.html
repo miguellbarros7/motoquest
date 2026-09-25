@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>MotoQuest</title>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -74,6 +75,19 @@
             font-weight: bold;
         }
 
+        .code {
+            background: #111;
+            border: 2px dashed #ff6600;
+            padding: 15px;
+            margin-top: 15px;
+            text-align: center;
+            border-radius: 10px;
+            font-size: 24px;
+            font-weight: bold;
+            letter-spacing: 3px;
+            color: #ff6600;
+        }
+
         #message {
             margin-top: 15px;
             padding: 10px;
@@ -102,10 +116,14 @@
         <div id="message"></div>
     </div>
 
+
     <div class="box">
         <h2>👤 O meu perfil</h2>
 
-        <p>Nome: <span id="profileName">-</span></p>
+        <p>
+            Nome:
+            <span id="profileName">-</span>
+        </p>
 
         <p>Pontos:</p>
 
@@ -113,6 +131,7 @@
 
         <button id="logoutButton">Sair</button>
     </div>
+
 
     <div class="box">
         <h2>🎯 Desafio</h2>
@@ -127,6 +146,7 @@
         </button>
     </div>
 
+
     <div class="box">
         <h2>🎁 Recompensas</h2>
 
@@ -137,66 +157,100 @@
 
 </div>
 
+
 <script>
 
-const SUPABASE_URL = "https://gqimkzovrabptxqheedq.supabase.co";
+const SUPABASE_URL =
+    "https://gqimkzovrabptxqheedq.supabase.co";
 
-const SUPABASE_KEY = "sb_publishable_6PtfvoaY4V49YnCYifToyA_jQ1AXnPq";
+const SUPABASE_KEY =
+    "sb_publishable_6PtfvoaY4V49YnCYifToyA_jQ1AXnPq";
 
-const supabaseClient = supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_KEY
-);
+const supabaseClient =
+    supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+    );
 
 
 function showMessage(text) {
-    document.getElementById("message").textContent = text;
+
+    document.getElementById("message").textContent =
+        text;
 }
 
 
 async function register() {
 
-    const name = document.getElementById("name").value;
-    const email = document.getElementById("email").value;
-    const password = document.getElementById("password").value;
+    const name =
+        document.getElementById("name").value;
+
+    const email =
+        document.getElementById("email").value;
+
+    const password =
+        document.getElementById("password").value;
 
     if (!email || !password) {
-        showMessage("Preenche o email e a password.");
+
+        showMessage(
+            "Preenche o email e a password."
+        );
+
         return;
     }
 
-    const result = await supabaseClient.auth.signUp({
-        email: email,
-        password: password
-    });
+    const result =
+        await supabaseClient.auth.signUp({
+            email: email,
+            password: password
+        });
 
     if (result.error) {
-        showMessage(result.error.message);
+
+        showMessage(
+            result.error.message
+        );
+
         return;
     }
 
     const user = result.data.user;
 
     if (!user) {
-        showMessage("Utilizador criado. Faz login.");
+
+        showMessage(
+            "Utilizador criado. Faz login."
+        );
+
         return;
     }
 
-    const profileResult = await supabaseClient
-        .from("profiles")
-        .upsert({
-            id: user.id,
-            name: name,
-            points: 0
-        });
+    const profileResult =
+        await supabaseClient
+            .from("profiles")
+            .upsert({
+                id: user.id,
+                name: name,
+                points: 0
+            });
 
     if (profileResult.error) {
-        showMessage("Conta criada, mas houve um problema no perfil.");
-        console.log(profileResult.error);
+
+        showMessage(
+            "Conta criada, mas houve um problema no perfil."
+        );
+
+        console.log(
+            profileResult.error
+        );
+
         return;
     }
 
-    showMessage("Conta criada com sucesso!");
+    showMessage(
+        "Conta criada com sucesso!"
+    );
 
     await loadProfile();
 }
@@ -204,20 +258,30 @@ async function register() {
 
 async function login() {
 
-    const email = document.getElementById("email").value;
-    const password = document.getElementById("password").value;
+    const email =
+        document.getElementById("email").value;
 
-    const result = await supabaseClient.auth.signInWithPassword({
-        email: email,
-        password: password
-    });
+    const password =
+        document.getElementById("password").value;
+
+    const result =
+        await supabaseClient.auth.signInWithPassword({
+            email: email,
+            password: password
+        });
 
     if (result.error) {
-        showMessage(result.error.message);
+
+        showMessage(
+            result.error.message
+        );
+
         return;
     }
 
-    showMessage("Login efetuado com sucesso!");
+    showMessage(
+        "Login efetuado com sucesso!"
+    );
 
     await loadProfile();
 }
@@ -228,42 +292,65 @@ async function loadProfile() {
     const sessionResult =
         await supabaseClient.auth.getSession();
 
-    const session = sessionResult.data.session;
+    const session =
+        sessionResult.data.session;
 
     if (!session) {
         return;
     }
 
-    const user = session.user;
+    const user =
+        session.user;
 
-    const profileResult = await supabaseClient
-        .from("profiles")
-        .select("name, points")
-        .eq("id", user.id)
-        .single();
+    const profileResult =
+        await supabaseClient
+            .from("profiles")
+            .select("name, points")
+            .eq("id", user.id)
+            .single();
 
     if (profileResult.error) {
-        console.log(profileResult.error);
+
+        console.log(
+            profileResult.error
+        );
+
         return;
     }
 
-    document.getElementById("profileName").textContent =
-        profileResult.data.name || user.email;
+    document.getElementById(
+        "profileName"
+    ).textContent =
+        profileResult.data.name ||
+        user.email;
 
-    document.getElementById("profilePoints").textContent =
+    document.getElementById(
+        "profilePoints"
+    ).textContent =
         profileResult.data.points || 0;
 }
 
 
-function calculateDistance(lat1, lon1, lat2, lon2) {
+function calculateDistance(
+    lat1,
+    lon1,
+    lat2,
+    lon2
+) {
 
     const earthRadius = 6371000;
 
-    const lat1Rad = lat1 * Math.PI / 180;
-    const lat2Rad = lat2 * Math.PI / 180;
+    const lat1Rad =
+        lat1 * Math.PI / 180;
 
-    const deltaLat = (lat2 - lat1) * Math.PI / 180;
-    const deltaLon = (lon2 - lon1) * Math.PI / 180;
+    const lat2Rad =
+        lat2 * Math.PI / 180;
+
+    const deltaLat =
+        (lat2 - lat1) * Math.PI / 180;
+
+    const deltaLon =
+        (lon2 - lon1) * Math.PI / 180;
 
     const a =
         Math.sin(deltaLat / 2) *
@@ -285,10 +372,16 @@ function calculateDistance(lat1, lon1, lat2, lon2) {
 
 async function validateChallenge() {
 
-    showMessage("A obter a tua localização...");
+    showMessage(
+        "A obter a tua localização..."
+    );
 
     if (!navigator.geolocation) {
-        showMessage("O teu dispositivo não suporta GPS.");
+
+        showMessage(
+            "O teu dispositivo não suporta GPS."
+        );
+
         return;
     }
 
@@ -296,30 +389,45 @@ async function validateChallenge() {
 
         async function(position) {
 
-            const userLat = position.coords.latitude;
-            const userLon = position.coords.longitude;
+            const userLat =
+                position.coords.latitude;
+
+            const userLon =
+                position.coords.longitude;
 
             const challengeResult =
                 await supabaseClient
                     .from("challenges")
                     .select("*")
-                    .eq("name", "Miradouro da Boneca")
+                    .eq(
+                        "name",
+                        "Miradouro da Boneca"
+                    )
                     .single();
 
             if (challengeResult.error) {
-                showMessage("Erro ao encontrar o desafio.");
-                console.log(challengeResult.error);
+
+                showMessage(
+                    "Erro ao encontrar o desafio."
+                );
+
+                console.log(
+                    challengeResult.error
+                );
+
                 return;
             }
 
-            const challenge = challengeResult.data;
+            const challenge =
+                challengeResult.data;
 
-            const distance = calculateDistance(
-                userLat,
-                userLon,
-                challenge.latitude,
-                challenge.longitude
-            );
+            const distance =
+                calculateDistance(
+                    userLat,
+                    userLon,
+                    challenge.latitude,
+                    challenge.longitude
+                );
 
             if (distance > challenge.radius) {
 
@@ -335,14 +443,20 @@ async function validateChallenge() {
             const sessionResult =
                 await supabaseClient.auth.getSession();
 
-            const session = sessionResult.data.session;
+            const session =
+                sessionResult.data.session;
 
             if (!session) {
-                showMessage("Tens de iniciar sessão primeiro.");
+
+                showMessage(
+                    "Tens de iniciar sessão primeiro."
+                );
+
                 return;
             }
 
-            const user = session.user;
+            const user =
+                session.user;
 
             const profileResult =
                 await supabaseClient
@@ -352,7 +466,11 @@ async function validateChallenge() {
                     .single();
 
             if (profileResult.error) {
-                showMessage("Erro ao encontrar o teu perfil.");
+
+                showMessage(
+                    "Erro ao encontrar o teu perfil."
+                );
+
                 return;
             }
 
@@ -360,7 +478,8 @@ async function validateChallenge() {
                 profileResult.data.points || 0;
 
             const newPoints =
-                currentPoints + challenge.points;
+                currentPoints +
+                challenge.points;
 
             const updateResult =
                 await supabaseClient
@@ -371,12 +490,21 @@ async function validateChallenge() {
                     .eq("id", user.id);
 
             if (updateResult.error) {
-                showMessage("Erro ao atualizar os pontos.");
-                console.log(updateResult.error);
+
+                showMessage(
+                    "Erro ao atualizar os pontos."
+                );
+
+                console.log(
+                    updateResult.error
+                );
+
                 return;
             }
 
-            document.getElementById("profilePoints").textContent =
+            document.getElementById(
+                "profilePoints"
+            ).textContent =
                 newPoints;
 
             showMessage(
@@ -416,12 +544,17 @@ async function loadRewards() {
         rewardsDiv.textContent =
             "Erro ao carregar as recompensas.";
 
-        console.log(result.error);
+        console.log(
+            result.error
+        );
 
         return;
     }
 
-    if (!result.data || result.data.length === 0) {
+    if (
+        !result.data ||
+        result.data.length === 0
+    ) {
 
         rewardsDiv.textContent =
             "Ainda não existem recompensas.";
@@ -431,40 +564,68 @@ async function loadRewards() {
 
     rewardsDiv.innerHTML = "";
 
-    result.data.forEach(function(reward) {
+    result.data.forEach(
+        function(reward) {
 
-        const rewardDiv =
-            document.createElement("div");
+            const rewardDiv =
+                document.createElement("div");
 
-        rewardDiv.className = "reward";
+            rewardDiv.className =
+                "reward";
 
-        rewardDiv.innerHTML =
-            "<h3>🎁 " +
-            reward.name +
-            "</h3>" +
+            rewardDiv.innerHTML =
+                "<h3>🎁 " +
+                reward.name +
+                "</h3>" +
 
-            "<p>" +
-            (reward.description || "") +
-            "</p>" +
+                "<p>" +
+                (reward.description || "") +
+                "</p>" +
 
-            "<p><strong>" +
-            reward.points +
-            " pontos</strong></p>" +
+                "<p><strong>" +
+                reward.points +
+                " pontos</strong></p>" +
 
-            "<p>🏆 " +
-            reward.reward +
-            "</p>" +
+                "<p>🏆 " +
+                reward.reward +
+                "</p>" +
 
-            "<button onclick=\"redeemReward(" +
-            reward.id +
-            ")\">" +
+                "<button onclick=\"redeemReward(" +
+                reward.id +
+                ")\">" +
 
-            "Trocar recompensa" +
+                "Trocar recompensa" +
 
-            "</button>";
+                "</button>";
 
-        rewardsDiv.appendChild(rewardDiv);
-    });
+            rewardsDiv.appendChild(
+                rewardDiv
+            );
+        }
+    );
+}
+
+
+function generateRewardCode() {
+
+    const characters =
+        "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+
+    let code = "MQ-";
+
+    for (let i = 0; i < 6; i++) {
+
+        const randomIndex =
+            Math.floor(
+                Math.random() *
+                characters.length
+            );
+
+        code +=
+            characters[randomIndex];
+    }
+
+    return code;
 }
 
 
@@ -477,11 +638,16 @@ async function redeemReward(rewardId) {
         sessionResult.data.session;
 
     if (!session) {
-        showMessage("Tens de iniciar sessão primeiro.");
+
+        showMessage(
+            "Tens de iniciar sessão primeiro."
+        );
+
         return;
     }
 
-    const user = session.user;
+    const user =
+        session.user;
 
     const rewardResult =
         await supabaseClient
@@ -491,11 +657,16 @@ async function redeemReward(rewardId) {
             .single();
 
     if (rewardResult.error) {
-        showMessage("Erro ao encontrar a recompensa.");
+
+        showMessage(
+            "Erro ao encontrar a recompensa."
+        );
+
         return;
     }
 
-    const reward = rewardResult.data;
+    const reward =
+        rewardResult.data;
 
     const profileResult =
         await supabaseClient
@@ -505,7 +676,11 @@ async function redeemReward(rewardId) {
             .single();
 
     if (profileResult.error) {
-        showMessage("Erro ao encontrar os teus pontos.");
+
+        showMessage(
+            "Erro ao encontrar os teus pontos."
+        );
+
         return;
     }
 
@@ -521,8 +696,12 @@ async function redeemReward(rewardId) {
         return;
     }
 
+    const rewardCode =
+        generateRewardCode();
+
     const newPoints =
-        currentPoints - reward.points;
+        currentPoints -
+        reward.points;
 
     const updateResult =
         await supabaseClient
@@ -538,7 +717,9 @@ async function redeemReward(rewardId) {
             "Erro ao gastar os pontos."
         );
 
-        console.log(updateResult.error);
+        console.log(
+            updateResult.error
+        );
 
         return;
     }
@@ -549,27 +730,38 @@ async function redeemReward(rewardId) {
             .insert({
                 user_id: user.id,
                 reward_id: reward.id,
-                points_spent: reward.points
+                points_spent: reward.points,
+                reward_code: rewardCode
             });
 
     if (redemptionResult.error) {
 
         showMessage(
-            "Os pontos foram alterados, mas houve um erro ao registar a recompensa."
+            "Erro ao guardar a recompensa."
         );
 
-        console.log(redemptionResult.error);
+        console.log(
+            redemptionResult.error
+        );
 
         return;
     }
 
-    document.getElementById("profilePoints").textContent =
+    document.getElementById(
+        "profilePoints"
+    ).textContent =
         newPoints;
 
-    showMessage(
-        "🎉 Recompensa trocada com sucesso: " +
-        reward.reward
-    );
+    const message =
+        document.getElementById("message");
+
+    message.innerHTML =
+        "🎉 Recompensa trocada com sucesso!" +
+        "<br><br>" +
+        "Apresenta este código no estabelecimento:" +
+        "<div class='code'>" +
+        rewardCode +
+        "</div>";
 }
 
 
@@ -577,11 +769,17 @@ async function logout() {
 
     await supabaseClient.auth.signOut();
 
-    document.getElementById("profileName").textContent = "-";
+    document.getElementById(
+        "profileName"
+    ).textContent = "-";
 
-    document.getElementById("profilePoints").textContent = "0";
+    document.getElementById(
+        "profilePoints"
+    ).textContent = "0";
 
-    showMessage("Sessão terminada.");
+    showMessage(
+        "Sessão terminada."
+    );
 }
 
 
@@ -591,6 +789,7 @@ async function checkSession() {
         await supabaseClient.auth.getSession();
 
     if (result.data.session) {
+
         await loadProfile();
     }
 
@@ -600,19 +799,34 @@ async function checkSession() {
 
 document
     .getElementById("registerButton")
-    .addEventListener("click", register);
+    .addEventListener(
+        "click",
+        register
+    );
+
 
 document
     .getElementById("loginButton")
-    .addEventListener("click", login);
+    .addEventListener(
+        "click",
+        login
+    );
+
 
 document
     .getElementById("challengeButton")
-    .addEventListener("click", validateChallenge);
+    .addEventListener(
+        "click",
+        validateChallenge
+    );
+
 
 document
     .getElementById("logoutButton")
-    .addEventListener("click", logout);
+    .addEventListener(
+        "click",
+        logout
+    );
 
 
 checkSession();
