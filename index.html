@@ -64,13 +64,19 @@ h2 {
     color: #ff6a00;
 }
 
-input {
+input,
+select {
     width: 100%;
     padding: 14px;
     margin: 8px 0;
     border: none;
     border-radius: 8px;
     font-size: 16px;
+}
+
+select {
+    background: white;
+    color: #111;
 }
 
 button {
@@ -138,6 +144,12 @@ footer {
 
 .hidden {
     display: none !important;
+}
+
+.localityTitle {
+    color: #ff6a00;
+    margin-top: 20px;
+    margin-bottom: 5px;
 }
 
 </style>
@@ -293,9 +305,17 @@ footer {
             Visita locais incríveis e ganha pontos.
         </p>
 
+        <select id="locationFilter" onchange="filterLocations()">
+
+            <option value="">
+                Todas as localidades
+            </option>
+
+        </select>
+
         <div id="challenges">
 
-            A carregar desafios...
+            A carregar localizações...
 
         </div>
 
@@ -311,6 +331,14 @@ footer {
         <p>
             Usa os teus pontos para obter recompensas.
         </p>
+
+        <select id="rewardFilter" onchange="filterRewards()">
+
+            <option value="">
+                Todas as localidades
+            </option>
+
+        </select>
 
         <div id="rewards">
 
@@ -357,6 +385,14 @@ const supabaseClient =
         SUPABASE_URL,
         SUPABASE_KEY
     );
+
+
+/* =========================
+   VARIÁVEIS
+========================= */
+
+let allLocations = [];
+let allRewards = [];
 
 
 /* =========================
@@ -668,7 +704,7 @@ async function loadUser() {
 
     showAppScreen();
 
-    loadChallenges();
+    loadLocations();
 
     loadRewards();
 
@@ -705,16 +741,18 @@ async function logout() {
 
 
 /* =========================
-   DESAFIOS
+   CARREGAR LOCALIZAÇÕES
 ========================= */
 
-async function loadChallenges() {
+async function loadLocations() {
 
     const result =
         await supabaseClient
-            .from("challenges")
+            .from("locations")
             .select("*")
-            .order("id");
+            .eq("active", true)
+            .order("locality")
+            .order("name");
 
 
     if (result.error) {
@@ -722,22 +760,116 @@ async function loadChallenges() {
         document
             .getElementById("challenges")
             .innerHTML =
-            "Erro ao carregar desafios.";
+            "Erro ao carregar localizações.";
+
+        console.log(result.error);
 
         return;
     }
 
 
-    const challenges =
-        result.data;
+    allLocations =
+        result.data || [];
 
 
-    if (!challenges.length) {
+    createLocationFilter();
 
+    displayLocations(
+        allLocations
+    );
+
+}
+
+
+/* =========================
+   FILTRO LOCALIDADES
+========================= */
+
+function createLocationFilter() {
+
+    const select =
+        document.getElementById(
+            "locationFilter"
+        );
+
+
+    const localities = [
+        ...new Set(
+            allLocations
+                .map(location => location.locality)
+                .filter(Boolean)
+        )
+    ];
+
+
+    select.innerHTML =
+        '<option value="">Todas as localidades</option>';
+
+
+    localities.forEach(locality => {
+
+        select.innerHTML +=
+            `<option value="${locality}">
+                ${locality}
+            </option>`;
+
+    });
+
+}
+
+
+/* =========================
+   FILTRAR LOCALIZAÇÕES
+========================= */
+
+function filterLocations() {
+
+    const selected =
         document
-            .getElementById("challenges")
-            .innerHTML =
-            "Ainda não existem desafios.";
+            .getElementById("locationFilter")
+            .value;
+
+
+    if (!selected) {
+
+        displayLocations(
+            allLocations
+        );
+
+        return;
+    }
+
+
+    const filtered =
+        allLocations.filter(
+            location =>
+                location.locality === selected
+        );
+
+
+    displayLocations(
+        filtered
+    );
+
+}
+
+
+/* =========================
+   MOSTRAR LOCALIZAÇÕES
+========================= */
+
+function displayLocations(locations) {
+
+    const container =
+        document.getElementById(
+            "challenges"
+        );
+
+
+    if (!locations.length) {
+
+        container.innerHTML =
+            "Ainda não existem localizações.";
 
         return;
     }
@@ -746,33 +878,49 @@ async function loadChallenges() {
     let html = "";
 
 
-    challenges.forEach(challenge => {
+    locations.forEach(location => {
 
         html += `
 
         <div class="challenge">
 
             <h3>
-                🏍️ ${challenge.name}
+                🏍️ ${location.name}
             </h3>
 
             <p>
-                ${challenge.description || ""}
+                📍 <strong>
+                ${location.locality || ""}
+                </strong>
+            </p>
+
+            ${
+                location.district
+                ?
+                `<p>
+                    🗺️ ${location.district}
+                </p>`
+                :
+                ""
+            }
+
+            <p>
+                ${location.description || ""}
             </p>
 
             <p>
                 🎯 <strong>
-                ${challenge.points} pontos
+                ${location.points} pontos
                 </strong>
             </p>
 
             <button
                 onclick="validateChallenge(
-                    ${challenge.id},
-                    ${challenge.latitude},
-                    ${challenge.longitude},
-                    ${challenge.radius},
-                    ${challenge.points}
+                    ${location.id},
+                    ${location.latitude},
+                    ${location.longitude},
+                    ${location.radius},
+                    ${location.points}
                 )"
             >
                 📍 Validar visita
@@ -785,9 +933,8 @@ async function loadChallenges() {
     });
 
 
-    document
-        .getElementById("challenges")
-        .innerHTML = html;
+    container.innerHTML =
+        html;
 
 }
 
@@ -837,11 +984,11 @@ function calculateDistance(
 
 
 /* =========================
-   VALIDAR DESAFIO
+   VALIDAR LOCALIZAÇÃO
 ========================= */
 
 async function validateChallenge(
-    challengeId,
+    locationId,
     latitude,
     longitude,
     radius,
@@ -1018,7 +1165,7 @@ async function validateChallenge(
 
 
 /* =========================
-   RECOMPENSAS
+   CARREGAR RECOMPENSAS
 ========================= */
 
 async function loadRewards() {
@@ -1027,6 +1174,7 @@ async function loadRewards() {
         await supabaseClient
             .from("rewards")
             .select("*")
+            .eq("active", true)
             .order("points");
 
 
@@ -1037,19 +1185,113 @@ async function loadRewards() {
             .innerHTML =
             "Erro ao carregar recompensas.";
 
+        console.log(result.error);
+
         return;
     }
 
 
-    const rewards =
-        result.data;
+    allRewards =
+        result.data || [];
+
+
+    createRewardFilter();
+
+    displayRewards(
+        allRewards
+    );
+
+}
+
+
+/* =========================
+   FILTRO DE RECOMPENSAS
+========================= */
+
+function createRewardFilter() {
+
+    const select =
+        document.getElementById(
+            "rewardFilter"
+        );
+
+
+    const localities = [
+        ...new Set(
+            allRewards
+                .map(reward => reward.locality)
+                .filter(Boolean)
+        )
+    ];
+
+
+    select.innerHTML =
+        '<option value="">Todas as localidades</option>';
+
+
+    localities.forEach(locality => {
+
+        select.innerHTML +=
+            `<option value="${locality}">
+                ${locality}
+            </option>`;
+
+    });
+
+}
+
+
+/* =========================
+   FILTRAR RECOMPENSAS
+========================= */
+
+function filterRewards() {
+
+    const selected =
+        document
+            .getElementById("rewardFilter")
+            .value;
+
+
+    if (!selected) {
+
+        displayRewards(
+            allRewards
+        );
+
+        return;
+    }
+
+
+    const filtered =
+        allRewards.filter(
+            reward =>
+                reward.locality === selected
+        );
+
+
+    displayRewards(
+        filtered
+    );
+
+}
+
+
+/* =========================
+   MOSTRAR RECOMPENSAS
+========================= */
+
+function displayRewards(rewards) {
+
+    const container =
+        document.getElementById(
+            "rewards"
+        );
 
 
     if (!rewards.length) {
 
-        document
-            .getElementById("rewards")
-            .innerHTML =
+        container.innerHTML =
             "Ainda não existem recompensas.";
 
         return;
@@ -1068,6 +1310,28 @@ async function loadRewards() {
             <h3>
                 🎁 ${reward.name}
             </h3>
+
+            ${
+                reward.locality
+                ?
+                `<p>
+                    📍 <strong>
+                    ${reward.locality}
+                    </strong>
+                </p>`
+                :
+                ""
+            }
+
+            ${
+                reward.business
+                ?
+                `<p>
+                    🏪 ${reward.business}
+                </p>`
+                :
+                ""
+            }
 
             <p>
                 ${reward.description || ""}
@@ -1096,9 +1360,8 @@ async function loadRewards() {
     });
 
 
-    document
-        .getElementById("rewards")
-        .innerHTML = html;
+    container.innerHTML =
+        html;
 
 }
 
