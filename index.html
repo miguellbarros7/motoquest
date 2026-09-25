@@ -366,12 +366,11 @@
     // LOGIN
     // ==============================
 
-    const { data: profiles, error } =
-    await supabaseClient
-        .from("profiles")
-        .select("*")
-        .eq("id", currentUser.id)
-        .limit(1);
+   const { data: profiles, error } = await supabaseClient
+    .from("profiles")
+    .select("*")
+    .eq("id", currentUser.id)
+    .limit(1);
 
 if (error) {
     message(
@@ -391,11 +390,9 @@ if (!profiles || profiles.length === 0) {
 
 const profile = profiles[0];
 
-document.getElementById("userName").textContent =
-    profile.name;
+document.getElementById("userName").textContent = profile.name;
 
-document.getElementById("points").textContent =
-    profile.points || 0;
+document.getElementById("points").textContent = profile.points || 0;
 
 auth.style.display = "none";
 app.style.display = "block";
