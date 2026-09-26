@@ -4128,8 +4128,68 @@ $("pexelsLocationQuery")
             }
         }
     );
+$("locationImageFile")
+    .addEventListener(
+        "change",
+        event => {
 
+            const file =
+                event.target.files?.[0] || null;
 
+            if (!file) {
+                selectedLocationImageFile = null;
+
+                $("locationUploadPreview")
+                    .classList.add("hidden");
+
+                return;
+            }
+
+            if (!file.type.startsWith("image/")) {
+                alert("Escolhe um ficheiro de imagem.");
+
+                event.target.value = "";
+                selectedLocationImageFile = null;
+
+                return;
+            }
+
+            if (file.size > 10 * 1024 * 1024) {
+                alert(
+                    "A fotografia deve ter no máximo 10 MB."
+                );
+
+                event.target.value = "";
+                selectedLocationImageFile = null;
+
+                return;
+            }
+
+            selectedLocationImageFile = file;
+
+            selectedLocationPhoto = null;
+
+            $("selectedLocationPhoto")
+                .classList.add("hidden");
+
+            const previewUrl =
+                URL.createObjectURL(file);
+
+            $("locationUploadPreviewImg").src =
+                previewUrl;
+
+            $("locationUploadPreviewTitle")
+                .textContent =
+                file.name;
+
+            $("locationUploadPreviewInfo")
+                .textContent =
+                "Esta fotografia será enviada para o MotoQuest.";
+
+            $("locationUploadPreview")
+                .classList.remove("hidden");
+        }
+    );
 /* PEXELS REWARD */
 
 $("searchPexelsRewardBtn")
