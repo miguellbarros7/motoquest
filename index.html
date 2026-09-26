@@ -1720,6 +1720,57 @@
 
                         <!-- PEXELS -->
 
+                   </div>
+
+                        <div class="admin-two">
+
+                            <div class="field">
+                                <label>Longitude</label>
+
+                                <input
+                                    id="locationLng"
+                                    type="number"
+                                    step="any"
+                                    placeholder="-7.50"
+                                >
+                            </div>
+
+                            <div class="field">
+                                <label>Link Google Maps</label>
+
+                                <input
+                                    id="locationMaps"
+                                    placeholder="Cola aqui o link do Google Maps"
+                                >
+                            </div>
+
+                        </div>
+
+                        <button
+                            id="extractCoordinatesBtn"
+                            type="button"
+                            class="secondary-btn"
+                        >
+                            Obter GPS do Google Maps
+                        </button>
+
+                        <div
+                            id="gpsMessage"
+                            class="form-message"
+                        ></div>
+
+                        <div class="field">
+                            <label>Descrição</label>
+
+                            <textarea
+                                id="locationDescription"
+                                placeholder="Descrição do local..."
+                            ></textarea>
+                        </div>
+
+
+                        <!-- PEXELS -->
+
                         <div class="pexels-box">
 
                             <div class="pexels-title">
@@ -1777,6 +1828,22 @@
                         </div>
 
 
+                        <div class="admin-actions">
+
+                            <button
+                                class="primary-btn"
+                                type="submit"
+                            >
+                                Guardar local
+                            </button>
+
+                            <button
+                                id="cancelLocationEditBtn"
+                                class="secondary-btn"
+                                type="button"
+                            >
+                                Limpar
+                            </button>
                         <div class="admin-actions">
 
                             <button
