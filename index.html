@@ -104,8 +104,18 @@ button:hover {
     background: #e85f00;
 }
 
+button:disabled {
+    background: #555;
+    color: #aaa;
+    cursor: not-allowed;
+}
+
 .secondary {
     background: #333;
+}
+
+.secondary:hover {
+    background: #444;
 }
 
 .points {
@@ -126,6 +136,10 @@ button:hover {
 .reward h3,
 .challenge h3 {
     margin-top: 0;
+}
+
+.reward p {
+    margin: 8px 0;
 }
 
 .message {
@@ -313,9 +327,11 @@ footer {
             id="locationFilter"
             onchange="filterLocations()"
         >
+
             <option value="">
                 Todas as localidades
             </option>
+
         </select>
 
         <div id="challenges">
@@ -337,7 +353,7 @@ footer {
         </p>
 
 
-        <!-- DUAS COLUNAS -->
+        <!-- FILTROS -->
 
         <div class="filterRow">
 
@@ -471,6 +487,7 @@ function showHomeScreen() {
     document
         .getElementById("homeScreen")
         .classList.remove("hidden");
+
 }
 
 
@@ -481,6 +498,7 @@ function showLoginScreen() {
     document
         .getElementById("loginScreen")
         .classList.remove("hidden");
+
 }
 
 
@@ -491,6 +509,7 @@ function showAppScreen() {
     document
         .getElementById("appScreen")
         .classList.remove("hidden");
+
 }
 
 
@@ -646,7 +665,7 @@ async function loadUser() {
     const user =
         session.user;
 
-    let profileResult =
+    const profileResult =
         await supabaseClient
             .from("profiles")
             .select("*")
@@ -697,9 +716,9 @@ async function loadUser() {
 
     showAppScreen();
 
-    loadLocations();
+    await loadLocations();
 
-    loadRewards();
+    await loadRewards();
 
 }
 
@@ -1031,6 +1050,10 @@ async function validateChallenge(
                 .textContent =
                 newPoints;
 
+            displayRewards(
+                getFilteredRewards()
+            );
+
             showMessage(
                 "🎉 Visita validada!<br><br>" +
                 "Ganhaste <strong>" +
@@ -1086,25 +1109,20 @@ async function loadRewards() {
         return;
     }
 
-    /*
-       NÃO filtramos aqui.
-       Primeiro carregamos todas as recompensas.
-    */
-
     allRewards =
         result.data || [];
 
     createRewardLocalityFilter();
 
     displayRewards(
-        allRewards
+        getFilteredRewards()
     );
 
 }
 
 
 /* =========================
-   FILTRO LOCALIDADE
+   LOCALIDADES RECOMPENSAS
 ========================= */
 
 function createRewardLocalityFilter() {
@@ -1140,10 +1158,10 @@ function createRewardLocalityFilter() {
 
 
 /* =========================
-   FILTRO RECOMPENSAS
+   OBTER FILTROS
 ========================= */
 
-function filterRewards() {
+function getFilteredRewards() {
 
     const type =
         document
@@ -1159,36 +1177,31 @@ function filterRewards() {
             )
             .value;
 
+    return allRewards.filter(reward => {
 
-    const filtered =
-        allRewards.filter(reward => {
+        const typeOK =
+            !type ||
+            reward.type === type;
 
-            /*
-               Se type estiver vazio,
-               mostra todos.
+        const localityOK =
+            !locality ||
+            reward.locality === locality;
 
-               Se locality estiver vazio,
-               mostra todas as localidades.
-            */
+        return typeOK && localityOK;
 
-            const typeOK =
-                !type ||
-                reward.type === type;
+    });
 
-            const localityOK =
-                !locality ||
-                reward.locality === locality;
+}
 
-            return (
-                typeOK &&
-                localityOK
-            );
 
-        });
+/* =========================
+   FILTRAR RECOMPENSAS
+========================= */
 
+function filterRewards() {
 
     displayRewards(
-        filtered
+        getFilteredRewards()
     );
 
 }
@@ -1213,6 +1226,18 @@ function displayRewards(rewards) {
         return;
     }
 
+    const pointsElement =
+        document.getElementById(
+            "profilePoints"
+        );
+
+    const userPoints =
+        Number(
+            pointsElement
+                ? pointsElement.textContent
+                : 0
+        );
+
     let html = "";
 
 
@@ -1222,7 +1247,8 @@ function displayRewards(rewards) {
 
         if (
             reward.type &&
-            reward.type.toLowerCase()
+            reward.type
+                .toLowerCase()
                 .includes("restaurante")
         ) {
 
@@ -1232,13 +1258,21 @@ function displayRewards(rewards) {
 
         if (
             reward.type &&
-            reward.type.toLowerCase()
+            reward.type
+                .toLowerCase()
                 .includes("hotel")
         ) {
 
             icon = "🏨";
 
         }
+
+
+        const rewardPoints =
+            Number(reward.points) || 0;
+
+        const enoughPoints =
+            userPoints >= rewardPoints;
 
 
         html += `
@@ -1268,7 +1302,9 @@ function displayRewards(rewards) {
                 ?
                 `<p>
                     🏪 Tipo:
+                    <strong>
                     ${reward.type}
+                    </strong>
                 </p>`
                 :
                 ""
@@ -1280,7 +1316,9 @@ function displayRewards(rewards) {
                 ?
                 `<p>
                     📍 Localidade:
+                    <strong>
                     ${reward.locality}
+                    </strong>
                 </p>`
                 :
                 ""
@@ -1299,9 +1337,17 @@ function displayRewards(rewards) {
 
 
             <p>
-                🎯 Custo:
+                ⭐ Os teus pontos:
                 <strong>
-                    ${reward.points} pontos
+                    ${userPoints}
+                </strong>
+            </p>
+
+
+            <p>
+                💰 Custo:
+                <strong>
+                    ${rewardPoints} pontos
                 </strong>
             </p>
 
@@ -1314,11 +1360,23 @@ function displayRewards(rewards) {
             </p>
 
 
-            <button
-                onclick="redeemReward(${reward.id})"
-            >
-                Trocar recompensa
-            </button>
+            ${
+                enoughPoints
+
+                ?
+
+                `<button
+                    onclick="redeemReward(${reward.id})"
+                >
+                    🟢 Trocar recompensa
+                </button>`
+
+                :
+
+                `<button disabled>
+                    🔒 Pontos insuficientes
+                </button>`
+            }
 
         </div>
 
@@ -1334,7 +1392,7 @@ function displayRewards(rewards) {
 
 
 /* =========================
-   CÓDIGO DA RECOMPENSA
+   CÓDIGO RECOMPENSA
 ========================= */
 
 function generateRewardCode() {
@@ -1520,6 +1578,11 @@ async function redeemReward(rewardId) {
         newPoints;
 
 
+    displayRewards(
+        getFilteredRewards()
+    );
+
+
     document
         .getElementById("message")
         .innerHTML =
@@ -1554,7 +1617,7 @@ function showMessage(message) {
 
 
 /* =========================
-   SESSÃO
+   VERIFICAR SESSÃO
 ========================= */
 
 async function checkSession() {
