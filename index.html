@@ -215,6 +215,52 @@ button {
     transform: none;
 }
 
+.secondary-btn {
+    width: 100%;
+
+    border: 1px solid #292929;
+    border-radius: 11px;
+
+    background: #181818;
+    color: #aaa;
+
+    padding: 13px;
+
+    font-weight: 600;
+
+    margin-top: 8px;
+
+    transition: .2s ease;
+}
+
+.secondary-btn:hover {
+    border-color: var(--orange);
+    color: var(--orange);
+}
+
+.danger-btn {
+    width: 100%;
+
+    border: 1px solid #3a2020;
+    border-radius: 11px;
+
+    background: #171010;
+    color: #d98787;
+
+    padding: 12px;
+
+    font-weight: 600;
+
+    margin-top: 8px;
+
+    transition: .2s ease;
+}
+
+.danger-btn:hover {
+    border-color: #8d3333;
+    color: #ff9999;
+}
+
 .auth-message {
     min-height: 20px;
 
@@ -937,6 +983,358 @@ button {
 }
 
 /* =========================
+   ADMIN
+========================= */
+
+.admin-panel {
+    max-width: 1000px;
+
+    margin-top: 24px;
+
+    padding: 24px;
+
+    border:
+        1px solid
+        rgba(255,106,0,.25);
+
+    border-radius: 18px;
+
+    background:
+        linear-gradient(
+            180deg,
+            #121212,
+            #0e0e0e
+        );
+}
+
+.admin-heading {
+    display: flex;
+
+    align-items: flex-start;
+    justify-content: space-between;
+
+    gap: 20px;
+
+    margin-bottom: 22px;
+}
+
+.admin-heading h3 {
+    font-size: 20px;
+
+    margin-bottom: 5px;
+}
+
+.admin-heading p {
+    color: #777;
+
+    font-size: 12px;
+}
+
+.admin-badge {
+    flex-shrink: 0;
+
+    padding: 7px 10px;
+
+    border: 1px solid
+        rgba(255,106,0,.35);
+
+    border-radius: 999px;
+
+    color: var(--orange);
+
+    font-size: 10px;
+
+    font-weight: 700;
+
+    letter-spacing: 1px;
+
+    text-transform: uppercase;
+}
+
+.admin-stats {
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, minmax(0, 1fr));
+
+    gap: 10px;
+
+    margin-bottom: 20px;
+}
+
+.admin-stat {
+    padding: 16px;
+
+    border: 1px solid #242424;
+
+    border-radius: 13px;
+
+    background: #0c0c0c;
+}
+
+.admin-stat span {
+    display: block;
+
+    color: #666;
+
+    font-size: 10px;
+
+    text-transform: uppercase;
+
+    letter-spacing: .8px;
+
+    margin-bottom: 7px;
+}
+
+.admin-stat strong {
+    color: var(--orange);
+
+    font-size: 22px;
+}
+
+.admin-tabs {
+    display: flex;
+
+    gap: 8px;
+
+    overflow-x: auto;
+
+    padding-bottom: 6px;
+
+    margin-bottom: 18px;
+}
+
+.admin-tab {
+    flex-shrink: 0;
+
+    border: 1px solid #292929;
+
+    border-radius: 9px;
+
+    background: #111;
+
+    color: #777;
+
+    padding: 10px 13px;
+
+    font-size: 11px;
+}
+
+.admin-tab.active {
+    background: var(--orange);
+
+    border-color: var(--orange);
+
+    color: #080808;
+
+    font-weight: 700;
+}
+
+.admin-view {
+    display: none;
+}
+
+.admin-view.active {
+    display: block;
+}
+
+.admin-list {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 9px;
+
+    margin-top: 18px;
+}
+
+.admin-item {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 14px;
+
+    padding: 14px;
+
+    border: 1px solid #242424;
+
+    border-radius: 12px;
+
+    background: #0d0d0d;
+}
+
+.admin-item-main {
+    min-width: 0;
+}
+
+.admin-item-main strong {
+    display: block;
+
+    margin-bottom: 4px;
+
+    font-size: 13px;
+}
+
+.admin-item-main span {
+    color: #666;
+
+    font-size: 11px;
+}
+
+.admin-item-actions {
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 6px;
+}
+
+.admin-small-btn {
+    border: 1px solid #292929;
+
+    border-radius: 8px;
+
+    background: #171717;
+
+    color: #999;
+
+    padding: 7px 9px;
+
+    font-size: 10px;
+}
+
+.admin-small-btn:hover {
+    border-color: var(--orange);
+
+    color: var(--orange);
+}
+
+.admin-small-btn.danger {
+    color: #c77;
+
+    border-color: #3a2525;
+}
+
+.admin-form {
+    padding: 18px;
+
+    border: 1px solid #242424;
+
+    border-radius: 14px;
+
+    background: #0d0d0d;
+}
+
+.admin-form-title {
+    margin-bottom: 15px;
+
+    font-size: 15px;
+}
+
+.admin-form-actions {
+    display: flex;
+
+    gap: 8px;
+}
+
+.admin-form-actions button {
+    flex: 1;
+}
+
+.admin-photo-search {
+    display: grid;
+
+    grid-template-columns:
+        minmax(0, 1fr)
+        auto;
+
+    gap: 8px;
+
+    margin-top: 8px;
+}
+
+.admin-photo-search input {
+    min-width: 0;
+}
+
+.admin-photo-results {
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, minmax(0, 1fr));
+
+    gap: 8px;
+
+    margin-top: 12px;
+}
+
+.admin-photo-option {
+    position: relative;
+
+    aspect-ratio: 1 / 1;
+
+    overflow: hidden;
+
+    padding: 0;
+
+    border: 1px solid #292929;
+
+    border-radius: 10px;
+
+    background: #111;
+}
+
+.admin-photo-option img {
+    width: 100%;
+    height: 100%;
+
+    display: block;
+
+    object-fit: cover;
+}
+
+.admin-photo-option:hover {
+    border-color: var(--orange);
+}
+
+.admin-photo-option.selected {
+    border:
+        2px solid
+        var(--orange);
+}
+
+.admin-photo-credit {
+    margin-top: 10px;
+
+    color: #666;
+
+    font-size: 10px;
+
+    line-height: 1.4;
+}
+
+.admin-photo-credit a {
+    color: var(--orange);
+}
+
+.admin-current-photo {
+    width: 100%;
+
+    max-height: 230px;
+
+    object-fit: cover;
+
+    border-radius: 12px;
+
+    border: 1px solid #292929;
+
+    margin-top: 12px;
+}
+
+/* =========================
    SUGGEST FORM
 ========================= */
 
@@ -1064,9 +1462,13 @@ button {
 
 .modal-box {
     width: min(
-        520px,
+        620px,
         100%
     );
+
+    max-height: 90vh;
+
+    overflow-y: auto;
 
     border: 1px solid #292929;
 
@@ -1222,10 +1624,6 @@ button {
         font-size: 9px;
     }
 
-    .home-points {
-        margin-top: 14px;
-    }
-
     .cards-grid {
         grid-template-columns: 1fr;
     }
@@ -1239,7 +1637,8 @@ button {
     }
 
     .profile-box,
-    .suggest-form {
+    .suggest-form,
+    .admin-panel {
         padding: 18px;
     }
 
@@ -1249,6 +1648,38 @@ button {
 
     .filter-title {
         font-size: 9px;
+    }
+
+    .admin-stats {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+    }
+
+    .admin-photo-results {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+    }
+
+    .admin-photo-search {
+        grid-template-columns: 1fr;
+    }
+
+    .admin-heading {
+        flex-direction: column;
+    }
+
+    .admin-item {
+        align-items: flex-start;
+
+        flex-direction: column;
+    }
+
+    .admin-item-actions {
+        width: 100%;
+    }
+
+    .admin-item-actions button {
+        flex: 1;
     }
 }
 </style>
@@ -1514,22 +1945,6 @@ button {
 
             </div>
 
-
-            <div class="home-points">
-
-                <div class="home-points-label">
-                    Os teus pontos
-                </div>
-
-                <div
-                    id="homePoints"
-                    class="home-points-value"
-                >
-                    0
-                </div>
-
-            </div>
-
         </section>
 
 
@@ -1555,8 +1970,6 @@ button {
 
             <div class="location-filter-groups">
 
-                <!-- LOCALIDADE -->
-
                 <div class="location-filter-group">
 
                     <div class="filter-title">
@@ -1579,8 +1992,6 @@ button {
 
                 </div>
 
-
-                <!-- TIPO DE LOCAL -->
 
                 <div class="location-filter-group">
 
@@ -1776,6 +2187,505 @@ button {
                         class="home-points-value"
                     >
                         0
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- ADMIN PANEL -->
+
+            <div
+                id="adminPanel"
+                class="admin-panel hidden"
+            >
+
+                <div class="admin-heading">
+
+                    <div>
+
+                        <h3>
+                            Painel de Administração
+                        </h3>
+
+                        <p>
+                            Gere locais, recompensas e utilizadores do MotoQuest.
+                        </p>
+
+                    </div>
+
+                    <div class="admin-badge">
+                        ADMIN
+                    </div>
+
+                </div>
+
+
+                <div class="admin-stats">
+
+                    <div class="admin-stat">
+
+                        <span>
+                            Utilizadores
+                        </span>
+
+                        <strong id="adminUsersCount">
+                            0
+                        </strong>
+
+                    </div>
+
+                    <div class="admin-stat">
+
+                        <span>
+                            Locais
+                        </span>
+
+                        <strong id="adminLocationsCount">
+                            0
+                        </strong>
+
+                    </div>
+
+                    <div class="admin-stat">
+
+                        <span>
+                            Recompensas
+                        </span>
+
+                        <strong id="adminRewardsCount">
+                            0
+                        </strong>
+
+                    </div>
+
+                    <div class="admin-stat">
+
+                        <span>
+                            Check-ins
+                        </span>
+
+                        <strong id="adminVisitsCount">
+                            0
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <div class="admin-tabs">
+
+                    <button
+                        class="admin-tab active"
+                        data-admin-tab="locations"
+                    >
+                        Locais
+                    </button>
+
+                    <button
+                        class="admin-tab"
+                        data-admin-tab="rewards"
+                    >
+                        Recompensas
+                    </button>
+
+                    <button
+                        class="admin-tab"
+                        data-admin-tab="users"
+                    >
+                        Utilizadores
+                    </button>
+
+                    <button
+                        class="admin-tab"
+                        data-admin-tab="stats"
+                    >
+                        Visão geral
+                    </button>
+
+                </div>
+
+
+                <!-- ADMIN LOCATIONS -->
+
+                <div
+                    id="adminLocationsView"
+                    class="admin-view active"
+                >
+
+                    <div class="admin-form">
+
+                        <div class="admin-form-title">
+                            Adicionar / editar local
+                        </div>
+
+                        <input
+                            type="hidden"
+                            id="adminLocationId"
+                        >
+
+                        <div class="form-group">
+
+                            <label for="adminLocationName">
+                                Nome do local
+                            </label>
+
+                            <input
+                                id="adminLocationName"
+                                type="text"
+                                placeholder="Ex.: Miradouro da Serra da Estrela"
+                            >
+
+                        </div>
+
+                        <div class="form-group">
+
+                            <label for="adminLocationLocality">
+                                Localidade
+                            </label>
+
+                            <input
+                                id="adminLocationLocality"
+                                type="text"
+                                placeholder="Ex.: Covilhã"
+                            >
+
+                        </div>
+
+                        <div class="form-group">
+
+                            <label for="adminLocationType">
+                                Tipo de local
+                            </label>
+
+                            <select id="adminLocationType">
+
+                                <option value="miradouro">
+                                    Miradouro
+                                </option>
+
+                                <option value="baloico">
+                                    Baloiço
+                                </option>
+
+                                <option value="monumento">
+                                    Monumento
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                        <div class="form-group">
+
+                            <label for="adminLocationPoints">
+                                Pontos
+                            </label>
+
+                            <input
+                                id="adminLocationPoints"
+                                type="number"
+                                min="0"
+                                value="10"
+                            >
+
+                        </div>
+
+                        <div class="form-group">
+
+                            <label for="adminLocationDescription">
+                                Descrição
+                            </label>
+
+                            <textarea
+                                id="adminLocationDescription"
+                                placeholder="Descrição do local..."
+                            ></textarea>
+
+                        </div>
+
+                        <div class="form-group">
+
+                            <label for="adminLocationImage">
+                                Fotografia
+                            </label>
+
+                            <input
+                                id="adminLocationImage"
+                                type="url"
+                                placeholder="URL da fotografia"
+                            >
+
+                            <div class="admin-photo-search">
+
+                                <input
+                                    id="pexelsSearchQuery"
+                                    type="text"
+                                    placeholder="Pesquisar fotografia no Pexels"
+                                >
+
+                                <button
+                                    type="button"
+                                    id="searchPexelsBtn"
+                                    class="secondary-btn"
+                                    style="margin-top:0"
+                                >
+                                    Pesquisar
+                                </button>
+
+                            </div>
+
+                            <div
+                                id="pexelsResults"
+                                class="admin-photo-results"
+                            ></div>
+
+                            <div class="admin-photo-credit">
+                                As fotografias selecionadas devem manter a atribuição/link para o Pexels e, quando possível, para o fotógrafo.
+                            </div>
+
+                            <img
+                                id="adminLocationImagePreview"
+                                class="admin-current-photo hidden"
+                                alt="Pré-visualização"
+                            >
+
+                        </div>
+
+                        <div
+                            id="adminLocationMessage"
+                            class="auth-message"
+                        ></div>
+
+                        <div class="admin-form-actions">
+
+                            <button
+                                type="button"
+                                id="saveLocationBtn"
+                                class="primary-btn"
+                            >
+                                Guardar local
+                            </button>
+
+                            <button
+                                type="button"
+                                id="cancelLocationEditBtn"
+                                class="secondary-btn"
+                            >
+                                Limpar
+                            </button>
+
+                        </div>
+
+                    </div>
+
+
+                    <div
+                        id="adminLocationsList"
+                        class="admin-list"
+                    ></div>
+
+                </div>
+
+
+                <!-- ADMIN REWARDS -->
+
+                <div
+                    id="adminRewardsView"
+                    class="admin-view"
+                >
+
+                    <div class="admin-form">
+
+                        <div class="admin-form-title">
+                            Adicionar / editar recompensa
+                        </div>
+
+                        <input
+                            type="hidden"
+                            id="adminRewardId"
+                        >
+
+                        <div class="form-group">
+
+                            <label for="adminRewardName">
+                                Nome
+                            </label>
+
+                            <input
+                                id="adminRewardName"
+                                type="text"
+                                placeholder="Ex.: Desconto num restaurante"
+                            >
+
+                        </div>
+
+                        <div class="form-group">
+
+                            <label for="adminRewardCategory">
+                                Categoria
+                            </label>
+
+                            <select id="adminRewardCategory">
+
+                                <option value="restaurante">
+                                    Restaurante
+                                </option>
+
+                                <option value="hotel">
+                                    Hotel
+                                </option>
+
+                                <option value="experiencia">
+                                    Experiência
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                        <div class="form-group">
+
+                            <label for="adminRewardPoints">
+                                Pontos necessários
+                            </label>
+
+                            <input
+                                id="adminRewardPoints"
+                                type="number"
+                                min="0"
+                                value="100"
+                            >
+
+                        </div>
+
+                        <div class="form-group">
+
+                            <label for="adminRewardDescription">
+                                Descrição
+                            </label>
+
+                            <textarea
+                                id="adminRewardDescription"
+                                placeholder="Descrição da recompensa..."
+                            ></textarea>
+
+                        </div>
+
+                        <div class="form-group">
+
+                            <label for="adminRewardImage">
+                                URL da fotografia
+                            </label>
+
+                            <input
+                                id="adminRewardImage"
+                                type="url"
+                                placeholder="URL da fotografia"
+                            >
+
+                        </div>
+
+                        <div
+                            id="adminRewardMessage"
+                            class="auth-message"
+                        ></div>
+
+                        <div class="admin-form-actions">
+
+                            <button
+                                type="button"
+                                id="saveRewardBtn"
+                                class="primary-btn"
+                            >
+                                Guardar recompensa
+                            </button>
+
+                            <button
+                                type="button"
+                                id="cancelRewardEditBtn"
+                                class="secondary-btn"
+                            >
+                                Limpar
+                            </button>
+
+                        </div>
+
+                    </div>
+
+
+                    <div
+                        id="adminRewardsList"
+                        class="admin-list"
+                    ></div>
+
+                </div>
+
+
+                <!-- ADMIN USERS -->
+
+                <div
+                    id="adminUsersView"
+                    class="admin-view"
+                >
+
+                    <div class="admin-form">
+
+                        <div class="admin-form-title">
+                            Gestão de utilizadores
+                        </div>
+
+                        <div class="form-group">
+
+                            <label for="adminUserSearch">
+                                Pesquisar
+                            </label>
+
+                            <input
+                                id="adminUserSearch"
+                                type="search"
+                                placeholder="Nome ou email"
+                            >
+
+                        </div>
+
+                    </div>
+
+
+                    <div
+                        id="adminUsersList"
+                        class="admin-list"
+                    ></div>
+
+                </div>
+
+
+                <!-- ADMIN STATS -->
+
+                <div
+                    id="adminStatsView"
+                    class="admin-view"
+                >
+
+                    <div class="admin-form">
+
+                        <div class="admin-form-title">
+                            Resumo do MotoQuest
+                        </div>
+
+                        <p
+                            id="adminStatsText"
+                            style="
+                                color:#777;
+                                font-size:12px;
+                                line-height:1.6;
+                            "
+                        >
+                            A carregar...
+                        </p>
+
                     </div>
 
                 </div>
@@ -2040,6 +2950,24 @@ const supabaseClient =
     );
 
 
+/*
+    PEXELS
+
+    IMPORTANTE:
+    A pesquisa Pexels deve idealmente passar por
+    uma Supabase Edge Function para não expor a
+    API key no navegador.
+
+    Quando criares a Edge Function, coloca aqui
+    o URL dela.
+
+    Exemplo:
+    https://SEU-PROJETO.supabase.co/functions/v1/pexels-search
+*/
+
+const PEXELS_FUNCTION_URL = "";
+
+
 /* =========================
    STATE
 ========================= */
@@ -2050,6 +2978,7 @@ let currentProfile = null;
 let locations = [];
 let rewards = [];
 let history = [];
+let adminUsers = [];
 
 let selectedLocation = null;
 let selectedReward = null;
@@ -2058,6 +2987,8 @@ let isRegisterMode = false;
 
 let suggestionLatitude = null;
 let suggestionLongitude = null;
+
+let selectedAdminLocationPhoto = null;
 
 
 /* =========================
@@ -2090,15 +3021,6 @@ function escapeHTML(value) {
 }
 
 
-/*
-    Normaliza texto para os filtros.
-
-    Exemplo:
-    "Covilhã"  -> "covilha"
-    "covilha"  -> "covilha"
-    "Baloiço"  -> "baloico"
-*/
-
 function normalizeFilterValue(value) {
 
     return String(value || "")
@@ -2114,6 +3036,12 @@ function showMessage(element, message) {
     if (!element) return;
 
     element.textContent = message;
+}
+
+
+function isAdmin() {
+
+    return currentProfile?.is_admin === true;
 }
 
 
@@ -2160,6 +3088,10 @@ function showSection(sectionName) {
 
     if (sectionName === "history") {
         loadHistory();
+    }
+
+    if (sectionName === "profile" && isAdmin()) {
+        loadAdminData();
     }
 }
 
@@ -2481,7 +3413,8 @@ async function loadProfile() {
                     .insert({
                         id: currentUser.id,
                         name,
-                        points: 0
+                        points: 0,
+                        is_admin: false
                     })
                     .select()
                     .single();
@@ -2530,10 +3463,6 @@ function updateProfileUI() {
         .textContent = points;
 
     document
-        .getElementById("homePoints")
-        .textContent = points;
-
-    document
         .getElementById("profilePoints")
         .textContent = points;
 
@@ -2549,6 +3478,18 @@ function updateProfileUI() {
         .getElementById("profileAvatar")
         .textContent =
             name.charAt(0).toUpperCase();
+
+    const adminPanel =
+        document.getElementById("adminPanel");
+
+    if (isAdmin()) {
+
+        adminPanel.classList.remove("hidden");
+
+    } else {
+
+        adminPanel.classList.add("hidden");
+    }
 }
 
 
@@ -2588,12 +3529,6 @@ async function loadLocations() {
         }
 
         locations = data || [];
-
-        /*
-            Depois de carregar os locais,
-            reconstruímos a lista de localidades
-            automaticamente.
-        */
 
         renderLocalityFilters();
 
@@ -2795,30 +3730,19 @@ function renderLocations() {
                     location.localidade
                 );
 
-
-            /*
-                Usa "tipo" como campo principal.
-                Se não existir, tenta "category"
-                para manter compatibilidade
-                com dados antigos.
-            */
-
             const type =
                 normalizeFilterValue(
                     location.tipo ||
                     location.category
                 );
 
-
             const localityMatches =
                 selectedLocalityFilter === "all" ||
                 locality === selectedLocalityFilter;
 
-
             const typeMatches =
                 selectedTypeFilter === "all" ||
                 type === selectedTypeFilter;
-
 
             return (
                 localityMatches &&
@@ -2847,17 +3771,14 @@ function renderLocations() {
                     location.image_url ||
                     "https://images.unsplash.com/photo-1500534623283-312aade485b7?auto=format&fit=crop&w=1200&q=85";
 
-
                 const type =
                     location.tipo ||
                     location.category ||
                     "Local";
 
-
                 const locality =
                     location.localidade ||
                     "";
-
 
                 return `
                     <article class="card">
@@ -3563,6 +4484,1759 @@ function renderHistory() {
 }
 
 
+/* =========================================================
+   ADMIN
+========================================================= */
+
+
+/* =========================
+   ADMIN TABS
+========================= */
+
+document
+    .querySelectorAll("[data-admin-tab]")
+    .forEach(button => {
+
+        button.addEventListener(
+            "click",
+            () => {
+
+                if (!isAdmin()) return;
+
+                document
+                    .querySelectorAll(
+                        "[data-admin-tab]"
+                    )
+                    .forEach(tab =>
+                        tab.classList.remove(
+                            "active"
+                        )
+                    );
+
+                document
+                    .querySelectorAll(
+                        ".admin-view"
+                    )
+                    .forEach(view =>
+                        view.classList.remove(
+                            "active"
+                        )
+                    );
+
+                button.classList.add(
+                    "active"
+                );
+
+                const tab =
+                    button.dataset.adminTab;
+
+                const target =
+                    document.getElementById(
+                        `admin${
+                            tab.charAt(0).toUpperCase() +
+                            tab.slice(1)
+                        }View`
+                    );
+
+                if (target) {
+                    target.classList.add(
+                        "active"
+                    );
+                }
+
+                if (tab === "users") {
+                    loadAdminUsers();
+                }
+
+                if (tab === "stats") {
+                    loadAdminStats();
+                }
+
+            }
+        );
+
+    });
+
+
+/* =========================
+   ADMIN LOAD
+========================= */
+
+async function loadAdminData() {
+
+    if (!isAdmin()) return;
+
+    await Promise.all([
+        loadAdminLocations(),
+        loadAdminRewards(),
+        loadAdminUsers(),
+        loadAdminStats()
+    ]);
+}
+
+
+/* =========================
+   ADMIN LOCATIONS
+========================= */
+
+async function loadAdminLocations() {
+
+    const list =
+        document.getElementById(
+            "adminLocationsList"
+        );
+
+    if (!list) return;
+
+    list.innerHTML =
+        `<div class="empty-state">
+            A carregar locais...
+        </div>`;
+
+    try {
+
+        const {
+            data,
+            error
+        } =
+            await supabaseClient
+                .from("locations")
+                .select("*")
+                .order("created_at", {
+                    ascending: false
+                });
+
+        if (error) {
+            throw error;
+        }
+
+        locations = data || [];
+
+        renderAdminLocations();
+
+        renderLocalityFilters();
+
+        renderLocations();
+
+        document
+            .getElementById(
+                "adminLocationsCount"
+            )
+            .textContent =
+                locations.length;
+
+    } catch (error) {
+
+        console.error(error);
+
+        list.innerHTML =
+            `<div class="empty-state">
+                Não foi possível carregar os locais.
+            </div>`;
+    }
+}
+
+
+function renderAdminLocations() {
+
+    const list =
+        document.getElementById(
+            "adminLocationsList"
+        );
+
+    if (!list) return;
+
+    if (!locations.length) {
+
+        list.innerHTML =
+            `<div class="empty-state">
+                Ainda não existem locais.
+            </div>`;
+
+        return;
+    }
+
+    list.innerHTML =
+        locations
+            .map(location => {
+
+                return `
+                    <div class="admin-item">
+
+                        <div class="admin-item-main">
+
+                            <strong>
+                                ${escapeHTML(
+                                    location.name
+                                )}
+                            </strong>
+
+                            <span>
+                                ${escapeHTML(
+                                    location.localidade ||
+                                    ""
+                                )}
+                                ${
+                                    location.tipo
+                                        ? " · " +
+                                          escapeHTML(
+                                              location.tipo
+                                          )
+                                        : ""
+                                }
+                                · ${Number(
+                                    location.points || 0
+                                )} pts
+                            </span>
+
+                        </div>
+
+                        <div class="admin-item-actions">
+
+                            <button
+                                type="button"
+                                class="admin-small-btn"
+                                onclick="editAdminLocation('${escapeHTML(location.id)}')"
+                            >
+                                Editar
+                            </button>
+
+                            <button
+                                type="button"
+                                class="admin-small-btn danger"
+                                onclick="deleteAdminLocation('${escapeHTML(location.id)}')"
+                            >
+                                Eliminar
+                            </button>
+
+                        </div>
+
+                    </div>
+                `;
+
+            })
+            .join("");
+}
+
+
+/* =========================
+   ADMIN LOCATION FORM
+========================= */
+
+function clearAdminLocationForm() {
+
+    document
+        .getElementById(
+            "adminLocationId"
+        )
+        .value = "";
+
+    document
+        .getElementById(
+            "adminLocationName"
+        )
+        .value = "";
+
+    document
+        .getElementById(
+            "adminLocationLocality"
+        )
+        .value = "";
+
+    document
+        .getElementById(
+            "adminLocationType"
+        )
+        .value = "miradouro";
+
+    document
+        .getElementById(
+            "adminLocationPoints"
+        )
+        .value = "10";
+
+    document
+        .getElementById(
+            "adminLocationDescription"
+        )
+        .value = "";
+
+    document
+        .getElementById(
+            "adminLocationImage"
+        )
+        .value = "";
+
+    document
+        .getElementById(
+            "pexelsSearchQuery"
+        )
+        .value = "";
+
+    document
+        .getElementById(
+            "pexelsResults"
+        )
+        .innerHTML = "";
+
+    document
+        .getElementById(
+            "adminLocationImagePreview"
+        )
+        .classList.add("hidden");
+
+    document
+        .getElementById(
+            "adminLocationImagePreview"
+        )
+        .removeAttribute("src");
+
+    document
+        .getElementById(
+            "adminLocationMessage"
+        )
+        .textContent = "";
+
+    selectedAdminLocationPhoto = null;
+}
+
+
+function editAdminLocation(id) {
+
+    const location =
+        locations.find(
+            item =>
+                String(item.id) ===
+                String(id)
+        );
+
+    if (!location) return;
+
+    document
+        .getElementById(
+            "adminLocationId"
+        )
+        .value = location.id;
+
+    document
+        .getElementById(
+            "adminLocationName"
+        )
+        .value =
+            location.name || "";
+
+    document
+        .getElementById(
+            "adminLocationLocality"
+        )
+        .value =
+            location.localidade || "";
+
+    document
+        .getElementById(
+            "adminLocationType"
+        )
+        .value =
+            normalizeFilterValue(
+                location.tipo ||
+                "miradouro"
+            );
+
+    document
+        .getElementById(
+            "adminLocationPoints"
+        )
+        .value =
+            Number(
+                location.points || 0
+            );
+
+    document
+        .getElementById(
+            "adminLocationDescription"
+        )
+        .value =
+            location.description || "";
+
+    document
+        .getElementById(
+            "adminLocationImage"
+        )
+        .value =
+            location.image_url || "";
+
+    const preview =
+        document.getElementById(
+            "adminLocationImagePreview"
+        );
+
+    if (location.image_url) {
+
+        preview.src =
+            location.image_url;
+
+        preview.classList.remove(
+            "hidden"
+        );
+
+    }
+
+    selectedAdminLocationPhoto = null;
+
+    showMessage(
+        document.getElementById(
+            "adminLocationMessage"
+        ),
+        "A editar este local."
+    );
+
+    document
+        .getElementById(
+            "adminLocationName"
+        )
+        .scrollIntoView({
+            behavior: "smooth",
+            block: "center"
+        });
+}
+
+
+document
+    .getElementById(
+        "cancelLocationEditBtn"
+    )
+    .addEventListener(
+        "click",
+        clearAdminLocationForm
+    );
+
+
+document
+    .getElementById(
+        "saveLocationBtn"
+    )
+    .addEventListener(
+        "click",
+        async () => {
+
+            if (!isAdmin()) return;
+
+            const id =
+                document
+                    .getElementById(
+                        "adminLocationId"
+                    )
+                    .value
+                    .trim();
+
+            const name =
+                document
+                    .getElementById(
+                        "adminLocationName"
+                    )
+                    .value
+                    .trim();
+
+            const localidade =
+                document
+                    .getElementById(
+                        "adminLocationLocality"
+                    )
+                    .value
+                    .trim();
+
+            const tipo =
+                document
+                    .getElementById(
+                        "adminLocationType"
+                    )
+                    .value;
+
+            const points =
+                Number(
+                    document
+                        .getElementById(
+                            "adminLocationPoints"
+                        )
+                        .value || 0
+                );
+
+            const description =
+                document
+                    .getElementById(
+                        "adminLocationDescription"
+                    )
+                    .value
+                    .trim();
+
+            const image_url =
+                document
+                    .getElementById(
+                        "adminLocationImage"
+                    )
+                    .value
+                    .trim();
+
+            const message =
+                document.getElementById(
+                    "adminLocationMessage"
+                );
+
+            if (!name) {
+
+                showMessage(
+                    message,
+                    "Introduz o nome do local."
+                );
+
+                return;
+            }
+
+            if (!localidade) {
+
+                showMessage(
+                    message,
+                    "Introduz a localidade."
+                );
+
+                return;
+            }
+
+            showMessage(
+                message,
+                "A guardar..."
+            );
+
+            try {
+
+                const payload = {
+                    name,
+                    localidade,
+                    tipo,
+                    points,
+                    description,
+                    image_url:
+                        image_url || null
+                };
+
+                let result;
+
+                if (id) {
+
+                    result =
+                        await supabaseClient
+                            .from("locations")
+                            .update(payload)
+                            .eq(
+                                "id",
+                                id
+                            )
+                            .select();
+
+                } else {
+
+                    result =
+                        await supabaseClient
+                            .from("locations")
+                            .insert(payload)
+                            .select();
+                }
+
+                if (result.error) {
+                    throw result.error;
+                }
+
+                showMessage(
+                    message,
+                    "Local guardado com sucesso."
+                );
+
+                clearAdminLocationForm();
+
+                await loadAdminLocations();
+
+            } catch (error) {
+
+                console.error(error);
+
+                showMessage(
+                    message,
+                    error.message ||
+                    "Não foi possível guardar o local."
+                );
+            }
+
+        }
+    );
+
+
+async function deleteAdminLocation(id) {
+
+    if (!isAdmin()) return;
+
+    const confirmed =
+        confirm(
+            "Queres mesmo eliminar este local?"
+        );
+
+    if (!confirmed) return;
+
+    try {
+
+        const {
+            error
+        } =
+            await supabaseClient
+                .from("locations")
+                .delete()
+                .eq(
+                    "id",
+                    id
+                );
+
+        if (error) {
+            throw error;
+        }
+
+        await loadAdminLocations();
+
+    } catch (error) {
+
+        console.error(error);
+
+        alert(
+            error.message ||
+            "Não foi possível eliminar o local."
+        );
+    }
+}
+
+
+/* =========================
+   PEXELS SEARCH
+========================= */
+
+document
+    .getElementById(
+        "searchPexelsBtn"
+    )
+    .addEventListener(
+        "click",
+        searchPexelsPhotos
+    );
+
+
+async function searchPexelsPhotos() {
+
+    if (!isAdmin()) return;
+
+    const queryInput =
+        document.getElementById(
+            "pexelsSearchQuery"
+        );
+
+    const results =
+        document.getElementById(
+            "pexelsResults"
+        );
+
+    const query =
+        queryInput.value.trim();
+
+    if (!query) {
+
+        const name =
+            document
+                .getElementById(
+                    "adminLocationName"
+                )
+                .value
+                .trim();
+
+        const locality =
+            document
+                .getElementById(
+                    "adminLocationLocality"
+                )
+                .value
+                .trim();
+
+        queryInput.value =
+            [name, locality]
+                .filter(Boolean)
+                .join(" ");
+
+    }
+
+    const finalQuery =
+        queryInput.value.trim();
+
+    if (!finalQuery) {
+
+        results.innerHTML =
+            `<div class="empty-state">
+                Introduz um local para pesquisar.
+            </div>`;
+
+        return;
+    }
+
+    if (!PEXELS_FUNCTION_URL) {
+
+        results.innerHTML =
+            `<div class="empty-state">
+                A pesquisa Pexels ainda precisa de uma Supabase Edge Function.
+                <br><br>
+                O painel já está preparado para a integração.
+            </div>`;
+
+        return;
+    }
+
+    results.innerHTML =
+        `<div class="empty-state">
+            A pesquisar fotografias...
+        </div>`;
+
+    try {
+
+        const response =
+            await fetch(
+                `${PEXELS_FUNCTION_URL}?query=${encodeURIComponent(finalQuery)}`
+            );
+
+        if (!response.ok) {
+            throw new Error(
+                "Não foi possível pesquisar fotografias."
+            );
+        }
+
+        const data =
+            await response.json();
+
+        const photos =
+            data.photos || [];
+
+        if (!photos.length) {
+
+            results.innerHTML =
+                `<div class="empty-state">
+                    Não foram encontradas fotografias.
+                </div>`;
+
+            return;
+        }
+
+        results.innerHTML =
+            photos
+                .slice(0, 8)
+                .map(photo => {
+
+                    const image =
+                        photo.src?.medium ||
+                        photo.src?.large ||
+                        photo.src?.original;
+
+                    const original =
+                        photo.src?.original ||
+                        image;
+
+                    const photographer =
+                        photo.photographer ||
+                        "Fotógrafo Pexels";
+
+                    const page =
+                        photo.url ||
+                        "https://www.pexels.com/";
+
+                    return `
+                        <button
+                            type="button"
+                            class="admin-photo-option"
+                            title="${escapeHTML(
+                                photographer
+                            )}"
+                            data-image-url="${escapeHTML(
+                                original
+                            )}"
+                            data-photo-page="${escapeHTML(
+                                page
+                            )}"
+                            data-photographer="${escapeHTML(
+                                photographer
+                            )}"
+                        >
+                            <img
+                                src="${escapeHTML(image)}"
+                                alt="Fotografia Pexels"
+                            >
+                        </button>
+                    `;
+
+                })
+                .join("");
+
+        results
+            .querySelectorAll(
+                ".admin-photo-option"
+            )
+            .forEach(button => {
+
+                button.addEventListener(
+                    "click",
+                    () => {
+
+                        results
+                            .querySelectorAll(
+                                ".admin-photo-option"
+                            )
+                            .forEach(
+                                item =>
+                                    item.classList.remove(
+                                        "selected"
+                                    )
+                            );
+
+                        button.classList.add(
+                            "selected"
+                        );
+
+                        const imageUrl =
+                            button.dataset
+                                .imageUrl;
+
+                        const photoPage =
+                            button.dataset
+                                .photoPage;
+
+                        const photographer =
+                            button.dataset
+                                .photographer;
+
+                        selectedAdminLocationPhoto = {
+                            imageUrl,
+                            photoPage,
+                            photographer
+                        };
+
+                        document
+                            .getElementById(
+                                "adminLocationImage"
+                            )
+                            .value =
+                                imageUrl;
+
+                        const preview =
+                            document.getElementById(
+                                "adminLocationImagePreview"
+                            );
+
+                        preview.src =
+                            imageUrl;
+
+                        preview.classList.remove(
+                            "hidden"
+                        );
+
+                    }
+                );
+
+            });
+
+    } catch (error) {
+
+        console.error(error);
+
+        results.innerHTML =
+            `<div class="empty-state">
+                ${escapeHTML(
+                    error.message ||
+                    "Erro na pesquisa Pexels."
+                )}
+            </div>`;
+    }
+}
+
+
+/* =========================
+   ADMIN REWARDS
+========================= */
+
+async function loadAdminRewards() {
+
+    const list =
+        document.getElementById(
+            "adminRewardsList"
+        );
+
+    if (!list) return;
+
+    list.innerHTML =
+        `<div class="empty-state">
+            A carregar recompensas...
+        </div>`;
+
+    try {
+
+        const {
+            data,
+            error
+        } =
+            await supabaseClient
+                .from("rewards")
+                .select("*")
+                .order("points", {
+                    ascending: true
+                });
+
+        if (error) {
+            throw error;
+        }
+
+        rewards = data || [];
+
+        renderAdminRewards();
+
+        document
+            .getElementById(
+                "adminRewardsCount"
+            )
+            .textContent =
+                rewards.length;
+
+    } catch (error) {
+
+        console.error(error);
+
+        list.innerHTML =
+            `<div class="empty-state">
+                Não foi possível carregar as recompensas.
+            </div>`;
+    }
+}
+
+
+function renderAdminRewards() {
+
+    const list =
+        document.getElementById(
+            "adminRewardsList"
+        );
+
+    if (!list) return;
+
+    if (!rewards.length) {
+
+        list.innerHTML =
+            `<div class="empty-state">
+                Ainda não existem recompensas.
+            </div>`;
+
+        return;
+    }
+
+    list.innerHTML =
+        rewards
+            .map(reward => {
+
+                return `
+                    <div class="admin-item">
+
+                        <div class="admin-item-main">
+
+                            <strong>
+                                ${escapeHTML(
+                                    reward.name
+                                )}
+                            </strong>
+
+                            <span>
+                                ${escapeHTML(
+                                    reward.category ||
+                                    ""
+                                )}
+                                · ${Number(
+                                    reward.points || 0
+                                )} pts
+                            </span>
+
+                        </div>
+
+                        <div class="admin-item-actions">
+
+                            <button
+                                type="button"
+                                class="admin-small-btn"
+                                onclick="editAdminReward('${escapeHTML(reward.id)}')"
+                            >
+                                Editar
+                            </button>
+
+                            <button
+                                type="button"
+                                class="admin-small-btn danger"
+                                onclick="deleteAdminReward('${escapeHTML(reward.id)}')"
+                            >
+                                Eliminar
+                            </button>
+
+                        </div>
+
+                    </div>
+                `;
+
+            })
+            .join("");
+}
+
+
+function clearAdminRewardForm() {
+
+    document
+        .getElementById(
+            "adminRewardId"
+        )
+        .value = "";
+
+    document
+        .getElementById(
+            "adminRewardName"
+        )
+        .value = "";
+
+    document
+        .getElementById(
+            "adminRewardCategory"
+        )
+        .value = "restaurante";
+
+    document
+        .getElementById(
+            "adminRewardPoints"
+        )
+        .value = "100";
+
+    document
+        .getElementById(
+            "adminRewardDescription"
+        )
+        .value = "";
+
+    document
+        .getElementById(
+            "adminRewardImage"
+        )
+        .value = "";
+
+    document
+        .getElementById(
+            "adminRewardMessage"
+        )
+        .textContent = "";
+}
+
+
+function editAdminReward(id) {
+
+    const reward =
+        rewards.find(
+            item =>
+                String(item.id) ===
+                String(id)
+        );
+
+    if (!reward) return;
+
+    document
+        .getElementById(
+            "adminRewardId"
+        )
+        .value = reward.id;
+
+    document
+        .getElementById(
+            "adminRewardName"
+        )
+        .value =
+            reward.name || "";
+
+    document
+        .getElementById(
+            "adminRewardCategory"
+        )
+        .value =
+            reward.category ||
+            "restaurante";
+
+    document
+        .getElementById(
+            "adminRewardPoints"
+        )
+        .value =
+            Number(
+                reward.points || 0
+            );
+
+    document
+        .getElementById(
+            "adminRewardDescription"
+        )
+        .value =
+            reward.description || "";
+
+    document
+        .getElementById(
+            "adminRewardImage"
+        )
+        .value =
+            reward.image_url || "";
+
+    showMessage(
+        document.getElementById(
+            "adminRewardMessage"
+        ),
+        "A editar esta recompensa."
+    );
+}
+
+
+document
+    .getElementById(
+        "cancelRewardEditBtn"
+    )
+    .addEventListener(
+        "click",
+        clearAdminRewardForm
+    );
+
+
+document
+    .getElementById(
+        "saveRewardBtn"
+    )
+    .addEventListener(
+        "click",
+        async () => {
+
+            if (!isAdmin()) return;
+
+            const id =
+                document
+                    .getElementById(
+                        "adminRewardId"
+                    )
+                    .value
+                    .trim();
+
+            const name =
+                document
+                    .getElementById(
+                        "adminRewardName"
+                    )
+                    .value
+                    .trim();
+
+            const category =
+                document
+                    .getElementById(
+                        "adminRewardCategory"
+                    )
+                    .value;
+
+            const points =
+                Number(
+                    document
+                        .getElementById(
+                            "adminRewardPoints"
+                        )
+                        .value || 0
+                );
+
+            const description =
+                document
+                    .getElementById(
+                        "adminRewardDescription"
+                    )
+                    .value
+                    .trim();
+
+            const image_url =
+                document
+                    .getElementById(
+                        "adminRewardImage"
+                    )
+                    .value
+                    .trim();
+
+            const message =
+                document.getElementById(
+                    "adminRewardMessage"
+                );
+
+            if (!name) {
+
+                showMessage(
+                    message,
+                    "Introduz o nome da recompensa."
+                );
+
+                return;
+            }
+
+            showMessage(
+                message,
+                "A guardar..."
+            );
+
+            try {
+
+                const payload = {
+                    name,
+                    category,
+                    points,
+                    description,
+                    image_url:
+                        image_url || null
+                };
+
+                let result;
+
+                if (id) {
+
+                    result =
+                        await supabaseClient
+                            .from("rewards")
+                            .update(payload)
+                            .eq(
+                                "id",
+                                id
+                            )
+                            .select();
+
+                } else {
+
+                    result =
+                        await supabaseClient
+                            .from("rewards")
+                            .insert(payload)
+                            .select();
+                }
+
+                if (result.error) {
+                    throw result.error;
+                }
+
+                showMessage(
+                    message,
+                    "Recompensa guardada com sucesso."
+                );
+
+                clearAdminRewardForm();
+
+                await loadAdminRewards();
+
+                renderRewards();
+
+            } catch (error) {
+
+                console.error(error);
+
+                showMessage(
+                    message,
+                    error.message ||
+                    "Não foi possível guardar a recompensa."
+                );
+            }
+
+        }
+    );
+
+
+async function deleteAdminReward(id) {
+
+    if (!isAdmin()) return;
+
+    const confirmed =
+        confirm(
+            "Queres mesmo eliminar esta recompensa?"
+        );
+
+    if (!confirmed) return;
+
+    try {
+
+        const {
+            error
+        } =
+            await supabaseClient
+                .from("rewards")
+                .delete()
+                .eq(
+                    "id",
+                    id
+                );
+
+        if (error) {
+            throw error;
+        }
+
+        await loadAdminRewards();
+
+        renderRewards();
+
+    } catch (error) {
+
+        console.error(error);
+
+        alert(
+            error.message ||
+            "Não foi possível eliminar a recompensa."
+        );
+    }
+}
+
+
+/* =========================
+   ADMIN USERS
+========================= */
+
+async function loadAdminUsers() {
+
+    const list =
+        document.getElementById(
+            "adminUsersList"
+        );
+
+    if (!list || !isAdmin()) return;
+
+    list.innerHTML =
+        `<div class="empty-state">
+            A carregar utilizadores...
+        </div>`;
+
+    try {
+
+        const {
+            data,
+            error
+        } =
+            await supabaseClient
+                .from("profiles")
+                .select("*")
+                .order("name", {
+                    ascending: true
+                });
+
+        if (error) {
+            throw error;
+        }
+
+        adminUsers = data || [];
+
+        renderAdminUsers();
+
+        document
+            .getElementById(
+                "adminUsersCount"
+            )
+            .textContent =
+                adminUsers.length;
+
+    } catch (error) {
+
+        console.error(error);
+
+        list.innerHTML =
+            `<div class="empty-state">
+                Não foi possível carregar os utilizadores.
+            </div>`;
+    }
+}
+
+
+function renderAdminUsers() {
+
+    const list =
+        document.getElementById(
+            "adminUsersList"
+        );
+
+    if (!list) return;
+
+    const search =
+        normalizeFilterValue(
+            document
+                .getElementById(
+                    "adminUserSearch"
+                )
+                .value
+        );
+
+    const filtered =
+        adminUsers.filter(user => {
+
+            const name =
+                normalizeFilterValue(
+                    user.name
+                );
+
+            const id =
+                normalizeFilterValue(
+                    user.id
+                );
+
+            return (
+                !search ||
+                name.includes(search) ||
+                id.includes(search)
+            );
+
+        });
+
+
+    if (!filtered.length) {
+
+        list.innerHTML =
+            `<div class="empty-state">
+                Não existem utilizadores para mostrar.
+            </div>`;
+
+        return;
+    }
+
+
+    list.innerHTML =
+        filtered
+            .map(user => {
+
+                const isCurrent =
+                    String(user.id) ===
+                    String(currentUser?.id);
+
+                return `
+                    <div class="admin-item">
+
+                        <div class="admin-item-main">
+
+                            <strong>
+                                ${escapeHTML(
+                                    user.name ||
+                                    "Motard"
+                                )}
+                            </strong>
+
+                            <span>
+                                ${Number(
+                                    user.points || 0
+                                )} pts
+                                ${
+                                    user.is_admin
+                                        ? " · ADMIN"
+                                        : ""
+                                }
+                                ${
+                                    isCurrent
+                                        ? " · TU"
+                                        : ""
+                                }
+                            </span>
+
+                        </div>
+
+                        <div class="admin-item-actions">
+
+                            <button
+                                type="button"
+                                class="admin-small-btn"
+                                onclick="editAdminUser('${escapeHTML(user.id)}')"
+                            >
+                                Editar
+                            </button>
+
+                        </div>
+
+                    </div>
+                `;
+
+            })
+            .join("");
+}
+
+
+document
+    .getElementById(
+        "adminUserSearch"
+    )
+    .addEventListener(
+        "input",
+        renderAdminUsers
+    );
+
+
+function editAdminUser(id) {
+
+    const user =
+        adminUsers.find(
+            item =>
+                String(item.id) ===
+                String(id)
+        );
+
+    if (!user) return;
+
+    const name =
+        prompt(
+            "Nome do utilizador:",
+            user.name || ""
+        );
+
+    if (
+        name === null
+    ) {
+        return;
+    }
+
+    const points =
+        prompt(
+            "Pontos do utilizador:",
+            String(
+                Number(
+                    user.points || 0
+                )
+            )
+        );
+
+    if (
+        points === null
+    ) {
+        return;
+    }
+
+    const numericPoints =
+        Number(points);
+
+    if (
+        !Number.isFinite(
+            numericPoints
+        ) ||
+        numericPoints < 0
+    ) {
+
+        alert(
+            "Introduz um número de pontos válido."
+        );
+
+        return;
+    }
+
+    updateAdminUser(
+        id,
+        name.trim(),
+        numericPoints
+    );
+}
+
+
+async function updateAdminUser(
+    id,
+    name,
+    points
+) {
+
+    if (!isAdmin()) return;
+
+    try {
+
+        const {
+            data,
+            error
+        } =
+            await supabaseClient
+                .from("profiles")
+                .update({
+                    name,
+                    points
+                })
+                .eq(
+                    "id",
+                    id
+                )
+                .select()
+                .single();
+
+        if (error) {
+            throw error;
+        }
+
+        if (
+            String(id) ===
+            String(currentUser?.id)
+        ) {
+
+            currentProfile = data;
+
+            updateProfileUI();
+        }
+
+        await loadAdminUsers();
+
+    } catch (error) {
+
+        console.error(error);
+
+        alert(
+            error.message ||
+            "Não foi possível atualizar o utilizador."
+        );
+    }
+}
+
+
+/* =========================
+   ADMIN STATS
+========================= */
+
+async function loadAdminStats() {
+
+    if (!isAdmin()) return;
+
+    try {
+
+        const [
+            usersResult,
+            locationsResult,
+            rewardsResult,
+            visitsResult
+        ] =
+            await Promise.all([
+                supabaseClient
+                    .from("profiles")
+                    .select("id", {
+                        count: "exact",
+                        head: true
+                    }),
+
+                supabaseClient
+                    .from("locations")
+                    .select("id", {
+                        count: "exact",
+                        head: true
+                    }),
+
+                supabaseClient
+                    .from("rewards")
+                    .select("id", {
+                        count: "exact",
+                        head: true
+                    }),
+
+                supabaseClient
+                    .from("visits")
+                    .select("id", {
+                        count: "exact",
+                        head: true
+                    })
+            ]);
+
+
+        if (usersResult.error) {
+            throw usersResult.error;
+        }
+
+        if (locationsResult.error) {
+            throw locationsResult.error;
+        }
+
+        if (rewardsResult.error) {
+            throw rewardsResult.error;
+        }
+
+        if (visitsResult.error) {
+            throw visitsResult.error;
+        }
+
+
+        const users =
+            usersResult.count || 0;
+
+        const locationCount =
+            locationsResult.count || 0;
+
+        const rewardCount =
+            rewardsResult.count || 0;
+
+        const visitCount =
+            visitsResult.count || 0;
+
+
+        document
+            .getElementById(
+                "adminUsersCount"
+            )
+            .textContent =
+                users;
+
+        document
+            .getElementById(
+                "adminLocationsCount"
+            )
+            .textContent =
+                locationCount;
+
+        document
+            .getElementById(
+                "adminRewardsCount"
+            )
+            .textContent =
+                rewardCount;
+
+        document
+            .getElementById(
+                "adminVisitsCount"
+            )
+            .textContent =
+                visitCount;
+
+
+        document
+            .getElementById(
+                "adminStatsText"
+            )
+            .innerHTML =
+                `
+                    O MotoQuest tem atualmente
+                    <strong style="color:#f5f5f5">
+                        ${users}
+                    </strong>
+                    utilizadores,
+                    <strong style="color:#f5f5f5">
+                        ${locationCount}
+                    </strong>
+                    locais,
+                    <strong style="color:#f5f5f5">
+                        ${rewardCount}
+                    </strong>
+                    recompensas e
+                    <strong style="color:#f5f5f5">
+                        ${visitCount}
+                    </strong>
+                    check-ins registados.
+                `;
+
+    } catch (error) {
+
+        console.error(error);
+
+        document
+            .getElementById(
+                "adminStatsText"
+            )
+            .textContent =
+                "Não foi possível carregar as estatísticas.";
+    }
+}
+
+
 /* =========================
    SUGGESTION
 ========================= */
@@ -3747,11 +6421,6 @@ document
 
     });
 
-
-/*
-    MOTOQUEST no topo
-    -> volta sempre ao Início
-*/
 
 document
     .getElementById("brandHomeBtn")
