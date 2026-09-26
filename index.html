@@ -1500,17 +1500,24 @@ function showActionMessage(
 
 function formatDistance(distance) {
 
-    if (distance < 1000) {
+    const meters =
+        Number(distance);
+
+    if (!Number.isFinite(meters)) {
+        return "distância desconhecida";
+    }
+
+    if (meters < 1000) {
 
         return (
-            Math.round(distance) +
+            Math.round(meters) +
             " metros"
         );
 
     }
 
     return (
-        (distance / 1000)
+        (meters / 1000)
             .toFixed(1)
             .replace(".", ",") +
         " km"
@@ -1616,16 +1623,40 @@ async function validateChallenge(
 
         async function(position) {
 
+            const userLatitude =
+                Number(
+                    position.coords.latitude
+                );
+
+            const userLongitude =
+                Number(
+                    position.coords.longitude
+                );
+
+            const targetLatitude =
+                Number(latitude);
+
+            const targetLongitude =
+                Number(longitude);
+
+
             const distance =
                 calculateDistance(
-                    position.coords.latitude,
-                    position.coords.longitude,
-                    latitude,
-                    longitude
+                    userLatitude,
+                    userLongitude,
+                    targetLatitude,
+                    targetLongitude
                 );
 
 
-            if (distance > radius) {
+            console.log(
+                "Distância:",
+                distance,
+                "metros"
+            );
+
+
+            if (distance > Number(radius)) {
 
                 showActionMessage(
                     messageId,
