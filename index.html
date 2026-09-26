@@ -2,13 +2,17 @@
 <html lang="pt-PT">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#070707">
-    <title>MotoQuest</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#080808">
+    <title>MotoQuest — Explora. Conquista. Desfruta.</title>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
     <style>
+        /* =========================================================
+           MOTOQUEST 2026
+        ========================================================= */
+
         * {
             box-sizing: border-box;
             margin: 0;
@@ -16,36 +20,101 @@
         }
 
         :root {
-            --orange: #ff6a00;
-            --orange-light: #ff8a33;
-            --black: #070707;
-            --dark: #101010;
-            --card: rgba(255,255,255,.055);
+            --orange: #ff6500;
+            --orange-2: #ff8a2a;
+            --orange-soft: #ffb36f;
+
+            --bg: #050505;
+            --bg-2: #0a0a0a;
+            --surface: rgba(255,255,255,.055);
+            --surface-2: rgba(255,255,255,.075);
+            --surface-3: rgba(255,255,255,.095);
+
             --border: rgba(255,255,255,.10);
-            --text: #fff;
-            --muted: #a9a9a9;
-            --success: #45d483;
-            --danger: #ff4d4d;
+            --border-light: rgba(255,255,255,.16);
+
+            --text: #ffffff;
+            --text-2: #d0d0d0;
+            --muted: #888;
+            --muted-2: #666;
+
+            --green: #42e58b;
+            --red: #ff5252;
+
+            --radius-sm: 12px;
+            --radius: 20px;
+            --radius-lg: 28px;
+
+            --shadow: 0 25px 70px rgba(0,0,0,.40);
         }
 
         html {
             scroll-behavior: smooth;
+            background: var(--bg);
         }
 
         body {
-            font-family: Arial, Helvetica, sans-serif;
-            background:
-                radial-gradient(circle at top right, rgba(255,106,0,.14), transparent 30%),
-                radial-gradient(circle at bottom left, rgba(255,106,0,.08), transparent 30%),
-                var(--black);
-            color: var(--text);
             min-height: 100vh;
+            color: var(--text);
+            font-family:
+                Inter,
+                ui-sans-serif,
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                Arial,
+                sans-serif;
+
+            background:
+                radial-gradient(
+                    circle at 90% -10%,
+                    rgba(255,101,0,.22),
+                    transparent 30%
+                ),
+                radial-gradient(
+                    circle at -10% 45%,
+                    rgba(255,101,0,.08),
+                    transparent 28%
+                ),
+                linear-gradient(
+                    180deg,
+                    #080808 0%,
+                    #050505 55%,
+                    #090909 100%
+                );
+
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            opacity: .22;
+            background-image:
+                linear-gradient(
+                    rgba(255,255,255,.018) 1px,
+                    transparent 1px
+                ),
+                linear-gradient(
+                    90deg,
+                    rgba(255,255,255,.018) 1px,
+                    transparent 1px
+                );
+            background-size: 42px 42px;
+            mask-image: linear-gradient(
+                to bottom,
+                black,
+                transparent 90%
+            );
+            z-index: -1;
         }
 
         button,
         input,
-        textarea,
-        select {
+        select,
+        textarea {
             font: inherit;
         }
 
@@ -54,185 +123,380 @@
             -webkit-tap-highlight-color: transparent;
         }
 
-        button:disabled {
-            opacity: .5;
-            cursor: not-allowed;
-            transform: none !important;
+        button {
+            cursor: pointer;
+        }
+
+        a {
+            color: inherit;
         }
 
         .hidden {
             display: none !important;
         }
 
-        .app {
-            min-height: 100vh;
-            padding-bottom: 90px;
+        /* =========================================================
+           SCROLLBAR
+        ========================================================= */
+
+        ::-webkit-scrollbar {
+            width: 7px;
         }
 
-        /* =====================================================
+        ::-webkit-scrollbar-track {
+            background: #070707;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #292929;
+            border-radius: 99px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--orange);
+        }
+
+        /* =========================================================
            AUTH
-        ===================================================== */
+        ========================================================= */
 
         .auth-screen {
             min-height: 100vh;
+            min-height: 100svh;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 20px;
+            padding: 24px;
+            position: relative;
+            overflow: hidden;
         }
 
-        .auth-card {
+        .auth-screen::before {
+            content: "";
+            position: absolute;
+            width: 520px;
+            height: 520px;
+            border-radius: 50%;
+            background: rgba(255,101,0,.15);
+            filter: blur(110px);
+            top: -220px;
+            right: -160px;
+            pointer-events: none;
+        }
+
+        .auth-screen::after {
+            content: "";
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            border-radius: 50%;
+            background: rgba(255,101,0,.08);
+            filter: blur(100px);
+            bottom: -230px;
+            left: -180px;
+            pointer-events: none;
+        }
+
+        .auth-wrap {
             width: 100%;
-            max-width: 440px;
-            padding: 32px;
-            background: rgba(255,255,255,.055);
+            max-width: 1080px;
+            display: grid;
+            grid-template-columns: 1.05fr .75fr;
+            gap: 30px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .auth-showcase {
+            min-height: 620px;
+            padding: 42px;
             border: 1px solid var(--border);
-            border-radius: 26px;
-            backdrop-filter: blur(18px);
-            -webkit-backdrop-filter: blur(18px);
-            box-shadow: 0 25px 80px rgba(0,0,0,.45);
+            border-radius: 34px;
+            position: relative;
+            overflow: hidden;
+
+            background:
+                radial-gradient(
+                    circle at 80% 20%,
+                    rgba(255,101,0,.25),
+                    transparent 35%
+                ),
+                linear-gradient(
+                    145deg,
+                    rgba(255,101,0,.14),
+                    rgba(255,255,255,.025) 55%,
+                    rgba(255,255,255,.015)
+                );
+
+            box-shadow: var(--shadow);
+            backdrop-filter: blur(22px);
         }
 
-        .logo {
-            font-size: 34px;
-            font-weight: 900;
-            letter-spacing: -1.5px;
-            margin-bottom: 8px;
+        .auth-showcase::after {
+            content: "MQ";
+            position: absolute;
+            right: -25px;
+            bottom: -90px;
+            font-size: 300px;
+            line-height: 1;
+            font-weight: 1000;
+            letter-spacing: -35px;
+            color: rgba(255,255,255,.025);
+            pointer-events: none;
         }
 
-        .logo span {
+        .mini-brand {
+            font-size: 24px;
+            font-weight: 950;
+            letter-spacing: -1px;
+        }
+
+        .mini-brand span {
             color: var(--orange);
         }
 
-        .tagline {
+        .showcase-content {
+            position: absolute;
+            left: 42px;
+            right: 42px;
+            bottom: 42px;
+        }
+
+        .showcase-kicker {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            border: 1px solid rgba(255,101,0,.28);
+            background: rgba(255,101,0,.09);
+            color: var(--orange-soft);
+            padding: 8px 12px;
+            border-radius: 99px;
+            font-size: 12px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: .9px;
+            margin-bottom: 20px;
+        }
+
+        .showcase-title {
+            font-size: clamp(48px, 6vw, 78px);
+            line-height: .88;
+            letter-spacing: -5px;
+            font-weight: 1000;
+            max-width: 620px;
+        }
+
+        .showcase-title span {
+            color: var(--orange);
+        }
+
+        .showcase-text {
+            max-width: 520px;
+            color: var(--text-2);
+            line-height: 1.65;
+            margin-top: 22px;
+            font-size: 15px;
+        }
+
+        .auth-card {
+            align-self: center;
+            padding: 30px;
+            border: 1px solid var(--border);
+            border-radius: 28px;
+            background: rgba(13,13,13,.82);
+            backdrop-filter: blur(24px);
+            box-shadow: var(--shadow);
+        }
+
+        .auth-logo {
+            font-size: 35px;
+            font-weight: 1000;
+            letter-spacing: -2px;
+        }
+
+        .auth-logo span {
+            color: var(--orange);
+        }
+
+        .auth-subtitle {
             color: var(--muted);
-            margin-bottom: 28px;
+            margin-top: 6px;
+            margin-bottom: 26px;
+            line-height: 1.5;
         }
 
         .auth-tabs {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 8px;
-            margin-bottom: 20px;
+            gap: 6px;
+            padding: 5px;
+            border-radius: 14px;
+            background: rgba(255,255,255,.045);
+            border: 1px solid var(--border);
+            margin-bottom: 22px;
         }
 
         .auth-tab {
-            border: 1px solid var(--border);
-            background: transparent;
+            border: 0;
             color: var(--muted);
-            padding: 12px;
-            border-radius: 12px;
-            cursor: pointer;
-            transition: .2s;
+            background: transparent;
+            padding: 11px;
+            border-radius: 10px;
+            font-weight: 700;
         }
 
         .auth-tab.active {
-            color: #fff;
-            background: rgba(255,106,0,.15);
-            border-color: rgba(255,106,0,.45);
+            color: white;
+            background: linear-gradient(
+                135deg,
+                rgba(255,101,0,.25),
+                rgba(255,101,0,.08)
+            );
+            box-shadow: inset 0 0 0 1px rgba(255,101,0,.18);
         }
 
-        /* =====================================================
+        /* =========================================================
            FORMS
-        ===================================================== */
+        ========================================================= */
 
         .form-group {
-            margin-bottom: 15px;
+            margin-bottom: 16px;
         }
 
         label {
             display: block;
-            margin-bottom: 7px;
-            color: #ddd;
-            font-size: 14px;
+            color: #cfcfcf;
+            font-size: 12px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            letter-spacing: .2px;
         }
 
         input,
-        textarea,
-        select {
+        select,
+        textarea {
             width: 100%;
+            color: white;
+            background: rgba(255,255,255,.045);
             border: 1px solid var(--border);
-            border-radius: 13px;
-            background: rgba(255,255,255,.055);
-            color: #fff;
-            padding: 13px 14px;
+            border-radius: 14px;
             outline: none;
-            transition: .2s;
+            padding: 14px 15px;
+            transition: .2s ease;
         }
 
         input::placeholder,
         textarea::placeholder {
-            color: #6f6f6f;
+            color: #5f5f5f;
         }
 
         input:focus,
-        textarea:focus,
-        select:focus {
-            border-color: rgba(255,106,0,.65);
-            box-shadow: 0 0 0 3px rgba(255,106,0,.08);
+        select:focus,
+        textarea:focus {
+            border-color: rgba(255,101,0,.60);
+            background: rgba(255,255,255,.065);
+            box-shadow: 0 0 0 4px rgba(255,101,0,.08);
         }
 
         select option {
-            background: #161616;
+            background: #151515;
             color: white;
         }
 
         textarea {
-            min-height: 100px;
+            min-height: 110px;
             resize: vertical;
         }
+
+        /* =========================================================
+           BUTTONS
+        ========================================================= */
 
         .btn {
             display: inline-flex;
             align-items: center;
             justify-content: center;
             gap: 8px;
-            border: 0;
-            border-radius: 13px;
-            padding: 13px 16px;
-            cursor: pointer;
+            border-radius: 14px;
+            border: 1px solid transparent;
+            padding: 13px 17px;
             text-decoration: none;
-            transition: .2s;
-            font-weight: 700;
+            font-size: 14px;
+            font-weight: 800;
+            transition:
+                transform .18s ease,
+                background .18s ease,
+                border-color .18s ease,
+                box-shadow .18s ease;
         }
 
         .btn:hover {
-            transform: translateY(-1px);
+            transform: translateY(-2px);
+        }
+
+        .btn:active {
+            transform: translateY(0);
         }
 
         .btn-primary {
-            width: 100%;
-            background: linear-gradient(135deg, var(--orange), var(--orange-light));
-            color: #fff;
-            box-shadow: 0 8px 25px rgba(255,106,0,.14);
+            color: white;
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--orange),
+                    var(--orange-2)
+                );
+            box-shadow:
+                0 10px 28px rgba(255,101,0,.20),
+                inset 0 1px 0 rgba(255,255,255,.18);
+        }
+
+        .btn-primary:hover {
+            box-shadow:
+                0 14px 34px rgba(255,101,0,.28),
+                inset 0 1px 0 rgba(255,255,255,.18);
         }
 
         .btn-secondary {
-            background: rgba(255,255,255,.07);
-            border: 1px solid var(--border);
-            color: #fff;
+            color: white;
+            border-color: var(--border);
+            background: rgba(255,255,255,.055);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255,255,255,.09);
+            border-color: var(--border-light);
         }
 
         .btn-danger {
-            background: rgba(255,77,77,.12);
-            border: 1px solid rgba(255,77,77,.25);
-            color: #ff7777;
+            color: #ff8b8b;
+            background: rgba(255,70,70,.08);
+            border-color: rgba(255,70,70,.20);
         }
 
         .btn-location {
             width: 100%;
-            margin-top: 8px;
-            background: rgba(255,106,0,.10);
-            border: 1px solid rgba(255,106,0,.30);
-            color: #ff9b58;
+            color: var(--orange-soft);
+            background: rgba(255,101,0,.08);
+            border-color: rgba(255,101,0,.24);
         }
 
+        .btn[disabled] {
+            cursor: not-allowed;
+            opacity: .45;
+            transform: none;
+        }
+
+        /* =========================================================
+           MESSAGES
+        ========================================================= */
+
         .message {
-            margin-top: 14px;
-            padding: 12px;
-            border-radius: 12px;
             display: none;
-            font-size: 14px;
+            margin-top: 14px;
+            padding: 12px 14px;
+            border-radius: 13px;
+            font-size: 13px;
             line-height: 1.45;
         }
 
@@ -240,36 +504,44 @@
             display: block;
         }
 
-        .message.error {
-            background: rgba(255,77,77,.10);
-            border: 1px solid rgba(255,77,77,.25);
-            color: #ff8b8b;
-        }
-
         .message.success {
-            background: rgba(69,212,131,.10);
-            border: 1px solid rgba(69,212,131,.25);
-            color: #76e7a4;
+            color: #7bf0ae;
+            border: 1px solid rgba(66,229,139,.20);
+            background: rgba(66,229,139,.07);
         }
 
-        /* =====================================================
-           HEADER
-        ===================================================== */
+        .message.error {
+            color: #ff9191;
+            border: 1px solid rgba(255,82,82,.20);
+            background: rgba(255,82,82,.07);
+        }
+
+        /* =========================================================
+           APP
+        ========================================================= */
+
+        .app {
+            min-height: 100vh;
+            padding-bottom: 105px;
+        }
+
+        /* =========================================================
+           TOPBAR
+        ========================================================= */
 
         .topbar {
             position: sticky;
             top: 0;
-            z-index: 20;
-            padding: 18px 20px;
-            background: rgba(7,7,7,.82);
-            backdrop-filter: blur(18px);
-            -webkit-backdrop-filter: blur(18px);
-            border-bottom: 1px solid rgba(255,255,255,.06);
+            z-index: 50;
+            border-bottom: 1px solid rgba(255,255,255,.055);
+            background: rgba(5,5,5,.72);
+            backdrop-filter: blur(22px);
         }
 
         .topbar-inner {
-            max-width: 1100px;
+            max-width: 1180px;
             margin: auto;
+            padding: 15px 22px;
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -277,117 +549,428 @@
         }
 
         .brand {
-            font-size: 23px;
-            font-weight: 900;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 22px;
+            font-weight: 1000;
+            letter-spacing: -1px;
+        }
+
+        .brand-mark {
+            width: 35px;
+            height: 35px;
+            display: grid;
+            place-items: center;
+            border-radius: 11px;
+            color: white;
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--orange),
+                    #ff8b2f
+                );
+            box-shadow: 0 8px 22px rgba(255,101,0,.24);
+            font-size: 17px;
         }
 
         .brand span {
             color: var(--orange);
         }
 
-        .points-badge {
-            padding: 9px 13px;
-            border-radius: 999px;
-            background: rgba(255,106,0,.12);
-            border: 1px solid rgba(255,106,0,.25);
-            color: #ff9c59;
-            font-weight: 800;
-            white-space: nowrap;
+        .topbar-right {
+            display: flex;
+            align-items: center;
+            gap: 9px;
         }
 
-        /* =====================================================
+        .points-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            padding: 9px 13px;
+            border-radius: 99px;
+            border: 1px solid rgba(255,101,0,.24);
+            background: rgba(255,101,0,.09);
+            color: #ffae76;
+            font-size: 12px;
+            font-weight: 900;
+        }
+
+        .profile-mini {
+            width: 38px;
+            height: 38px;
+            display: grid;
+            place-items: center;
+            border: 1px solid var(--border);
+            border-radius: 50%;
+            background: rgba(255,255,255,.055);
+            font-size: 17px;
+        }
+
+        /* =========================================================
            CONTENT
-        ===================================================== */
+        ========================================================= */
 
         .content {
-            max-width: 1100px;
-            margin: auto;
-            padding: 22px 18px 30px;
+            width: min(1180px, calc(100% - 34px));
+            margin: 0 auto;
+            padding: 28px 0 35px;
         }
 
+        .section {
+            animation: sectionIn .35s ease;
+        }
+
+        @keyframes sectionIn {
+            from {
+                opacity: 0;
+                transform: translateY(8px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* =========================================================
+           HERO
+        ========================================================= */
+
         .hero {
-            padding: 25px;
-            border-radius: 25px;
-            background:
-                linear-gradient(135deg, rgba(255,106,0,.17), rgba(255,255,255,.035)),
-                rgba(255,255,255,.035);
+            min-height: 405px;
+            padding: 38px;
+            position: relative;
+            overflow: hidden;
             border: 1px solid var(--border);
-            margin-bottom: 22px;
-            box-shadow: 0 20px 55px rgba(0,0,0,.18);
+            border-radius: 32px;
+
+            background:
+                radial-gradient(
+                    circle at 88% 18%,
+                    rgba(255,101,0,.24),
+                    transparent 30%
+                ),
+                radial-gradient(
+                    circle at 65% 85%,
+                    rgba(255,101,0,.09),
+                    transparent 30%
+                ),
+                linear-gradient(
+                    135deg,
+                    rgba(255,101,0,.11),
+                    rgba(255,255,255,.035) 48%,
+                    rgba(255,255,255,.015)
+                );
+
+            box-shadow: var(--shadow);
+        }
+
+        .hero::before {
+            content: "";
+            position: absolute;
+            width: 430px;
+            height: 430px;
+            border: 1px solid rgba(255,101,0,.10);
+            border-radius: 50%;
+            right: -170px;
+            top: -140px;
+        }
+
+        .hero::after {
+            content: "";
+            position: absolute;
+            width: 290px;
+            height: 290px;
+            border: 1px solid rgba(255,255,255,.06);
+            border-radius: 50%;
+            right: -105px;
+            top: -70px;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 680px;
+        }
+
+        .eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 18px;
+            padding: 8px 12px;
+            border: 1px solid rgba(255,101,0,.25);
+            border-radius: 99px;
+            background: rgba(255,101,0,.08);
+            color: #ffae76;
+            font-size: 11px;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .pulse-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: var(--orange);
+            box-shadow: 0 0 0 5px rgba(255,101,0,.10);
         }
 
         .hero h1 {
-            font-size: clamp(28px, 6vw, 48px);
-            line-height: 1;
-            margin-bottom: 12px;
+            font-size: clamp(44px, 7vw, 78px);
+            line-height: .90;
+            letter-spacing: -5px;
+            font-weight: 1000;
+            max-width: 730px;
         }
 
         .hero h1 span {
             color: var(--orange);
         }
 
-        .hero p {
-            color: var(--muted);
-            line-height: 1.6;
+        .hero-description {
+            max-width: 590px;
+            margin-top: 22px;
+            color: #b5b5b5;
+            line-height: 1.65;
+            font-size: 15px;
         }
 
-        .section-title {
-            font-size: 22px;
-            margin: 22px 0 13px;
+        .hero-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 25px;
         }
 
-        .section-subtitle {
-            color: var(--muted);
-            font-size: 14px;
-            margin-top: -8px;
-            margin-bottom: 15px;
-            line-height: 1.5;
+        .hero-metric {
+            position: absolute;
+            right: 38px;
+            bottom: 38px;
+            z-index: 3;
+            min-width: 145px;
+            padding: 16px;
+            border: 1px solid var(--border-light);
+            border-radius: 18px;
+            background: rgba(0,0,0,.30);
+            backdrop-filter: blur(16px);
         }
 
-        /* =====================================================
+        .hero-metric-label {
+            color: #777;
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 800;
+        }
+
+        .hero-metric-value {
+            margin-top: 5px;
+            font-size: 24px;
+            font-weight: 1000;
+        }
+
+        /* =========================================================
            STATS
-        ===================================================== */
+        ========================================================= */
 
         .stats {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 12px;
-            margin-bottom: 22px;
+            gap: 13px;
+            margin-top: 14px;
         }
 
         .stat {
-            padding: 17px;
-            border-radius: 18px;
-            background: var(--card);
+            min-height: 115px;
+            padding: 19px;
             border: 1px solid var(--border);
+            border-radius: 20px;
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(255,255,255,.065),
+                    rgba(255,255,255,.025)
+                );
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat::after {
+            content: "";
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: rgba(255,101,0,.10);
+            filter: blur(30px);
+            right: -30px;
+            bottom: -30px;
+        }
+
+        .stat-icon {
+            font-size: 18px;
+            margin-bottom: 13px;
         }
 
         .stat-value {
-            font-size: 26px;
-            font-weight: 900;
-            margin-bottom: 4px;
+            font-size: 29px;
+            font-weight: 1000;
+            letter-spacing: -1px;
         }
 
         .stat-label {
-            color: var(--muted);
-            font-size: 13px;
+            margin-top: 3px;
+            color: #777;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: .8px;
         }
 
-        /* =====================================================
-           FILTERS
-        ===================================================== */
+        /* =========================================================
+           SECTION HEADERS
+        ========================================================= */
 
-        .filters {
+        .section-heading {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            gap: 15px;
+            margin: 34px 0 15px;
+        }
+
+        .section-heading h2 {
+            font-size: 25px;
+            letter-spacing: -1px;
+        }
+
+        .section-heading p {
+            color: #707070;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+
+        .section-title {
+            font-size: 26px;
+            letter-spacing: -1px;
+            margin: 6px 0 7px;
+        }
+
+        .section-subtitle {
+            color: #777;
+            font-size: 13px;
+            line-height: 1.5;
+            margin-bottom: 20px;
+        }
+
+        /* =========================================================
+           QUICK ACTIONS
+        ========================================================= */
+
+        .quick-grid {
             display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 13px;
+        }
+
+        .quick-card {
+            position: relative;
+            min-height: 150px;
+            overflow: hidden;
+            padding: 22px;
+            border: 1px solid var(--border);
+            border-radius: 22px;
+            background: rgba(255,255,255,.04);
+            transition: .2s ease;
+            cursor: pointer;
+        }
+
+        .quick-card:hover {
+            transform: translateY(-3px);
+            border-color: rgba(255,101,0,.24);
+            background: rgba(255,255,255,.055);
+        }
+
+        .quick-card::after {
+            content: "";
+            position: absolute;
+            width: 130px;
+            height: 130px;
+            border-radius: 50%;
+            right: -55px;
+            bottom: -70px;
+            background: rgba(255,101,0,.16);
+            filter: blur(35px);
+        }
+
+        .quick-icon {
+            width: 43px;
+            height: 43px;
+            display: grid;
+            place-items: center;
+            border-radius: 14px;
+            background: rgba(255,101,0,.11);
+            border: 1px solid rgba(255,101,0,.18);
+            margin-bottom: 17px;
+            font-size: 19px;
+        }
+
+        .quick-card h3 {
+            font-size: 17px;
+            margin-bottom: 6px;
+        }
+
+        .quick-card p {
+            color: #777;
+            font-size: 12px;
+            line-height: 1.5;
+            max-width: 300px;
+        }
+
+        .quick-arrow {
+            position: absolute;
+            right: 18px;
+            top: 18px;
+            color: #666;
+        }
+
+        /* =========================================================
+           FILTERS
+        ========================================================= */
+
+        .filters-panel {
+            padding: 16px;
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            background: rgba(255,255,255,.035);
+            margin-bottom: 17px;
+        }
+
+        .filter-row {
+            display: grid;
+            grid-template-columns: 240px 1fr;
             gap: 12px;
-            margin-bottom: 18px;
+            align-items: end;
+        }
+
+        .filter-label {
+            color: #777;
+            font-size: 10px;
+            text-transform: uppercase;
+            font-weight: 900;
+            letter-spacing: .9px;
+            margin-bottom: 7px;
         }
 
         .category-buttons {
             display: flex;
-            gap: 8px;
+            gap: 7px;
             overflow-x: auto;
-            padding-bottom: 3px;
+            padding-bottom: 2px;
             scrollbar-width: none;
         }
 
@@ -398,193 +981,506 @@
         .category-btn {
             flex: 0 0 auto;
             border: 1px solid var(--border);
-            background: rgba(255,255,255,.045);
-            color: #bbb;
-            padding: 10px 14px;
-            border-radius: 999px;
-            cursor: pointer;
-            transition: .2s;
+            background: rgba(255,255,255,.035);
+            color: #777;
+            padding: 9px 13px;
+            border-radius: 99px;
+            font-size: 12px;
+            font-weight: 800;
+            transition: .18s ease;
+        }
+
+        .category-btn:hover {
+            color: white;
         }
 
         .category-btn.active {
-            background: rgba(255,106,0,.16);
-            border-color: rgba(255,106,0,.4);
-            color: #fff;
+            color: white;
+            border-color: rgba(255,101,0,.36);
+            background: rgba(255,101,0,.13);
         }
 
-        /* =====================================================
-           CARDS
-        ===================================================== */
+        /* =========================================================
+           LOCATION CARDS
+        ========================================================= */
 
         .grid {
             display: grid;
-            grid-template-columns: repeat(2, minmax(0,1fr));
-            gap: 15px;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 14px;
         }
 
-        .card {
-            background: rgba(255,255,255,.045);
+        .location-card {
+            min-height: 290px;
+            position: relative;
+            overflow: hidden;
+            padding: 20px;
             border: 1px solid var(--border);
-            border-radius: 21px;
-            padding: 18px;
-            box-shadow: 0 15px 40px rgba(0,0,0,.18);
+            border-radius: 23px;
+
+            background:
+                radial-gradient(
+                    circle at 90% 0%,
+                    rgba(255,101,0,.12),
+                    transparent 30%
+                ),
+                rgba(255,255,255,.035);
+
+            box-shadow: 0 15px 45px rgba(0,0,0,.20);
+            transition: .22s ease;
         }
 
-        .card-top {
+        .location-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(255,101,0,.25);
+            box-shadow: 0 22px 60px rgba(0,0,0,.28);
+        }
+
+        .location-number {
+            position: absolute;
+            right: 18px;
+            top: 15px;
+            color: rgba(255,255,255,.055);
+            font-size: 65px;
+            line-height: 1;
+            font-weight: 1000;
+            pointer-events: none;
+        }
+
+        .location-top {
             display: flex;
+            align-items: center;
             justify-content: space-between;
             gap: 12px;
-            margin-bottom: 10px;
-        }
-
-        .card h3 {
-            font-size: 19px;
-            line-height: 1.2;
+            position: relative;
+            z-index: 2;
         }
 
         .type-badge {
-            white-space: nowrap;
-            font-size: 11px;
+            display: inline-flex;
+            align-items: center;
+            width: fit-content;
             padding: 6px 9px;
-            border-radius: 999px;
-            background: rgba(255,106,0,.11);
-            color: #ff9c59;
-            border: 1px solid rgba(255,106,0,.22);
+            border-radius: 99px;
+            color: #ffae76;
+            border: 1px solid rgba(255,101,0,.21);
+            background: rgba(255,101,0,.08);
+            font-size: 10px;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: .7px;
         }
 
-        .card p {
-            color: #aaa;
-            font-size: 14px;
-            line-height: 1.55;
-            margin-bottom: 12px;
+        .points-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 6px 9px;
+            border-radius: 99px;
+            color: #ddd;
+            background: rgba(255,255,255,.055);
+            border: 1px solid rgba(255,255,255,.07);
+            font-size: 10px;
+            font-weight: 900;
         }
 
-        .meta {
-            color: #888;
+        .location-card h3 {
+            position: relative;
+            z-index: 2;
+            max-width: 80%;
+            margin-top: 27px;
+            font-size: 22px;
+            letter-spacing: -.7px;
+        }
+
+        .location-description {
+            position: relative;
+            z-index: 2;
+            color: #777;
             font-size: 13px;
-            line-height: 1.55;
-            margin-bottom: 14px;
+            line-height: 1.6;
+            margin-top: 10px;
+            min-height: 42px;
         }
 
-        .card-actions {
-            display: flex;
+        .location-meta {
+            position: relative;
+            z-index: 2;
+            color: #888;
+            font-size: 12px;
+            margin-top: 16px;
+        }
+
+        .location-actions {
+            display: grid;
+            grid-template-columns: 1.2fr .8fr;
             gap: 8px;
-            flex-wrap: wrap;
+            margin-top: 19px;
+            position: relative;
+            z-index: 3;
         }
 
-        .card-actions .btn {
-            flex: 1;
-            min-width: 130px;
+        .location-actions .btn {
+            min-width: 0;
+            padding: 12px 10px;
+            font-size: 12px;
         }
 
-        .maps-button {
-            background: rgba(255,255,255,.07);
-            border: 1px solid rgba(255,255,255,.12);
-            color: #fff;
-        }
+        /* =========================================================
+           EMPTY
+        ========================================================= */
 
         .empty {
-            padding: 35px 20px;
-            text-align: center;
-            color: var(--muted);
-            border: 1px dashed var(--border);
-            border-radius: 18px;
             grid-column: 1 / -1;
+            padding: 45px 22px;
+            text-align: center;
+            border: 1px dashed rgba(255,255,255,.12);
+            border-radius: 20px;
+            color: #666;
+            background: rgba(255,255,255,.025);
         }
 
-        /* =====================================================
+        .empty-icon {
+            font-size: 30px;
+            margin-bottom: 10px;
+            opacity: .7;
+        }
+
+        /* =========================================================
            REWARDS
-        ===================================================== */
+        ========================================================= */
 
         .reward-card {
             position: relative;
+            overflow: hidden;
+            padding: 21px;
+            border: 1px solid var(--border);
+            border-radius: 23px;
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(255,255,255,.065),
+                    rgba(255,255,255,.025)
+                );
         }
 
-        .reward-points {
-            color: #ff9c59;
-            font-weight: 900;
-            margin-bottom: 10px;
+        .reward-card::before {
+            content: "REWARD";
+            position: absolute;
+            right: -9px;
+            top: 22px;
+            transform: rotate(90deg);
+            color: rgba(255,255,255,.035);
+            font-size: 9px;
+            font-weight: 1000;
+            letter-spacing: 2px;
+        }
+
+        .reward-icon {
+            width: 48px;
+            height: 48px;
+            display: grid;
+            place-items: center;
+            border-radius: 15px;
+            background: rgba(255,101,0,.10);
+            border: 1px solid rgba(255,101,0,.20);
+            font-size: 21px;
+            margin-bottom: 17px;
+        }
+
+        .reward-card h3 {
+            font-size: 19px;
+            max-width: 80%;
+            line-height: 1.25;
         }
 
         .reward-business {
-            color: #ddd;
-            font-size: 14px;
-            margin-bottom: 6px;
+            margin-top: 8px;
+            color: #888;
+            font-size: 12px;
         }
 
-        /* =====================================================
+        .reward-description {
+            color: #777;
+            font-size: 13px;
+            line-height: 1.55;
+            margin-top: 13px;
+        }
+
+        .reward-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin-top: 19px;
+            padding-top: 16px;
+            border-top: 1px solid rgba(255,255,255,.07);
+        }
+
+        .reward-points {
+            color: #ffae76;
+            font-weight: 1000;
+            font-size: 15px;
+        }
+
+        .reward-benefit {
+            color: white;
+            font-size: 12px;
+            font-weight: 800;
+            text-align: right;
+        }
+
+        /* =========================================================
            HISTORY
-        ===================================================== */
+        ========================================================= */
+
+        .history-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+        }
+
+        .history-card {
+            border: 1px solid var(--border);
+            border-radius: 22px;
+            background: rgba(255,255,255,.035);
+            overflow: hidden;
+        }
+
+        .history-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 18px 19px;
+            border-bottom: 1px solid rgba(255,255,255,.07);
+        }
+
+        .history-header h3 {
+            font-size: 15px;
+        }
+
+        .history-header span {
+            font-size: 18px;
+        }
 
         .history-item {
             display: flex;
             align-items: center;
             justify-content: space-between;
             gap: 12px;
-            padding: 15px;
-            border-bottom: 1px solid rgba(255,255,255,.07);
+            padding: 16px 19px;
+            border-bottom: 1px solid rgba(255,255,255,.055);
         }
 
         .history-item:last-child {
             border-bottom: 0;
         }
 
+        .history-icon {
+            width: 38px;
+            height: 38px;
+            display: grid;
+            place-items: center;
+            flex: 0 0 auto;
+            border-radius: 12px;
+            background: rgba(255,255,255,.045);
+            border: 1px solid rgba(255,255,255,.07);
+        }
+
+        .history-main {
+            min-width: 0;
+            flex: 1;
+        }
+
         .history-name {
-            font-weight: 700;
-            margin-bottom: 4px;
+            font-size: 13px;
+            font-weight: 800;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .history-date {
-            color: #888;
-            font-size: 12px;
+            color: #666;
+            font-size: 10px;
+            margin-top: 4px;
         }
 
         .history-points {
-            color: var(--success);
-            font-weight: 900;
             white-space: nowrap;
+            color: var(--green);
+            font-size: 12px;
+            font-weight: 1000;
         }
 
-        /* =====================================================
-           PROFILE
-        ===================================================== */
+        .history-points.minus {
+            color: #ff8b8b;
+        }
 
-        .profile-card {
+        /* =========================================================
+           PROFILE
+        ========================================================= */
+
+        .profile-layout {
             display: grid;
+            grid-template-columns: .7fr 1.3fr;
             gap: 14px;
         }
 
-        .profile-row {
-            padding: 15px;
-            border-radius: 15px;
-            background: rgba(255,255,255,.04);
+        .profile-hero {
+            position: relative;
+            overflow: hidden;
+            padding: 25px;
+            min-height: 300px;
             border: 1px solid var(--border);
+            border-radius: 25px;
+            background:
+                radial-gradient(
+                    circle at 100% 0,
+                    rgba(255,101,0,.18),
+                    transparent 35%
+                ),
+                rgba(255,255,255,.04);
+        }
+
+        .profile-avatar {
+            width: 70px;
+            height: 70px;
+            display: grid;
+            place-items: center;
+            border-radius: 22px;
+            background: linear-gradient(
+                135deg,
+                var(--orange),
+                #ff913f
+            );
+            box-shadow: 0 15px 35px rgba(255,101,0,.22);
+            font-size: 28px;
+        }
+
+        .profile-hero h3 {
+            margin-top: 22px;
+            font-size: 25px;
+            letter-spacing: -.8px;
+        }
+
+        .profile-hero p {
+            color: #777;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+
+        .profile-big-points {
+            margin-top: 35px;
+        }
+
+        .profile-big-points small {
+            color: #666;
+            display: block;
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 900;
+        }
+
+        .profile-big-points strong {
+            display: block;
+            margin-top: 4px;
+            color: var(--orange);
+            font-size: 40px;
+            line-height: 1;
+        }
+
+        .profile-details {
+            display: grid;
+            gap: 10px;
+        }
+
+        .profile-row {
+            padding: 17px;
+            border: 1px solid var(--border);
+            border-radius: 17px;
+            background: rgba(255,255,255,.035);
         }
 
         .profile-label {
-            color: #888;
-            font-size: 12px;
-            margin-bottom: 5px;
+            color: #666;
+            font-size: 10px;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: .8px;
         }
 
         .profile-value {
-            font-size: 16px;
-            font-weight: 700;
+            margin-top: 7px;
+            font-size: 14px;
+            font-weight: 800;
+            word-break: break-word;
         }
 
-        /* =====================================================
-           SUGGEST
-        ===================================================== */
+        /* =========================================================
+           SUGGESTION
+        ========================================================= */
 
-        .suggestion-card {
+        .suggest-layout {
+            display: grid;
+            grid-template-columns: .7fr 1.3fr;
+            gap: 14px;
+        }
+
+        .suggest-intro {
+            position: relative;
+            overflow: hidden;
+            padding: 25px;
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            background:
+                radial-gradient(
+                    circle at 100% 0,
+                    rgba(255,101,0,.18),
+                    transparent 35%
+                ),
+                rgba(255,255,255,.035);
+        }
+
+        .suggest-intro-icon {
+            width: 55px;
+            height: 55px;
+            display: grid;
+            place-items: center;
+            border-radius: 17px;
+            background: rgba(255,101,0,.11);
+            border: 1px solid rgba(255,101,0,.22);
+            font-size: 24px;
+        }
+
+        .suggest-intro h3 {
+            font-size: 23px;
+            letter-spacing: -.7px;
+            margin-top: 21px;
+        }
+
+        .suggest-intro p {
+            color: #777;
+            line-height: 1.65;
+            font-size: 13px;
+            margin-top: 9px;
+        }
+
+        .suggest-rule {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #999;
+            font-size: 11px;
             margin-top: 22px;
         }
 
-        .gps-status {
-            color: #888;
-            font-size: 13px;
-            margin-top: 9px;
-            line-height: 1.4;
+        .suggest-form-card {
+            padding: 23px;
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            background: rgba(255,255,255,.035);
         }
 
         .coordinates {
@@ -593,26 +1489,91 @@
             gap: 10px;
         }
 
-        /* =====================================================
+        .gps-status {
+            color: #666;
+            font-size: 11px;
+            line-height: 1.5;
+            margin-top: 9px;
+        }
+
+        .suggestions-list {
+            margin-top: 14px;
+        }
+
+        .suggestion-item {
+            padding: 17px;
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            background: rgba(255,255,255,.035);
+            margin-bottom: 10px;
+        }
+
+        .suggestion-item-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        .suggestion-item h3 {
+            font-size: 14px;
+        }
+
+        .status-badge {
+            padding: 5px 8px;
+            border-radius: 99px;
+            font-size: 9px;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: .5px;
+        }
+
+        .status-pending {
+            color: #ffbc78;
+            background: rgba(255,160,70,.08);
+            border: 1px solid rgba(255,160,70,.17);
+        }
+
+        .status-approved {
+            color: #79eeaa;
+            background: rgba(66,229,139,.08);
+            border: 1px solid rgba(66,229,139,.17);
+        }
+
+        .status-rejected {
+            color: #ff8989;
+            background: rgba(255,82,82,.08);
+            border: 1px solid rgba(255,82,82,.17);
+        }
+
+        .suggestion-meta {
+            color: #666;
+            font-size: 11px;
+            margin-top: 8px;
+        }
+
+        /* =========================================================
            BOTTOM NAV
-        ===================================================== */
+        ========================================================= */
 
         .bottom-nav {
             position: fixed;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            z-index: 30;
-            background: rgba(9,9,9,.94);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-top: 1px solid rgba(255,255,255,.08);
-            padding: 9px 8px calc(9px + env(safe-area-inset-bottom));
+            z-index: 80;
+            left: 50%;
+            bottom: 13px;
+            transform: translateX(-50%);
+            width: min(720px, calc(100% - 24px));
+            padding: 7px;
+            border: 1px solid rgba(255,255,255,.10);
+            border-radius: 22px;
+            background: rgba(12,12,12,.88);
+            backdrop-filter: blur(24px);
+            box-shadow:
+                0 20px 60px rgba(0,0,0,.50),
+                inset 0 1px 0 rgba(255,255,255,.04);
         }
 
         .bottom-nav-inner {
-            max-width: 700px;
-            margin: auto;
             display: grid;
             grid-template-columns: repeat(5, 1fr);
             gap: 4px;
@@ -620,130 +1581,274 @@
 
         .nav-btn {
             border: 0;
+            color: #666;
             background: transparent;
-            color: #777;
+            border-radius: 15px;
             padding: 8px 4px;
-            border-radius: 12px;
-            cursor: pointer;
-            font-size: 11px;
-            transition: .2s;
+            min-height: 53px;
+            transition: .18s ease;
+            font-size: 9px;
+            font-weight: 800;
         }
 
         .nav-btn .icon {
             display: block;
-            font-size: 20px;
-            margin-bottom: 3px;
+            font-size: 18px;
+            margin-bottom: 4px;
+            filter: grayscale(1);
+            opacity: .65;
+            transition: .18s ease;
         }
 
         .nav-btn.active {
-            color: var(--orange);
-            background: rgba(255,106,0,.08);
+            color: white;
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(255,101,0,.18),
+                    rgba(255,101,0,.07)
+                );
+            box-shadow: inset 0 0 0 1px rgba(255,101,0,.10);
         }
 
-        /* =====================================================
-           MODAL
-        ===================================================== */
+        .nav-btn.active .icon {
+            filter: none;
+            opacity: 1;
+        }
+
+        /* =========================================================
+           MODALS
+        ========================================================= */
 
         .modal {
             position: fixed;
             inset: 0;
-            z-index: 100;
-            background: rgba(0,0,0,.72);
-            backdrop-filter: blur(7px);
-            -webkit-backdrop-filter: blur(7px);
+            z-index: 200;
             display: flex;
             align-items: center;
             justify-content: center;
             padding: 18px;
+            background: rgba(0,0,0,.76);
+            backdrop-filter: blur(12px);
         }
 
         .modal-card {
             width: 100%;
-            max-width: 450px;
+            max-width: 460px;
             max-height: 90vh;
             overflow-y: auto;
-            background: #111;
-            border: 1px solid var(--border);
-            border-radius: 24px;
-            padding: 22px;
-            box-shadow: 0 25px 80px rgba(0,0,0,.5);
+            padding: 24px;
+            border: 1px solid var(--border-light);
+            border-radius: 26px;
+            background:
+                radial-gradient(
+                    circle at 100% 0,
+                    rgba(255,101,0,.12),
+                    transparent 30%
+                ),
+                #101010;
+            box-shadow: 0 35px 100px rgba(0,0,0,.60);
+            animation: modalIn .2s ease;
+        }
+
+        @keyframes modalIn {
+            from {
+                opacity: 0;
+                transform: translateY(12px) scale(.98);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
         }
 
         .modal-header {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 10px;
-            margin-bottom: 17px;
+            gap: 12px;
+            margin-bottom: 18px;
+        }
+
+        .modal-header h2 {
+            font-size: 20px;
+            letter-spacing: -.5px;
         }
 
         .close-btn {
             width: 35px;
             height: 35px;
-            border-radius: 50%;
+            display: grid;
+            place-items: center;
             border: 1px solid var(--border);
+            border-radius: 50%;
             background: rgba(255,255,255,.05);
             color: white;
-            cursor: pointer;
+            font-size: 20px;
         }
 
-        /* =====================================================
-           RESPONSIVE
-        ===================================================== */
+        .modal-text {
+            color: #888;
+            line-height: 1.6;
+            font-size: 13px;
+        }
 
-        @media (max-width: 720px) {
+        /* =========================================================
+           RESPONSIVE
+        ========================================================= */
+
+        @media (max-width: 900px) {
+
+            .auth-wrap {
+                grid-template-columns: 1fr;
+                max-width: 480px;
+            }
+
+            .auth-showcase {
+                display: none;
+            }
+
+            .profile-layout,
+            .suggest-layout,
+            .history-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .filter-row {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 700px) {
+
+            .content {
+                width: min(100% - 22px, 1180px);
+                padding-top: 17px;
+            }
+
+            .topbar-inner {
+                padding: 12px 12px;
+            }
+
+            .brand {
+                font-size: 19px;
+            }
+
+            .brand-mark {
+                width: 32px;
+                height: 32px;
+                border-radius: 10px;
+            }
+
+            .profile-mini {
+                display: none;
+            }
+
+            .hero {
+                min-height: 430px;
+                padding: 25px;
+                border-radius: 27px;
+            }
+
+            .hero h1 {
+                font-size: clamp(43px, 15vw, 67px);
+                letter-spacing: -4px;
+            }
+
+            .hero-description {
+                font-size: 13px;
+            }
+
+            .hero-metric {
+                left: 25px;
+                right: auto;
+                bottom: 25px;
+            }
+
+            .stats {
+                gap: 8px;
+            }
+
+            .stat {
+                min-height: 105px;
+                padding: 14px;
+            }
+
+            .stat-value {
+                font-size: 23px;
+            }
+
+            .stat-label {
+                font-size: 9px;
+            }
+
+            .quick-grid {
+                grid-template-columns: 1fr;
+            }
 
             .grid {
                 grid-template-columns: 1fr;
             }
 
-            .stats {
-                grid-template-columns: 1fr 1fr 1fr;
+            .location-card {
+                min-height: 275px;
             }
 
-            .stat {
-                padding: 13px 10px;
-            }
-
-            .stat-value {
-                font-size: 21px;
-            }
-
-            .hero {
-                padding: 20px;
-            }
-        }
-
-        @media (max-width: 430px) {
-
-            .content {
-                padding-left: 13px;
-                padding-right: 13px;
-            }
-
-            .topbar {
-                padding-left: 13px;
-                padding-right: 13px;
-            }
-
-            .brand {
-                font-size: 20px;
-            }
-
-            .points-badge {
-                font-size: 12px;
+            .location-actions {
+                grid-template-columns: 1fr 1fr;
             }
 
             .coordinates {
                 grid-template-columns: 1fr;
             }
 
-            .card-actions {
-                flex-direction: column;
+            .bottom-nav {
+                bottom: 9px;
+                width: calc(100% - 14px);
+                border-radius: 19px;
             }
 
-            .card-actions .btn {
-                width: 100%;
+            .nav-btn {
+                min-height: 50px;
+            }
+
+            .nav-btn .icon {
+                font-size: 17px;
+            }
+
+            .nav-btn {
+                font-size: 8px;
+            }
+        }
+
+        @media (max-width: 420px) {
+
+            .points-badge {
+                font-size: 10px;
+                padding: 8px 10px;
+            }
+
+            .hero {
+                padding: 21px;
+                min-height: 420px;
+            }
+
+            .hero h1 {
+                letter-spacing: -3px;
+            }
+
+            .hero-metric {
+                left: 21px;
+                bottom: 21px;
+            }
+
+            .section-heading {
+                align-items: flex-start;
+            }
+
+            .auth-card {
+                padding: 22px;
             }
         }
     </style>
@@ -751,123 +1856,194 @@
 
 <body>
 
+<!-- =========================================================
+     AUTH
+========================================================= -->
+
 <div id="authScreen" class="auth-screen">
-    <div class="auth-card">
 
-        <div class="logo">Moto<span>Quest</span></div>
-        <div class="tagline">Explora. Conquista. Desfruta.</div>
+    <div class="auth-wrap">
 
-        <div class="auth-tabs">
-            <button
-                id="loginTab"
-                class="auth-tab active"
-                onclick="showAuth('login')"
-            >
-                Entrar
-            </button>
+        <div class="auth-showcase">
 
-            <button
-                id="registerTab"
-                class="auth-tab"
-                onclick="showAuth('register')"
-            >
-                Criar conta
-            </button>
+            <div class="mini-brand">
+                Moto<span>Quest</span>
+            </div>
+
+            <div class="showcase-content">
+
+                <div class="showcase-kicker">
+                    <span class="pulse-dot"></span>
+                    Aventura começa aqui
+                </div>
+
+                <div class="showcase-title">
+                    A estrada<br>
+                    é a tua<br>
+                    <span>quest.</span>
+                </div>
+
+                <div class="showcase-text">
+                    Descobre lugares, valida visitas, conquista pontos
+                    e transforma cada viagem de mota numa nova aventura.
+                </div>
+
+            </div>
+
         </div>
 
-        <form id="loginForm" onsubmit="login(event)">
+        <div class="auth-card">
 
-            <div class="form-group">
-                <label for="loginEmail">Email</label>
-                <input
-                    id="loginEmail"
-                    type="email"
-                    autocomplete="email"
-                    required
-                >
+            <div class="auth-logo">
+                Moto<span>Quest</span>
             </div>
 
-            <div class="form-group">
-                <label for="loginPassword">Palavra-passe</label>
-                <input
-                    id="loginPassword"
-                    type="password"
-                    autocomplete="current-password"
-                    required
-                >
+            <div class="auth-subtitle">
+                Explora. Conquista. Desfruta.
             </div>
 
-            <button class="btn btn-primary" type="submit">
-                Entrar
-            </button>
+            <div class="auth-tabs">
 
-        </form>
-
-        <form
-            id="registerForm"
-            class="hidden"
-            onsubmit="register(event)"
-        >
-
-            <div class="form-group">
-                <label for="registerName">Nome</label>
-                <input
-                    id="registerName"
-                    type="text"
-                    autocomplete="name"
-                    required
+                <button
+                    id="loginTab"
+                    class="auth-tab active"
+                    onclick="showAuth('login')"
                 >
+                    Entrar
+                </button>
+
+                <button
+                    id="registerTab"
+                    class="auth-tab"
+                    onclick="showAuth('register')"
+                >
+                    Criar conta
+                </button>
+
             </div>
 
-            <div class="form-group">
-                <label for="registerEmail">Email</label>
-                <input
-                    id="registerEmail"
-                    type="email"
-                    autocomplete="email"
-                    required
+            <form id="loginForm" onsubmit="login(event)">
+
+                <div class="form-group">
+                    <label for="loginEmail">Email</label>
+                    <input
+                        id="loginEmail"
+                        type="email"
+                        placeholder="o-teu@email.com"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="loginPassword">Palavra-passe</label>
+                    <input
+                        id="loginPassword"
+                        type="password"
+                        placeholder="••••••••"
+                        required
+                    >
+                </div>
+
+                <button
+                    class="btn btn-primary"
+                    style="width:100%;"
+                    type="submit"
                 >
-            </div>
+                    Entrar na MotoQuest →
+                </button>
 
-            <div class="form-group">
-                <label for="registerPassword">Palavra-passe</label>
-                <input
-                    id="registerPassword"
-                    type="password"
-                    autocomplete="new-password"
-                    minlength="6"
-                    required
+            </form>
+
+            <form
+                id="registerForm"
+                class="hidden"
+                onsubmit="register(event)"
+            >
+
+                <div class="form-group">
+                    <label for="registerName">Nome</label>
+                    <input
+                        id="registerName"
+                        type="text"
+                        placeholder="O teu nome"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="registerEmail">Email</label>
+                    <input
+                        id="registerEmail"
+                        type="email"
+                        placeholder="o-teu@email.com"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="registerPassword">Palavra-passe</label>
+                    <input
+                        id="registerPassword"
+                        type="password"
+                        minlength="6"
+                        placeholder="Mínimo 6 caracteres"
+                        required
+                    >
+                </div>
+
+                <button
+                    class="btn btn-primary"
+                    style="width:100%;"
+                    type="submit"
                 >
-            </div>
+                    Criar conta →
+                </button>
 
-            <button class="btn btn-primary" type="submit">
-                Criar conta
-            </button>
+            </form>
 
-        </form>
+            <div id="authMessage" class="message"></div>
 
-        <div id="authMessage" class="message"></div>
+        </div>
 
     </div>
+
 </div>
 
 
+<!-- =========================================================
+     APP
+========================================================= -->
+
 <div id="app" class="app hidden">
 
-    <!-- =====================================================
-         HEADER
-    ====================================================== -->
+    <!-- TOPBAR -->
 
     <header class="topbar">
 
         <div class="topbar-inner">
 
             <div class="brand">
+
+                <div class="brand-mark">
+                    M
+                </div>
+
                 Moto<span>Quest</span>
+
             </div>
 
-            <div class="points-badge">
-                🏆 <span id="headerPoints">0</span> pontos
+            <div class="topbar-right">
+
+                <div class="points-badge">
+                    🏆
+                    <span id="headerPoints">0</span>
+                    pontos
+                </div>
+
+                <div class="profile-mini">
+                    👤
+                </div>
+
             </div>
 
         </div>
@@ -877,151 +2053,284 @@
 
     <main class="content">
 
-        <!-- =================================================
-             INÍCIO
-        ================================================== -->
+        <!-- =====================================================
+             HOME
+        ====================================================== -->
 
-        <section id="homeSection">
+        <section id="homeSection" class="section">
 
             <div class="hero">
 
-                <h1>
-                    Explora.<br>
-                    <span>Conquista.</span><br>
-                    Desfruta.
-                </h1>
+                <div class="hero-content">
 
-                <p>
-                    Descobre novos locais de mota, valida as tuas visitas,
-                    ganha pontos e troca-os por recompensas.
-                </p>
+                    <div class="eyebrow">
+                        <span class="pulse-dot"></span>
+                        A tua próxima aventura
+                    </div>
+
+                    <h1>
+                        Explora.<br>
+                        <span>Conquista.</span><br>
+                        Desfruta.
+                    </h1>
+
+                    <p class="hero-description">
+                        Descobre novos lugares de mota, valida as tuas visitas,
+                        ganha pontos e troca-os por experiências e descontos.
+                    </p>
+
+                    <div class="hero-actions">
+
+                        <button
+                            class="btn btn-primary"
+                            onclick="showSection('locationsSection')"
+                        >
+                            🗺️ Explorar locais
+                        </button>
+
+                        <button
+                            class="btn btn-secondary"
+                            onclick="showSection('rewardsSection')"
+                        >
+                            🎁 Ver recompensas
+                        </button>
+
+                    </div>
+
+                </div>
+
+                <div class="hero-metric">
+
+                    <div class="hero-metric-label">
+                        O teu saldo
+                    </div>
+
+                    <div class="hero-metric-value">
+                        🏆 <span id="heroPoints">0</span>
+                    </div>
+
+                </div>
 
             </div>
 
+
+            <!-- STATS -->
 
             <div class="stats">
 
                 <div class="stat">
-                    <div id="homePoints" class="stat-value">0</div>
-                    <div class="stat-label">Pontos</div>
+
+                    <div class="stat-icon">
+                        🏆
+                    </div>
+
+                    <div
+                        id="homePoints"
+                        class="stat-value"
+                    >
+                        0
+                    </div>
+
+                    <div class="stat-label">
+                        Pontos
+                    </div>
+
                 </div>
 
                 <div class="stat">
-                    <div id="homeVisits" class="stat-value">0</div>
-                    <div class="stat-label">Visitas</div>
+
+                    <div class="stat-icon">
+                        📍
+                    </div>
+
+                    <div
+                        id="homeVisits"
+                        class="stat-value"
+                    >
+                        0
+                    </div>
+
+                    <div class="stat-label">
+                        Visitas
+                    </div>
+
                 </div>
 
                 <div class="stat">
-                    <div id="homeRedemptions" class="stat-value">0</div>
-                    <div class="stat-label">Recompensas</div>
+
+                    <div class="stat-icon">
+                        🎁
+                    </div>
+
+                    <div
+                        id="homeRedemptions"
+                        class="stat-value"
+                    >
+                        0
+                    </div>
+
+                    <div class="stat-label">
+                        Recompensas
+                    </div>
+
                 </div>
 
             </div>
 
 
-            <h2 class="section-title">
-                Descobre novos lugares
-            </h2>
+            <!-- QUICK ACTIONS -->
 
-            <p class="section-subtitle">
-                Escolhe uma localidade e encontra locais para a tua próxima aventura.
-            </p>
+            <div class="section-heading">
 
-            <button
-                class="btn btn-primary"
-                onclick="showSection('locationsSection')"
-            >
-                🗺️ Explorar locais
-            </button>
+                <div>
+                    <h2>Continua a tua quest</h2>
+                    <p>
+                        Escolhe o próximo passo.
+                    </p>
+                </div>
+
+            </div>
+
+            <div class="quick-grid">
+
+                <div
+                    class="quick-card"
+                    onclick="showSection('locationsSection')"
+                >
+
+                    <div class="quick-icon">
+                        🗺️
+                    </div>
+
+                    <span class="quick-arrow">
+                        ↗
+                    </span>
+
+                    <h3>
+                        Descobrir locais
+                    </h3>
+
+                    <p>
+                        Encontra miradouros, baloiços e monumentos
+                        para a tua próxima viagem.
+                    </p>
+
+                </div>
 
 
-            <div class="card suggestion-card">
-
-                <h3 style="margin-bottom:8px;">
-                    📍 Conheces um local?
-                </h3>
-
-                <p>
-                    Sugere um miradouro, baloiço ou monumento.
-                    Usa a tua localização para indicar onde fica.
-                </p>
-
-                <button
-                    class="btn btn-secondary"
+                <div
+                    class="quick-card"
                     onclick="showSection('suggestSection')"
                 >
-                    Sugerir local
-                </button>
+
+                    <div class="quick-icon">
+                        📍
+                    </div>
+
+                    <span class="quick-arrow">
+                        ↗
+                    </span>
+
+                    <h3>
+                        Sugerir um local
+                    </h3>
+
+                    <p>
+                        Conheces um sítio especial?
+                        Partilha-o com a comunidade.
+                    </p>
+
+                </div>
 
             </div>
 
         </section>
 
 
-        <!-- =================================================
+        <!-- =====================================================
              LOCAIS
-        ================================================== -->
+        ====================================================== -->
 
-        <section id="locationsSection" class="hidden">
+        <section
+            id="locationsSection"
+            class="section hidden"
+        >
 
-            <h2 class="section-title">
-                Locais
-            </h2>
+            <div class="section-heading">
 
-            <p class="section-subtitle">
-                Descobre locais para visitar de mota.
-            </p>
+                <div>
+                    <h2 class="section-title">
+                        Locais
+                    </h2>
 
-
-            <div class="filters">
-
-                <div class="form-group">
-
-                    <label for="localityFilter">
-                        Localidade
-                    </label>
-
-                    <select
-                        id="localityFilter"
-                        onchange="renderLocations()"
-                    >
-                        <option value="">
-                            Todas as localidades
-                        </option>
-                    </select>
-
+                    <p>
+                        A próxima paragem pode estar mais perto do que pensas.
+                    </p>
                 </div>
 
+            </div>
 
-                <div class="category-buttons">
 
-                    <button
-                        class="category-btn active"
-                        onclick="setCategory('Todos', this)"
-                    >
-                        Todos
-                    </button>
+            <div class="filters-panel">
 
-                    <button
-                        class="category-btn"
-                        onclick="setCategory('Miradouro', this)"
-                    >
-                        Miradouro
-                    </button>
+                <div class="filter-row">
 
-                    <button
-                        class="category-btn"
-                        onclick="setCategory('Baloiço', this)"
-                    >
-                        Baloiço
-                    </button>
+                    <div>
 
-                    <button
-                        class="category-btn"
-                        onclick="setCategory('Monumento', this)"
-                    >
-                        Monumento
-                    </button>
+                        <div class="filter-label">
+                            Localidade
+                        </div>
+
+                        <select
+                            id="localityFilter"
+                            onchange="renderLocations()"
+                        >
+                            <option value="">
+                                Todas as localidades
+                            </option>
+                        </select>
+
+                    </div>
+
+                    <div>
+
+                        <div class="filter-label">
+                            Tipo de aventura
+                        </div>
+
+                        <div class="category-buttons">
+
+                            <button
+                                class="category-btn active"
+                                onclick="setCategory('Todos', this)"
+                            >
+                                Todos
+                            </button>
+
+                            <button
+                                class="category-btn"
+                                onclick="setCategory('Miradouro', this)"
+                            >
+                                Miradouro
+                            </button>
+
+                            <button
+                                class="category-btn"
+                                onclick="setCategory('Baloiço', this)"
+                            >
+                                Baloiço
+                            </button>
+
+                            <button
+                                class="category-btn"
+                                onclick="setCategory('Monumento', this)"
+                            >
+                                Monumento
+                            </button>
+
+                        </div>
+
+                    </div>
 
                 </div>
 
@@ -1036,64 +2345,89 @@
         </section>
 
 
-        <!-- =================================================
+        <!-- =====================================================
              RECOMPENSAS
-        ================================================== -->
+        ====================================================== -->
 
-        <section id="rewardsSection" class="hidden">
+        <section
+            id="rewardsSection"
+            class="section hidden"
+        >
 
-            <h2 class="section-title">
-                Recompensas
-            </h2>
+            <div class="section-heading">
 
-            <p class="section-subtitle">
-                Troca os teus pontos por descontos nos parceiros.
-            </p>
+                <div>
+                    <h2 class="section-title">
+                        Recompensas
+                    </h2>
 
+                    <p>
+                        Os teus pontos transformam-se em experiências reais.
+                    </p>
+                </div>
 
-            <div class="form-group">
-
-                <label for="rewardLocalityFilter">
-                    Localidade
-                </label>
-
-                <select
-                    id="rewardLocalityFilter"
-                    onchange="renderRewards()"
-                >
-                    <option value="">
-                        Todas as localidades
-                    </option>
-                </select>
+                <div class="points-badge">
+                    🏆 <span id="rewardsPoints">0</span>
+                </div>
 
             </div>
 
 
-            <div
-                class="category-buttons"
-                style="margin-bottom:15px;"
-            >
+            <div class="filters-panel">
 
-                <button
-                    class="category-btn active"
-                    onclick="setRewardType('Todos', this)"
-                >
-                    Todos
-                </button>
+                <div class="filter-row">
 
-                <button
-                    class="category-btn"
-                    onclick="setRewardType('Restaurante', this)"
-                >
-                    Restaurante
-                </button>
+                    <div>
 
-                <button
-                    class="category-btn"
-                    onclick="setRewardType('Hotel', this)"
-                >
-                    Hotel
-                </button>
+                        <div class="filter-label">
+                            Localidade
+                        </div>
+
+                        <select
+                            id="rewardLocalityFilter"
+                            onchange="renderRewards()"
+                        >
+                            <option value="">
+                                Todas as localidades
+                            </option>
+                        </select>
+
+                    </div>
+
+                    <div>
+
+                        <div class="filter-label">
+                            Categoria
+                        </div>
+
+                        <div class="category-buttons">
+
+                            <button
+                                class="category-btn active"
+                                onclick="setRewardType('Todos', this)"
+                            >
+                                Todos
+                            </button>
+
+                            <button
+                                class="category-btn"
+                                onclick="setRewardType('Restaurante', this)"
+                            >
+                                🍽️ Restaurante
+                            </button>
+
+                            <button
+                                class="category-btn"
+                                onclick="setRewardType('Hotel', this)"
+                            >
+                                🛏️ Hotel
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
 
             </div>
 
@@ -1106,322 +2440,440 @@
         </section>
 
 
-        <!-- =================================================
+        <!-- =====================================================
              HISTÓRICO
-        ================================================== -->
+        ====================================================== -->
 
-        <section id="historySection" class="hidden">
+        <section
+            id="historySection"
+            class="section hidden"
+        >
 
-            <h2 class="section-title">
-                Histórico
-            </h2>
+            <div class="section-heading">
 
-            <p class="section-subtitle">
-                As tuas visitas e recompensas utilizadas.
-            </p>
+                <div>
+                    <h2 class="section-title">
+                        Histórico
+                    </h2>
+
+                    <p>
+                        Tudo o que já conquistaste na tua jornada.
+                    </p>
+                </div>
+
+            </div>
 
 
-            <div class="card">
+            <div class="history-layout">
 
-                <h3 style="margin-bottom:12px;">
-                    📍 Visitas
-                </h3>
+                <div class="history-card">
 
-                <div id="visitHistory"></div>
+                    <div class="history-header">
+
+                        <h3>
+                            Visitas
+                        </h3>
+
+                        <span>
+                            📍
+                        </span>
+
+                    </div>
+
+                    <div id="visitHistory"></div>
+
+                </div>
+
+
+                <div class="history-card">
+
+                    <div class="history-header">
+
+                        <h3>
+                            Recompensas utilizadas
+                        </h3>
+
+                        <span>
+                            🎁
+                        </span>
+
+                    </div>
+
+                    <div id="redemptionHistory"></div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             PERFIL
+        ====================================================== -->
+
+        <section
+            id="profileSection"
+            class="section hidden"
+        >
+
+            <div class="section-heading">
+
+                <div>
+                    <h2 class="section-title">
+                        Perfil
+                    </h2>
+
+                    <p>
+                        A tua conta MotoQuest.
+                    </p>
+                </div>
+
+            </div>
+
+
+            <div class="profile-layout">
+
+                <div class="profile-hero">
+
+                    <div class="profile-avatar">
+                        🏍️
+                    </div>
+
+                    <h3 id="profileName">
+                        Motociclista
+                    </h3>
+
+                    <p>
+                        Explorador MotoQuest
+                    </p>
+
+                    <div class="profile-big-points">
+
+                        <small>
+                            Pontuação
+                        </small>
+
+                        <strong id="profilePoints">
+                            0
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <div class="profile-details">
+
+                    <div class="profile-row">
+
+                        <div class="profile-label">
+                            Nome
+                        </div>
+
+                        <div
+                            id="profileNameDetail"
+                            class="profile-value"
+                        >
+                            -
+                        </div>
+
+                    </div>
+
+                    <div class="profile-row">
+
+                        <div class="profile-label">
+                            Email
+                        </div>
+
+                        <div
+                            id="profileEmail"
+                            class="profile-value"
+                        >
+                            -
+                        </div>
+
+                    </div>
+
+                    <div class="profile-row">
+
+                        <div class="profile-label">
+                            Pontos acumulados
+                        </div>
+
+                        <div
+                            id="profilePointsDetail"
+                            class="profile-value"
+                        >
+                            0
+                        </div>
+
+                    </div>
+
+                    <button
+                        class="btn btn-danger"
+                        onclick="logout()"
+                    >
+                        Terminar sessão
+                    </button>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             SUGERIR LOCAL
+        ====================================================== -->
+
+        <section
+            id="suggestSection"
+            class="section hidden"
+        >
+
+            <div class="section-heading">
+
+                <div>
+                    <h2 class="section-title">
+                        Sugerir local
+                    </h2>
+
+                    <p>
+                        Ajuda a comunidade a descobrir novos destinos.
+                    </p>
+                </div>
+
+            </div>
+
+
+            <div class="suggest-layout">
+
+                <div class="suggest-intro">
+
+                    <div class="suggest-intro-icon">
+                        📍
+                    </div>
+
+                    <h3>
+                        Conheces um sítio especial?
+                    </h3>
+
+                    <p>
+                        Envia-nos um novo miradouro, baloiço ou monumento.
+                        A equipa analisa a sugestão antes de a publicar.
+                    </p>
+
+                    <div class="suggest-rule">
+                        ✓ Miradouro
+                    </div>
+
+                    <div class="suggest-rule">
+                        ✓ Baloiço
+                    </div>
+
+                    <div class="suggest-rule">
+                        ✓ Monumento
+                    </div>
+
+                    <div class="suggest-rule">
+                        📍 Usa a tua localização GPS
+                    </div>
+
+                </div>
+
+
+                <div class="suggest-form-card">
+
+                    <form onsubmit="submitSuggestion(event)">
+
+                        <div class="form-group">
+
+                            <label for="suggestionName">
+                                Nome do local
+                            </label>
+
+                            <input
+                                id="suggestionName"
+                                type="text"
+                                placeholder="Ex.: Miradouro da Serra"
+                                required
+                            >
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="suggestionType">
+                                Tipo
+                            </label>
+
+                            <select
+                                id="suggestionType"
+                                required
+                            >
+
+                                <option value="">
+                                    Selecionar tipo
+                                </option>
+
+                                <option value="Miradouro">
+                                    Miradouro
+                                </option>
+
+                                <option value="Baloiço">
+                                    Baloiço
+                                </option>
+
+                                <option value="Monumento">
+                                    Monumento
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="suggestionLocality">
+                                Localidade
+                            </label>
+
+                            <input
+                                id="suggestionLocality"
+                                type="text"
+                                placeholder="Ex.: Covilhã"
+                                required
+                            >
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="suggestionDistrict">
+                                Distrito
+                            </label>
+
+                            <input
+                                id="suggestionDistrict"
+                                type="text"
+                                placeholder="Ex.: Castelo Branco"
+                            >
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="suggestionDescription">
+                                Descrição
+                            </label>
+
+                            <textarea
+                                id="suggestionDescription"
+                                placeholder="Conta-nos um pouco sobre este local..."
+                            ></textarea>
+
+                        </div>
+
+
+                        <div class="coordinates">
+
+                            <div class="form-group">
+
+                                <label for="suggestionLatitude">
+                                    Latitude
+                                </label>
+
+                                <input
+                                    id="suggestionLatitude"
+                                    type="number"
+                                    step="any"
+                                    readonly
+                                    required
+                                >
+
+                            </div>
+
+
+                            <div class="form-group">
+
+                                <label for="suggestionLongitude">
+                                    Longitude
+                                </label>
+
+                                <input
+                                    id="suggestionLongitude"
+                                    type="number"
+                                    step="any"
+                                    readonly
+                                    required
+                                >
+
+                            </div>
+
+                        </div>
+
+
+                        <button
+                            type="button"
+                            class="btn btn-location"
+                            onclick="getSuggestionLocation()"
+                        >
+                            📍 Usar a minha localização
+                        </button>
+
+                        <div
+                            id="gpsStatus"
+                            class="gps-status"
+                        >
+                            A localização GPS ainda não foi obtida.
+                        </div>
+
+
+                        <button
+                            type="submit"
+                            class="btn btn-primary"
+                            style="width:100%;margin-top:17px;"
+                        >
+                            Enviar sugestão →
+                        </button>
+
+                        <div
+                            id="suggestionMessage"
+                            class="message"
+                        ></div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+
+            <div class="section-heading">
+
+                <div>
+                    <h2>
+                        As minhas sugestões
+                    </h2>
+
+                    <p>
+                        Consulta o estado dos locais que enviaste.
+                    </p>
+                </div>
 
             </div>
 
 
             <div
-                class="card"
-                style="margin-top:15px;"
-            >
-
-                <h3 style="margin-bottom:12px;">
-                    🎁 Recompensas utilizadas
-                </h3>
-
-                <div id="redemptionHistory"></div>
-
-            </div>
-
-        </section>
-
-
-        <!-- =================================================
-             PERFIL
-        ================================================== -->
-
-        <section id="profileSection" class="hidden">
-
-            <h2 class="section-title">
-                Perfil
-            </h2>
-
-
-            <div class="card profile-card">
-
-                <div class="profile-row">
-
-                    <div class="profile-label">
-                        Nome
-                    </div>
-
-                    <div
-                        id="profileName"
-                        class="profile-value"
-                    >
-                        -
-                    </div>
-
-                </div>
-
-
-                <div class="profile-row">
-
-                    <div class="profile-label">
-                        Email
-                    </div>
-
-                    <div
-                        id="profileEmail"
-                        class="profile-value"
-                    >
-                        -
-                    </div>
-
-                </div>
-
-
-                <div class="profile-row">
-
-                    <div class="profile-label">
-                        Pontos
-                    </div>
-
-                    <div
-                        id="profilePoints"
-                        class="profile-value"
-                    >
-                        0
-                    </div>
-
-                </div>
-
-
-                <button
-                    class="btn btn-danger"
-                    onclick="logout()"
-                >
-                    Terminar sessão
-                </button>
-
-            </div>
-
-        </section>
-
-
-        <!-- =================================================
-             SUGERIR LOCAL
-        ================================================== -->
-
-        <section id="suggestSection" class="hidden">
-
-            <h2 class="section-title">
-                Sugerir local
-            </h2>
-
-            <p class="section-subtitle">
-                Ajuda outros motociclistas a descobrir novos lugares.
-                Apenas podes sugerir miradouros, baloiços e monumentos.
-            </p>
-
-
-            <div class="card">
-
-                <form onsubmit="submitSuggestion(event)">
-
-                    <div class="form-group">
-
-                        <label for="suggestionName">
-                            Nome do local
-                        </label>
-
-                        <input
-                            id="suggestionName"
-                            type="text"
-                            placeholder="Ex.: Miradouro da Serra"
-                            required
-                        >
-
-                    </div>
-
-
-                    <div class="form-group">
-
-                        <label for="suggestionType">
-                            Tipo
-                        </label>
-
-                        <select
-                            id="suggestionType"
-                            required
-                        >
-                            <option value="">
-                                Selecionar tipo
-                            </option>
-
-                            <option value="Miradouro">
-                                Miradouro
-                            </option>
-
-                            <option value="Baloiço">
-                                Baloiço
-                            </option>
-
-                            <option value="Monumento">
-                                Monumento
-                            </option>
-
-                        </select>
-
-                    </div>
-
-
-                    <div class="form-group">
-
-                        <label for="suggestionLocality">
-                            Localidade
-                        </label>
-
-                        <input
-                            id="suggestionLocality"
-                            type="text"
-                            placeholder="Ex.: Covilhã"
-                            required
-                        >
-
-                    </div>
-
-
-                    <div class="form-group">
-
-                        <label for="suggestionDistrict">
-                            Distrito
-                        </label>
-
-                        <input
-                            id="suggestionDistrict"
-                            type="text"
-                            placeholder="Ex.: Castelo Branco"
-                        >
-
-                    </div>
-
-
-                    <div class="form-group">
-
-                        <label for="suggestionDescription">
-                            Descrição
-                        </label>
-
-                        <textarea
-                            id="suggestionDescription"
-                            placeholder="Descreve brevemente o local..."
-                        ></textarea>
-
-                    </div>
-
-
-                    <!--
-                        NÃO HÁ CAMPO GOOGLE MAPS AQUI.
-
-                        O utilizador usa apenas a localização GPS.
-                        Depois da aprovação, o botão Google Maps
-                        aparece automaticamente em "Locais".
-                    -->
-
-
-                    <div class="coordinates">
-
-                        <div class="form-group">
-
-                            <label for="suggestionLatitude">
-                                Latitude
-                            </label>
-
-                            <input
-                                id="suggestionLatitude"
-                                type="number"
-                                step="any"
-                                readonly
-                                required
-                            >
-
-                        </div>
-
-
-                        <div class="form-group">
-
-                            <label for="suggestionLongitude">
-                                Longitude
-                            </label>
-
-                            <input
-                                id="suggestionLongitude"
-                                type="number"
-                                step="any"
-                                readonly
-                                required
-                            >
-
-                        </div>
-
-                    </div>
-
-
-                    <button
-                        type="button"
-                        class="btn btn-location"
-                        onclick="getSuggestionLocation()"
-                    >
-                        📍 Usar a minha localização
-                    </button>
-
-
-                    <div
-                        id="gpsStatus"
-                        class="gps-status"
-                    >
-                        Ainda não foi obtida a localização.
-                    </div>
-
-
-                    <button
-                        type="submit"
-                        class="btn btn-primary"
-                        style="margin-top:15px;"
-                    >
-                        Enviar sugestão
-                    </button>
-
-
-                    <div
-                        id="suggestionMessage"
-                        class="message"
-                    ></div>
-
-                </form>
-
-            </div>
-
-
-            <h2 class="section-title">
-                As minhas sugestões
-            </h2>
-
-
-            <div id="mySuggestions"></div>
+                id="mySuggestions"
+                class="suggestions-list"
+            ></div>
 
         </section>
 
@@ -1440,7 +2892,7 @@
                 class="nav-btn active"
                 onclick="showSection('homeSection', this)"
             >
-                <span class="icon">🏠</span>
+                <span class="icon">⌂</span>
                 Início
             </button>
 
@@ -1448,7 +2900,7 @@
                 class="nav-btn"
                 onclick="showSection('locationsSection', this)"
             >
-                <span class="icon">🗺️</span>
+                <span class="icon">⌖</span>
                 Locais
             </button>
 
@@ -1456,7 +2908,7 @@
                 class="nav-btn"
                 onclick="showSection('rewardsSection', this)"
             >
-                <span class="icon">🎁</span>
+                <span class="icon">◇</span>
                 Recompensas
             </button>
 
@@ -1464,7 +2916,7 @@
                 class="nav-btn"
                 onclick="showSection('historySection', this)"
             >
-                <span class="icon">📜</span>
+                <span class="icon">◷</span>
                 Histórico
             </button>
 
@@ -1472,7 +2924,7 @@
                 class="nav-btn"
                 onclick="showSection('profileSection', this)"
             >
-                <span class="icon">👤</span>
+                <span class="icon">◯</span>
                 Perfil
             </button>
 
@@ -1484,7 +2936,7 @@
 
 
 <!-- =========================================================
-     MODAL DE VALIDAÇÃO
+     VISIT MODAL
 ========================================================= -->
 
 <div
@@ -1509,21 +2961,19 @@
 
         </div>
 
-
         <p
             id="visitModalText"
-            style="color:#aaa;line-height:1.5;margin-bottom:18px;"
+            class="modal-text"
         ></p>
-
 
         <button
             id="validateVisitBtn"
             class="btn btn-primary"
+            style="width:100%;margin-top:20px;"
             onclick="validateVisit()"
         >
             📍 Validar a minha localização
         </button>
-
 
         <div
             id="visitMessage"
@@ -1536,7 +2986,7 @@
 
 
 <!-- =========================================================
-     MODAL RECOMPENSA
+     REWARD MODAL
 ========================================================= -->
 
 <div
@@ -1561,19 +3011,16 @@
 
         </div>
 
-
         <div id="rewardModalContent"></div>
-
 
         <button
             id="redeemRewardBtn"
             class="btn btn-primary"
-            style="margin-top:15px;"
+            style="width:100%;margin-top:20px;"
             onclick="confirmRewardRedemption()"
         >
             Confirmar troca
         </button>
-
 
         <div
             id="rewardMessage"
@@ -1586,7 +3033,6 @@
 
 
 <script>
-
 /* =========================================================
    SUPABASE
 ========================================================= */
@@ -1633,8 +3079,9 @@ document.addEventListener(
     "DOMContentLoaded",
     async () => {
 
-        const { data } =
-            await db.auth.getSession();
+        const {
+            data
+        } = await db.auth.getSession();
 
         if (data.session) {
 
@@ -1666,16 +3113,16 @@ document.addEventListener(
 
                     document
                         .getElementById("app")
-                        .classList.add("hidden");
+                        .classList
+                        .add("hidden");
 
                     document
                         .getElementById("authScreen")
-                        .classList.remove("hidden");
+                        .classList
+                        .remove("hidden");
                 }
-
             }
         );
-
     }
 );
 
@@ -1716,7 +3163,6 @@ function showAuth(type) {
         registerTab.classList.add("active");
     }
 
-
     clearMessage("authMessage");
 }
 
@@ -1737,11 +3183,12 @@ async function login(event) {
             .value;
 
 
-    const { error } =
-        await db.auth.signInWithPassword({
-            email,
-            password
-        });
+    const {
+        error
+    } = await db.auth.signInWithPassword({
+        email,
+        password
+    });
 
 
     if (error) {
@@ -1754,7 +3201,6 @@ async function login(event) {
 
         return;
     }
-
 
     showMessage(
         "authMessage",
@@ -1786,16 +3232,21 @@ async function register(event) {
             .value;
 
 
-    const { data, error } =
-        await db.auth.signUp({
-            email,
-            password,
-            options: {
-                data: {
-                    name
-                }
+    const {
+        data,
+        error
+    } = await db.auth.signUp({
+
+        email,
+        password,
+
+        options: {
+            data: {
+                name
             }
-        });
+        }
+
+    });
 
 
     if (error) {
@@ -1812,7 +3263,9 @@ async function register(event) {
 
     if (data.user) {
 
-        await db
+        const {
+            error: profileError
+        } = await db
             .from("profiles")
             .upsert({
                 id: data.user.id,
@@ -1822,9 +3275,14 @@ async function register(event) {
             });
 
 
+        if (profileError) {
+            console.error(profileError);
+        }
+
+
         showMessage(
             "authMessage",
-            "Conta criada. Verifica o teu email se for necessário.",
+            "Conta criada. Verifica o teu email se necessário.",
             "success"
         );
     }
@@ -1834,23 +3292,24 @@ async function register(event) {
 async function logout() {
 
     await db.auth.signOut();
-
 }
 
 
 /* =========================================================
-   APP
+   START APP
 ========================================================= */
 
 async function startApp() {
 
     document
         .getElementById("authScreen")
-        .classList.add("hidden");
+        .classList
+        .add("hidden");
 
     document
         .getElementById("app")
-        .classList.remove("hidden");
+        .classList
+        .remove("hidden");
 
 
     await loadProfile();
@@ -1873,17 +3332,22 @@ async function loadProfile() {
     if (!currentUser) return;
 
 
-    let { data, error } =
-        await db
-            .from("profiles")
-            .select("*")
-            .eq("id", currentUser.id)
-            .maybeSingle();
+    let {
+        data,
+        error
+    } = await db
+        .from("profiles")
+        .select("*")
+        .eq("id", currentUser.id)
+        .maybeSingle();
 
 
     if (error) {
 
-        console.error(error);
+        console.error(
+            "Erro ao carregar perfil:",
+            error
+        );
 
         return;
     }
@@ -1911,7 +3375,6 @@ async function loadProfile() {
 
 
         if (!result.error) {
-
             data = result.data;
         }
     }
@@ -1929,44 +3392,78 @@ function updateProfileUI() {
         Number(profile?.points || 0);
 
 
-    document
-        .getElementById("headerPoints")
-        .textContent = points;
-
-    document
-        .getElementById("homePoints")
-        .textContent = points;
-
-
-    document
-        .getElementById("profileName")
-        .textContent =
-            profile?.name || "Motociclista";
+    const ids = [
+        "headerPoints",
+        "homePoints",
+        "heroPoints",
+        "rewardsPoints",
+        "profilePoints",
+        "profilePointsDetail"
+    ];
 
 
-    document
-        .getElementById("profileEmail")
-        .textContent =
+    ids.forEach(id => {
+
+        const element =
+            document.getElementById(id);
+
+        if (element) {
+            element.textContent = points;
+        }
+    });
+
+
+    const profileName =
+        profile?.name ||
+        "Motociclista";
+
+
+    const profileNameMain =
+        document.getElementById("profileName");
+
+    if (profileNameMain) {
+        profileNameMain.textContent =
+            profileName;
+    }
+
+
+    const profileNameDetail =
+        document.getElementById("profileNameDetail");
+
+    if (profileNameDetail) {
+        profileNameDetail.textContent =
+            profileName;
+    }
+
+
+    const profileEmail =
+        document.getElementById("profileEmail");
+
+    if (profileEmail) {
+
+        profileEmail.textContent =
             profile?.email ||
             currentUser?.email ||
             "-";
+    }
 
 
-    document
-        .getElementById("profilePoints")
-        .textContent = points;
+    const visits =
+        document.getElementById("homeVisits");
 
-
-    document
-        .getElementById("homeVisits")
-        .textContent =
+    if (visits) {
+        visits.textContent =
             visitHistory.length;
+    }
 
 
-    document
-        .getElementById("homeRedemptions")
-        .textContent =
+    const redemptionsElement =
+        document.getElementById("homeRedemptions");
+
+    if (redemptionsElement) {
+        redemptionsElement.textContent =
             redemptions.length;
+    }
 }
 
 
@@ -1991,16 +3488,21 @@ function showSection(
 
     sections.forEach(id => {
 
-        document
-            .getElementById(id)
-            .classList.add("hidden");
+        const section =
+            document.getElementById(id);
 
+        if (section) {
+            section.classList.add("hidden");
+        }
     });
 
 
-    document
-        .getElementById(sectionId)
-        .classList.remove("hidden");
+    const target =
+        document.getElementById(sectionId);
+
+    if (!target) return;
+
+    target.classList.remove("hidden");
 
 
     document
@@ -2031,9 +3533,14 @@ function showSection(
 
         if (index !== undefined) {
 
-            document
-                .querySelectorAll(".nav-btn")[index]
-                .classList.add("active");
+            const navButtons =
+                document.querySelectorAll(".nav-btn");
+
+            if (navButtons[index]) {
+                navButtons[index]
+                    .classList
+                    .add("active");
+            }
         }
     }
 
@@ -2071,14 +3578,16 @@ function showSection(
 
 async function loadLocations() {
 
-    const { data, error } =
-        await db
-            .from("locations")
-            .select("*")
-            .eq("active", true)
-            .order("created_at", {
-                ascending: false
-            });
+    const {
+        data,
+        error
+    } = await db
+        .from("locations")
+        .select("*")
+        .eq("active", true)
+        .order("created_at", {
+            ascending: false
+        });
 
 
     if (error) {
@@ -2097,15 +3606,17 @@ async function loadLocations() {
 
 
     /*
-        Restaurantes e hotéis NÃO aparecem em Locais.
-        São usados apenas em Recompensas.
+        Restaurantes e hotéis pertencem
+        à área de recompensas.
     */
 
     locations =
         (data || []).filter(location => {
 
             const type =
-                String(location.type || "")
+                String(
+                    location.type || ""
+                )
                     .trim()
                     .toLowerCase();
 
@@ -2117,14 +3628,13 @@ async function loadLocations() {
 
 
     fillLocationFilters();
-
     renderLocations();
 }
 
 
 function fillLocationFilters() {
 
-    const localitySelect =
+    const select =
         document.getElementById(
             "localityFilter"
         );
@@ -2138,17 +3648,16 @@ function fillLocationFilters() {
                     .filter(Boolean)
             )
         ]
-        .sort((a, b) =>
-            a.localeCompare(b, "pt")
-        );
+            .sort(
+                (a, b) =>
+                    a.localeCompare(b, "pt")
+            );
 
 
-    localitySelect.innerHTML =
-        `
-            <option value="">
-                Todas as localidades
-            </option>
-        `;
+    select.innerHTML =
+        `<option value="">
+            Todas as localidades
+        </option>`;
 
 
     localities.forEach(locality => {
@@ -2159,7 +3668,7 @@ function fillLocationFilters() {
         option.value = locality;
         option.textContent = locality;
 
-        localitySelect.appendChild(option);
+        select.appendChild(option);
     });
 }
 
@@ -2169,7 +3678,8 @@ function setCategory(
     button
 ) {
 
-    currentCategory = category;
+    currentCategory =
+        category;
 
 
     document
@@ -2177,14 +3687,11 @@ function setCategory(
             "#locationsSection .category-btn"
         )
         .forEach(btn => {
-
             btn.classList.remove("active");
-
         });
 
 
     button.classList.add("active");
-
 
     renderLocations();
 }
@@ -2193,20 +3700,6 @@ function setCategory(
 /* =========================================================
    GOOGLE MAPS
 ========================================================= */
-
-/*
-    IMPORTANTE:
-
-    O Google Maps NÃO é pedido ao utilizador
-    quando este sugere um local.
-
-    O utilizador apenas envia latitude/longitude
-    através da localização do dispositivo.
-
-    Quando o local é aprovado e passa para
-    a tabela "locations", o botão do Google Maps
-    é criado automaticamente através das coordenadas.
-*/
 
 function getGoogleMapsUrl(location) {
 
@@ -2221,7 +3714,6 @@ function getGoogleMapsUrl(location) {
         !Number.isFinite(latitude) ||
         !Number.isFinite(longitude)
     ) {
-
         return "#";
     }
 
@@ -2279,7 +3771,10 @@ function renderLocations() {
 
         grid.innerHTML = `
             <div class="empty">
-                Ainda não existem locais para estes filtros.
+                <div class="empty-icon">🏍️</div>
+                <div>
+                    Ainda não existem locais para estes filtros.
+                </div>
             </div>
         `;
 
@@ -2289,22 +3784,20 @@ function renderLocations() {
 
     grid.innerHTML =
         filtered
-            .map(location => {
+            .map((location, index) => {
 
                 const mapsUrl =
                     getGoogleMapsUrl(location);
 
 
                 return `
-                    <article class="card">
+                    <article class="location-card">
 
-                        <div class="card-top">
+                        <div class="location-number">
+                            ${String(index + 1).padStart(2, "0")}
+                        </div>
 
-                            <h3>
-                                ${escapeHtml(
-                                    location.name
-                                )}
-                            </h3>
+                        <div class="location-top">
 
                             <span class="type-badge">
                                 ${escapeHtml(
@@ -2313,19 +3806,32 @@ function renderLocations() {
                                 )}
                             </span>
 
+                            <span class="points-chip">
+                                🏆
+                                ${Number(
+                                    location.points || 0
+                                )}
+                            </span>
+
                         </div>
 
 
-                        <p>
+                        <h3>
+                            ${escapeHtml(
+                                location.name
+                            )}
+                        </h3>
+
+
+                        <p class="location-description">
                             ${escapeHtml(
                                 location.description ||
-                                "Descobre este local na tua próxima viagem."
+                                "Descobre este local na tua próxima aventura."
                             )}
                         </p>
 
 
-                        <div class="meta">
-
+                        <div class="location-meta">
                             📍
                             ${escapeHtml(
                                 location.locality || ""
@@ -2339,25 +3845,14 @@ function renderLocations() {
                                       )
                                     : ""
                             }
-
-                            <br>
-
-                            🏆
-                            ${Number(
-                                location.points || 0
-                            )}
-                            pontos
-
                         </div>
 
 
-                        <div class="card-actions">
+                        <div class="location-actions">
 
                             <button
                                 class="btn btn-primary"
-                                onclick="openVisitModal(${Number(
-                                    location.id
-                                )})"
+                                onclick="openVisitModal(${Number(location.id)})"
                             >
                                 📍 Validar visita
                             </button>
@@ -2367,12 +3862,12 @@ function renderLocations() {
                                 mapsUrl !== "#"
                                     ? `
                                         <a
-                                            class="btn maps-button"
+                                            class="btn btn-secondary"
                                             href="${mapsUrl}"
                                             target="_blank"
                                             rel="noopener noreferrer"
                                         >
-                                            🗺️ Abrir no Google Maps
+                                            🗺️ Maps
                                         </a>
                                     `
                                     : ""
@@ -2388,7 +3883,7 @@ function renderLocations() {
 
 
 /* =========================================================
-   GPS / VISITAS
+   VISITAS / GPS
 ========================================================= */
 
 function openVisitModal(locationId) {
@@ -2413,11 +3908,9 @@ function openVisitModal(locationId) {
                     selectedLocation.name
                 )}
             </strong>.
-
             <br><br>
-
-            Estás perto do local?
-            Usa a tua localização para confirmar.
+            Usa a tua localização para confirmar
+            que estás perto do local.
         `;
 
 
@@ -2426,7 +3919,8 @@ function openVisitModal(locationId) {
 
     document
         .getElementById("visitModal")
-        .classList.remove("hidden");
+        .classList
+        .remove("hidden");
 }
 
 
@@ -2434,7 +3928,8 @@ function closeVisitModal() {
 
     document
         .getElementById("visitModal")
-        .classList.add("hidden");
+        .classList
+        .add("hidden");
 
     selectedLocation = null;
 }
@@ -2490,7 +3985,8 @@ function validateVisit() {
 
             const radius =
                 Number(
-                    selectedLocation.radius || 150
+                    selectedLocation.radius ||
+                    150
                 );
 
 
@@ -2498,9 +3994,7 @@ function validateVisit() {
 
                 showMessage(
                     "visitMessage",
-                    `Estás a cerca de ${Math.round(
-                        distance
-                    )} metros do local. Aproxima-te até ${radius} metros.`,
+                    `Estás a cerca de ${Math.round(distance)} metros do local. Aproxima-te até ${radius} metros.`,
                     "error"
                 );
 
@@ -2519,15 +4013,22 @@ function validateVisit() {
             } = await db
                 .from("visit_history")
                 .insert({
-                    user_id: currentUser.id,
+
+                    user_id:
+                        currentUser.id,
+
                     location_id:
                         selectedLocation.id,
+
                     location_name:
                         selectedLocation.name,
+
                     locality:
                         selectedLocation.locality,
+
                     points_earned:
                         points
+
                 });
 
 
@@ -2555,7 +4056,8 @@ function validateVisit() {
                 .from("profiles")
                 .update({
                     points:
-                        currentPoints + points
+                        currentPoints +
+                        points
                 })
                 .eq(
                     "id",
@@ -2577,7 +4079,7 @@ function validateVisit() {
 
             showMessage(
                 "visitMessage",
-                `Visita validada! Ganhaste ${points} pontos.`,
+                `Visita validada! +${points} pontos conquistados.`,
                 "success"
             );
 
@@ -2586,11 +4088,12 @@ function validateVisit() {
             await loadHistory();
 
 
-            setTimeout(() => {
-
-                closeVisitModal();
-
-            }, 1300);
+            setTimeout(
+                () => {
+                    closeVisitModal();
+                },
+                1300
+            );
         },
 
 
@@ -2671,14 +4174,16 @@ function calculateDistance(
 
 async function loadRewards() {
 
-    const { data, error } =
-        await db
-            .from("rewards")
-            .select("*")
-            .eq("active", true)
-            .order("points", {
-                ascending: true
-            });
+    const {
+        data,
+        error
+    } = await db
+        .from("rewards")
+        .select("*")
+        .eq("active", true)
+        .order("points", {
+            ascending: true
+        });
 
 
     if (error) {
@@ -2698,9 +4203,7 @@ async function loadRewards() {
 
     rewards = data || [];
 
-
     fillRewardLocalities();
-
     renderRewards();
 }
 
@@ -2721,17 +4224,16 @@ function fillRewardLocalities() {
                     .filter(Boolean)
             )
         ]
-        .sort((a, b) =>
-            a.localeCompare(b, "pt")
-        );
+            .sort(
+                (a, b) =>
+                    a.localeCompare(b, "pt")
+            );
 
 
     select.innerHTML =
-        `
-            <option value="">
-                Todas as localidades
-            </option>
-        `;
+        `<option value="">
+            Todas as localidades
+        </option>`;
 
 
     localities.forEach(locality => {
@@ -2752,7 +4254,8 @@ function setRewardType(
     button
 ) {
 
-    currentRewardType = type;
+    currentRewardType =
+        type;
 
 
     document
@@ -2760,14 +4263,11 @@ function setRewardType(
             "#rewardsSection .category-btn"
         )
         .forEach(btn => {
-
             btn.classList.remove("active");
-
         });
 
 
     button.classList.add("active");
-
 
     renderRewards();
 }
@@ -2806,8 +4306,7 @@ function renderRewards() {
         filtered =
             filtered.filter(
                 reward =>
-                    reward.type ===
-                    currentRewardType
+                    reward.type === currentRewardType
             );
     }
 
@@ -2816,7 +4315,10 @@ function renderRewards() {
 
         grid.innerHTML = `
             <div class="empty">
-                Ainda não existem recompensas para estes filtros.
+                <div class="empty-icon">🎁</div>
+                <div>
+                    Ainda não existem recompensas para estes filtros.
+                </div>
             </div>
         `;
 
@@ -2844,28 +4346,32 @@ function renderRewards() {
                     userPoints >= points;
 
 
+                const icon =
+                    reward.type === "Hotel"
+                        ? "🛏️"
+                        : "🍽️";
+
+
                 return `
-                    <article class="card reward-card">
+                    <article class="reward-card">
 
-                        <div class="card-top">
-
-                            <h3>
-                                ${escapeHtml(
-                                    reward.name
-                                )}
-                            </h3>
-
-                            <span class="type-badge">
-                                ${escapeHtml(
-                                    reward.type || ""
-                                )}
-                            </span>
-
+                        <div class="reward-icon">
+                            ${icon}
                         </div>
 
+                        <span class="type-badge">
+                            ${escapeHtml(
+                                reward.type || "Parceiro"
+                            )}
+                        </span>
+
+                        <h3>
+                            ${escapeHtml(
+                                reward.name
+                            )}
+                        </h3>
 
                         <div class="reward-business">
-
                             📍
                             ${escapeHtml(
                                 reward.business || ""
@@ -2879,28 +4385,41 @@ function renderRewards() {
                                       )
                                     : ""
                             }
-
                         </div>
 
-
-                        <p>
+                        <p class="reward-description">
                             ${escapeHtml(
                                 reward.description || ""
                             )}
                         </p>
 
+                        <div class="reward-footer">
 
-                        <div class="reward-points">
-                            🏆 ${points} pontos
+                            <div>
+
+                                <div class="reward-points">
+                                    🏆 ${points}
+                                </div>
+
+                                <div
+                                    style="
+                                        color:#666;
+                                        font-size:10px;
+                                        margin-top:3px;
+                                    "
+                                >
+                                    pontos
+                                </div>
+
+                            </div>
+
+                            <div class="reward-benefit">
+                                ${escapeHtml(
+                                    reward.reward || ""
+                                )}
+                            </div>
+
                         </div>
-
-
-                        <p>
-                            ${escapeHtml(
-                                reward.reward || ""
-                            )}
-                        </p>
-
 
                         <button
                             class="btn ${
@@ -2908,14 +4427,13 @@ function renderRewards() {
                                     ? "btn-primary"
                                     : "btn-secondary"
                             }"
+                            style="width:100%;margin-top:17px;"
                             ${
                                 canRedeem
                                     ? ""
                                     : "disabled"
                             }
-                            onclick="openRewardModal(${Number(
-                                reward.id
-                            )})"
+                            onclick="openRewardModal(${Number(reward.id)})"
                         >
                             ${
                                 canRedeem
@@ -2931,9 +4449,7 @@ function renderRewards() {
 }
 
 
-function openRewardModal(
-    rewardId
-) {
+function openRewardModal(rewardId) {
 
     selectedReward =
         rewards.find(
@@ -2964,32 +4480,77 @@ function openRewardModal(
         )
         .innerHTML = `
 
-            <h3 style="margin-bottom:10px;">
+            <div
+                style="
+                    width:52px;
+                    height:52px;
+                    display:grid;
+                    place-items:center;
+                    border-radius:16px;
+                    background:rgba(255,101,0,.10);
+                    border:1px solid rgba(255,101,0,.20);
+                    font-size:23px;
+                    margin-bottom:16px;
+                "
+            >
+                🎁
+            </div>
+
+            <h3 style="font-size:20px;">
                 ${escapeHtml(
                     selectedReward.name
                 )}
             </h3>
 
             <p
-                style="color:#aaa;line-height:1.5;"
+                class="modal-text"
+                style="margin-top:8px;"
             >
                 ${escapeHtml(
                     selectedReward.reward || ""
                 )}
             </p>
 
-            <p style="margin-top:12px;">
-                <strong>
-                    ${points} pontos
-                </strong>
-                serão descontados da tua conta.
-            </p>
+            <div
+                style="
+                    margin-top:17px;
+                    padding:14px;
+                    border-radius:15px;
+                    background:rgba(255,255,255,.04);
+                    border:1px solid rgba(255,255,255,.07);
+                "
+            >
+                <div
+                    style="
+                        color:#666;
+                        font-size:10px;
+                        text-transform:uppercase;
+                        letter-spacing:.8px;
+                    "
+                >
+                    Custo
+                </div>
+
+                <div
+                    style="
+                        color:#ffae76;
+                        font-size:24px;
+                        font-weight:1000;
+                        margin-top:3px;
+                    "
+                >
+                    🏆 ${points}
+                </div>
+            </div>
 
             <p
-                style="margin-top:8px;color:#888;"
+                style="
+                    color:#666;
+                    font-size:11px;
+                    margin-top:12px;
+                "
             >
-                Saldo atual:
-                ${userPoints} pontos
+                Saldo atual: ${userPoints} pontos
             </p>
         `;
 
@@ -2999,7 +4560,8 @@ function openRewardModal(
 
     document
         .getElementById("rewardModal")
-        .classList.remove("hidden");
+        .classList
+        .remove("hidden");
 }
 
 
@@ -3007,7 +4569,8 @@ function closeRewardModal() {
 
     document
         .getElementById("rewardModal")
-        .classList.add("hidden");
+        .classList
+        .add("hidden");
 
     selectedReward = null;
 }
@@ -3046,19 +4609,25 @@ async function confirmRewardRedemption() {
         generateRewardCode();
 
 
-    const { error } =
-        await db
-            .from("redemptions")
-            .insert({
-                user_id:
-                    currentUser.id,
-                reward_id:
-                    selectedReward.id,
-                points_spent:
-                    points,
-                reward_code:
-                    rewardCode
-            });
+    const {
+        error
+    } = await db
+        .from("redemptions")
+        .insert({
+
+            user_id:
+                currentUser.id,
+
+            reward_id:
+                selectedReward.id,
+
+            points_spent:
+                points,
+
+            reward_code:
+                rewardCode
+
+        });
 
 
     if (error) {
@@ -3079,7 +4648,8 @@ async function confirmRewardRedemption() {
         .from("profiles")
         .update({
             points:
-                currentPoints - points
+                currentPoints -
+                points
         })
         .eq(
             "id",
@@ -3110,11 +4680,12 @@ async function confirmRewardRedemption() {
     await loadHistory();
 
 
-    setTimeout(() => {
-
-        closeRewardModal();
-
-    }, 1800);
+    setTimeout(
+        () => {
+            closeRewardModal();
+        },
+        1800
+    );
 }
 
 
@@ -3194,7 +4765,6 @@ async function loadHistory() {
 
 
     updateProfileUI();
-
     renderHistory();
 }
 
@@ -3225,6 +4795,7 @@ function renderHistory() {
 
         visitsContainer.innerHTML = `
             <div class="empty">
+                <div class="empty-icon">📍</div>
                 Ainda não tens visitas registadas.
             </div>
         `;
@@ -3235,16 +4806,14 @@ function renderHistory() {
             visitHistory
                 .map(item => {
 
-                    const date =
-                        formatDate(
-                            item.created_at
-                        );
-
-
                     return `
                         <div class="history-item">
 
-                            <div>
+                            <div class="history-icon">
+                                📍
+                            </div>
+
+                            <div class="history-main">
 
                                 <div class="history-name">
                                     ${escapeHtml(
@@ -3256,7 +4825,10 @@ function renderHistory() {
                                     ${escapeHtml(
                                         item.locality || ""
                                     )}
-                                    · ${date}
+                                    ·
+                                    ${formatDate(
+                                        item.created_at
+                                    )}
                                 </div>
 
                             </div>
@@ -3278,6 +4850,7 @@ function renderHistory() {
 
         redemptionContainer.innerHTML = `
             <div class="empty">
+                <div class="empty-icon">🎁</div>
                 Ainda não utilizaste nenhuma recompensa.
             </div>
         `;
@@ -3288,12 +4861,6 @@ function renderHistory() {
             redemptions
                 .map(item => {
 
-                    const date =
-                        formatDate(
-                            item.created_at
-                        );
-
-
                     const rewardName =
                         item.rewards?.name ||
                         "Recompensa";
@@ -3302,7 +4869,11 @@ function renderHistory() {
                     return `
                         <div class="history-item">
 
-                            <div>
+                            <div class="history-icon">
+                                🎁
+                            </div>
+
+                            <div class="history-main">
 
                                 <div class="history-name">
                                     ${escapeHtml(
@@ -3311,19 +4882,19 @@ function renderHistory() {
                                 </div>
 
                                 <div class="history-date">
-
                                     Código:
                                     ${escapeHtml(
                                         item.reward_code || "-"
                                     )}
-
-                                    · ${date}
-
+                                    ·
+                                    ${formatDate(
+                                        item.created_at
+                                    )}
                                 </div>
 
                             </div>
 
-                            <div class="history-points">
+                            <div class="history-points minus">
                                 -${Number(
                                     item.points_spent || 0
                                 )}
@@ -3346,20 +4917,22 @@ async function loadSuggestions() {
     if (!currentUser) return;
 
 
-    const { data, error } =
-        await db
-            .from("location_suggestions")
-            .select("*")
-            .eq(
-                "user_id",
-                currentUser.id
-            )
-            .order(
-                "created_at",
-                {
-                    ascending: false
-                }
-            );
+    const {
+        data,
+        error
+    } = await db
+        .from("location_suggestions")
+        .select("*")
+        .eq(
+            "user_id",
+            currentUser.id
+        )
+        .order(
+            "created_at",
+            {
+                ascending: false
+            }
+        );
 
 
     if (error) {
@@ -3375,16 +4948,13 @@ async function loadSuggestions() {
     }
 
 
-    suggestions = data || [];
+    suggestions =
+        data || [];
 
 
     renderSuggestions();
 }
 
-
-/* =========================================================
-   GPS DA SUGESTÃO
-========================================================= */
 
 function getSuggestionLocation() {
 
@@ -3435,9 +5005,7 @@ function getSuggestionLocation() {
 
 
             status.textContent =
-                `Localização obtida: ${latitude.toFixed(
-                    5
-                )}, ${longitude.toFixed(5)}`;
+                `✓ Localização obtida: ${latitude.toFixed(5)}, ${longitude.toFixed(5)}`;
         },
 
 
@@ -3465,10 +5033,6 @@ function getSuggestionLocation() {
 }
 
 
-/* =========================================================
-   ENVIAR SUGESTÃO
-========================================================= */
-
 async function submitSuggestion(event) {
 
     event.preventDefault();
@@ -3484,9 +5048,11 @@ async function submitSuggestion(event) {
 
 
     const type =
-        document.getElementById(
-            "suggestionType"
-        ).value;
+        document
+            .getElementById(
+                "suggestionType"
+            )
+            .value;
 
 
     const locality =
@@ -3570,46 +5136,48 @@ async function submitSuggestion(event) {
 
 
     /*
-        NÃO enviamos google_maps_url.
+        IMPORTANTE:
 
-        O utilizador envia apenas:
-        - dados do local
-        - latitude
-        - longitude
+        Não existe google_maps_url.
 
-        Quando o administrador aprovar a sugestão
-        e criar o local em "locations", o Google Maps
-        aparece automaticamente em "Locais".
+        O utilizador apenas envia as coordenadas GPS.
+
+        Depois da aprovação, o local entra em locations
+        e o Google Maps é criado automaticamente
+        a partir das coordenadas.
     */
 
 
-    const { error } =
-        await db
-            .from("location_suggestions")
-            .insert({
-                user_id:
-                    currentUser.id,
+    const {
+        error
+    } = await db
+        .from("location_suggestions")
+        .insert({
 
-                name,
+            user_id:
+                currentUser.id,
 
-                type,
+            name,
 
-                locality,
+            type,
 
-                district,
+            locality,
 
-                description,
+            district,
 
-                latitude,
+            description,
 
-                longitude,
+            latitude,
 
-                status:
-                    "pending",
+            longitude,
 
-                points_awarded:
-                    0
-            });
+            status:
+                "pending",
+
+            points_awarded:
+                0
+
+        });
 
 
     if (error) {
@@ -3685,16 +5253,12 @@ async function submitSuggestion(event) {
             "gpsStatus"
         )
         .textContent =
-            "Ainda não foi obtida a localização.";
+            "A localização GPS ainda não foi obtida.";
 
 
     await loadSuggestions();
 }
 
-
-/* =========================================================
-   MINHAS SUGESTÕES
-========================================================= */
 
 function renderSuggestions() {
 
@@ -3711,6 +5275,7 @@ function renderSuggestions() {
 
         container.innerHTML = `
             <div class="empty">
+                <div class="empty-icon">📍</div>
                 Ainda não enviaste nenhuma sugestão.
             </div>
         `;
@@ -3727,17 +5292,24 @@ function renderSuggestions() {
                     String(
                         item.status ||
                         "pending"
-                    ).toLowerCase();
+                    )
+                        .toLowerCase();
 
 
                 let statusText =
                     "Pendente";
+
+                let statusClass =
+                    "status-pending";
 
 
                 if (status === "approved") {
 
                     statusText =
                         "Aprovado";
+
+                    statusClass =
+                        "status-approved";
                 }
 
 
@@ -3745,16 +5317,16 @@ function renderSuggestions() {
 
                     statusText =
                         "Rejeitado";
+
+                    statusClass =
+                        "status-rejected";
                 }
 
 
                 return `
-                    <div
-                        class="card"
-                        style="margin-bottom:12px;"
-                    >
+                    <div class="suggestion-item">
 
-                        <div class="card-top">
+                        <div class="suggestion-item-top">
 
                             <h3>
                                 ${escapeHtml(
@@ -3762,42 +5334,39 @@ function renderSuggestions() {
                                 )}
                             </h3>
 
-                            <span class="type-badge">
-                                ${escapeHtml(
-                                    item.type
-                                )}
+                            <span
+                                class="status-badge ${statusClass}"
+                            >
+                                ${statusText}
                             </span>
 
                         </div>
 
+                        <div class="suggestion-meta">
 
-                        <p>
-                            📍
                             ${escapeHtml(
+                                item.type
+                            )}
+                            ·
+                            📍 ${escapeHtml(
                                 item.locality
                             )}
-                        </p>
-
-
-                        <div class="meta">
-
-                            Estado:
-                            <strong>
-                                ${statusText}
-                            </strong>
 
                         </div>
-
 
                         ${
                             status === "approved"
                                 ? `
-                                    <p
-                                        style="color:#76e7a4;"
+                                    <div
+                                        style="
+                                            color:#70eaa4;
+                                            font-size:11px;
+                                            margin-top:12px;
+                                        "
                                     >
-                                        Este local foi aprovado
-                                        e já pode aparecer em Locais.
-                                    </p>
+                                        ✓ Local aprovado e pronto
+                                        para aparecer em Locais.
+                                    </div>
                                 `
                                 : ""
                         }
@@ -3844,9 +5413,7 @@ function clearMessage(id) {
     if (!element) return;
 
 
-    element.textContent =
-        "";
-
+    element.textContent = "";
 
     element.className =
         "message";
@@ -3879,7 +5446,6 @@ function escapeHtml(value) {
         value === null ||
         value === undefined
     ) {
-
         return "";
     }
 
@@ -3909,9 +5475,56 @@ function escapeHtml(value) {
 
 
 /* =========================================================
-   FIM
+   FECHAR MODAIS AO CLICAR FORA
 ========================================================= */
 
+document.addEventListener(
+    "click",
+    event => {
+
+        const visitModal =
+            document.getElementById(
+                "visitModal"
+            );
+
+        const rewardModal =
+            document.getElementById(
+                "rewardModal"
+            );
+
+
+        if (
+            event.target === visitModal
+        ) {
+            closeVisitModal();
+        }
+
+
+        if (
+            event.target === rewardModal
+        ) {
+            closeRewardModal();
+        }
+    }
+);
+
+
+/* =========================================================
+   ESC FECHA MODAIS
+========================================================= */
+
+document.addEventListener(
+    "keydown",
+    event => {
+
+        if (event.key !== "Escape") {
+            return;
+        }
+
+        closeVisitModal();
+        closeRewardModal();
+    }
+);
 </script>
 
 </body>
