@@ -205,11 +205,8 @@
 
         .topbar {
             height: 72px;
-
             border-bottom: 1px solid var(--border);
-
             background: rgba(5,5,5,.88);
-
             backdrop-filter: blur(20px);
 
             display: flex;
@@ -220,7 +217,6 @@
 
             position: sticky;
             top: 0;
-
             z-index: 50;
         }
 
@@ -406,28 +402,7 @@
                 box-shadow .35s ease;
         }
 
-        .main-menu button::before {
-            content: attr(data-number);
-
-            position: absolute;
-
-            top: 22px;
-            left: 25px;
-
-            font-size: 11px;
-
-            line-height: 1;
-
-            font-weight: 800;
-
-            letter-spacing: 1.5px;
-
-            color: #666;
-
-            transition:
-                color .3s ease,
-                transform .3s ease;
-        }
+        /* Números removidos */
 
         .main-menu button::after {
             content: "↗";
@@ -475,13 +450,6 @@
             box-shadow:
                 0 22px 45px rgba(0,0,0,.38),
                 0 0 35px rgba(255,90,0,.06);
-        }
-
-        .main-menu button:hover::before {
-            color: var(--orange);
-
-            transform:
-                translateY(-2px);
         }
 
         .main-menu button:hover::after {
@@ -835,7 +803,7 @@
 
         /* =========================
            BARRA INFERIOR
-           APENAS SUGERIR LOCAL
+           MENU COMPLETO
         ========================= */
 
         .mobile-nav {
@@ -848,13 +816,17 @@
                 translateX(-50%);
 
             width:
-                min(560px, calc(100% - 28px));
+                min(760px, calc(100% - 28px));
 
-            height: 62px;
+            height: 68px;
 
-            display: flex;
+            display: grid;
 
-            justify-content: center;
+            grid-template-columns:
+                repeat(6, 1fr);
+
+            gap: 5px;
+
             align-items: center;
 
             background:
@@ -879,35 +851,59 @@
         }
 
         .mobile-nav button {
-            width: 100%;
             height: 100%;
 
             border: 0;
 
             background:
-                linear-gradient(
-                    135deg,
-                    rgba(255,90,0,.16),
-                    rgba(255,90,0,.07)
-                );
+                transparent;
 
-            color: white;
+            color: #777;
 
-            font-size: 13px;
+            font-size: 11px;
 
-            font-weight: 800;
+            font-weight: 750;
 
-            letter-spacing: .1px;
+            letter-spacing: -.1px;
 
-            border-radius: 15px;
+            border-radius: 14px;
+
+            padding: 0 7px;
 
             transition:
                 background .25s ease,
-                transform .25s ease,
-                border-color .25s ease;
+                color .25s ease,
+                transform .25s ease;
         }
 
-        .mobile-nav button::before {
+        .mobile-nav button:hover {
+            color: white;
+
+            background:
+                rgba(255,255,255,.055);
+
+            transform:
+                translateY(-1px);
+        }
+
+        .mobile-nav button.active {
+            color: white;
+
+            background:
+                rgba(255,90,0,.13);
+
+            box-shadow:
+                inset 0 0 0 1px
+                rgba(255,90,0,.18);
+        }
+
+        /* destaque para sugerir local */
+
+        .mobile-nav button[data-section="suggest"] {
+            color: var(--orange);
+        }
+
+        .mobile-nav button[data-section="suggest"]::before {
             content: "+";
 
             display: inline-flex;
@@ -915,10 +911,10 @@
             align-items: center;
             justify-content: center;
 
-            width: 22px;
-            height: 22px;
+            width: 20px;
+            height: 20px;
 
-            margin-right: 8px;
+            margin-right: 5px;
 
             border-radius: 50%;
 
@@ -927,27 +923,19 @@
 
             color: white;
 
-            font-size: 16px;
+            font-size: 14px;
 
             line-height: 1;
 
-            vertical-align: -2px;
+            vertical-align: -3px;
         }
 
-        .mobile-nav button:hover {
-            background:
-                linear-gradient(
-                    135deg,
-                    rgba(255,90,0,.28),
-                    rgba(255,90,0,.12)
-                );
-
-            transform:
-                translateY(-2px);
-        }
-
-        .mobile-nav button.active {
+        .mobile-nav button[data-section="suggest"]:hover,
+        .mobile-nav button[data-section="suggest"].active {
             color: white;
+
+            background:
+                rgba(255,90,0,.18);
         }
 
         /* =========================
@@ -975,6 +963,15 @@
 
             .menu-label {
                 font-size: 29px;
+            }
+
+            .mobile-nav {
+                width:
+                    min(700px, calc(100% - 24px));
+            }
+
+            .mobile-nav button {
+                font-size: 10px;
             }
         }
 
@@ -1028,12 +1025,6 @@
                 border-radius: 20px;
             }
 
-            .main-menu button::before {
-                top: 15px;
-                left: 17px;
-                font-size: 9px;
-            }
-
             .main-menu button::after {
                 top: 13px;
                 right: 14px;
@@ -1081,19 +1072,38 @@
             }
 
             .mobile-nav {
-                bottom: 12px;
+                bottom: 10px;
 
                 width:
-                    calc(100% - 24px);
+                    calc(100% - 14px);
 
-                height: 58px;
+                height: 62px;
 
                 border-radius: 18px;
+
+                gap: 2px;
+
+                padding: 4px;
             }
 
             .mobile-nav button {
+                font-size: 8px;
+
+                padding:
+                    0 2px;
+
+                border-radius: 12px;
+
+                line-height: 1.1;
+            }
+
+            .mobile-nav button[data-section="suggest"]::before {
+                width: 17px;
+                height: 17px;
+
+                margin-right: 2px;
+
                 font-size: 12px;
-                border-radius: 14px;
             }
         }
 
@@ -1126,7 +1136,13 @@
 
             .mobile-nav {
                 width:
-                    calc(100% - 18px);
+                    calc(100% - 8px);
+
+                height: 60px;
+            }
+
+            .mobile-nav button {
+                font-size: 7px;
             }
         }
 
@@ -1276,9 +1292,7 @@
 
                 <nav class="main-menu">
 
-                    <button
-                        data-section="locations"
-                        data-number="01">
+                    <button data-section="locations">
 
                         <span class="menu-label">
                             LOCAIS
@@ -1293,9 +1307,7 @@
                     </button>
 
 
-                    <button
-                        data-section="rewards"
-                        data-number="02">
+                    <button data-section="rewards">
 
                         <span class="menu-label">
                             RECOMPENSAS
@@ -1310,9 +1322,7 @@
                     </button>
 
 
-                    <button
-                        data-section="history"
-                        data-number="03">
+                    <button data-section="history">
 
                         <span class="menu-label">
                             HISTÓRICO
@@ -1327,9 +1337,7 @@
                     </button>
 
 
-                    <button
-                        data-section="profile"
-                        data-number="04">
+                    <button data-section="profile">
 
                         <span class="menu-label">
                             PERFIL
@@ -1609,8 +1617,28 @@
 
     <nav class="mobile-nav">
 
+        <button data-section="home">
+            Início
+        </button>
+
+        <button data-section="locations">
+            Locais
+        </button>
+
+        <button data-section="rewards">
+            Recompensas
+        </button>
+
+        <button data-section="history">
+            Histórico
+        </button>
+
+        <button data-section="profile">
+            Perfil
+        </button>
+
         <button data-section="suggest">
-            Sugerir local
+            Sugerir
         </button>
 
     </nav>
