@@ -1148,6 +1148,18 @@
                             </div>
 
                             <div class="field">
+                                <label>Link do Google Maps</label>
+                                <input
+                                    type="url"
+                                    id="suggestionGoogleMapsUrl"
+                                    placeholder="https://maps.google.com/..."
+                                >
+                                <div class="cascade-help">
+                                    Abre o local no Google Maps, copia o link e cola aqui.
+                                </div>
+                            </div>
+
+                            <div class="field">
                                 <label>Localidade</label>
                                 <input
                                     type="text"
@@ -2151,6 +2163,22 @@ function getLocationIcon(type) {
 
 function getGoogleMapsUrl(location) {
 
+    /*
+       Se existir um link guardado no Supabase,
+       usamos esse link diretamente.
+    */
+    const savedUrl =
+        String(location.google_maps_url || "").trim();
+
+    if (savedUrl) {
+        return savedUrl;
+    }
+
+    /*
+       Caso ainda não exista link guardado,
+       continuamos a gerar automaticamente
+       uma rota através das coordenadas.
+    */
     const latitude =
         Number(location.latitude);
 
@@ -2594,7 +2622,7 @@ function renderRewards() {
                 String(reward.type || "")
                     .trim()
                     .toLowerCase() ===
-                    selectedRewardType.toLowerCase()
+                selectedRewardType.toLowerCase()
             );
 
         });
@@ -3103,6 +3131,11 @@ async function submitSuggestion(event) {
             "suggestionName"
         ).value.trim();
 
+    const googleMapsUrl =
+        document.getElementById(
+            "suggestionGoogleMapsUrl"
+        ).value.trim();
+
     const locality =
         document.getElementById(
             "suggestionLocality"
@@ -3137,6 +3170,28 @@ async function submitSuggestion(event) {
             "suggestionMessage"
         );
 
+    /*
+       Se foi colocado um link, verificamos
+       se é realmente um URL válido.
+    */
+    if (googleMapsUrl) {
+
+        try {
+
+            new URL(googleMapsUrl);
+
+        } catch {
+
+            message.textContent =
+                "❌ O link do Google Maps não é válido.";
+
+            message.style.color =
+                "var(--red)";
+
+            return;
+        }
+    }
+
     message.textContent =
         "A enviar sugestão...";
 
@@ -3153,6 +3208,7 @@ async function submitSuggestion(event) {
             description: description || null,
             latitude,
             longitude,
+            google_maps_url: googleMapsUrl || null,
             status: "pending",
             points_awarded: 0
         });
