@@ -44,16 +44,11 @@ header p {
     padding: 20px;
 }
 
-.screen {
-    min-height: 60vh;
-}
-
 .card {
     background: #1d1d1d;
     border-radius: 15px;
     padding: 20px;
     margin-bottom: 20px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
 }
 
 .center {
@@ -82,13 +77,14 @@ select {
 .filterRow {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 10px;
+    gap: 12px;
+    margin-bottom: 15px;
 }
 
 .filterLabel {
     font-size: 13px;
     color: #aaa;
-    margin-top: 8px;
+    margin-bottom: 4px;
 }
 
 button {
@@ -112,10 +108,6 @@ button:hover {
     background: #333;
 }
 
-.secondary:hover {
-    background: #444;
-}
-
 .points {
     font-size: 35px;
     font-weight: bold;
@@ -129,6 +121,11 @@ button:hover {
     border-radius: 12px;
     padding: 15px;
     margin-top: 15px;
+}
+
+.reward h3,
+.challenge h3 {
+    margin-top: 0;
 }
 
 .message {
@@ -183,9 +180,9 @@ footer {
 <div class="container">
 
 
-<!-- MENU -->
+<!-- INÍCIO -->
 
-<section id="homeScreen" class="screen">
+<section id="homeScreen">
 
     <div class="card center">
 
@@ -207,7 +204,7 @@ footer {
 
 <!-- LOGIN -->
 
-<section id="loginScreen" class="screen hidden">
+<section id="loginScreen" class="hidden">
 
     <div class="card">
 
@@ -231,6 +228,7 @@ footer {
 
     </div>
 
+
     <div class="card">
 
         <h2>📝 Criar conta</h2>
@@ -253,6 +251,7 @@ footer {
 
     </div>
 
+
     <button
         class="secondary"
         onclick="showHomeScreen()"
@@ -263,9 +262,9 @@ footer {
 </section>
 
 
-<!-- ÁREA DO JOGADOR -->
+<!-- APP -->
 
-<section id="appScreen" class="screen hidden">
+<section id="appScreen" class="hidden">
 
 
     <!-- PERFIL -->
@@ -314,17 +313,13 @@ footer {
             id="locationFilter"
             onchange="filterLocations()"
         >
-
             <option value="">
                 Todas as localidades
             </option>
-
         </select>
 
         <div id="challenges">
-
             A carregar localizações...
-
         </div>
 
     </div>
@@ -337,8 +332,12 @@ footer {
         <h2>🎁 Recompensas</h2>
 
         <p>
-            Usa os teus pontos para obter descontos em hotéis e restaurantes.
+            Usa os teus pontos para obter descontos
+            em restaurantes e hotéis parceiros.
         </p>
+
+
+        <!-- DUAS COLUNAS -->
 
         <div class="filterRow">
 
@@ -357,9 +356,18 @@ footer {
                         Todos os negócios
                     </option>
 
+                    <option value="Restaurante">
+                        🍽️ Restaurante
+                    </option>
+
+                    <option value="Hotel">
+                        🏨 Hotel
+                    </option>
+
                 </select>
 
             </div>
+
 
             <div>
 
@@ -382,10 +390,9 @@ footer {
 
         </div>
 
+
         <div id="rewards">
-
             A carregar recompensas...
-
         </div>
 
     </div>
@@ -416,16 +423,16 @@ MotoQuest © 2026
 ========================= */
 
 const SUPABASE_URL =
-    "https://gqimkzovrabptxqheedq.supabase.co";
+"https://gqimkzovrabptxqheedq.supabase.co";
 
 const SUPABASE_KEY =
-    "sb_publishable_6PtfvoaY4V49YnCYifToyA_jQ1AXnPq";
+"sb_publishable_6PtfvoaY4V49YnCYifToyA_jQ1AXnPq";
 
 const supabaseClient =
-    window.supabase.createClient(
-        SUPABASE_URL,
-        SUPABASE_KEY
-    );
+window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+);
 
 
 /* =========================
@@ -454,7 +461,6 @@ function hideAllScreens() {
     document
         .getElementById("appScreen")
         .classList.add("hidden");
-
 }
 
 
@@ -465,8 +471,6 @@ function showHomeScreen() {
     document
         .getElementById("homeScreen")
         .classList.remove("hidden");
-
-    window.scrollTo(0, 0);
 }
 
 
@@ -477,8 +481,6 @@ function showLoginScreen() {
     document
         .getElementById("loginScreen")
         .classList.remove("hidden");
-
-    window.scrollTo(0, 0);
 }
 
 
@@ -489,20 +491,6 @@ function showAppScreen() {
     document
         .getElementById("appScreen")
         .classList.remove("hidden");
-
-    window.scrollTo(0, 0);
-}
-
-
-/* =========================
-   MENSAGEM
-========================= */
-
-function showMessage(message) {
-
-    document.getElementById("message").innerHTML =
-        message;
-
 }
 
 
@@ -580,16 +568,8 @@ async function register() {
     }
 
     alert(
-        "Conta criada com sucesso! Já podes entrar."
+        "Conta criada com sucesso!"
     );
-
-    document
-        .getElementById("registerEmail")
-        .value = "";
-
-    document
-        .getElementById("registerPassword")
-        .value = "";
 
 }
 
@@ -641,14 +621,6 @@ async function login() {
 
     await loadUser();
 
-    document
-        .getElementById("loginEmail")
-        .value = "";
-
-    document
-        .getElementById("loginPassword")
-        .value = "";
-
 }
 
 
@@ -674,12 +646,13 @@ async function loadUser() {
     const user =
         session.user;
 
-    const profileResult =
+    let profileResult =
         await supabaseClient
             .from("profiles")
             .select("*")
             .eq("id", user.id)
             .single();
+
 
     if (profileResult.error) {
 
@@ -739,18 +712,6 @@ async function logout() {
 
     await supabaseClient.auth.signOut();
 
-    document
-        .getElementById("profileName")
-        .textContent = "-";
-
-    document
-        .getElementById("profilePoints")
-        .textContent = "0";
-
-    document
-        .getElementById("message")
-        .innerHTML = "";
-
     showHomeScreen();
 
 }
@@ -804,13 +765,15 @@ function createLocationFilter() {
     const localities = [
         ...new Set(
             allLocations
-                .map(location => location.locality)
+                .map(item => item.locality)
                 .filter(Boolean)
         )
     ];
 
     select.innerHTML =
-        '<option value="">Todas as localidades</option>';
+        `<option value="">
+            Todas as localidades
+        </option>`;
 
     localities.forEach(locality => {
 
@@ -831,20 +794,15 @@ function filterLocations() {
             .getElementById("locationFilter")
             .value;
 
-    if (!selected) {
-
-        displayLocations(
-            allLocations
-        );
-
-        return;
-    }
-
     const filtered =
+        selected
+        ?
         allLocations.filter(
-            location =>
-                location.locality === selected
-        );
+            item =>
+                item.locality === selected
+        )
+        :
+        allLocations;
 
     displayLocations(
         filtered
@@ -881,9 +839,7 @@ function displayLocations(locations) {
             </h3>
 
             <p>
-                📍 <strong>
-                ${location.locality || ""}
-                </strong>
+                📍 ${location.locality}
             </p>
 
             ${
@@ -953,14 +909,11 @@ function calculateDistance(
         (lon2 - lon1) * rad;
 
     const a =
-        Math.sin(dLat / 2) *
-        Math.sin(dLat / 2) +
+        Math.sin(dLat / 2) ** 2 +
 
         Math.cos(lat1 * rad) *
         Math.cos(lat2 * rad) *
-
-        Math.sin(dLon / 2) *
-        Math.sin(dLon / 2);
+        Math.sin(dLon / 2) ** 2;
 
     const c =
         2 *
@@ -991,7 +944,7 @@ async function validateChallenge(
     if (!session) {
 
         showMessage(
-            "Tens de iniciar sessão primeiro."
+            "Tens de iniciar sessão."
         );
 
         return;
@@ -1014,16 +967,10 @@ async function validateChallenge(
 
         async function(position) {
 
-            const userLat =
-                position.coords.latitude;
-
-            const userLon =
-                position.coords.longitude;
-
             const distance =
                 calculateDistance(
-                    userLat,
-                    userLon,
+                    position.coords.latitude,
+                    position.coords.longitude,
                     latitude,
                     longitude
                 );
@@ -1031,13 +978,9 @@ async function validateChallenge(
             if (distance > radius) {
 
                 showMessage(
-
                     "❌ Estás a " +
                     Math.round(distance) +
-                    " metros do local.<br><br>" +
-
-                    "Aproxima-te do local para validar a visita."
-
+                    " metros do local."
                 );
 
                 return;
@@ -1056,17 +999,15 @@ async function validateChallenge(
             if (profileResult.error) {
 
                 showMessage(
-                    "Erro ao encontrar o teu perfil."
+                    "Erro ao encontrar o perfil."
                 );
 
                 return;
             }
 
-            const currentPoints =
-                profileResult.data.points || 0;
-
             const newPoints =
-                currentPoints + points;
+                (profileResult.data.points || 0) +
+                points;
 
             const updateResult =
                 await supabaseClient
@@ -1079,7 +1020,7 @@ async function validateChallenge(
             if (updateResult.error) {
 
                 showMessage(
-                    "Erro ao adicionar os pontos."
+                    "Erro ao adicionar pontos."
                 );
 
                 return;
@@ -1091,13 +1032,10 @@ async function validateChallenge(
                 newPoints;
 
             showMessage(
-
                 "🎉 Visita validada!<br><br>" +
-
                 "Ganhaste <strong>" +
                 points +
                 " pontos</strong>."
-
             );
 
         },
@@ -1105,23 +1043,16 @@ async function validateChallenge(
         function() {
 
             showMessage(
-
-                "❌ Não foi possível obter a localização.<br><br>" +
-
-                "Verifica se o GPS está ativo e permite o acesso à localização."
-
+                "❌ Não foi possível obter a localização. " +
+                "Verifica as permissões de GPS."
             );
 
         },
 
         {
-
             enableHighAccuracy: true,
-
             timeout: 10000,
-
             maximumAge: 0
-
         }
 
     );
@@ -1156,16 +1087,14 @@ async function loadRewards() {
     }
 
     /*
-       IMPORTANTE:
-       Aqui não filtramos os dados.
-       Tudo o que vier da tabela rewards
-       será colocado em allRewards.
+       NÃO filtramos aqui.
+       Primeiro carregamos todas as recompensas.
     */
 
     allRewards =
         result.data || [];
 
-    createRewardFilters();
+    createRewardLocalityFilter();
 
     displayRewards(
         allRewards
@@ -1175,28 +1104,15 @@ async function loadRewards() {
 
 
 /* =========================
-   FILTROS RECOMPENSAS
+   FILTRO LOCALIDADE
 ========================= */
 
-function createRewardFilters() {
+function createRewardLocalityFilter() {
 
-    const typeSelect =
-        document.getElementById(
-            "rewardTypeFilter"
-        );
-
-    const localitySelect =
+    const select =
         document.getElementById(
             "rewardLocalityFilter"
         );
-
-    const types = [
-        ...new Set(
-            allRewards
-                .map(reward => reward.type)
-                .filter(Boolean)
-        )
-    ];
 
     const localities = [
         ...new Set(
@@ -1206,34 +1122,14 @@ function createRewardFilters() {
         )
     ];
 
-    typeSelect.innerHTML =
-        '<option value="">Todos os negócios</option>';
-
-    localitySelect.innerHTML =
-        '<option value="">Todas as localidades</option>';
-
-    types.forEach(type => {
-
-        let icon = "🏪";
-
-        if (type === "Restaurante") {
-            icon = "🍽️";
-        }
-
-        if (type === "Hotel") {
-            icon = "🏨";
-        }
-
-        typeSelect.innerHTML +=
-            `<option value="${type}">
-                ${icon} ${type}
-            </option>`;
-
-    });
+    select.innerHTML =
+        `<option value="">
+            Todas as localidades
+        </option>`;
 
     localities.forEach(locality => {
 
-        localitySelect.innerHTML +=
+        select.innerHTML +=
             `<option value="${locality}">
                 ${locality}
             </option>`;
@@ -1244,38 +1140,52 @@ function createRewardFilters() {
 
 
 /* =========================
-   FILTRAR RECOMPENSAS
+   FILTRO RECOMPENSAS
 ========================= */
 
 function filterRewards() {
 
-    const selectedType =
+    const type =
         document
-            .getElementById("rewardTypeFilter")
+            .getElementById(
+                "rewardTypeFilter"
+            )
             .value;
 
-    const selectedLocality =
+    const locality =
         document
-            .getElementById("rewardLocalityFilter")
+            .getElementById(
+                "rewardLocalityFilter"
+            )
             .value;
+
 
     const filtered =
         allRewards.filter(reward => {
 
-            const typeMatches =
-                !selectedType ||
-                reward.type === selectedType;
+            /*
+               Se type estiver vazio,
+               mostra todos.
 
-            const localityMatches =
-                !selectedLocality ||
-                reward.locality === selectedLocality;
+               Se locality estiver vazio,
+               mostra todas as localidades.
+            */
+
+            const typeOK =
+                !type ||
+                reward.type === type;
+
+            const localityOK =
+                !locality ||
+                reward.locality === locality;
 
             return (
-                typeMatches &&
-                localityMatches
+                typeOK &&
+                localityOK
             );
 
         });
+
 
     displayRewards(
         filtered
@@ -1298,24 +1208,38 @@ function displayRewards(rewards) {
     if (!rewards.length) {
 
         container.innerHTML =
-            "Não existem recompensas.";
+            "Não existem recompensas para estes filtros.";
 
         return;
     }
 
     let html = "";
 
+
     rewards.forEach(reward => {
 
         let icon = "🎁";
 
-        if (reward.type === "Restaurante") {
+        if (
+            reward.type &&
+            reward.type.toLowerCase()
+                .includes("restaurante")
+        ) {
+
             icon = "🍽️";
+
         }
 
-        if (reward.type === "Hotel") {
+        if (
+            reward.type &&
+            reward.type.toLowerCase()
+                .includes("hotel")
+        ) {
+
             icon = "🏨";
+
         }
+
 
         html += `
 
@@ -1325,39 +1249,43 @@ function displayRewards(rewards) {
                 ${icon} ${reward.name}
             </h3>
 
-            ${
-                reward.type
-                ?
-                `<p>
-                    🏪 <strong>
-                    ${reward.type}
-                    </strong>
-                </p>`
-                :
-                ""
-            }
-
-            ${
-                reward.locality
-                ?
-                `<p>
-                    📍 <strong>
-                    ${reward.locality}
-                    </strong>
-                </p>`
-                :
-                ""
-            }
 
             ${
                 reward.business
                 ?
                 `<p>
-                    🏢 ${reward.business}
+                    🏢 <strong>
+                    ${reward.business}
+                    </strong>
                 </p>`
                 :
                 ""
             }
+
+
+            ${
+                reward.type
+                ?
+                `<p>
+                    🏪 Tipo:
+                    ${reward.type}
+                </p>`
+                :
+                ""
+            }
+
+
+            ${
+                reward.locality
+                ?
+                `<p>
+                    📍 Localidade:
+                    ${reward.locality}
+                </p>`
+                :
+                ""
+            }
+
 
             ${
                 reward.description
@@ -1369,15 +1297,22 @@ function displayRewards(rewards) {
                 ""
             }
 
+
             <p>
-                💰 <strong>
-                ${reward.points} pontos
+                🎯 Custo:
+                <strong>
+                    ${reward.points} pontos
                 </strong>
             </p>
 
+
             <p>
-                🏆 ${reward.reward}
+                🎁 Recompensa:
+                <strong>
+                    ${reward.reward}
+                </strong>
             </p>
+
 
             <button
                 onclick="redeemReward(${reward.id})"
@@ -1391,6 +1326,7 @@ function displayRewards(rewards) {
 
     });
 
+
     container.innerHTML =
         html;
 
@@ -1398,7 +1334,7 @@ function displayRewards(rewards) {
 
 
 /* =========================
-   CÓDIGO RECOMPENSA
+   CÓDIGO DA RECOMPENSA
 ========================= */
 
 function generateRewardCode() {
@@ -1414,14 +1350,13 @@ function generateRewardCode() {
         i++
     ) {
 
-        const randomIndex =
-            Math.floor(
-                Math.random() *
-                characters.length
-            );
-
         code +=
-            characters[randomIndex];
+            characters[
+                Math.floor(
+                    Math.random() *
+                    characters.length
+                )
+            ];
 
     }
 
@@ -1454,12 +1389,14 @@ async function redeemReward(rewardId) {
     const user =
         session.user;
 
+
     const rewardResult =
         await supabaseClient
             .from("rewards")
             .select("*")
             .eq("id", rewardId)
             .single();
+
 
     if (rewardResult.error) {
 
@@ -1470,8 +1407,10 @@ async function redeemReward(rewardId) {
         return;
     }
 
+
     const reward =
         rewardResult.data;
+
 
     const profileResult =
         await supabaseClient
@@ -1479,6 +1418,7 @@ async function redeemReward(rewardId) {
             .select("points")
             .eq("id", user.id)
             .single();
+
 
     if (profileResult.error) {
 
@@ -1489,10 +1429,15 @@ async function redeemReward(rewardId) {
         return;
     }
 
+
     const currentPoints =
         profileResult.data.points || 0;
 
-    if (currentPoints < reward.points) {
+
+    if (
+        currentPoints <
+        reward.points
+    ) {
 
         showMessage(
             "❌ Não tens pontos suficientes."
@@ -1501,30 +1446,37 @@ async function redeemReward(rewardId) {
         return;
     }
 
+
     const rewardCode =
         generateRewardCode();
+
 
     const redemptionResult =
         await supabaseClient
             .from("redemptions")
             .insert({
 
-                user_id: user.id,
+                user_id:
+                    user.id,
 
-                reward_id: reward.id,
+                reward_id:
+                    reward.id,
 
-                points_spent: reward.points,
+                points_spent:
+                    reward.points,
 
-                reward_code: rewardCode
+                reward_code:
+                    rewardCode
 
             })
             .select()
             .single();
 
+
     if (redemptionResult.error) {
 
         showMessage(
-            "Erro ao guardar a recompensa. Os pontos não foram retirados."
+            "Erro ao guardar a recompensa."
         );
 
         console.log(
@@ -1534,33 +1486,39 @@ async function redeemReward(rewardId) {
         return;
     }
 
+
     const newPoints =
         currentPoints -
         reward.points;
+
 
     const updateResult =
         await supabaseClient
             .from("profiles")
             .update({
 
-                points: newPoints
+                points:
+                    newPoints
 
             })
             .eq("id", user.id);
 
+
     if (updateResult.error) {
 
         showMessage(
-            "A recompensa foi registada, mas houve um erro nos pontos."
+            "Erro ao atualizar os pontos."
         );
 
         return;
     }
 
+
     document
         .getElementById("profilePoints")
         .textContent =
         newPoints;
+
 
     document
         .getElementById("message")
@@ -1582,7 +1540,21 @@ async function redeemReward(rewardId) {
 
 
 /* =========================
-   VERIFICAR SESSÃO
+   MENSAGEM
+========================= */
+
+function showMessage(message) {
+
+    document
+        .getElementById("message")
+        .innerHTML =
+        message;
+
+}
+
+
+/* =========================
+   SESSÃO
 ========================= */
 
 async function checkSession() {
