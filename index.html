@@ -8,6 +8,19 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
+:root {
+    --orange: #ff6a00;
+    --orange-light: #ff7a1a;
+    --orange-dark: #d95700;
+
+    --bg: #080808;
+    --panel: #101010;
+    --panel-2: #141414;
+    --border: #252525;
+    --text: #f5f5f5;
+    --muted: #777;
+}
+
 * {
     box-sizing: border-box;
     margin: 0;
@@ -18,8 +31,8 @@ html,
 body {
     width: 100%;
     min-height: 100%;
-    background: #080808;
-    color: #f5f5f5;
+    background: var(--bg);
+    color: var(--text);
     font-family:
         Inter,
         -apple-system,
@@ -53,57 +66,83 @@ button {
 
 .auth-screen {
     min-height: 100vh;
+
     display: flex;
     align-items: center;
     justify-content: center;
+
     padding: 24px;
+
     background:
-        radial-gradient(circle at top, #191919 0%, #080808 55%);
+        radial-gradient(
+            circle at top,
+            #191919 0%,
+            #080808 55%
+        );
 }
 
 .auth-box {
     width: 100%;
     max-width: 420px;
+
     padding: 38px 30px;
-    border: 1px solid #252525;
+
+    border: 1px solid var(--border);
     border-radius: 22px;
+
     background: rgba(15,15,15,.96);
 }
 
 .logo {
     text-align: center;
+
+    color: var(--text);
+
     font-size: 28px;
     font-weight: 800;
+
     letter-spacing: 4px;
+
     margin-bottom: 8px;
 }
 
 .logo-subtitle {
     text-align: center;
-    color: #777;
+
+    color: var(--muted);
+
     font-size: 13px;
+
     margin-bottom: 34px;
 }
 
 .auth-tabs {
     display: flex;
     gap: 8px;
+
     margin-bottom: 24px;
 }
 
 .auth-tabs button {
     flex: 1;
+
     border: 1px solid #2a2a2a;
+
     background: #111;
     color: #777;
+
     padding: 11px;
+
     border-radius: 10px;
+
+    transition: .2s ease;
 }
 
 .auth-tabs button.active {
-    background: #f2f2f2;
+    background: var(--orange);
     color: #080808;
-    border-color: #f2f2f2;
+
+    border-color: var(--orange);
 }
 
 .form-group {
@@ -112,8 +151,11 @@ button {
 
 .form-group label {
     display: block;
+
     margin-bottom: 7px;
+
     color: #aaa;
+
     font-size: 12px;
 }
 
@@ -121,36 +163,67 @@ button {
 .form-group textarea,
 .form-group select {
     width: 100%;
+
     border: 1px solid #292929;
+
     background: #101010;
     color: #f5f5f5;
+
     border-radius: 10px;
+
     padding: 13px 14px;
+
     outline: none;
+
+    transition: border-color .2s ease;
 }
 
 .form-group input:focus,
 .form-group textarea:focus,
 .form-group select:focus {
-    border-color: #555;
+    border-color: var(--orange);
 }
 
 .primary-btn {
     width: 100%;
+
     border: 0;
     border-radius: 11px;
-    background: #f4f4f4;
+
+    background: var(--orange);
     color: #080808;
+
     padding: 14px;
+
     font-weight: 700;
+
     margin-top: 8px;
+
+    transition:
+        background .2s ease,
+        transform .2s ease;
+}
+
+.primary-btn:hover {
+    background: var(--orange-light);
+    transform: translateY(-1px);
+}
+
+.primary-btn:disabled {
+    opacity: .35;
+    cursor: not-allowed;
+    transform: none;
 }
 
 .auth-message {
     min-height: 20px;
+
     margin-top: 15px;
+
     text-align: center;
+
     color: #888;
+
     font-size: 12px;
 }
 
@@ -166,9 +239,11 @@ button {
 .topbar {
     position: sticky;
     top: 0;
+
     z-index: 50;
 
     height: 66px;
+
     padding: 0 22px;
 
     display: flex;
@@ -176,34 +251,52 @@ button {
     justify-content: space-between;
 
     border-bottom: 1px solid #181818;
+
     background: rgba(8,8,8,.94);
+
     backdrop-filter: blur(18px);
 }
 
 .brand {
+    color: var(--orange);
+
     font-size: 15px;
     font-weight: 800;
+
     letter-spacing: 3px;
 }
 
 .topbar-right {
     display: flex;
     align-items: center;
+
     gap: 12px;
 }
 
 .points-display {
-    color: #aaa;
+    color: var(--orange);
+
     font-size: 12px;
 }
 
 .logout-btn {
     border: 1px solid #292929;
+
     background: #111;
     color: #999;
+
     border-radius: 8px;
+
     padding: 7px 10px;
+
     font-size: 11px;
+
+    transition: .2s ease;
+}
+
+.logout-btn:hover {
+    border-color: var(--orange);
+    color: var(--orange);
 }
 
 /* =========================
@@ -212,7 +305,9 @@ button {
 
 .main-content {
     width: min(1100px, calc(100% - 32px));
+
     margin: 0 auto;
+
     padding-top: 42px;
 }
 
@@ -256,7 +351,7 @@ button {
 
     font-weight: 700;
 
-    letter-spacing: -0.8px;
+    letter-spacing: -.8px;
 }
 
 /* =========================
@@ -265,12 +360,16 @@ button {
 
 .main-menu {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
     gap: 14px;
 }
 
 .main-menu button {
     position: relative;
+
     min-height: 210px;
 
     overflow: hidden;
@@ -279,6 +378,7 @@ button {
     border-radius: 18px;
 
     background: #111;
+
     color: #fff;
 
     text-align: left;
@@ -290,12 +390,16 @@ button {
 
 .main-menu button:hover {
     transform: translateY(-3px);
-    border-color: #454545;
+
+    border-color:
+        rgba(255,106,0,.55);
 }
 
 .main-menu button::before {
     content: "";
+
     position: absolute;
+
     inset: 0;
 
     background-position: center;
@@ -319,6 +423,7 @@ button {
 
 .main-menu button:hover::before {
     opacity: .43;
+
     transform: scale(1.07);
 }
 
@@ -364,22 +469,35 @@ button {
 
 .main-menu-content {
     position: absolute;
+
     z-index: 2;
-    inset: auto 20px 20px 20px;
+
+    inset:
+        auto
+        20px
+        20px
+        20px;
 }
 
 .main-menu-content span {
     display: block;
+
     color: #aaa;
+
     font-size: 11px;
+
     margin-bottom: 5px;
+
     letter-spacing: .5px;
+
     text-transform: uppercase;
 }
 
 .main-menu-content strong {
     display: block;
+
     font-size: 23px;
+
     letter-spacing: -.5px;
 }
 
@@ -393,6 +511,7 @@ button {
 
 .suggest-home-bar button {
     width: 100%;
+
     min-height: 82px;
 
     display: flex;
@@ -402,6 +521,7 @@ button {
     padding: 17px 20px;
 
     border: 1px solid #252525;
+
     border-radius: 15px;
 
     background: #101010;
@@ -414,13 +534,18 @@ button {
 
 .suggest-home-bar button:hover {
     background: #141414;
-    border-color: #3a3a3a;
+
+    border-color:
+        rgba(255,106,0,.55);
 }
 
 .suggest-home-content {
     display: flex;
+
     align-items: center;
+
     gap: 14px;
+
     text-align: left;
 }
 
@@ -429,31 +554,44 @@ button {
     height: 40px;
 
     display: flex;
+
     align-items: center;
     justify-content: center;
 
-    border: 1px solid #303030;
+    border:
+        1px solid
+        rgba(255,106,0,.45);
+
     border-radius: 50%;
 
-    color: #ddd;
+    color: var(--orange);
+
     font-size: 23px;
+
     font-weight: 300;
 }
 
 .suggest-home-text strong {
     display: block;
+
+    color: #f5f5f5;
+
     font-size: 12px;
+
     letter-spacing: 1px;
+
     margin-bottom: 4px;
 }
 
 .suggest-home-text span {
     color: #777;
+
     font-size: 11px;
 }
 
 .suggest-home-arrow {
-    color: #777;
+    color: var(--orange);
+
     font-size: 20px;
 }
 
@@ -465,12 +603,14 @@ button {
     margin-top: 22px;
 
     display: flex;
+
     align-items: center;
     justify-content: space-between;
 
     padding: 18px 20px;
 
     border: 1px solid #202020;
+
     border-radius: 15px;
 
     background: #0d0d0d;
@@ -478,13 +618,19 @@ button {
 
 .home-points-label {
     color: #777;
+
     font-size: 11px;
+
     text-transform: uppercase;
+
     letter-spacing: 1px;
 }
 
 .home-points-value {
+    color: var(--orange);
+
     font-size: 24px;
+
     font-weight: 700;
 }
 
@@ -497,13 +643,18 @@ button {
 }
 
 .section-header h2 {
+    color: #f5f5f5;
+
     font-size: 28px;
+
     letter-spacing: -.8px;
+
     margin-bottom: 7px;
 }
 
 .section-header p {
     color: #777;
+
     font-size: 13px;
 }
 
@@ -513,9 +664,13 @@ button {
 
 .filters {
     display: flex;
+
     gap: 8px;
+
     overflow-x: auto;
+
     padding-bottom: 6px;
+
     margin-bottom: 20px;
 }
 
@@ -523,19 +678,33 @@ button {
     flex-shrink: 0;
 
     border: 1px solid #292929;
+
     border-radius: 9px;
 
     background: #101010;
+
     color: #777;
 
     padding: 9px 13px;
+
     font-size: 11px;
+
+    transition: .2s ease;
+}
+
+.filter-btn:hover {
+    border-color:
+        rgba(255,106,0,.45);
+
+    color: #bbb;
 }
 
 .filter-btn.active {
-    background: #eee;
-    color: #090909;
-    border-color: #eee;
+    background: var(--orange);
+
+    color: #080808;
+
+    border-color: var(--orange);
 }
 
 /* =========================
@@ -544,21 +713,41 @@ button {
 
 .cards-grid {
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+
+    grid-template-columns:
+        repeat(3, minmax(0, 1fr));
+
     gap: 14px;
 }
 
 .card {
     border: 1px solid #252525;
+
     border-radius: 15px;
+
     overflow: hidden;
+
     background: #101010;
+
+    transition:
+        border-color .25s ease,
+        transform .25s ease;
+}
+
+.card:hover {
+    border-color:
+        rgba(255,106,0,.4);
+
+    transform: translateY(-2px);
 }
 
 .card-image {
     width: 100%;
+
     height: 175px;
+
     object-fit: cover;
+
     display: block;
 }
 
@@ -568,21 +757,32 @@ button {
 
 .card-body h3 {
     font-size: 16px;
+
     margin-bottom: 7px;
 }
 
 .card-body p {
     color: #777;
+
     font-size: 12px;
+
     line-height: 1.5;
 }
 
 .card-meta {
     display: flex;
+
     justify-content: space-between;
+
     margin-top: 13px;
+
     color: #888;
+
     font-size: 11px;
+}
+
+.card-meta span:last-child {
+    color: var(--orange);
 }
 
 /* =========================
@@ -591,18 +791,22 @@ button {
 
 .history-list {
     display: flex;
+
     flex-direction: column;
+
     gap: 9px;
 }
 
 .history-item {
     display: flex;
+
     align-items: center;
     justify-content: space-between;
 
     padding: 16px;
 
     border: 1px solid #232323;
+
     border-radius: 13px;
 
     background: #101010;
@@ -610,18 +814,23 @@ button {
 
 .history-main strong {
     display: block;
+
     font-size: 14px;
+
     margin-bottom: 4px;
 }
 
 .history-main span {
     color: #777;
+
     font-size: 11px;
 }
 
 .history-points {
-    color: #ddd;
+    color: var(--orange);
+
     font-size: 13px;
+
     font-weight: 600;
 }
 
@@ -633,7 +842,9 @@ button {
     max-width: 600px;
 
     border: 1px solid #252525;
+
     border-radius: 18px;
+
     background: #101010;
 
     padding: 24px;
@@ -644,27 +855,38 @@ button {
     height: 70px;
 
     display: flex;
+
     align-items: center;
     justify-content: center;
 
     margin-bottom: 18px;
 
     border-radius: 50%;
+
     background: #1b1b1b;
-    border: 1px solid #2c2c2c;
+
+    border:
+        1px solid
+        rgba(255,106,0,.45);
+
+    color: var(--orange);
 
     font-size: 23px;
+
     font-weight: 700;
 }
 
 .profile-name {
     font-size: 25px;
+
     margin-bottom: 5px;
 }
 
 .profile-email {
     color: #777;
+
     font-size: 12px;
+
     margin-bottom: 25px;
 }
 
@@ -678,6 +900,7 @@ button {
     padding: 24px;
 
     border: 1px solid #252525;
+
     border-radius: 18px;
 
     background: #101010;
@@ -685,6 +908,7 @@ button {
 
 .suggest-form textarea {
     min-height: 120px;
+
     resize: vertical;
 }
 
@@ -694,9 +918,13 @@ button {
 
 .empty-state {
     padding: 50px 20px;
+
     text-align: center;
+
     color: #666;
+
     border: 1px dashed #242424;
+
     border-radius: 15px;
 }
 
@@ -706,29 +934,40 @@ button {
 
 .mobile-nav {
     position: fixed;
+
     z-index: 100;
 
     left: 50%;
     bottom: 14px;
+
     transform: translateX(-50%);
 
-    width: min(620px, calc(100% - 24px));
+    width: min(
+        620px,
+        calc(100% - 24px)
+    );
 
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
+
+    grid-template-columns:
+        repeat(5, 1fr);
 
     padding: 8px;
 
     border: 1px solid #252525;
+
     border-radius: 17px;
 
     background: rgba(15,15,15,.94);
+
     backdrop-filter: blur(20px);
 }
 
 .mobile-nav button {
     border: 0;
+
     background: transparent;
+
     color: #666;
 
     padding: 12px 5px;
@@ -736,10 +975,17 @@ button {
     border-radius: 11px;
 
     font-size: 10px;
+
+    transition: .2s ease;
+}
+
+.mobile-nav button:hover {
+    color: var(--orange);
 }
 
 .mobile-nav button.active {
-    background: #eeeeee;
+    background: var(--orange);
+
     color: #090909;
 }
 
@@ -749,17 +995,20 @@ button {
 
 .modal {
     position: fixed;
+
     z-index: 200;
 
     inset: 0;
 
     display: none;
+
     align-items: center;
     justify-content: center;
 
     padding: 20px;
 
     background: rgba(0,0,0,.75);
+
     backdrop-filter: blur(10px);
 }
 
@@ -768,9 +1017,13 @@ button {
 }
 
 .modal-box {
-    width: min(520px, 100%);
+    width: min(
+        520px,
+        100%
+    );
 
     border: 1px solid #292929;
+
     border-radius: 18px;
 
     background: #111;
@@ -780,18 +1033,23 @@ button {
 
 .modal-box h3 {
     font-size: 22px;
+
     margin-bottom: 8px;
 }
 
 .modal-box p {
     color: #777;
+
     font-size: 12px;
+
     line-height: 1.5;
+
     margin-bottom: 20px;
 }
 
 .modal-actions {
     display: flex;
+
     gap: 9px;
 }
 
@@ -799,17 +1057,24 @@ button {
     flex: 1;
 
     border-radius: 10px;
+
     padding: 12px;
 
     border: 1px solid #292929;
+
     background: #181818;
+
     color: #aaa;
 }
 
 .modal-actions .confirm {
-    background: #eee;
+    background: var(--orange);
+
     color: #080808;
-    border-color: #eee;
+
+    border-color: var(--orange);
+
+    font-weight: 700;
 }
 
 /* =========================
@@ -820,16 +1085,19 @@ button {
 
     .main-content {
         width: calc(100% - 22px);
+
         padding-top: 29px;
     }
 
     .topbar {
         padding: 0 13px;
+
         height: 60px;
     }
 
     .brand {
         font-size: 13px;
+
         letter-spacing: 2.5px;
     }
 
@@ -839,18 +1107,23 @@ button {
 
     .logout-btn {
         padding: 6px 8px;
+
         font-size: 10px;
     }
 
     .welcome {
         margin-bottom: 27px;
+
         font-size: 12px;
+
         gap: 5px;
+
         letter-spacing: .1px;
     }
 
     .welcome strong {
         font-size: 22px;
+
         letter-spacing: -.5px;
     }
 
@@ -860,6 +1133,7 @@ button {
 
     .main-menu button {
         min-height: 170px;
+
         border-radius: 14px;
     }
 
@@ -883,12 +1157,14 @@ button {
 
     .suggest-home-bar button {
         min-height: 72px;
+
         padding: 13px;
     }
 
     .suggest-home-icon {
         width: 34px;
         height: 34px;
+
         font-size: 20px;
     }
 
@@ -943,18 +1219,24 @@ button {
         </div>
 
         <div class="auth-tabs">
-            <button id="loginTab" class="active">
+
+            <button
+                id="loginTab"
+                class="active"
+            >
                 Entrar
             </button>
 
             <button id="registerTab">
                 Criar conta
             </button>
+
         </div>
 
         <form id="authForm">
 
             <div class="form-group">
+
                 <label for="authEmail">
                     Email
                 </label>
@@ -965,9 +1247,11 @@ button {
                     required
                     autocomplete="email"
                 >
+
             </div>
 
             <div class="form-group">
+
                 <label for="authPassword">
                     Palavra-passe
                 </label>
@@ -978,12 +1262,14 @@ button {
                     required
                     autocomplete="current-password"
                 >
+
             </div>
 
             <div
                 id="registerNameGroup"
                 class="form-group hidden"
             >
+
                 <label for="authName">
                     Nome
                 </label>
@@ -993,6 +1279,7 @@ button {
                     type="text"
                     autocomplete="name"
                 >
+
             </div>
 
             <button
@@ -1047,9 +1334,7 @@ button {
 
     <main class="main-content">
 
-        <!-- =========================
-             HOME
-        ========================= -->
+        <!-- HOME -->
 
         <section
             id="homeSection"
@@ -1067,10 +1352,10 @@ button {
 
             <div class="main-menu">
 
-                <button
-                    data-section="locations"
-                >
+                <button data-section="locations">
+
                     <div class="main-menu-content">
+
                         <span>
                             Explorar
                         </span>
@@ -1078,14 +1363,16 @@ button {
                         <strong>
                             Descobrir locais
                         </strong>
+
                     </div>
+
                 </button>
 
 
-                <button
-                    data-section="rewards"
-                >
+                <button data-section="rewards">
+
                     <div class="main-menu-content">
+
                         <span>
                             Conquistas
                         </span>
@@ -1093,14 +1380,16 @@ button {
                         <strong>
                             Recompensas
                         </strong>
+
                     </div>
+
                 </button>
 
 
-                <button
-                    data-section="history"
-                >
+                <button data-section="history">
+
                     <div class="main-menu-content">
+
                         <span>
                             Percurso
                         </span>
@@ -1108,14 +1397,16 @@ button {
                         <strong>
                             O meu histórico
                         </strong>
+
                     </div>
+
                 </button>
 
 
-                <button
-                    data-section="profile"
-                >
+                <button data-section="profile">
+
                     <div class="main-menu-content">
+
                         <span>
                             Conta
                         </span>
@@ -1123,7 +1414,9 @@ button {
                         <strong>
                             O meu perfil
                         </strong>
+
                     </div>
+
                 </button>
 
             </div>
@@ -1181,9 +1474,7 @@ button {
         </section>
 
 
-        <!-- =========================
-             LOCATIONS
-        ========================= -->
+        <!-- LOCATIONS -->
 
         <section
             id="locationsSection"
@@ -1251,9 +1542,7 @@ button {
         </section>
 
 
-        <!-- =========================
-             REWARDS
-        ========================= -->
+        <!-- REWARDS -->
 
         <section
             id="rewardsSection"
@@ -1314,9 +1603,7 @@ button {
         </section>
 
 
-        <!-- =========================
-             HISTORY
-        ========================= -->
+        <!-- HISTORY -->
 
         <section
             id="historySection"
@@ -1344,9 +1631,7 @@ button {
         </section>
 
 
-        <!-- =========================
-             PROFILE
-        ========================= -->
+        <!-- PROFILE -->
 
         <section
             id="profileSection"
@@ -1409,9 +1694,7 @@ button {
         </section>
 
 
-        <!-- =========================
-             SUGGEST
-        ========================= -->
+        <!-- SUGGEST -->
 
         <section
             id="suggestSection"
@@ -1534,9 +1817,7 @@ button {
     </main>
 
 
-    <!-- =========================
-         MOBILE NAV
-    ========================= -->
+    <!-- NAV -->
 
     <nav class="mobile-nav">
 
@@ -1547,27 +1828,19 @@ button {
             Início
         </button>
 
-        <button
-            data-section="locations"
-        >
+        <button data-section="locations">
             Locais
         </button>
 
-        <button
-            data-section="rewards"
-        >
+        <button data-section="rewards">
             Recompensas
         </button>
 
-        <button
-            data-section="history"
-        >
+        <button data-section="history">
             Histórico
         </button>
 
-        <button
-            data-section="profile"
-        >
+        <button data-section="profile">
             Perfil
         </button>
 
@@ -1576,9 +1849,7 @@ button {
 </div>
 
 
-<!-- =========================
-     VISIT MODAL
-========================= -->
+<!-- VISIT MODAL -->
 
 <div
     id="visitModal"
@@ -1619,9 +1890,7 @@ button {
 </div>
 
 
-<!-- =========================
-     REWARD MODAL
-========================= -->
+<!-- REWARD MODAL -->
 
 <div
     id="rewardModal"
@@ -1706,7 +1975,10 @@ let suggestionLongitude = null;
 
 function escapeHTML(value) {
 
-    if (value === null || value === undefined) {
+    if (
+        value === null ||
+        value === undefined
+    ) {
         return "";
     }
 
@@ -1787,7 +2059,9 @@ function updateAuthMode() {
         document.getElementById("registerTab");
 
     const nameGroup =
-        document.getElementById("registerNameGroup");
+        document.getElementById(
+            "registerNameGroup"
+        );
 
     const submit =
         document.getElementById("authSubmit");
@@ -1817,24 +2091,30 @@ function updateAuthMode() {
 
 document
     .getElementById("loginTab")
-    .addEventListener("click", () => {
+    .addEventListener(
+        "click",
+        () => {
 
-        isRegisterMode = false;
+            isRegisterMode = false;
 
-        updateAuthMode();
+            updateAuthMode();
 
-    });
+        }
+    );
 
 
 document
     .getElementById("registerTab")
-    .addEventListener("click", () => {
+    .addEventListener(
+        "click",
+        () => {
 
-        isRegisterMode = true;
+            isRegisterMode = true;
 
-        updateAuthMode();
+            updateAuthMode();
 
-    });
+        }
+    );
 
 
 /* =========================
@@ -1843,109 +2123,123 @@ document
 
 document
     .getElementById("authForm")
-    .addEventListener("submit", async event => {
+    .addEventListener(
+        "submit",
+        async event => {
 
-        event.preventDefault();
+            event.preventDefault();
 
-        const email =
-            document
-                .getElementById("authEmail")
-                .value
-                .trim();
+            const email =
+                document
+                    .getElementById("authEmail")
+                    .value
+                    .trim();
 
-        const password =
-            document
-                .getElementById("authPassword")
-                .value;
+            const password =
+                document
+                    .getElementById("authPassword")
+                    .value;
 
-        const name =
-            document
-                .getElementById("authName")
-                .value
-                .trim();
+            const name =
+                document
+                    .getElementById("authName")
+                    .value
+                    .trim();
 
-        const message =
-            document.getElementById("authMessage");
-
-        showMessage(message, "A processar...");
-
-        try {
-
-            if (isRegisterMode) {
-
-                if (!name) {
-                    showMessage(
-                        message,
-                        "Introduz o teu nome."
-                    );
-                    return;
-                }
-
-                const {
-                    data,
-                    error
-                } = await supabaseClient.auth.signUp({
-                    email,
-                    password,
-                    options: {
-                        data: {
-                            name
-                        }
-                    }
-                });
-
-                if (error) {
-                    throw error;
-                }
-
-                if (!data.session) {
-
-                    showMessage(
-                        message,
-                        "Conta criada. Verifica o teu email para confirmar a conta."
-                    );
-
-                } else {
-
-                    showMessage(
-                        message,
-                        "Conta criada com sucesso."
-                    );
-
-                }
-
-            } else {
-
-                const {
-                    data,
-                    error
-                } = await supabaseClient.auth.signInWithPassword({
-                    email,
-                    password
-                });
-
-                if (error) {
-                    throw error;
-                }
-
-                if (data.user) {
-                    await initializeApp(data.user);
-                }
-
-            }
-
-        } catch (error) {
-
-            console.error(error);
+            const message =
+                document.getElementById(
+                    "authMessage"
+                );
 
             showMessage(
                 message,
-                error.message ||
-                "Ocorreu um erro."
+                "A processar..."
             );
-        }
 
-    });
+            try {
+
+                if (isRegisterMode) {
+
+                    if (!name) {
+
+                        showMessage(
+                            message,
+                            "Introduz o teu nome."
+                        );
+
+                        return;
+                    }
+
+                    const {
+                        data,
+                        error
+                    } =
+                        await supabaseClient.auth.signUp({
+                            email,
+                            password,
+                            options: {
+                                data: {
+                                    name
+                                }
+                            }
+                        });
+
+                    if (error) {
+                        throw error;
+                    }
+
+                    if (!data.session) {
+
+                        showMessage(
+                            message,
+                            "Conta criada. Verifica o teu email para confirmar a conta."
+                        );
+
+                    } else {
+
+                        showMessage(
+                            message,
+                            "Conta criada com sucesso."
+                        );
+
+                    }
+
+                } else {
+
+                    const {
+                        data,
+                        error
+                    } =
+                        await supabaseClient.auth.signInWithPassword({
+                            email,
+                            password
+                        });
+
+                    if (error) {
+                        throw error;
+                    }
+
+                    if (data.user) {
+                        await initializeApp(
+                            data.user
+                        );
+                    }
+
+                }
+
+            } catch (error) {
+
+                console.error(error);
+
+                showMessage(
+                    message,
+                    error.message ||
+                    "Ocorreu um erro."
+                );
+            }
+
+        }
+    );
 
 
 /* =========================
@@ -1957,10 +2251,13 @@ async function checkSession() {
     const {
         data,
         error
-    } = await supabaseClient.auth.getSession();
+    } =
+        await supabaseClient.auth.getSession();
 
     if (error) {
+
         console.error(error);
+
         return;
     }
 
@@ -1987,7 +2284,11 @@ supabaseClient.auth.onAuthStateChange(
     async (_event, session) => {
 
         if (session?.user) {
-            await initializeApp(session.user);
+
+            await initializeApp(
+                session.user
+            );
+
         }
 
     }
@@ -2035,11 +2336,12 @@ async function loadProfile() {
         let {
             data,
             error
-        } = await supabaseClient
-            .from("profiles")
-            .select("*")
-            .eq("id", currentUser.id)
-            .maybeSingle();
+        } =
+            await supabaseClient
+                .from("profiles")
+                .select("*")
+                .eq("id", currentUser.id)
+                .maybeSingle();
 
         if (error) {
             console.error(error);
@@ -2055,15 +2357,16 @@ async function loadProfile() {
             const {
                 data: created,
                 error: createError
-            } = await supabaseClient
-                .from("profiles")
-                .insert({
-                    id: currentUser.id,
-                    name,
-                    points: 0
-                })
-                .select()
-                .single();
+            } =
+                await supabaseClient
+                    .from("profiles")
+                    .insert({
+                        id: currentUser.id,
+                        name,
+                        points: 0
+                    })
+                    .select()
+                    .single();
 
             if (!createError) {
                 data = created;
@@ -2096,7 +2399,9 @@ function updateProfileUI() {
         "";
 
     const points =
-        Number(currentProfile?.points || 0);
+        Number(
+            currentProfile?.points || 0
+        );
 
     document
         .getElementById("welcomeName")
@@ -2136,24 +2441,29 @@ function updateProfileUI() {
 async function loadLocations() {
 
     const grid =
-        document.getElementById("locationsGrid");
+        document.getElementById(
+            "locationsGrid"
+        );
 
     if (!grid) return;
 
     grid.innerHTML =
-        `<div class="empty-state">A carregar locais...</div>`;
+        `<div class="empty-state">
+            A carregar locais...
+        </div>`;
 
     try {
 
         const {
             data,
             error
-        } = await supabaseClient
-            .from("locations")
-            .select("*")
-            .order("created_at", {
-                ascending: false
-            });
+        } =
+            await supabaseClient
+                .from("locations")
+                .select("*")
+                .order("created_at", {
+                    ascending: false
+                });
 
         if (error) {
             throw error;
@@ -2180,7 +2490,9 @@ function renderLocations(
 ) {
 
     const grid =
-        document.getElementById("locationsGrid");
+        document.getElementById(
+            "locationsGrid"
+        );
 
     if (!grid) return;
 
@@ -2189,8 +2501,9 @@ function renderLocations(
             ? locations
             : locations.filter(
                 location =>
-                    String(location.category || "")
-                        .toLowerCase() === filter
+                    String(
+                        location.category || ""
+                    ).toLowerCase() === filter
             );
 
     if (!filtered.length) {
@@ -2204,65 +2517,69 @@ function renderLocations(
     }
 
     grid.innerHTML =
-        filtered.map(location => {
+        filtered
+            .map(location => {
 
-            const image =
-                location.image_url ||
-                "https://images.unsplash.com/photo-1500534623283-312aade485b7?auto=format&fit=crop&w=1200&q=85";
+                const image =
+                    location.image_url ||
+                    "https://images.unsplash.com/photo-1500534623283-312aade485b7?auto=format&fit=crop&w=1200&q=85";
 
-            return `
-                <article class="card">
+                return `
+                    <article class="card">
 
-                    <img
-                        class="card-image"
-                        src="${escapeHTML(image)}"
-                        alt="${escapeHTML(location.name)}"
-                    >
+                        <img
+                            class="card-image"
+                            src="${escapeHTML(image)}"
+                            alt="${escapeHTML(location.name)}"
+                        >
 
-                    <div class="card-body">
+                        <div class="card-body">
 
-                        <h3>
-                            ${escapeHTML(location.name)}
-                        </h3>
-
-                        <p>
-                            ${escapeHTML(
-                                location.description ||
-                                "Descobre este local com a comunidade MotoQuest."
-                            )}
-                        </p>
-
-                        <div class="card-meta">
-
-                            <span>
+                            <h3>
                                 ${escapeHTML(
-                                    location.category ||
-                                    "Local"
+                                    location.name
                                 )}
-                            </span>
+                            </h3>
 
-                            <span>
-                                +${Number(
-                                    location.points || 0
-                                )} pts
-                            </span>
+                            <p>
+                                ${escapeHTML(
+                                    location.description ||
+                                    "Descobre este local com a comunidade MotoQuest."
+                                )}
+                            </p>
+
+                            <div class="card-meta">
+
+                                <span>
+                                    ${escapeHTML(
+                                        location.category ||
+                                        "Local"
+                                    )}
+                                </span>
+
+                                <span>
+                                    +${Number(
+                                        location.points || 0
+                                    )} pts
+                                </span>
+
+                            </div>
+
+                            <button
+                                class="primary-btn"
+                                style="margin-top:14px"
+                                onclick="openVisitModal('${escapeHTML(location.id)}')"
+                            >
+                                Fazer check-in
+                            </button>
 
                         </div>
 
-                        <button
-                            class="primary-btn"
-                            style="margin-top:14px"
-                            onclick="openVisitModal('${escapeHTML(location.id)}')"
-                        >
-                            Fazer check-in
-                        </button>
+                    </article>
+                `;
 
-                    </div>
-
-                </article>
-            `;
-
-        }).join("");
+            })
+            .join("");
 }
 
 
@@ -2271,7 +2588,9 @@ function renderLocations(
 ========================= */
 
 document
-    .querySelectorAll("[data-location-filter]")
+    .querySelectorAll(
+        "[data-location-filter]"
+    )
     .forEach(button => {
 
         button.addEventListener(
@@ -2283,13 +2602,18 @@ document
                         "[data-location-filter]"
                     )
                     .forEach(btn =>
-                        btn.classList.remove("active")
+                        btn.classList.remove(
+                            "active"
+                        )
                     );
 
-                button.classList.add("active");
+                button.classList.add(
+                    "active"
+                );
 
                 renderLocations(
-                    button.dataset.locationFilter
+                    button.dataset
+                        .locationFilter
                 );
 
             }
@@ -2333,13 +2657,18 @@ function openVisitModal(locationId) {
 
 document
     .getElementById("closeVisitModal")
-    .addEventListener("click", () => {
+    .addEventListener(
+        "click",
+        () => {
 
-        document
-            .getElementById("visitModal")
-            .classList.remove("active");
+            document
+                .getElementById("visitModal")
+                .classList.remove(
+                    "active"
+                );
 
-    });
+        }
+    );
 
 
 document
@@ -2348,7 +2677,10 @@ document
         "click",
         async () => {
 
-            if (!selectedLocation || !currentUser) {
+            if (
+                !selectedLocation ||
+                !currentUser
+            ) {
                 return;
             }
 
@@ -2356,15 +2688,20 @@ document
 
                 const {
                     error
-                } = await supabaseClient
-                    .from("visits")
-                    .insert({
-                        user_id: currentUser.id,
-                        location_id: selectedLocation.id,
-                        points: Number(
-                            selectedLocation.points || 0
-                        )
-                    });
+                } =
+                    await supabaseClient
+                        .from("visits")
+                        .insert({
+                            user_id:
+                                currentUser.id,
+                            location_id:
+                                selectedLocation.id,
+                            points:
+                                Number(
+                                    selectedLocation.points ||
+                                    0
+                                )
+                        });
 
                 if (error) {
                     throw error;
@@ -2372,27 +2709,33 @@ document
 
                 const currentPoints =
                     Number(
-                        currentProfile?.points || 0
+                        currentProfile?.points ||
+                        0
                     );
 
                 const addedPoints =
                     Number(
-                        selectedLocation.points || 0
+                        selectedLocation.points ||
+                        0
                     );
 
                 const {
                     data,
                     error: profileError
-                } = await supabaseClient
-                    .from("profiles")
-                    .update({
-                        points:
-                            currentPoints +
-                            addedPoints
-                    })
-                    .eq("id", currentUser.id)
-                    .select()
-                    .single();
+                } =
+                    await supabaseClient
+                        .from("profiles")
+                        .update({
+                            points:
+                                currentPoints +
+                                addedPoints
+                        })
+                        .eq(
+                            "id",
+                            currentUser.id
+                        )
+                        .select()
+                        .single();
 
                 if (profileError) {
                     throw profileError;
@@ -2403,8 +2746,12 @@ document
                 updateProfileUI();
 
                 document
-                    .getElementById("visitModal")
-                    .classList.remove("active");
+                    .getElementById(
+                        "visitModal"
+                    )
+                    .classList.remove(
+                        "active"
+                    );
 
                 await loadHistory();
 
@@ -2433,24 +2780,29 @@ document
 async function loadRewards() {
 
     const grid =
-        document.getElementById("rewardsGrid");
+        document.getElementById(
+            "rewardsGrid"
+        );
 
     if (!grid) return;
 
     grid.innerHTML =
-        `<div class="empty-state">A carregar recompensas...</div>`;
+        `<div class="empty-state">
+            A carregar recompensas...
+        </div>`;
 
     try {
 
         const {
             data,
             error
-        } = await supabaseClient
-            .from("rewards")
-            .select("*")
-            .order("points", {
-                ascending: true
-            });
+        } =
+            await supabaseClient
+                .from("rewards")
+                .select("*")
+                .order("points", {
+                    ascending: true
+                });
 
         if (error) {
             throw error;
@@ -2477,7 +2829,9 @@ function renderRewards(
 ) {
 
     const grid =
-        document.getElementById("rewardsGrid");
+        document.getElementById(
+            "rewardsGrid"
+        );
 
     if (!grid) return;
 
@@ -2486,8 +2840,9 @@ function renderRewards(
             ? rewards
             : rewards.filter(
                 reward =>
-                    String(reward.category || "")
-                        .toLowerCase() === filter
+                    String(
+                        reward.category || ""
+                    ).toLowerCase() === filter
             );
 
     if (!filtered.length) {
@@ -2501,83 +2856,91 @@ function renderRewards(
     }
 
     const points =
-        Number(currentProfile?.points || 0);
+        Number(
+            currentProfile?.points || 0
+        );
 
     grid.innerHTML =
-        filtered.map(reward => {
+        filtered
+            .map(reward => {
 
-            const image =
-                reward.image_url ||
-                "https://images.unsplash.com/photo-1500534623283-312aade485b7?auto=format&fit=crop&w=1200&q=85";
+                const image =
+                    reward.image_url ||
+                    "https://images.unsplash.com/photo-1500534623283-312aade485b7?auto=format&fit=crop&w=1200&q=85";
 
-            const enough =
-                points >= Number(
-                    reward.points || 0
-                );
+                const enough =
+                    points >= Number(
+                        reward.points || 0
+                    );
 
-            return `
-                <article class="card">
+                return `
+                    <article class="card">
 
-                    <img
-                        class="card-image"
-                        src="${escapeHTML(image)}"
-                        alt="${escapeHTML(reward.name)}"
-                    >
+                        <img
+                            class="card-image"
+                            src="${escapeHTML(image)}"
+                            alt="${escapeHTML(reward.name)}"
+                        >
 
-                    <div class="card-body">
+                        <div class="card-body">
 
-                        <h3>
-                            ${escapeHTML(reward.name)}
-                        </h3>
-
-                        <p>
-                            ${escapeHTML(
-                                reward.description ||
-                                "Uma recompensa exclusiva MotoQuest."
-                            )}
-                        </p>
-
-                        <div class="card-meta">
-
-                            <span>
+                            <h3>
                                 ${escapeHTML(
-                                    reward.category ||
-                                    "Recompensa"
+                                    reward.name
                                 )}
-                            </span>
+                            </h3>
 
-                            <span>
-                                ${Number(
-                                    reward.points || 0
-                                )} pts
-                            </span>
+                            <p>
+                                ${escapeHTML(
+                                    reward.description ||
+                                    "Uma recompensa exclusiva MotoQuest."
+                                )}
+                            </p>
+
+                            <div class="card-meta">
+
+                                <span>
+                                    ${escapeHTML(
+                                        reward.category ||
+                                        "Recompensa"
+                                    )}
+                                </span>
+
+                                <span>
+                                    ${Number(
+                                        reward.points || 0
+                                    )} pts
+                                </span>
+
+                            </div>
+
+                            <button
+                                class="primary-btn"
+                                style="margin-top:14px"
+                                ${enough ? "" : "disabled"}
+                                onclick="openRewardModal('${escapeHTML(reward.id)}')"
+                            >
+                                ${
+                                    enough
+                                        ? "Resgatar"
+                                        : "Pontos insuficientes"
+                                }
+                            </button>
 
                         </div>
 
-                        <button
-                            class="primary-btn"
-                            style="margin-top:14px"
-                            ${enough ? "" : "disabled"}
-                            onclick="openRewardModal('${escapeHTML(reward.id)}')"
-                        >
-                            ${
-                                enough
-                                    ? "Resgatar"
-                                    : "Pontos insuficientes"
-                            }
-                        </button>
+                    </article>
+                `;
 
-                    </div>
-
-                </article>
-            `;
-
-        }).join("");
+            })
+            .join("");
 }
 
 
 document
-    .querySelectorAll("[data-reward-filter]")
+    .querySelectorAll(
+        "[data-reward-filter]"
+    )
     .forEach(button => {
 
         button.addEventListener(
@@ -2589,13 +2952,18 @@ document
                         "[data-reward-filter]"
                     )
                     .forEach(btn =>
-                        btn.classList.remove("active")
+                        btn.classList.remove(
+                            "active"
+                        )
                     );
 
-                button.classList.add("active");
+                button.classList.add(
+                    "active"
+                );
 
                 renderRewards(
-                    button.dataset.rewardFilter
+                    button.dataset
+                        .rewardFilter
                 );
 
             }
@@ -2625,7 +2993,9 @@ function openRewardModal(rewardId) {
             selectedReward.name;
 
     document
-        .getElementById("rewardDescription")
+        .getElementById(
+            "rewardDescription"
+        )
         .textContent =
             `Esta recompensa custa ${Number(
                 selectedReward.points || 0
@@ -2639,13 +3009,18 @@ function openRewardModal(rewardId) {
 
 document
     .getElementById("closeRewardModal")
-    .addEventListener("click", () => {
+    .addEventListener(
+        "click",
+        () => {
 
-        document
-            .getElementById("rewardModal")
-            .classList.remove("active");
+            document
+                .getElementById("rewardModal")
+                .classList.remove(
+                    "active"
+                );
 
-    });
+        }
+    );
 
 
 document
@@ -2654,21 +3029,29 @@ document
         "click",
         async () => {
 
-            if (!selectedReward || !currentUser) {
+            if (
+                !selectedReward ||
+                !currentUser
+            ) {
                 return;
             }
 
             const currentPoints =
                 Number(
-                    currentProfile?.points || 0
+                    currentProfile?.points ||
+                    0
                 );
 
             const rewardPoints =
                 Number(
-                    selectedReward.points || 0
+                    selectedReward.points ||
+                    0
                 );
 
-            if (currentPoints < rewardPoints) {
+            if (
+                currentPoints <
+                rewardPoints
+            ) {
 
                 alert(
                     "Não tens pontos suficientes."
@@ -2681,13 +3064,17 @@ document
 
                 const {
                     error
-                } = await supabaseClient
-                    .from("redemptions")
-                    .insert({
-                        user_id: currentUser.id,
-                        reward_id: selectedReward.id,
-                        points: rewardPoints
-                    });
+                } =
+                    await supabaseClient
+                        .from("redemptions")
+                        .insert({
+                            user_id:
+                                currentUser.id,
+                            reward_id:
+                                selectedReward.id,
+                            points:
+                                rewardPoints
+                        });
 
                 if (error) {
                     throw error;
@@ -2696,16 +3083,20 @@ document
                 const {
                     data,
                     error: profileError
-                } = await supabaseClient
-                    .from("profiles")
-                    .update({
-                        points:
-                            currentPoints -
-                            rewardPoints
-                    })
-                    .eq("id", currentUser.id)
-                    .select()
-                    .single();
+                } =
+                    await supabaseClient
+                        .from("profiles")
+                        .update({
+                            points:
+                                currentPoints -
+                                rewardPoints
+                        })
+                        .eq(
+                            "id",
+                            currentUser.id
+                        )
+                        .select()
+                        .single();
 
                 if (profileError) {
                     throw profileError;
@@ -2716,8 +3107,12 @@ document
                 updateProfileUI();
 
                 document
-                    .getElementById("rewardModal")
-                    .classList.remove("active");
+                    .getElementById(
+                        "rewardModal"
+                    )
+                    .classList.remove(
+                        "active"
+                    );
 
                 renderRewards();
 
@@ -2746,30 +3141,43 @@ document
 async function loadHistory() {
 
     const list =
-        document.getElementById("historyList");
+        document.getElementById(
+            "historyList"
+        );
 
-    if (!list || !currentUser) return;
+    if (
+        !list ||
+        !currentUser
+    ) {
+        return;
+    }
 
     list.innerHTML =
-        `<div class="empty-state">A carregar histórico...</div>`;
+        `<div class="empty-state">
+            A carregar histórico...
+        </div>`;
 
     try {
 
         const {
             data,
             error
-        } = await supabaseClient
-            .from("visits")
-            .select(`
-                *,
-                locations (
-                    name
+        } =
+            await supabaseClient
+                .from("visits")
+                .select(`
+                    *,
+                    locations (
+                        name
+                    )
+                `)
+                .eq(
+                    "user_id",
+                    currentUser.id
                 )
-            `)
-            .eq("user_id", currentUser.id)
-            .order("created_at", {
-                ascending: false
-            });
+                .order("created_at", {
+                    ascending: false
+                });
 
         if (error) {
             throw error;
@@ -2794,7 +3202,9 @@ async function loadHistory() {
 function renderHistory() {
 
     const list =
-        document.getElementById("historyList");
+        document.getElementById(
+            "historyList"
+        );
 
     if (!list) return;
 
@@ -2809,46 +3219,48 @@ function renderHistory() {
     }
 
     list.innerHTML =
-        history.map(item => {
+        history
+            .map(item => {
 
-            const name =
-                item.locations?.name ||
-                "Local";
+                const name =
+                    item.locations?.name ||
+                    "Local";
 
-            const date =
-                item.created_at
-                    ? new Date(
-                        item.created_at
-                    ).toLocaleDateString(
-                        "pt-PT"
-                    )
-                    : "";
+                const date =
+                    item.created_at
+                        ? new Date(
+                            item.created_at
+                        ).toLocaleDateString(
+                            "pt-PT"
+                        )
+                        : "";
 
-            return `
-                <div class="history-item">
+                return `
+                    <div class="history-item">
 
-                    <div class="history-main">
+                        <div class="history-main">
 
-                        <strong>
-                            ${escapeHTML(name)}
-                        </strong>
+                            <strong>
+                                ${escapeHTML(name)}
+                            </strong>
 
-                        <span>
-                            ${escapeHTML(date)}
-                        </span>
+                            <span>
+                                ${escapeHTML(date)}
+                            </span>
+
+                        </div>
+
+                        <div class="history-points">
+                            +${Number(
+                                item.points || 0
+                            )} pts
+                        </div>
 
                     </div>
+                `;
 
-                    <div class="history-points">
-                        +${Number(
-                            item.points || 0
-                        )} pts
-                    </div>
-
-                </div>
-            `;
-
-        }).join("");
+            })
+            .join("");
 }
 
 
@@ -2930,18 +3342,24 @@ document
 
             const name =
                 document
-                    .getElementById("suggestName")
+                    .getElementById(
+                        "suggestName"
+                    )
                     .value
                     .trim();
 
             const category =
                 document
-                    .getElementById("suggestCategory")
+                    .getElementById(
+                        "suggestCategory"
+                    )
                     .value;
 
             const description =
                 document
-                    .getElementById("suggestDescription")
+                    .getElementById(
+                        "suggestDescription"
+                    )
                     .value
                     .trim();
 
@@ -2959,25 +3377,29 @@ document
 
                 const {
                     error
-                } = await supabaseClient
-                    .from("suggestions")
-                    .insert({
-                        user_id: currentUser.id,
-                        name,
-                        category,
-                        description,
-                        latitude:
-                            suggestionLatitude,
-                        longitude:
-                            suggestionLongitude
-                    });
+                } =
+                    await supabaseClient
+                        .from("suggestions")
+                        .insert({
+                            user_id:
+                                currentUser.id,
+                            name,
+                            category,
+                            description,
+                            latitude:
+                                suggestionLatitude,
+                            longitude:
+                                suggestionLongitude
+                        });
 
                 if (error) {
                     throw error;
                 }
 
                 document
-                    .getElementById("suggestForm")
+                    .getElementById(
+                        "suggestForm"
+                    )
                     .reset();
 
                 suggestionLatitude = null;
@@ -3008,7 +3430,9 @@ document
 ========================= */
 
 document
-    .querySelectorAll("[data-section]")
+    .querySelectorAll(
+        "[data-section]"
+    )
     .forEach(button => {
 
         button.addEventListener(
@@ -3045,15 +3469,19 @@ document
                 .classList.add("hidden");
 
             document
-                .getElementById("authScreen")
-                .classList.remove("hidden");
+                .getElementById(
+                    "authScreen"
+                )
+                .classList.remove(
+                    "hidden"
+                );
 
         }
     );
 
 
 /* =========================
-   MODAL BACKDROP
+   MODALS
 ========================= */
 
 document
@@ -3064,8 +3492,14 @@ document
             "click",
             event => {
 
-                if (event.target === modal) {
-                    modal.classList.remove("active");
+                if (
+                    event.target === modal
+                ) {
+
+                    modal.classList.remove(
+                        "active"
+                    );
+
                 }
 
             }
