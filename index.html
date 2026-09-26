@@ -258,12 +258,26 @@ button {
 }
 
 .brand {
+    border: 0;
+
+    background: transparent;
+
     color: var(--orange);
 
     font-size: 15px;
     font-weight: 800;
 
     letter-spacing: 3px;
+
+    padding: 4px 0;
+
+    transition:
+        color .2s ease,
+        opacity .2s ease;
+}
+
+.brand:hover {
+    color: var(--orange-light);
 }
 
 .topbar-right {
@@ -659,8 +673,38 @@ button {
 }
 
 /* =========================
-   FILTERS
+   LOCATION FILTERS
 ========================= */
+
+.location-filter-groups {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 17px;
+
+    margin-bottom: 24px;
+}
+
+.location-filter-group {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 8px;
+}
+
+.filter-title {
+    color: #999;
+
+    font-size: 10px;
+
+    font-weight: 700;
+
+    letter-spacing: 1.2px;
+
+    text-transform: uppercase;
+}
 
 .filters {
     display: flex;
@@ -671,7 +715,7 @@ button {
 
     padding-bottom: 6px;
 
-    margin-bottom: 20px;
+    scrollbar-width: thin;
 }
 
 .filter-btn {
@@ -773,6 +817,8 @@ button {
     display: flex;
 
     justify-content: space-between;
+
+    gap: 10px;
 
     margin-top: 13px;
 
@@ -1196,6 +1242,14 @@ button {
     .suggest-form {
         padding: 18px;
     }
+
+    .location-filter-groups {
+        gap: 14px;
+    }
+
+    .filter-title {
+        font-size: 9px;
+    }
 }
 </style>
 </head>
@@ -1310,9 +1364,14 @@ button {
 
     <header class="topbar">
 
-        <div class="brand">
+        <button
+            class="brand"
+            id="brandHomeBtn"
+            type="button"
+            aria-label="Voltar ao início"
+        >
             MOTOQUEST
-        </div>
+        </button>
 
         <div class="topbar-right">
 
@@ -1494,42 +1553,74 @@ button {
             </div>
 
 
-            <div class="filters">
+            <div class="location-filter-groups">
 
-                <button
-                    class="filter-btn active"
-                    data-location-filter="all"
-                >
-                    Todos
-                </button>
+                <!-- LOCALIDADE -->
 
-                <button
-                    class="filter-btn"
-                    data-location-filter="natureza"
-                >
-                    Natureza
-                </button>
+                <div class="location-filter-group">
 
-                <button
-                    class="filter-btn"
-                    data-location-filter="restaurante"
-                >
-                    Restaurantes
-                </button>
+                    <div class="filter-title">
+                        Localidade
+                    </div>
 
-                <button
-                    class="filter-btn"
-                    data-location-filter="cultura"
-                >
-                    Cultura
-                </button>
+                    <div
+                        id="locationLocalityFilters"
+                        class="filters"
+                    >
 
-                <button
-                    class="filter-btn"
-                    data-location-filter="aventura"
-                >
-                    Aventura
-                </button>
+                        <button
+                            class="filter-btn active"
+                            data-locality-filter="all"
+                        >
+                            Todas
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <!-- TIPO DE LOCAL -->
+
+                <div class="location-filter-group">
+
+                    <div class="filter-title">
+                        Tipo de local
+                    </div>
+
+                    <div class="filters">
+
+                        <button
+                            class="filter-btn active"
+                            data-type-filter="all"
+                        >
+                            Todos
+                        </button>
+
+                        <button
+                            class="filter-btn"
+                            data-type-filter="miradouro"
+                        >
+                            Miradouro
+                        </button>
+
+                        <button
+                            class="filter-btn"
+                            data-type-filter="baloico"
+                        >
+                            Baloiço
+                        </button>
+
+                        <button
+                            class="filter-btn"
+                            data-type-filter="monumento"
+                        >
+                            Monumento
+                        </button>
+
+                    </div>
+
+                </div>
 
             </div>
 
@@ -1970,6 +2061,14 @@ let suggestionLongitude = null;
 
 
 /* =========================
+   LOCATION FILTER STATE
+========================= */
+
+let selectedLocalityFilter = "all";
+let selectedTypeFilter = "all";
+
+
+/* =========================
    HELPERS
 ========================= */
 
@@ -1988,6 +2087,25 @@ function escapeHTML(value) {
         .replaceAll(">", "&gt;")
         .replaceAll('"', "&quot;")
         .replaceAll("'", "&#039;");
+}
+
+
+/*
+    Normaliza texto para os filtros.
+
+    Exemplo:
+    "Covilhã"  -> "covilha"
+    "covilha"  -> "covilha"
+    "Baloiço"  -> "baloico"
+*/
+
+function normalizeFilterValue(value) {
+
+    return String(value || "")
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .trim()
+        .toLowerCase();
 }
 
 
@@ -2471,6 +2589,14 @@ async function loadLocations() {
 
         locations = data || [];
 
+        /*
+            Depois de carregar os locais,
+            reconstruímos a lista de localidades
+            automaticamente.
+        */
+
+        renderLocalityFilters();
+
         renderLocations();
 
     } catch (error) {
@@ -2485,9 +2611,173 @@ async function loadLocations() {
 }
 
 
-function renderLocations(
-    filter = "all"
-) {
+/* =========================
+   LOCALITY FILTERS
+========================= */
+
+function renderLocalityFilters() {
+
+    const container =
+        document.getElementById(
+            "locationLocalityFilters"
+        );
+
+    if (!container) return;
+
+    const uniqueLocalities = [
+        ...new Map(
+            locations
+                .map(location => {
+
+                    const value =
+                        String(
+                            location.localidade || ""
+                        ).trim();
+
+                    return [
+                        normalizeFilterValue(value),
+                        value
+                    ];
+
+                })
+                .filter(item => item[0])
+        ).values()
+    ].sort(
+        (a, b) =>
+            a.localeCompare(
+                b,
+                "pt-PT",
+                {
+                    sensitivity: "base"
+                }
+            )
+    );
+
+
+    let html = `
+        <button
+            class="filter-btn ${
+                selectedLocalityFilter === "all"
+                    ? "active"
+                    : ""
+            }"
+            data-locality-filter="all"
+        >
+            Todas
+        </button>
+    `;
+
+
+    html += uniqueLocalities
+        .map(locality => {
+
+            const normalized =
+                normalizeFilterValue(
+                    locality
+                );
+
+            return `
+                <button
+                    class="filter-btn ${
+                        selectedLocalityFilter === normalized
+                            ? "active"
+                            : ""
+                    }"
+                    data-locality-filter="${escapeHTML(normalized)}"
+                >
+                    ${escapeHTML(locality)}
+                </button>
+            `;
+
+        })
+        .join("");
+
+
+    container.innerHTML = html;
+
+
+    container
+        .querySelectorAll(
+            "[data-locality-filter]"
+        )
+        .forEach(button => {
+
+            button.addEventListener(
+                "click",
+                () => {
+
+                    selectedLocalityFilter =
+                        button.dataset
+                            .localityFilter;
+
+                    container
+                        .querySelectorAll(
+                            "[data-locality-filter]"
+                        )
+                        .forEach(btn =>
+                            btn.classList.remove(
+                                "active"
+                            )
+                        );
+
+                    button.classList.add(
+                        "active"
+                    );
+
+                    renderLocations();
+
+                }
+            );
+
+        });
+}
+
+
+/* =========================
+   TYPE FILTERS
+========================= */
+
+document
+    .querySelectorAll(
+        "[data-type-filter]"
+    )
+    .forEach(button => {
+
+        button.addEventListener(
+            "click",
+            () => {
+
+                selectedTypeFilter =
+                    button.dataset
+                        .typeFilter;
+
+                document
+                    .querySelectorAll(
+                        "[data-type-filter]"
+                    )
+                    .forEach(btn =>
+                        btn.classList.remove(
+                            "active"
+                        )
+                    );
+
+                button.classList.add(
+                    "active"
+                );
+
+                renderLocations();
+
+            }
+        );
+
+    });
+
+
+/* =========================
+   RENDER LOCATIONS
+========================= */
+
+function renderLocations() {
 
     const grid =
         document.getElementById(
@@ -2496,25 +2786,58 @@ function renderLocations(
 
     if (!grid) return;
 
+
     const filtered =
-        filter === "all"
-            ? locations
-            : locations.filter(
-                location =>
-                    String(
-                        location.category || ""
-                    ).toLowerCase() === filter
+        locations.filter(location => {
+
+            const locality =
+                normalizeFilterValue(
+                    location.localidade
+                );
+
+
+            /*
+                Usa "tipo" como campo principal.
+                Se não existir, tenta "category"
+                para manter compatibilidade
+                com dados antigos.
+            */
+
+            const type =
+                normalizeFilterValue(
+                    location.tipo ||
+                    location.category
+                );
+
+
+            const localityMatches =
+                selectedLocalityFilter === "all" ||
+                locality === selectedLocalityFilter;
+
+
+            const typeMatches =
+                selectedTypeFilter === "all" ||
+                type === selectedTypeFilter;
+
+
+            return (
+                localityMatches &&
+                typeMatches
             );
+
+        });
+
 
     if (!filtered.length) {
 
         grid.innerHTML =
             `<div class="empty-state">
-                Ainda não existem locais nesta categoria.
+                Não existem locais com estes filtros.
             </div>`;
 
         return;
     }
+
 
     grid.innerHTML =
         filtered
@@ -2523,6 +2846,18 @@ function renderLocations(
                 const image =
                     location.image_url ||
                     "https://images.unsplash.com/photo-1500534623283-312aade485b7?auto=format&fit=crop&w=1200&q=85";
+
+
+                const type =
+                    location.tipo ||
+                    location.category ||
+                    "Local";
+
+
+                const locality =
+                    location.localidade ||
+                    "";
+
 
                 return `
                     <article class="card">
@@ -2551,10 +2886,13 @@ function renderLocations(
                             <div class="card-meta">
 
                                 <span>
-                                    ${escapeHTML(
-                                        location.category ||
-                                        "Local"
-                                    )}
+                                    ${escapeHTML(type)}
+                                    ${
+                                        locality
+                                            ? " · " +
+                                              escapeHTML(locality)
+                                            : ""
+                                    }
                                 </span>
 
                                 <span>
@@ -2581,45 +2919,6 @@ function renderLocations(
             })
             .join("");
 }
-
-
-/* =========================
-   LOCATION FILTERS
-========================= */
-
-document
-    .querySelectorAll(
-        "[data-location-filter]"
-    )
-    .forEach(button => {
-
-        button.addEventListener(
-            "click",
-            () => {
-
-                document
-                    .querySelectorAll(
-                        "[data-location-filter]"
-                    )
-                    .forEach(btn =>
-                        btn.classList.remove(
-                            "active"
-                        )
-                    );
-
-                button.classList.add(
-                    "active"
-                );
-
-                renderLocations(
-                    button.dataset
-                        .locationFilter
-                );
-
-            }
-        );
-
-    });
 
 
 /* =========================
@@ -3447,6 +3746,23 @@ document
         );
 
     });
+
+
+/*
+    MOTOQUEST no topo
+    -> volta sempre ao Início
+*/
+
+document
+    .getElementById("brandHomeBtn")
+    .addEventListener(
+        "click",
+        () => {
+
+            showSection("home");
+
+        }
+    );
 
 
 /* =========================
