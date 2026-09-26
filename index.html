@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#070707">
     <title>MotoQuest</title>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -27,6 +28,10 @@
             --danger: #ff4d4d;
         }
 
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
             font-family: Arial, Helvetica, sans-serif;
             background:
@@ -49,6 +54,12 @@
             -webkit-tap-highlight-color: transparent;
         }
 
+        button:disabled {
+            opacity: .5;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
         .hidden {
             display: none !important;
         }
@@ -58,7 +69,9 @@
             padding-bottom: 90px;
         }
 
-        /* AUTH */
+        /* =====================================================
+           AUTH
+        ===================================================== */
 
         .auth-screen {
             min-height: 100vh;
@@ -76,6 +89,7 @@
             border: 1px solid var(--border);
             border-radius: 26px;
             backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
             box-shadow: 0 25px 80px rgba(0,0,0,.45);
         }
 
@@ -109,6 +123,7 @@
             padding: 12px;
             border-radius: 12px;
             cursor: pointer;
+            transition: .2s;
         }
 
         .auth-tab.active {
@@ -117,7 +132,9 @@
             border-color: rgba(255,106,0,.45);
         }
 
-        /* FORMS */
+        /* =====================================================
+           FORMS
+        ===================================================== */
 
         .form-group {
             margin-bottom: 15px;
@@ -140,6 +157,12 @@
             color: #fff;
             padding: 13px 14px;
             outline: none;
+            transition: .2s;
+        }
+
+        input::placeholder,
+        textarea::placeholder {
+            color: #6f6f6f;
         }
 
         input:focus,
@@ -181,6 +204,7 @@
             width: 100%;
             background: linear-gradient(135deg, var(--orange), var(--orange-light));
             color: #fff;
+            box-shadow: 0 8px 25px rgba(255,106,0,.14);
         }
 
         .btn-secondary {
@@ -209,6 +233,7 @@
             border-radius: 12px;
             display: none;
             font-size: 14px;
+            line-height: 1.45;
         }
 
         .message.show {
@@ -227,7 +252,9 @@
             color: #76e7a4;
         }
 
-        /* HEADER */
+        /* =====================================================
+           HEADER
+        ===================================================== */
 
         .topbar {
             position: sticky;
@@ -236,6 +263,7 @@
             padding: 18px 20px;
             background: rgba(7,7,7,.82);
             backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
             border-bottom: 1px solid rgba(255,255,255,.06);
         }
 
@@ -267,7 +295,9 @@
             white-space: nowrap;
         }
 
-        /* CONTENT */
+        /* =====================================================
+           CONTENT
+        ===================================================== */
 
         .content {
             max-width: 1100px;
@@ -283,6 +313,7 @@
                 rgba(255,255,255,.035);
             border: 1px solid var(--border);
             margin-bottom: 22px;
+            box-shadow: 0 20px 55px rgba(0,0,0,.18);
         }
 
         .hero h1 {
@@ -310,9 +341,12 @@
             font-size: 14px;
             margin-top: -8px;
             margin-bottom: 15px;
+            line-height: 1.5;
         }
 
-        /* STATS */
+        /* =====================================================
+           STATS
+        ===================================================== */
 
         .stats {
             display: grid;
@@ -339,7 +373,9 @@
             font-size: 13px;
         }
 
-        /* FILTERS */
+        /* =====================================================
+           FILTERS
+        ===================================================== */
 
         .filters {
             display: grid;
@@ -352,6 +388,11 @@
             gap: 8px;
             overflow-x: auto;
             padding-bottom: 3px;
+            scrollbar-width: none;
+        }
+
+        .category-buttons::-webkit-scrollbar {
+            display: none;
         }
 
         .category-btn {
@@ -362,6 +403,7 @@
             padding: 10px 14px;
             border-radius: 999px;
             cursor: pointer;
+            transition: .2s;
         }
 
         .category-btn.active {
@@ -370,7 +412,9 @@
             color: #fff;
         }
 
-        /* CARDS */
+        /* =====================================================
+           CARDS
+        ===================================================== */
 
         .grid {
             display: grid;
@@ -418,6 +462,7 @@
         .meta {
             color: #888;
             font-size: 13px;
+            line-height: 1.55;
             margin-bottom: 14px;
         }
 
@@ -444,9 +489,12 @@
             color: var(--muted);
             border: 1px dashed var(--border);
             border-radius: 18px;
+            grid-column: 1 / -1;
         }
 
-        /* REWARDS */
+        /* =====================================================
+           REWARDS
+        ===================================================== */
 
         .reward-card {
             position: relative;
@@ -464,7 +512,9 @@
             margin-bottom: 6px;
         }
 
-        /* HISTORY */
+        /* =====================================================
+           HISTORY
+        ===================================================== */
 
         .history-item {
             display: flex;
@@ -495,7 +545,9 @@
             white-space: nowrap;
         }
 
-        /* PROFILE */
+        /* =====================================================
+           PROFILE
+        ===================================================== */
 
         .profile-card {
             display: grid;
@@ -520,7 +572,9 @@
             font-weight: 700;
         }
 
-        /* SUGGEST */
+        /* =====================================================
+           SUGGEST
+        ===================================================== */
 
         .suggestion-card {
             margin-top: 22px;
@@ -539,7 +593,9 @@
             gap: 10px;
         }
 
-        /* BOTTOM NAV */
+        /* =====================================================
+           BOTTOM NAV
+        ===================================================== */
 
         .bottom-nav {
             position: fixed;
@@ -549,6 +605,7 @@
             z-index: 30;
             background: rgba(9,9,9,.94);
             backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
             border-top: 1px solid rgba(255,255,255,.08);
             padding: 9px 8px calc(9px + env(safe-area-inset-bottom));
         }
@@ -569,6 +626,7 @@
             border-radius: 12px;
             cursor: pointer;
             font-size: 11px;
+            transition: .2s;
         }
 
         .nav-btn .icon {
@@ -582,7 +640,9 @@
             background: rgba(255,106,0,.08);
         }
 
-        /* MODAL */
+        /* =====================================================
+           MODAL
+        ===================================================== */
 
         .modal {
             position: fixed;
@@ -590,6 +650,7 @@
             z-index: 100;
             background: rgba(0,0,0,.72);
             backdrop-filter: blur(7px);
+            -webkit-backdrop-filter: blur(7px);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -605,6 +666,7 @@
             border: 1px solid var(--border);
             border-radius: 24px;
             padding: 22px;
+            box-shadow: 0 25px 80px rgba(0,0,0,.5);
         }
 
         .modal-header {
@@ -625,9 +687,12 @@
             cursor: pointer;
         }
 
-        /* RESPONSIVE */
+        /* =====================================================
+           RESPONSIVE
+        ===================================================== */
 
         @media (max-width: 720px) {
+
             .grid {
                 grid-template-columns: 1fr;
             }
@@ -650,6 +715,7 @@
         }
 
         @media (max-width: 430px) {
+
             .content {
                 padding-left: 13px;
                 padding-right: 13px;
@@ -671,6 +737,14 @@
             .coordinates {
                 grid-template-columns: 1fr;
             }
+
+            .card-actions {
+                flex-direction: column;
+            }
+
+            .card-actions .btn {
+                width: 100%;
+            }
         }
     </style>
 </head>
@@ -684,80 +758,149 @@
         <div class="tagline">Explora. Conquista. Desfruta.</div>
 
         <div class="auth-tabs">
-            <button id="loginTab" class="auth-tab active" onclick="showAuth('login')">
+            <button
+                id="loginTab"
+                class="auth-tab active"
+                onclick="showAuth('login')"
+            >
                 Entrar
             </button>
-            <button id="registerTab" class="auth-tab" onclick="showAuth('register')">
+
+            <button
+                id="registerTab"
+                class="auth-tab"
+                onclick="showAuth('register')"
+            >
                 Criar conta
             </button>
         </div>
 
         <form id="loginForm" onsubmit="login(event)">
+
             <div class="form-group">
                 <label for="loginEmail">Email</label>
-                <input id="loginEmail" type="email" required>
+                <input
+                    id="loginEmail"
+                    type="email"
+                    autocomplete="email"
+                    required
+                >
             </div>
 
             <div class="form-group">
                 <label for="loginPassword">Palavra-passe</label>
-                <input id="loginPassword" type="password" required>
+                <input
+                    id="loginPassword"
+                    type="password"
+                    autocomplete="current-password"
+                    required
+                >
             </div>
 
             <button class="btn btn-primary" type="submit">
                 Entrar
             </button>
+
         </form>
 
-        <form id="registerForm" class="hidden" onsubmit="register(event)">
+        <form
+            id="registerForm"
+            class="hidden"
+            onsubmit="register(event)"
+        >
+
             <div class="form-group">
                 <label for="registerName">Nome</label>
-                <input id="registerName" type="text" required>
+                <input
+                    id="registerName"
+                    type="text"
+                    autocomplete="name"
+                    required
+                >
             </div>
 
             <div class="form-group">
                 <label for="registerEmail">Email</label>
-                <input id="registerEmail" type="email" required>
+                <input
+                    id="registerEmail"
+                    type="email"
+                    autocomplete="email"
+                    required
+                >
             </div>
 
             <div class="form-group">
                 <label for="registerPassword">Palavra-passe</label>
-                <input id="registerPassword" type="password" minlength="6" required>
+                <input
+                    id="registerPassword"
+                    type="password"
+                    autocomplete="new-password"
+                    minlength="6"
+                    required
+                >
             </div>
 
             <button class="btn btn-primary" type="submit">
                 Criar conta
             </button>
+
         </form>
 
         <div id="authMessage" class="message"></div>
+
     </div>
 </div>
 
+
 <div id="app" class="app hidden">
 
+    <!-- =====================================================
+         HEADER
+    ====================================================== -->
+
     <header class="topbar">
+
         <div class="topbar-inner">
-            <div class="brand">Moto<span>Quest</span></div>
+
+            <div class="brand">
+                Moto<span>Quest</span>
+            </div>
+
             <div class="points-badge">
                 🏆 <span id="headerPoints">0</span> pontos
             </div>
+
         </div>
+
     </header>
+
 
     <main class="content">
 
-        <!-- INÍCIO -->
+        <!-- =================================================
+             INÍCIO
+        ================================================== -->
+
         <section id="homeSection">
 
             <div class="hero">
-                <h1>Explora.<br><span>Conquista.</span><br>Desfruta.</h1>
+
+                <h1>
+                    Explora.<br>
+                    <span>Conquista.</span><br>
+                    Desfruta.
+                </h1>
+
                 <p>
                     Descobre novos locais de mota, valida as tuas visitas,
                     ganha pontos e troca-os por recompensas.
                 </p>
+
             </div>
 
+
             <div class="stats">
+
                 <div class="stat">
                     <div id="homePoints" class="stat-value">0</div>
                     <div class="stat-label">Pontos</div>
@@ -772,147 +915,304 @@
                     <div id="homeRedemptions" class="stat-value">0</div>
                     <div class="stat-label">Recompensas</div>
                 </div>
+
             </div>
 
-            <h2 class="section-title">Descobre novos lugares</h2>
+
+            <h2 class="section-title">
+                Descobre novos lugares
+            </h2>
+
             <p class="section-subtitle">
                 Escolhe uma localidade e encontra locais para a tua próxima aventura.
             </p>
 
-            <button class="btn btn-primary" onclick="showSection('locationsSection')">
+            <button
+                class="btn btn-primary"
+                onclick="showSection('locationsSection')"
+            >
                 🗺️ Explorar locais
             </button>
 
+
             <div class="card suggestion-card">
-                <h3 style="margin-bottom:8px;">📍 Conheces um local?</h3>
+
+                <h3 style="margin-bottom:8px;">
+                    📍 Conheces um local?
+                </h3>
+
                 <p>
                     Sugere um miradouro, baloiço ou monumento.
                     Usa a tua localização para indicar onde fica.
                 </p>
 
-                <button class="btn btn-secondary" onclick="showSection('suggestSection')">
+                <button
+                    class="btn btn-secondary"
+                    onclick="showSection('suggestSection')"
+                >
                     Sugerir local
                 </button>
+
             </div>
 
         </section>
 
-        <!-- LOCAIS -->
+
+        <!-- =================================================
+             LOCAIS
+        ================================================== -->
+
         <section id="locationsSection" class="hidden">
 
-            <h2 class="section-title">Locais</h2>
+            <h2 class="section-title">
+                Locais
+            </h2>
+
             <p class="section-subtitle">
                 Descobre locais para visitar de mota.
             </p>
 
+
             <div class="filters">
 
                 <div class="form-group">
-                    <label for="localityFilter">Localidade</label>
-                    <select id="localityFilter" onchange="renderLocations()">
-                        <option value="">Todas as localidades</option>
+
+                    <label for="localityFilter">
+                        Localidade
+                    </label>
+
+                    <select
+                        id="localityFilter"
+                        onchange="renderLocations()"
+                    >
+                        <option value="">
+                            Todas as localidades
+                        </option>
                     </select>
+
                 </div>
 
+
                 <div class="category-buttons">
-                    <button class="category-btn active" onclick="setCategory('Todos', this)">
+
+                    <button
+                        class="category-btn active"
+                        onclick="setCategory('Todos', this)"
+                    >
                         Todos
                     </button>
 
-                    <button class="category-btn" onclick="setCategory('Miradouro', this)">
+                    <button
+                        class="category-btn"
+                        onclick="setCategory('Miradouro', this)"
+                    >
                         Miradouro
                     </button>
 
-                    <button class="category-btn" onclick="setCategory('Baloiço', this)">
+                    <button
+                        class="category-btn"
+                        onclick="setCategory('Baloiço', this)"
+                    >
                         Baloiço
                     </button>
 
-                    <button class="category-btn" onclick="setCategory('Monumento', this)">
+                    <button
+                        class="category-btn"
+                        onclick="setCategory('Monumento', this)"
+                    >
                         Monumento
                     </button>
+
                 </div>
 
             </div>
 
-            <div id="locationsGrid" class="grid"></div>
+
+            <div
+                id="locationsGrid"
+                class="grid"
+            ></div>
+
         </section>
 
-        <!-- RECOMPENSAS -->
+
+        <!-- =================================================
+             RECOMPENSAS
+        ================================================== -->
+
         <section id="rewardsSection" class="hidden">
 
-            <h2 class="section-title">Recompensas</h2>
+            <h2 class="section-title">
+                Recompensas
+            </h2>
+
             <p class="section-subtitle">
                 Troca os teus pontos por descontos nos parceiros.
             </p>
 
+
             <div class="form-group">
-                <label for="rewardLocalityFilter">Localidade</label>
-                <select id="rewardLocalityFilter" onchange="renderRewards()">
-                    <option value="">Todas as localidades</option>
+
+                <label for="rewardLocalityFilter">
+                    Localidade
+                </label>
+
+                <select
+                    id="rewardLocalityFilter"
+                    onchange="renderRewards()"
+                >
+                    <option value="">
+                        Todas as localidades
+                    </option>
                 </select>
+
             </div>
 
-            <div class="category-buttons" style="margin-bottom:15px;">
-                <button class="category-btn active" onclick="setRewardType('Todos', this)">
+
+            <div
+                class="category-buttons"
+                style="margin-bottom:15px;"
+            >
+
+                <button
+                    class="category-btn active"
+                    onclick="setRewardType('Todos', this)"
+                >
                     Todos
                 </button>
 
-                <button class="category-btn" onclick="setRewardType('Restaurante', this)">
+                <button
+                    class="category-btn"
+                    onclick="setRewardType('Restaurante', this)"
+                >
                     Restaurante
                 </button>
 
-                <button class="category-btn" onclick="setRewardType('Hotel', this)">
+                <button
+                    class="category-btn"
+                    onclick="setRewardType('Hotel', this)"
+                >
                     Hotel
                 </button>
+
             </div>
 
-            <div id="rewardsGrid" class="grid"></div>
+
+            <div
+                id="rewardsGrid"
+                class="grid"
+            ></div>
 
         </section>
 
-        <!-- HISTÓRICO -->
+
+        <!-- =================================================
+             HISTÓRICO
+        ================================================== -->
+
         <section id="historySection" class="hidden">
 
-            <h2 class="section-title">Histórico</h2>
+            <h2 class="section-title">
+                Histórico
+            </h2>
+
             <p class="section-subtitle">
                 As tuas visitas e recompensas utilizadas.
             </p>
 
+
             <div class="card">
-                <h3 style="margin-bottom:12px;">📍 Visitas</h3>
+
+                <h3 style="margin-bottom:12px;">
+                    📍 Visitas
+                </h3>
+
                 <div id="visitHistory"></div>
+
             </div>
 
-            <div class="card" style="margin-top:15px;">
-                <h3 style="margin-bottom:12px;">🎁 Recompensas utilizadas</h3>
+
+            <div
+                class="card"
+                style="margin-top:15px;"
+            >
+
+                <h3 style="margin-bottom:12px;">
+                    🎁 Recompensas utilizadas
+                </h3>
+
                 <div id="redemptionHistory"></div>
+
             </div>
 
         </section>
 
-        <!-- PERFIL -->
+
+        <!-- =================================================
+             PERFIL
+        ================================================== -->
+
         <section id="profileSection" class="hidden">
 
-            <h2 class="section-title">Perfil</h2>
+            <h2 class="section-title">
+                Perfil
+            </h2>
+
 
             <div class="card profile-card">
 
                 <div class="profile-row">
-                    <div class="profile-label">Nome</div>
-                    <div id="profileName" class="profile-value">-</div>
+
+                    <div class="profile-label">
+                        Nome
+                    </div>
+
+                    <div
+                        id="profileName"
+                        class="profile-value"
+                    >
+                        -
+                    </div>
+
                 </div>
+
 
                 <div class="profile-row">
-                    <div class="profile-label">Email</div>
-                    <div id="profileEmail" class="profile-value">-</div>
+
+                    <div class="profile-label">
+                        Email
+                    </div>
+
+                    <div
+                        id="profileEmail"
+                        class="profile-value"
+                    >
+                        -
+                    </div>
+
                 </div>
+
 
                 <div class="profile-row">
-                    <div class="profile-label">Pontos</div>
-                    <div id="profilePoints" class="profile-value">0</div>
+
+                    <div class="profile-label">
+                        Pontos
+                    </div>
+
+                    <div
+                        id="profilePoints"
+                        class="profile-value"
+                    >
+                        0
+                    </div>
+
                 </div>
 
-                <button class="btn btn-danger" onclick="logout()">
+
+                <button
+                    class="btn btn-danger"
+                    onclick="logout()"
+                >
                     Terminar sessão
                 </button>
 
@@ -920,80 +1220,136 @@
 
         </section>
 
-        <!-- SUGERIR LOCAL -->
+
+        <!-- =================================================
+             SUGERIR LOCAL
+        ================================================== -->
+
         <section id="suggestSection" class="hidden">
 
-            <h2 class="section-title">Sugerir local</h2>
+            <h2 class="section-title">
+                Sugerir local
+            </h2>
 
             <p class="section-subtitle">
                 Ajuda outros motociclistas a descobrir novos lugares.
                 Apenas podes sugerir miradouros, baloiços e monumentos.
             </p>
 
+
             <div class="card">
 
                 <form onsubmit="submitSuggestion(event)">
 
                     <div class="form-group">
-                        <label for="suggestionName">Nome do local</label>
+
+                        <label for="suggestionName">
+                            Nome do local
+                        </label>
+
                         <input
                             id="suggestionName"
                             type="text"
                             placeholder="Ex.: Miradouro da Serra"
                             required
                         >
+
                     </div>
 
-                    <div class="form-group">
-                        <label for="suggestionType">Tipo</label>
 
-                        <select id="suggestionType" required>
-                            <option value="">Selecionar tipo</option>
-                            <option value="Miradouro">Miradouro</option>
-                            <option value="Baloiço">Baloiço</option>
-                            <option value="Monumento">Monumento</option>
+                    <div class="form-group">
+
+                        <label for="suggestionType">
+                            Tipo
+                        </label>
+
+                        <select
+                            id="suggestionType"
+                            required
+                        >
+                            <option value="">
+                                Selecionar tipo
+                            </option>
+
+                            <option value="Miradouro">
+                                Miradouro
+                            </option>
+
+                            <option value="Baloiço">
+                                Baloiço
+                            </option>
+
+                            <option value="Monumento">
+                                Monumento
+                            </option>
+
                         </select>
+
                     </div>
 
+
                     <div class="form-group">
-                        <label for="suggestionLocality">Localidade</label>
+
+                        <label for="suggestionLocality">
+                            Localidade
+                        </label>
+
                         <input
                             id="suggestionLocality"
                             type="text"
                             placeholder="Ex.: Covilhã"
                             required
                         >
+
                     </div>
 
+
                     <div class="form-group">
-                        <label for="suggestionDistrict">Distrito</label>
+
+                        <label for="suggestionDistrict">
+                            Distrito
+                        </label>
+
                         <input
                             id="suggestionDistrict"
                             type="text"
                             placeholder="Ex.: Castelo Branco"
                         >
+
                     </div>
 
+
                     <div class="form-group">
-                        <label for="suggestionDescription">Descrição</label>
+
+                        <label for="suggestionDescription">
+                            Descrição
+                        </label>
+
                         <textarea
                             id="suggestionDescription"
                             placeholder="Descreve brevemente o local..."
                         ></textarea>
+
                     </div>
 
-                    <!--
-                        IMPORTANTE:
-                        NÃO EXISTE CAMPO DE GOOGLE MAPS AQUI.
 
-                        O utilizador apenas fornece a sua localização
-                        através do botão abaixo.
+                    <!--
+                        NÃO HÁ CAMPO GOOGLE MAPS AQUI.
+
+                        O utilizador usa apenas a localização GPS.
+                        Depois da aprovação, o botão Google Maps
+                        aparece automaticamente em "Locais".
                     -->
+
 
                     <div class="coordinates">
 
                         <div class="form-group">
-                            <label for="suggestionLatitude">Latitude</label>
+
+                            <label for="suggestionLatitude">
+                                Latitude
+                            </label>
+
                             <input
                                 id="suggestionLatitude"
                                 type="number"
@@ -1001,10 +1357,16 @@
                                 readonly
                                 required
                             >
+
                         </div>
 
+
                         <div class="form-group">
-                            <label for="suggestionLongitude">Longitude</label>
+
+                            <label for="suggestionLongitude">
+                                Longitude
+                            </label>
+
                             <input
                                 id="suggestionLongitude"
                                 type="number"
@@ -1012,9 +1374,11 @@
                                 readonly
                                 required
                             >
+
                         </div>
 
                     </div>
+
 
                     <button
                         type="button"
@@ -1024,9 +1388,14 @@
                         📍 Usar a minha localização
                     </button>
 
-                    <div id="gpsStatus" class="gps-status">
+
+                    <div
+                        id="gpsStatus"
+                        class="gps-status"
+                    >
                         Ainda não foi obtida a localização.
                     </div>
+
 
                     <button
                         type="submit"
@@ -1036,13 +1405,21 @@
                         Enviar sugestão
                     </button>
 
-                    <div id="suggestionMessage" class="message"></div>
+
+                    <div
+                        id="suggestionMessage"
+                        class="message"
+                    ></div>
 
                 </form>
 
             </div>
 
-            <h2 class="section-title">As minhas sugestões</h2>
+
+            <h2 class="section-title">
+                As minhas sugestões
+            </h2>
+
 
             <div id="mySuggestions"></div>
 
@@ -1050,51 +1427,94 @@
 
     </main>
 
-    <!-- BOTTOM NAV -->
+
+    <!-- =====================================================
+         BOTTOM NAV
+    ====================================================== -->
+
     <nav class="bottom-nav">
+
         <div class="bottom-nav-inner">
 
-            <button class="nav-btn active" onclick="showSection('homeSection', this)">
+            <button
+                class="nav-btn active"
+                onclick="showSection('homeSection', this)"
+            >
                 <span class="icon">🏠</span>
                 Início
             </button>
 
-            <button class="nav-btn" onclick="showSection('locationsSection', this)">
+            <button
+                class="nav-btn"
+                onclick="showSection('locationsSection', this)"
+            >
                 <span class="icon">🗺️</span>
                 Locais
             </button>
 
-            <button class="nav-btn" onclick="showSection('rewardsSection', this)">
+            <button
+                class="nav-btn"
+                onclick="showSection('rewardsSection', this)"
+            >
                 <span class="icon">🎁</span>
                 Recompensas
             </button>
 
-            <button class="nav-btn" onclick="showSection('historySection', this)">
+            <button
+                class="nav-btn"
+                onclick="showSection('historySection', this)"
+            >
                 <span class="icon">📜</span>
                 Histórico
             </button>
 
-            <button class="nav-btn" onclick="showSection('profileSection', this)">
+            <button
+                class="nav-btn"
+                onclick="showSection('profileSection', this)"
+            >
                 <span class="icon">👤</span>
                 Perfil
             </button>
 
         </div>
+
     </nav>
 
 </div>
 
-<!-- MODAL DE VALIDAÇÃO -->
-<div id="visitModal" class="modal hidden">
+
+<!-- =========================================================
+     MODAL DE VALIDAÇÃO
+========================================================= -->
+
+<div
+    id="visitModal"
+    class="modal hidden"
+>
 
     <div class="modal-card">
 
         <div class="modal-header">
-            <h2>Validar visita</h2>
-            <button class="close-btn" onclick="closeVisitModal()">×</button>
+
+            <h2>
+                Validar visita
+            </h2>
+
+            <button
+                class="close-btn"
+                onclick="closeVisitModal()"
+            >
+                ×
+            </button>
+
         </div>
 
-        <p id="visitModalText" style="color:#aaa;line-height:1.5;margin-bottom:18px;"></p>
+
+        <p
+            id="visitModalText"
+            style="color:#aaa;line-height:1.5;margin-bottom:18px;"
+        ></p>
+
 
         <button
             id="validateVisitBtn"
@@ -1104,23 +1524,46 @@
             📍 Validar a minha localização
         </button>
 
-        <div id="visitMessage" class="message"></div>
+
+        <div
+            id="visitMessage"
+            class="message"
+        ></div>
 
     </div>
 
 </div>
 
-<!-- MODAL RECOMPENSA -->
-<div id="rewardModal" class="modal hidden">
+
+<!-- =========================================================
+     MODAL RECOMPENSA
+========================================================= -->
+
+<div
+    id="rewardModal"
+    class="modal hidden"
+>
 
     <div class="modal-card">
 
         <div class="modal-header">
-            <h2>Trocar recompensa</h2>
-            <button class="close-btn" onclick="closeRewardModal()">×</button>
+
+            <h2>
+                Trocar recompensa
+            </h2>
+
+            <button
+                class="close-btn"
+                onclick="closeRewardModal()"
+            >
+                ×
+            </button>
+
         </div>
 
+
         <div id="rewardModalContent"></div>
+
 
         <button
             id="redeemRewardBtn"
@@ -1131,19 +1574,28 @@
             Confirmar troca
         </button>
 
-        <div id="rewardMessage" class="message"></div>
+
+        <div
+            id="rewardMessage"
+            class="message"
+        ></div>
 
     </div>
 
 </div>
 
+
 <script>
+
 /* =========================================================
    SUPABASE
 ========================================================= */
 
-const SUPABASE_URL = "https://gqimkzovrabptxqheedq.supabase.co";
-const SUPABASE_KEY = "sb_publishable_6PtfvoaY4V49YnCYifToyA_jQ1AXnPq";
+const SUPABASE_URL =
+    "https://gqimkzovrabptxqheedq.supabase.co";
+
+const SUPABASE_KEY =
+    "sb_publishable_6PtfvoaY4V49YnCYifToyA_jQ1AXnPq";
 
 const { createClient } = supabase;
 
@@ -1151,6 +1603,7 @@ const db = createClient(
     SUPABASE_URL,
     SUPABASE_KEY
 );
+
 
 /* =========================================================
    ESTADO
@@ -1171,34 +1624,61 @@ let currentRewardType = "Todos";
 let selectedLocation = null;
 let selectedReward = null;
 
+
 /* =========================================================
    INICIALIZAÇÃO
 ========================================================= */
 
-document.addEventListener("DOMContentLoaded", async () => {
-    const { data } = await db.auth.getSession();
+document.addEventListener(
+    "DOMContentLoaded",
+    async () => {
 
-    if (data.session) {
-        currentUser = data.session.user;
-        await startApp();
-    } else {
-        showAuth("login");
-    }
+        const { data } =
+            await db.auth.getSession();
 
-    db.auth.onAuthStateChange(async (event, session) => {
+        if (data.session) {
 
-        if (session) {
-            currentUser = session.user;
+            currentUser =
+                data.session.user;
+
             await startApp();
-        } else {
-            currentUser = null;
-            profile = null;
 
-            document.getElementById("app").classList.add("hidden");
-            document.getElementById("authScreen").classList.remove("hidden");
+        } else {
+
+            showAuth("login");
         }
-    });
-});
+
+
+        db.auth.onAuthStateChange(
+            async (event, session) => {
+
+                if (session) {
+
+                    currentUser =
+                        session.user;
+
+                    await startApp();
+
+                } else {
+
+                    currentUser = null;
+                    profile = null;
+
+                    document
+                        .getElementById("app")
+                        .classList.add("hidden");
+
+                    document
+                        .getElementById("authScreen")
+                        .classList.remove("hidden");
+                }
+
+            }
+        );
+
+    }
+);
+
 
 /* =========================================================
    AUTENTICAÇÃO
@@ -1206,19 +1686,29 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 function showAuth(type) {
 
-    const loginForm = document.getElementById("loginForm");
-    const registerForm = document.getElementById("registerForm");
+    const loginForm =
+        document.getElementById("loginForm");
 
-    const loginTab = document.getElementById("loginTab");
-    const registerTab = document.getElementById("registerTab");
+    const registerForm =
+        document.getElementById("registerForm");
+
+    const loginTab =
+        document.getElementById("loginTab");
+
+    const registerTab =
+        document.getElementById("registerTab");
+
 
     if (type === "login") {
+
         loginForm.classList.remove("hidden");
         registerForm.classList.add("hidden");
 
         loginTab.classList.add("active");
         registerTab.classList.remove("active");
+
     } else {
+
         loginForm.classList.add("hidden");
         registerForm.classList.remove("hidden");
 
@@ -1226,53 +1716,102 @@ function showAuth(type) {
         registerTab.classList.add("active");
     }
 
+
     clearMessage("authMessage");
 }
+
 
 async function login(event) {
 
     event.preventDefault();
 
-    const email = document.getElementById("loginEmail").value.trim();
-    const password = document.getElementById("loginPassword").value;
+    const email =
+        document
+            .getElementById("loginEmail")
+            .value
+            .trim();
 
-    const { error } = await db.auth.signInWithPassword({
-        email,
-        password
-    });
+    const password =
+        document
+            .getElementById("loginPassword")
+            .value;
+
+
+    const { error } =
+        await db.auth.signInWithPassword({
+            email,
+            password
+        });
+
 
     if (error) {
-        showMessage("authMessage", error.message, "error");
+
+        showMessage(
+            "authMessage",
+            error.message,
+            "error"
+        );
+
         return;
     }
 
-    showMessage("authMessage", "Sessão iniciada.", "success");
+
+    showMessage(
+        "authMessage",
+        "Sessão iniciada.",
+        "success"
+    );
 }
+
 
 async function register(event) {
 
     event.preventDefault();
 
-    const name = document.getElementById("registerName").value.trim();
-    const email = document.getElementById("registerEmail").value.trim();
-    const password = document.getElementById("registerPassword").value;
+    const name =
+        document
+            .getElementById("registerName")
+            .value
+            .trim();
 
-    const { data, error } = await db.auth.signUp({
-        email,
-        password,
-        options: {
-            data: {
-                name
+    const email =
+        document
+            .getElementById("registerEmail")
+            .value
+            .trim();
+
+    const password =
+        document
+            .getElementById("registerPassword")
+            .value;
+
+
+    const { data, error } =
+        await db.auth.signUp({
+            email,
+            password,
+            options: {
+                data: {
+                    name
+                }
             }
-        }
-    });
+        });
+
 
     if (error) {
-        showMessage("authMessage", error.message, "error");
+
+        showMessage(
+            "authMessage",
+            error.message,
+            "error"
+        );
+
         return;
     }
 
+
     if (data.user) {
+
         await db
             .from("profiles")
             .upsert({
@@ -1282,6 +1821,7 @@ async function register(event) {
                 points: 0
             });
 
+
         showMessage(
             "authMessage",
             "Conta criada. Verifica o teu email se for necessário.",
@@ -1290,9 +1830,13 @@ async function register(event) {
     }
 }
 
+
 async function logout() {
+
     await db.auth.signOut();
+
 }
+
 
 /* =========================================================
    APP
@@ -1300,8 +1844,14 @@ async function logout() {
 
 async function startApp() {
 
-    document.getElementById("authScreen").classList.add("hidden");
-    document.getElementById("app").classList.remove("hidden");
+    document
+        .getElementById("authScreen")
+        .classList.add("hidden");
+
+    document
+        .getElementById("app")
+        .classList.remove("hidden");
+
 
     await loadProfile();
     await loadLocations();
@@ -1309,8 +1859,10 @@ async function startApp() {
     await loadHistory();
     await loadSuggestions();
 
+
     showSection("homeSection");
 }
+
 
 /* =========================================================
    PERFIL
@@ -1320,16 +1872,22 @@ async function loadProfile() {
 
     if (!currentUser) return;
 
-    let { data, error } = await db
-        .from("profiles")
-        .select("*")
-        .eq("id", currentUser.id)
-        .maybeSingle();
+
+    let { data, error } =
+        await db
+            .from("profiles")
+            .select("*")
+            .eq("id", currentUser.id)
+            .maybeSingle();
+
 
     if (error) {
+
         console.error(error);
+
         return;
     }
+
 
     if (!data) {
 
@@ -1338,54 +1896,88 @@ async function loadProfile() {
             currentUser.email?.split("@")[0] ||
             "Motociclista";
 
-        const result = await db
-            .from("profiles")
-            .insert({
-                id: currentUser.id,
-                name,
-                email: currentUser.email,
-                points: 0
-            })
-            .select()
-            .single();
+
+        const result =
+            await db
+                .from("profiles")
+                .insert({
+                    id: currentUser.id,
+                    name,
+                    email: currentUser.email,
+                    points: 0
+                })
+                .select()
+                .single();
+
 
         if (!result.error) {
+
             data = result.data;
         }
     }
+
 
     profile = data;
 
     updateProfileUI();
 }
 
+
 function updateProfileUI() {
 
-    const points = Number(profile?.points || 0);
+    const points =
+        Number(profile?.points || 0);
 
-    document.getElementById("headerPoints").textContent = points;
-    document.getElementById("homePoints").textContent = points;
 
-    document.getElementById("profileName").textContent =
-        profile?.name || "Motociclista";
+    document
+        .getElementById("headerPoints")
+        .textContent = points;
 
-    document.getElementById("profileEmail").textContent =
-        profile?.email || currentUser?.email || "-";
+    document
+        .getElementById("homePoints")
+        .textContent = points;
 
-    document.getElementById("profilePoints").textContent = points;
 
-    document.getElementById("homeVisits").textContent =
-        visitHistory.length;
+    document
+        .getElementById("profileName")
+        .textContent =
+            profile?.name || "Motociclista";
 
-    document.getElementById("homeRedemptions").textContent =
-        redemptions.length;
+
+    document
+        .getElementById("profileEmail")
+        .textContent =
+            profile?.email ||
+            currentUser?.email ||
+            "-";
+
+
+    document
+        .getElementById("profilePoints")
+        .textContent = points;
+
+
+    document
+        .getElementById("homeVisits")
+        .textContent =
+            visitHistory.length;
+
+
+    document
+        .getElementById("homeRedemptions")
+        .textContent =
+            redemptions.length;
 }
+
 
 /* =========================================================
    NAVEGAÇÃO
 ========================================================= */
 
-function showSection(sectionId, clickedButton = null) {
+function showSection(
+    sectionId,
+    clickedButton = null
+) {
 
     const sections = [
         "homeSection",
@@ -1396,18 +1988,32 @@ function showSection(sectionId, clickedButton = null) {
         "suggestSection"
     ];
 
+
     sections.forEach(id => {
-        document.getElementById(id).classList.add("hidden");
+
+        document
+            .getElementById(id)
+            .classList.add("hidden");
+
     });
 
-    document.getElementById(sectionId).classList.remove("hidden");
 
-    document.querySelectorAll(".nav-btn").forEach(btn => {
-        btn.classList.remove("active");
-    });
+    document
+        .getElementById(sectionId)
+        .classList.remove("hidden");
+
+
+    document
+        .querySelectorAll(".nav-btn")
+        .forEach(btn => {
+            btn.classList.remove("active");
+        });
+
 
     if (clickedButton) {
+
         clickedButton.classList.add("active");
+
     } else {
 
         const map = {
@@ -1418,29 +2024,39 @@ function showSection(sectionId, clickedButton = null) {
             profileSection: 4
         };
 
-        const index = map[sectionId];
+
+        const index =
+            map[sectionId];
+
 
         if (index !== undefined) {
-            document.querySelectorAll(".nav-btn")[index]
+
+            document
+                .querySelectorAll(".nav-btn")[index]
                 .classList.add("active");
         }
     }
+
 
     if (sectionId === "locationsSection") {
         renderLocations();
     }
 
+
     if (sectionId === "rewardsSection") {
         renderRewards();
     }
+
 
     if (sectionId === "historySection") {
         renderHistory();
     }
 
+
     if (sectionId === "suggestSection") {
         renderSuggestions();
     }
+
 
     window.scrollTo({
         top: 0,
@@ -1448,61 +2064,97 @@ function showSection(sectionId, clickedButton = null) {
     });
 }
 
+
 /* =========================================================
    LOCAIS
 ========================================================= */
 
 async function loadLocations() {
 
-    const { data, error } = await db
-        .from("locations")
-        .select("*")
-        .eq("active", true)
-        .order("created_at", { ascending: false });
+    const { data, error } =
+        await db
+            .from("locations")
+            .select("*")
+            .eq("active", true)
+            .order("created_at", {
+                ascending: false
+            });
+
 
     if (error) {
-        console.error("Erro ao carregar locais:", error);
+
+        console.error(
+            "Erro ao carregar locais:",
+            error
+        );
+
         locations = [];
+
         renderLocations();
+
         return;
     }
+
 
     /*
         Restaurantes e hotéis NÃO aparecem em Locais.
         São usados apenas em Recompensas.
     */
-    locations = (data || []).filter(location => {
 
-        const type = String(location.type || "")
-            .trim()
-            .toLowerCase();
+    locations =
+        (data || []).filter(location => {
 
-        return type !== "restaurante" && type !== "hotel";
-    });
+            const type =
+                String(location.type || "")
+                    .trim()
+                    .toLowerCase();
+
+            return (
+                type !== "restaurante" &&
+                type !== "hotel"
+            );
+        });
+
 
     fillLocationFilters();
+
     renderLocations();
 }
+
 
 function fillLocationFilters() {
 
     const localitySelect =
-        document.getElementById("localityFilter");
+        document.getElementById(
+            "localityFilter"
+        );
 
-    const localities = [
-        ...new Set(
-            locations
-                .map(item => item.locality)
-                .filter(Boolean)
-        )
-    ].sort((a, b) => a.localeCompare(b, "pt"));
+
+    const localities =
+        [
+            ...new Set(
+                locations
+                    .map(item => item.locality)
+                    .filter(Boolean)
+            )
+        ]
+        .sort((a, b) =>
+            a.localeCompare(b, "pt")
+        );
+
 
     localitySelect.innerHTML =
-        `<option value="">Todas as localidades</option>`;
+        `
+            <option value="">
+                Todas as localidades
+            </option>
+        `;
+
 
     localities.forEach(locality => {
 
-        const option = document.createElement("option");
+        const option =
+            document.createElement("option");
 
         option.value = locality;
         option.textContent = locality;
@@ -1511,42 +2163,68 @@ function fillLocationFilters() {
     });
 }
 
-function setCategory(category, button) {
+
+function setCategory(
+    category,
+    button
+) {
 
     currentCategory = category;
 
-    document.querySelectorAll(
-        "#locationsSection .category-btn"
-    ).forEach(btn => {
-        btn.classList.remove("active");
-    });
+
+    document
+        .querySelectorAll(
+            "#locationsSection .category-btn"
+        )
+        .forEach(btn => {
+
+            btn.classList.remove("active");
+
+        });
+
 
     button.classList.add("active");
+
 
     renderLocations();
 }
 
+
+/* =========================================================
+   GOOGLE MAPS
+========================================================= */
+
 /*
-    GOOGLE MAPS
+    IMPORTANTE:
 
-    O utilizador NÃO fornece este link ao sugerir um local.
+    O Google Maps NÃO é pedido ao utilizador
+    quando este sugere um local.
 
-    Depois de o local existir em "locations", o botão é criado
-    automaticamente a partir das coordenadas latitude/longitude.
+    O utilizador apenas envia latitude/longitude
+    através da localização do dispositivo.
 
-    Assim, o Google Maps só aparece em "Locais".
+    Quando o local é aprovado e passa para
+    a tabela "locations", o botão do Google Maps
+    é criado automaticamente através das coordenadas.
 */
+
 function getGoogleMapsUrl(location) {
 
-    const latitude = Number(location.latitude);
-    const longitude = Number(location.longitude);
+    const latitude =
+        Number(location.latitude);
+
+    const longitude =
+        Number(location.longitude);
+
 
     if (
         !Number.isFinite(latitude) ||
         !Number.isFinite(longitude)
     ) {
+
         return "#";
     }
+
 
     return (
         "https://www.google.com/maps/dir/?api=1" +
@@ -1554,26 +2232,48 @@ function getGoogleMapsUrl(location) {
     );
 }
 
+
+/* =========================================================
+   RENDER LOCAIS
+========================================================= */
+
 function renderLocations() {
 
-    const grid = document.getElementById("locationsGrid");
+    const grid =
+        document.getElementById(
+            "locationsGrid"
+        );
+
 
     const locality =
-        document.getElementById("localityFilter").value;
+        document.getElementById(
+            "localityFilter"
+        ).value;
 
-    let filtered = [...locations];
+
+    let filtered =
+        [...locations];
+
 
     if (locality) {
-        filtered = filtered.filter(
-            location => location.locality === locality
-        );
+
+        filtered =
+            filtered.filter(
+                location =>
+                    location.locality === locality
+            );
     }
 
+
     if (currentCategory !== "Todos") {
-        filtered = filtered.filter(
-            location => location.type === currentCategory
-        );
+
+        filtered =
+            filtered.filter(
+                location =>
+                    location.type === currentCategory
+            );
     }
+
 
     if (!filtered.length) {
 
@@ -1586,71 +2286,106 @@ function renderLocations() {
         return;
     }
 
-    grid.innerHTML = filtered.map(location => {
 
-        const mapsUrl = getGoogleMapsUrl(location);
+    grid.innerHTML =
+        filtered
+            .map(location => {
 
-        return `
-            <article class="card">
+                const mapsUrl =
+                    getGoogleMapsUrl(location);
 
-                <div class="card-top">
 
-                    <h3>
-                        ${escapeHtml(location.name)}
-                    </h3>
+                return `
+                    <article class="card">
 
-                    <span class="type-badge">
-                        ${escapeHtml(location.type || "Local")}
-                    </span>
+                        <div class="card-top">
 
-                </div>
+                            <h3>
+                                ${escapeHtml(
+                                    location.name
+                                )}
+                            </h3>
 
-                <p>
-                    ${escapeHtml(
-                        location.description ||
-                        "Descobre este local na tua próxima viagem."
-                    )}
-                </p>
+                            <span class="type-badge">
+                                ${escapeHtml(
+                                    location.type ||
+                                    "Local"
+                                )}
+                            </span>
 
-                <div class="meta">
-                    📍 ${escapeHtml(location.locality || "")}
-                    ${location.district
-                        ? " · " + escapeHtml(location.district)
-                        : ""}
-                    <br>
-                    🏆 ${Number(location.points || 0)} pontos
-                </div>
+                        </div>
 
-                <div class="card-actions">
 
-                    <button
-                        class="btn btn-primary"
-                        onclick="openVisitModal(${Number(location.id)})"
-                    >
-                        📍 Validar visita
-                    </button>
+                        <p>
+                            ${escapeHtml(
+                                location.description ||
+                                "Descobre este local na tua próxima viagem."
+                            )}
+                        </p>
 
-                    ${
-                        mapsUrl !== "#"
-                        ? `
-                            <a
-                                class="btn maps-button"
-                                href="${mapsUrl}"
-                                target="_blank"
-                                rel="noopener noreferrer"
+
+                        <div class="meta">
+
+                            📍
+                            ${escapeHtml(
+                                location.locality || ""
+                            )}
+
+                            ${
+                                location.district
+                                    ? " · " +
+                                      escapeHtml(
+                                          location.district
+                                      )
+                                    : ""
+                            }
+
+                            <br>
+
+                            🏆
+                            ${Number(
+                                location.points || 0
+                            )}
+                            pontos
+
+                        </div>
+
+
+                        <div class="card-actions">
+
+                            <button
+                                class="btn btn-primary"
+                                onclick="openVisitModal(${Number(
+                                    location.id
+                                )})"
                             >
-                                🗺️ Abrir no Google Maps
-                            </a>
-                        `
-                        : ""
-                    }
+                                📍 Validar visita
+                            </button>
 
-                </div>
 
-            </article>
-        `;
-    }).join("");
+                            ${
+                                mapsUrl !== "#"
+                                    ? `
+                                        <a
+                                            class="btn maps-button"
+                                            href="${mapsUrl}"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                        >
+                                            🗺️ Abrir no Google Maps
+                                        </a>
+                                    `
+                                    : ""
+                            }
+
+                        </div>
+
+                    </article>
+                `;
+            })
+            .join("");
 }
+
 
 /* =========================================================
    GPS / VISITAS
@@ -1659,31 +2394,56 @@ function renderLocations() {
 function openVisitModal(locationId) {
 
     selectedLocation =
-        locations.find(location => Number(location.id) === Number(locationId));
+        locations.find(
+            location =>
+                Number(location.id) ===
+                Number(locationId)
+        );
+
 
     if (!selectedLocation) return;
 
-    document.getElementById("visitModalText").innerHTML = `
-        Vais validar a visita a
-        <strong>${escapeHtml(selectedLocation.name)}</strong>.
-        <br><br>
-        Estás perto do local? Usa a tua localização para confirmar.
-    `;
+
+    document
+        .getElementById("visitModalText")
+        .innerHTML = `
+            Vais validar a visita a
+            <strong>
+                ${escapeHtml(
+                    selectedLocation.name
+                )}
+            </strong>.
+
+            <br><br>
+
+            Estás perto do local?
+            Usa a tua localização para confirmar.
+        `;
+
 
     clearMessage("visitMessage");
 
-    document.getElementById("visitModal").classList.remove("hidden");
+
+    document
+        .getElementById("visitModal")
+        .classList.remove("hidden");
 }
+
 
 function closeVisitModal() {
 
-    document.getElementById("visitModal").classList.add("hidden");
+    document
+        .getElementById("visitModal")
+        .classList.add("hidden");
+
     selectedLocation = null;
 }
+
 
 function validateVisit() {
 
     if (!selectedLocation) return;
+
 
     if (!navigator.geolocation) {
 
@@ -1696,52 +2456,80 @@ function validateVisit() {
         return;
     }
 
+
     showMessage(
         "visitMessage",
         "A obter a tua localização...",
         "success"
     );
 
+
     navigator.geolocation.getCurrentPosition(
 
         async position => {
 
-            const userLat = position.coords.latitude;
-            const userLng = position.coords.longitude;
+            const userLat =
+                position.coords.latitude;
 
-            const distance = calculateDistance(
-                userLat,
-                userLng,
-                Number(selectedLocation.latitude),
-                Number(selectedLocation.longitude)
-            );
+            const userLng =
+                position.coords.longitude;
+
+
+            const distance =
+                calculateDistance(
+                    userLat,
+                    userLng,
+                    Number(
+                        selectedLocation.latitude
+                    ),
+                    Number(
+                        selectedLocation.longitude
+                    )
+                );
+
 
             const radius =
-                Number(selectedLocation.radius || 150);
+                Number(
+                    selectedLocation.radius || 150
+                );
+
 
             if (distance > radius) {
 
                 showMessage(
                     "visitMessage",
-                    `Estás a cerca de ${Math.round(distance)} metros do local. Aproxima-te até ${radius} metros.`,
+                    `Estás a cerca de ${Math.round(
+                        distance
+                    )} metros do local. Aproxima-te até ${radius} metros.`,
                     "error"
                 );
 
                 return;
             }
 
-            const points =
-                Number(selectedLocation.points || 0);
 
-            const { error: historyError } = await db
+            const points =
+                Number(
+                    selectedLocation.points || 0
+                );
+
+
+            const {
+                error: historyError
+            } = await db
                 .from("visit_history")
                 .insert({
                     user_id: currentUser.id,
-                    location_id: selectedLocation.id,
-                    location_name: selectedLocation.name,
-                    locality: selectedLocation.locality,
-                    points_earned: points
+                    location_id:
+                        selectedLocation.id,
+                    location_name:
+                        selectedLocation.name,
+                    locality:
+                        selectedLocation.locality,
+                    points_earned:
+                        points
                 });
+
 
             if (historyError) {
 
@@ -1754,15 +2542,26 @@ function validateVisit() {
                 return;
             }
 
-            const currentPoints =
-                Number(profile?.points || 0);
 
-            const { error: pointsError } = await db
+            const currentPoints =
+                Number(
+                    profile?.points || 0
+                );
+
+
+            const {
+                error: pointsError
+            } = await db
                 .from("profiles")
                 .update({
-                    points: currentPoints + points
+                    points:
+                        currentPoints + points
                 })
-                .eq("id", currentUser.id);
+                .eq(
+                    "id",
+                    currentUser.id
+                );
+
 
             if (pointsError) {
 
@@ -1775,29 +2574,38 @@ function validateVisit() {
                 return;
             }
 
+
             showMessage(
                 "visitMessage",
                 `Visita validada! Ganhaste ${points} pontos.`,
                 "success"
             );
 
+
             await loadProfile();
             await loadHistory();
 
+
             setTimeout(() => {
+
                 closeVisitModal();
+
             }, 1300);
         },
+
 
         error => {
 
             let message =
                 "Não foi possível obter a tua localização.";
 
+
             if (error.code === 1) {
+
                 message =
                     "Permite o acesso à localização no teu dispositivo.";
             }
+
 
             showMessage(
                 "visitMessage",
@@ -1805,6 +2613,7 @@ function validateVisit() {
                 "error"
             );
         },
+
 
         {
             enableHighAccuracy: true,
@@ -1814,18 +2623,29 @@ function validateVisit() {
     );
 }
 
-function calculateDistance(lat1, lon1, lat2, lon2) {
+
+function calculateDistance(
+    lat1,
+    lon1,
+    lat2,
+    lon2
+) {
 
     const R = 6371000;
 
-    const toRad = value =>
-        value * Math.PI / 180;
+
+    const toRad =
+        value =>
+            value * Math.PI / 180;
+
 
     const dLat =
         toRad(lat2 - lat1);
 
+
     const dLon =
         toRad(lon2 - lon1);
+
 
     const a =
         Math.sin(dLat / 2) ** 2 +
@@ -1833,11 +2653,17 @@ function calculateDistance(lat1, lon1, lat2, lon2) {
         Math.cos(toRad(lat2)) *
         Math.sin(dLon / 2) ** 2;
 
-    return 2 * R * Math.atan2(
-        Math.sqrt(a),
-        Math.sqrt(1 - a)
+
+    return (
+        2 *
+        R *
+        Math.atan2(
+            Math.sqrt(a),
+            Math.sqrt(1 - a)
+        )
     );
 }
+
 
 /* =========================================================
    RECOMPENSAS
@@ -1845,44 +2671,73 @@ function calculateDistance(lat1, lon1, lat2, lon2) {
 
 async function loadRewards() {
 
-    const { data, error } = await db
-        .from("rewards")
-        .select("*")
-        .eq("active", true)
-        .order("points", { ascending: true });
+    const { data, error } =
+        await db
+            .from("rewards")
+            .select("*")
+            .eq("active", true)
+            .order("points", {
+                ascending: true
+            });
+
 
     if (error) {
-        console.error("Erro ao carregar recompensas:", error);
+
+        console.error(
+            "Erro ao carregar recompensas:",
+            error
+        );
+
         rewards = [];
+
         renderRewards();
+
         return;
     }
 
+
     rewards = data || [];
 
+
     fillRewardLocalities();
+
     renderRewards();
 }
+
 
 function fillRewardLocalities() {
 
     const select =
-        document.getElementById("rewardLocalityFilter");
+        document.getElementById(
+            "rewardLocalityFilter"
+        );
 
-    const localities = [
-        ...new Set(
-            rewards
-                .map(reward => reward.locality)
-                .filter(Boolean)
-        )
-    ].sort((a, b) => a.localeCompare(b, "pt"));
+
+    const localities =
+        [
+            ...new Set(
+                rewards
+                    .map(reward => reward.locality)
+                    .filter(Boolean)
+            )
+        ]
+        .sort((a, b) =>
+            a.localeCompare(b, "pt")
+        );
+
 
     select.innerHTML =
-        `<option value="">Todas as localidades</option>`;
+        `
+            <option value="">
+                Todas as localidades
+            </option>
+        `;
+
 
     localities.forEach(locality => {
 
-        const option = document.createElement("option");
+        const option =
+            document.createElement("option");
 
         option.value = locality;
         option.textContent = locality;
@@ -1891,42 +2746,71 @@ function fillRewardLocalities() {
     });
 }
 
-function setRewardType(type, button) {
+
+function setRewardType(
+    type,
+    button
+) {
 
     currentRewardType = type;
 
-    document.querySelectorAll(
-        "#rewardsSection .category-btn"
-    ).forEach(btn => {
-        btn.classList.remove("active");
-    });
+
+    document
+        .querySelectorAll(
+            "#rewardsSection .category-btn"
+        )
+        .forEach(btn => {
+
+            btn.classList.remove("active");
+
+        });
+
 
     button.classList.add("active");
+
 
     renderRewards();
 }
 
+
 function renderRewards() {
 
     const grid =
-        document.getElementById("rewardsGrid");
+        document.getElementById(
+            "rewardsGrid"
+        );
+
 
     const locality =
-        document.getElementById("rewardLocalityFilter").value;
+        document.getElementById(
+            "rewardLocalityFilter"
+        ).value;
 
-    let filtered = [...rewards];
+
+    let filtered =
+        [...rewards];
+
 
     if (locality) {
-        filtered = filtered.filter(
-            reward => reward.locality === locality
-        );
+
+        filtered =
+            filtered.filter(
+                reward =>
+                    reward.locality === locality
+            );
     }
 
+
     if (currentRewardType !== "Todos") {
-        filtered = filtered.filter(
-            reward => reward.type === currentRewardType
-        );
+
+        filtered =
+            filtered.filter(
+                reward =>
+                    reward.type ===
+                    currentRewardType
+            );
     }
+
 
     if (!filtered.length) {
 
@@ -1939,120 +2823,212 @@ function renderRewards() {
         return;
     }
 
-    grid.innerHTML = filtered.map(reward => {
 
-        const points =
-            Number(reward.points || 0);
+    grid.innerHTML =
+        filtered
+            .map(reward => {
 
-        const userPoints =
-            Number(profile?.points || 0);
+                const points =
+                    Number(
+                        reward.points || 0
+                    );
 
-        const canRedeem =
-            userPoints >= points;
 
-        return `
-            <article class="card reward-card">
+                const userPoints =
+                    Number(
+                        profile?.points || 0
+                    );
 
-                <div class="card-top">
 
-                    <h3>
-                        ${escapeHtml(reward.name)}
-                    </h3>
+                const canRedeem =
+                    userPoints >= points;
 
-                    <span class="type-badge">
-                        ${escapeHtml(reward.type || "")}
-                    </span>
 
-                </div>
+                return `
+                    <article class="card reward-card">
 
-                <div class="reward-business">
-                    📍 ${escapeHtml(reward.business || "")}
-                    ${reward.locality
-                        ? " · " + escapeHtml(reward.locality)
-                        : ""}
-                </div>
+                        <div class="card-top">
 
-                <p>
-                    ${escapeHtml(reward.description || "")}
-                </p>
+                            <h3>
+                                ${escapeHtml(
+                                    reward.name
+                                )}
+                            </h3>
 
-                <div class="reward-points">
-                    🏆 ${points} pontos
-                </div>
+                            <span class="type-badge">
+                                ${escapeHtml(
+                                    reward.type || ""
+                                )}
+                            </span>
 
-                <p>
-                    ${escapeHtml(reward.reward || "")}
-                </p>
+                        </div>
 
-                <button
-                    class="btn ${canRedeem ? "btn-primary" : "btn-secondary"}"
-                    ${canRedeem ? "" : "disabled"}
-                    onclick="openRewardModal(${Number(reward.id)})"
-                >
-                    ${
-                        canRedeem
-                        ? "🎁 Trocar recompensa"
-                        : "🔒 Pontos insuficientes"
-                    }
-                </button>
 
-            </article>
-        `;
-    }).join("");
+                        <div class="reward-business">
+
+                            📍
+                            ${escapeHtml(
+                                reward.business || ""
+                            )}
+
+                            ${
+                                reward.locality
+                                    ? " · " +
+                                      escapeHtml(
+                                          reward.locality
+                                      )
+                                    : ""
+                            }
+
+                        </div>
+
+
+                        <p>
+                            ${escapeHtml(
+                                reward.description || ""
+                            )}
+                        </p>
+
+
+                        <div class="reward-points">
+                            🏆 ${points} pontos
+                        </div>
+
+
+                        <p>
+                            ${escapeHtml(
+                                reward.reward || ""
+                            )}
+                        </p>
+
+
+                        <button
+                            class="btn ${
+                                canRedeem
+                                    ? "btn-primary"
+                                    : "btn-secondary"
+                            }"
+                            ${
+                                canRedeem
+                                    ? ""
+                                    : "disabled"
+                            }
+                            onclick="openRewardModal(${Number(
+                                reward.id
+                            )})"
+                        >
+                            ${
+                                canRedeem
+                                    ? "🎁 Trocar recompensa"
+                                    : "🔒 Pontos insuficientes"
+                            }
+                        </button>
+
+                    </article>
+                `;
+            })
+            .join("");
 }
 
-function openRewardModal(rewardId) {
+
+function openRewardModal(
+    rewardId
+) {
 
     selectedReward =
-        rewards.find(reward => Number(reward.id) === Number(rewardId));
+        rewards.find(
+            reward =>
+                Number(reward.id) ===
+                Number(rewardId)
+        );
+
 
     if (!selectedReward) return;
 
+
     const points =
-        Number(selectedReward.points || 0);
+        Number(
+            selectedReward.points || 0
+        );
+
 
     const userPoints =
-        Number(profile?.points || 0);
+        Number(
+            profile?.points || 0
+        );
 
-    document.getElementById("rewardModalContent").innerHTML = `
-        <h3 style="margin-bottom:10px;">
-            ${escapeHtml(selectedReward.name)}
-        </h3>
 
-        <p style="color:#aaa;line-height:1.5;">
-            ${escapeHtml(selectedReward.reward || "")}
-        </p>
+    document
+        .getElementById(
+            "rewardModalContent"
+        )
+        .innerHTML = `
 
-        <p style="margin-top:12px;">
-            <strong>${points} pontos</strong>
-            serão descontados da tua conta.
-        </p>
+            <h3 style="margin-bottom:10px;">
+                ${escapeHtml(
+                    selectedReward.name
+                )}
+            </h3>
 
-        <p style="margin-top:8px;color:#888;">
-            Saldo atual: ${userPoints} pontos
-        </p>
-    `;
+            <p
+                style="color:#aaa;line-height:1.5;"
+            >
+                ${escapeHtml(
+                    selectedReward.reward || ""
+                )}
+            </p>
+
+            <p style="margin-top:12px;">
+                <strong>
+                    ${points} pontos
+                </strong>
+                serão descontados da tua conta.
+            </p>
+
+            <p
+                style="margin-top:8px;color:#888;"
+            >
+                Saldo atual:
+                ${userPoints} pontos
+            </p>
+        `;
+
 
     clearMessage("rewardMessage");
 
-    document.getElementById("rewardModal").classList.remove("hidden");
+
+    document
+        .getElementById("rewardModal")
+        .classList.remove("hidden");
 }
+
 
 function closeRewardModal() {
 
-    document.getElementById("rewardModal").classList.add("hidden");
+    document
+        .getElementById("rewardModal")
+        .classList.add("hidden");
+
     selectedReward = null;
 }
+
 
 async function confirmRewardRedemption() {
 
     if (!selectedReward) return;
 
+
     const points =
-        Number(selectedReward.points || 0);
+        Number(
+            selectedReward.points || 0
+        );
+
 
     const currentPoints =
-        Number(profile?.points || 0);
+        Number(
+            profile?.points || 0
+        );
+
 
     if (currentPoints < points) {
 
@@ -2065,17 +3041,25 @@ async function confirmRewardRedemption() {
         return;
     }
 
+
     const rewardCode =
         generateRewardCode();
 
-    const { error } = await db
-        .from("redemptions")
-        .insert({
-            user_id: currentUser.id,
-            reward_id: selectedReward.id,
-            points_spent: points,
-            reward_code: rewardCode
-        });
+
+    const { error } =
+        await db
+            .from("redemptions")
+            .insert({
+                user_id:
+                    currentUser.id,
+                reward_id:
+                    selectedReward.id,
+                points_spent:
+                    points,
+                reward_code:
+                    rewardCode
+            });
+
 
     if (error) {
 
@@ -2088,12 +3072,20 @@ async function confirmRewardRedemption() {
         return;
     }
 
-    const { error: pointsError } = await db
+
+    const {
+        error: pointsError
+    } = await db
         .from("profiles")
         .update({
-            points: currentPoints - points
+            points:
+                currentPoints - points
         })
-        .eq("id", currentUser.id);
+        .eq(
+            "id",
+            currentUser.id
+        );
+
 
     if (pointsError) {
 
@@ -2106,19 +3098,25 @@ async function confirmRewardRedemption() {
         return;
     }
 
+
     showMessage(
         "rewardMessage",
         `Recompensa utilizada! Código: ${rewardCode}`,
         "success"
     );
 
+
     await loadProfile();
     await loadHistory();
 
+
     setTimeout(() => {
+
         closeRewardModal();
+
     }, 1800);
 }
+
 
 function generateRewardCode() {
 
@@ -2128,8 +3126,10 @@ function generateRewardCode() {
             .substring(2, 8)
             .toUpperCase();
 
+
     return "MQ-" + random;
 }
+
 
 /* =========================================================
    HISTÓRICO
@@ -2139,46 +3139,87 @@ async function loadHistory() {
 
     if (!currentUser) return;
 
-    const visitsResult = await db
-        .from("visit_history")
-        .select("*")
-        .eq("user_id", currentUser.id)
-        .order("created_at", { ascending: false });
+
+    const visitsResult =
+        await db
+            .from("visit_history")
+            .select("*")
+            .eq(
+                "user_id",
+                currentUser.id
+            )
+            .order(
+                "created_at",
+                {
+                    ascending: false
+                }
+            );
+
 
     if (!visitsResult.error) {
-        visitHistory = visitsResult.data || [];
+
+        visitHistory =
+            visitsResult.data || [];
     }
 
-    const redemptionResult = await db
-        .from("redemptions")
-        .select(`
-            *,
-            rewards (
-                name,
-                reward,
-                business
+
+    const redemptionResult =
+        await db
+            .from("redemptions")
+            .select(`
+                *,
+                rewards (
+                    name,
+                    reward,
+                    business
+                )
+            `)
+            .eq(
+                "user_id",
+                currentUser.id
             )
-        `)
-        .eq("user_id", currentUser.id)
-        .order("created_at", { ascending: false });
+            .order(
+                "created_at",
+                {
+                    ascending: false
+                }
+            );
+
 
     if (!redemptionResult.error) {
-        redemptions = redemptionResult.data || [];
+
+        redemptions =
+            redemptionResult.data || [];
     }
 
+
     updateProfileUI();
+
     renderHistory();
 }
+
 
 function renderHistory() {
 
     const visitsContainer =
-        document.getElementById("visitHistory");
+        document.getElementById(
+            "visitHistory"
+        );
+
 
     const redemptionContainer =
-        document.getElementById("redemptionHistory");
+        document.getElementById(
+            "redemptionHistory"
+        );
 
-    if (!visitsContainer || !redemptionContainer) return;
+
+    if (
+        !visitsContainer ||
+        !redemptionContainer
+    ) {
+        return;
+    }
+
 
     if (!visitHistory.length) {
 
@@ -2191,33 +3232,47 @@ function renderHistory() {
     } else {
 
         visitsContainer.innerHTML =
-            visitHistory.map(item => {
+            visitHistory
+                .map(item => {
 
-                const date =
-                    formatDate(item.created_at);
+                    const date =
+                        formatDate(
+                            item.created_at
+                        );
 
-                return `
-                    <div class="history-item">
 
-                        <div>
-                            <div class="history-name">
-                                ${escapeHtml(item.location_name)}
+                    return `
+                        <div class="history-item">
+
+                            <div>
+
+                                <div class="history-name">
+                                    ${escapeHtml(
+                                        item.location_name
+                                    )}
+                                </div>
+
+                                <div class="history-date">
+                                    ${escapeHtml(
+                                        item.locality || ""
+                                    )}
+                                    · ${date}
+                                </div>
+
                             </div>
 
-                            <div class="history-date">
-                                ${escapeHtml(item.locality || "")}
-                                · ${date}
+                            <div class="history-points">
+                                +${Number(
+                                    item.points_earned || 0
+                                )}
                             </div>
-                        </div>
 
-                        <div class="history-points">
-                            +${Number(item.points_earned || 0)}
                         </div>
-
-                    </div>
-                `;
-            }).join("");
+                    `;
+                })
+                .join("");
     }
+
 
     if (!redemptions.length) {
 
@@ -2230,38 +3285,57 @@ function renderHistory() {
     } else {
 
         redemptionContainer.innerHTML =
-            redemptions.map(item => {
+            redemptions
+                .map(item => {
 
-                const date =
-                    formatDate(item.created_at);
+                    const date =
+                        formatDate(
+                            item.created_at
+                        );
 
-                const rewardName =
-                    item.rewards?.name || "Recompensa";
 
-                return `
-                    <div class="history-item">
+                    const rewardName =
+                        item.rewards?.name ||
+                        "Recompensa";
 
-                        <div>
-                            <div class="history-name">
-                                ${escapeHtml(rewardName)}
+
+                    return `
+                        <div class="history-item">
+
+                            <div>
+
+                                <div class="history-name">
+                                    ${escapeHtml(
+                                        rewardName
+                                    )}
+                                </div>
+
+                                <div class="history-date">
+
+                                    Código:
+                                    ${escapeHtml(
+                                        item.reward_code || "-"
+                                    )}
+
+                                    · ${date}
+
+                                </div>
+
                             </div>
 
-                            <div class="history-date">
-                                Código:
-                                ${escapeHtml(item.reward_code || "-")}
-                                · ${date}
+                            <div class="history-points">
+                                -${Number(
+                                    item.points_spent || 0
+                                )}
                             </div>
-                        </div>
 
-                        <div class="history-points">
-                            -${Number(item.points_spent || 0)}
                         </div>
-
-                    </div>
-                `;
-            }).join("");
+                    `;
+                })
+                .join("");
     }
 }
+
 
 /* =========================================================
    SUGESTÕES
@@ -2271,11 +3345,22 @@ async function loadSuggestions() {
 
     if (!currentUser) return;
 
-    const { data, error } = await db
-        .from("location_suggestions")
-        .select("*")
-        .eq("user_id", currentUser.id)
-        .order("created_at", { ascending: false });
+
+    const { data, error } =
+        await db
+            .from("location_suggestions")
+            .select("*")
+            .eq(
+                "user_id",
+                currentUser.id
+            )
+            .order(
+                "created_at",
+                {
+                    ascending: false
+                }
+            );
+
 
     if (error) {
 
@@ -2289,15 +3374,25 @@ async function loadSuggestions() {
         return;
     }
 
+
     suggestions = data || [];
+
 
     renderSuggestions();
 }
 
+
+/* =========================================================
+   GPS DA SUGESTÃO
+========================================================= */
+
 function getSuggestionLocation() {
 
     const status =
-        document.getElementById("gpsStatus");
+        document.getElementById(
+            "gpsStatus"
+        );
+
 
     if (!navigator.geolocation) {
 
@@ -2307,8 +3402,10 @@ function getSuggestionLocation() {
         return;
     }
 
+
     status.textContent =
         "A obter a tua localização...";
+
 
     navigator.geolocation.getCurrentPosition(
 
@@ -2320,17 +3417,29 @@ function getSuggestionLocation() {
             const longitude =
                 position.coords.longitude;
 
-            document.getElementById(
-                "suggestionLatitude"
-            ).value = latitude.toFixed(7);
 
-            document.getElementById(
-                "suggestionLongitude"
-            ).value = longitude.toFixed(7);
+            document
+                .getElementById(
+                    "suggestionLatitude"
+                )
+                .value =
+                    latitude.toFixed(7);
+
+
+            document
+                .getElementById(
+                    "suggestionLongitude"
+                )
+                .value =
+                    longitude.toFixed(7);
+
 
             status.textContent =
-                `Localização obtida: ${latitude.toFixed(5)}, ${longitude.toFixed(5)}`;
+                `Localização obtida: ${latitude.toFixed(
+                    5
+                )}, ${longitude.toFixed(5)}`;
         },
+
 
         error => {
 
@@ -2346,6 +3455,7 @@ function getSuggestionLocation() {
             }
         },
 
+
         {
             enableHighAccuracy: true,
             timeout: 15000,
@@ -2354,32 +3464,85 @@ function getSuggestionLocation() {
     );
 }
 
+
+/* =========================================================
+   ENVIAR SUGESTÃO
+========================================================= */
+
 async function submitSuggestion(event) {
 
     event.preventDefault();
 
+
     const name =
-        document.getElementById("suggestionName").value.trim();
+        document
+            .getElementById(
+                "suggestionName"
+            )
+            .value
+            .trim();
+
 
     const type =
-        document.getElementById("suggestionType").value;
+        document.getElementById(
+            "suggestionType"
+        ).value;
+
 
     const locality =
-        document.getElementById("suggestionLocality").value.trim();
+        document
+            .getElementById(
+                "suggestionLocality"
+            )
+            .value
+            .trim();
+
 
     const district =
-        document.getElementById("suggestionDistrict").value.trim();
+        document
+            .getElementById(
+                "suggestionDistrict"
+            )
+            .value
+            .trim();
+
 
     const description =
-        document.getElementById("suggestionDescription").value.trim();
+        document
+            .getElementById(
+                "suggestionDescription"
+            )
+            .value
+            .trim();
+
 
     const latitude =
-        Number(document.getElementById("suggestionLatitude").value);
+        Number(
+            document
+                .getElementById(
+                    "suggestionLatitude"
+                )
+                .value
+        );
+
 
     const longitude =
-        Number(document.getElementById("suggestionLongitude").value);
+        Number(
+            document
+                .getElementById(
+                    "suggestionLongitude"
+                )
+                .value
+        );
 
-    if (!["Miradouro", "Baloiço", "Monumento"].includes(type)) {
+
+    if (
+        ![
+            "Miradouro",
+            "Baloiço",
+            "Monumento"
+        ].includes(type)
+    ) {
 
         showMessage(
             "suggestionMessage",
@@ -2389,6 +3552,7 @@ async function submitSuggestion(event) {
 
         return;
     }
+
 
     if (
         !Number.isFinite(latitude) ||
@@ -2404,25 +3568,49 @@ async function submitSuggestion(event) {
         return;
     }
 
+
     /*
-        NÃO existe google_maps_url aqui.
-        O utilizador apenas envia as coordenadas GPS.
+        NÃO enviamos google_maps_url.
+
+        O utilizador envia apenas:
+        - dados do local
+        - latitude
+        - longitude
+
+        Quando o administrador aprovar a sugestão
+        e criar o local em "locations", o Google Maps
+        aparece automaticamente em "Locais".
     */
 
-    const { error } = await db
-        .from("location_suggestions")
-        .insert({
-            user_id: currentUser.id,
-            name,
-            type,
-            locality,
-            district,
-            description,
-            latitude,
-            longitude,
-            status: "pending",
-            points_awarded: 0
-        });
+
+    const { error } =
+        await db
+            .from("location_suggestions")
+            .insert({
+                user_id:
+                    currentUser.id,
+
+                name,
+
+                type,
+
+                locality,
+
+                district,
+
+                description,
+
+                latitude,
+
+                longitude,
+
+                status:
+                    "pending",
+
+                points_awarded:
+                    0
+            });
+
 
     if (error) {
 
@@ -2435,32 +3623,89 @@ async function submitSuggestion(event) {
         return;
     }
 
+
     showMessage(
         "suggestionMessage",
         "Sugestão enviada! Será analisada antes de aparecer em Locais.",
         "success"
     );
 
-    document.getElementById("suggestionName").value = "";
-    document.getElementById("suggestionType").value = "";
-    document.getElementById("suggestionLocality").value = "";
-    document.getElementById("suggestionDistrict").value = "";
-    document.getElementById("suggestionDescription").value = "";
-    document.getElementById("suggestionLatitude").value = "";
-    document.getElementById("suggestionLongitude").value = "";
 
-    document.getElementById("gpsStatus").textContent =
-        "Ainda não foi obtida a localização.";
+    document
+        .getElementById(
+            "suggestionName"
+        )
+        .value = "";
+
+
+    document
+        .getElementById(
+            "suggestionType"
+        )
+        .value = "";
+
+
+    document
+        .getElementById(
+            "suggestionLocality"
+        )
+        .value = "";
+
+
+    document
+        .getElementById(
+            "suggestionDistrict"
+        )
+        .value = "";
+
+
+    document
+        .getElementById(
+            "suggestionDescription"
+        )
+        .value = "";
+
+
+    document
+        .getElementById(
+            "suggestionLatitude"
+        )
+        .value = "";
+
+
+    document
+        .getElementById(
+            "suggestionLongitude"
+        )
+        .value = "";
+
+
+    document
+        .getElementById(
+            "gpsStatus"
+        )
+        .textContent =
+            "Ainda não foi obtida a localização.";
+
 
     await loadSuggestions();
 }
 
+
+/* =========================================================
+   MINHAS SUGESTÕES
+========================================================= */
+
 function renderSuggestions() {
 
     const container =
-        document.getElementById("mySuggestions");
+        document.getElementById(
+            "mySuggestions"
+        );
+
 
     if (!container) return;
+
 
     if (!suggestions.length) {
 
@@ -2473,96 +3718,149 @@ function renderSuggestions() {
         return;
     }
 
+
     container.innerHTML =
-        suggestions.map(item => {
+        suggestions
+            .map(item => {
 
-            const status =
-                String(item.status || "pending").toLowerCase();
+                const status =
+                    String(
+                        item.status ||
+                        "pending"
+                    ).toLowerCase();
 
-            let statusText = "Pendente";
-            let statusClass = "pending";
 
-            if (status === "approved") {
-                statusText = "Aprovado";
-                statusClass = "approved";
-            }
+                let statusText =
+                    "Pendente";
 
-            if (status === "rejected") {
-                statusText = "Rejeitado";
-                statusClass = "rejected";
-            }
 
-            return `
-                <div class="card" style="margin-bottom:12px;">
+                if (status === "approved") {
 
-                    <div class="card-top">
+                    statusText =
+                        "Aprovado";
+                }
 
-                        <h3>
-                            ${escapeHtml(item.name)}
-                        </h3>
 
-                        <span class="type-badge">
-                            ${escapeHtml(item.type)}
-                        </span>
+                if (status === "rejected") {
+
+                    statusText =
+                        "Rejeitado";
+                }
+
+
+                return `
+                    <div
+                        class="card"
+                        style="margin-bottom:12px;"
+                    >
+
+                        <div class="card-top">
+
+                            <h3>
+                                ${escapeHtml(
+                                    item.name
+                                )}
+                            </h3>
+
+                            <span class="type-badge">
+                                ${escapeHtml(
+                                    item.type
+                                )}
+                            </span>
+
+                        </div>
+
+
+                        <p>
+                            📍
+                            ${escapeHtml(
+                                item.locality
+                            )}
+                        </p>
+
+
+                        <div class="meta">
+
+                            Estado:
+                            <strong>
+                                ${statusText}
+                            </strong>
+
+                        </div>
+
+
+                        ${
+                            status === "approved"
+                                ? `
+                                    <p
+                                        style="color:#76e7a4;"
+                                    >
+                                        Este local foi aprovado
+                                        e já pode aparecer em Locais.
+                                    </p>
+                                `
+                                : ""
+                        }
 
                     </div>
-
-                    <p>
-                        📍 ${escapeHtml(item.locality)}
-                    </p>
-
-                    <div class="meta">
-                        Estado:
-                        <strong>${statusText}</strong>
-                    </div>
-
-                    ${
-                        status === "approved"
-                        ? `
-                            <p style="color:#76e7a4;">
-                                Este local foi aprovado e já pode aparecer em Locais.
-                            </p>
-                        `
-                        : ""
-                    }
-
-                </div>
-            `;
-        }).join("");
+                `;
+            })
+            .join("");
 }
+
 
 /* =========================================================
    UTILITÁRIOS
 ========================================================= */
 
-function showMessage(id, text, type) {
+function showMessage(
+    id,
+    text,
+    type
+) {
 
     const element =
         document.getElementById(id);
 
+
     if (!element) return;
 
-    element.textContent = text;
+
+    element.textContent =
+        text;
+
+
     element.className =
         `message show ${type}`;
 }
+
 
 function clearMessage(id) {
 
     const element =
         document.getElementById(id);
 
+
     if (!element) return;
 
-    element.textContent = "";
-    element.className = "message";
+
+    element.textContent =
+        "";
+
+
+    element.className =
+        "message";
 }
+
 
 function formatDate(value) {
 
     if (!value) return "";
 
-    const date = new Date(value);
+
+    const date =
+        new Date(value);
+
 
     return date.toLocaleDateString(
         "pt-PT",
@@ -2574,23 +3872,46 @@ function formatDate(value) {
     );
 }
 
+
 function escapeHtml(value) {
 
-    if (value === null || value === undefined) {
+    if (
+        value === null ||
+        value === undefined
+    ) {
+
         return "";
     }
 
+
     return String(value)
-        .replaceAll("&", "&amp;")
-        .replaceAll("<", "&lt;")
-        .replaceAll(">", "&gt;")
-        .replaceAll('"', "&quot;")
-        .replaceAll("'", "&#039;");
+        .replaceAll(
+            "&",
+            "&amp;"
+        )
+        .replaceAll(
+            "<",
+            "&lt;"
+        )
+        .replaceAll(
+            ">",
+            "&gt;"
+        )
+        .replaceAll(
+            '"',
+            "&quot;"
+        )
+        .replaceAll(
+            "'",
+            "&#039;"
+        );
 }
+
 
 /* =========================================================
    FIM
 ========================================================= */
+
 </script>
 
 </body>
