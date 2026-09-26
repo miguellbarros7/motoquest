@@ -167,6 +167,21 @@
             color: var(--red);
         }
 
+        .maps-button {
+            display: block;
+            width: 100%;
+            text-align: center;
+            text-decoration: none;
+            margin-bottom: 9px;
+            background: rgba(255,255,255,0.06);
+            color: white;
+            border: 1px solid var(--border);
+        }
+
+        .maps-button:hover {
+            background: rgba(255,255,255,0.1);
+        }
+
         /* AUTH */
 
         .auth-card {
@@ -1904,10 +1919,6 @@ function locationChanged() {
         return;
     }
 
-    /*
-       Só agora aparecem as categorias.
-    */
-
     document
         .getElementById("locationCategoryStep")
         .classList.remove("hidden");
@@ -2033,6 +2044,15 @@ function renderLocations() {
                         ⭐ +${Number(location.points) || 0} pontos
                     </div>
 
+                    <a
+                        class="btn maps-button"
+                        href="${getGoogleMapsUrl(location)}"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        🗺️ Abrir no Google Maps
+                    </a>
+
                     <button
                         class="btn btn-primary"
                         onclick="validateVisit(${Number(location.id)})"
@@ -2074,6 +2094,32 @@ function getLocationIcon(type) {
     }
 
     return "📍";
+}
+
+
+/* =========================================================
+   GOOGLE MAPS
+========================================================= */
+
+function getGoogleMapsUrl(location) {
+
+    const latitude =
+        Number(location.latitude);
+
+    const longitude =
+        Number(location.longitude);
+
+    if (
+        !Number.isFinite(latitude) ||
+        !Number.isFinite(longitude)
+    ) {
+        return "#";
+    }
+
+    return (
+        "https://www.google.com/maps/dir/?api=1" +
+        `&destination=${latitude},${longitude}`
+    );
 }
 
 
@@ -2179,11 +2225,6 @@ async function completeVisit(location, messageId) {
 
     if (!currentUser) return;
 
-    /*
-       Verifica se já existe uma visita recente ao mesmo local.
-       Evita múltiplos pontos acidentalmente.
-    */
-
     const {
         data: previousVisits,
         error: previousError
@@ -2207,7 +2248,6 @@ async function completeVisit(location, messageId) {
 
     const points =
         Number(location.points) || 0;
-
 
     const {
         error: historyError
@@ -2234,10 +2274,8 @@ async function completeVisit(location, messageId) {
         return;
     }
 
-
     const newPoints =
         (Number(currentProfile?.points) || 0) + points;
-
 
     const {
         error: pointsError
@@ -2262,7 +2300,6 @@ async function completeVisit(location, messageId) {
 
         return;
     }
-
 
     await refreshProfile();
     await loadHistory();
@@ -2346,10 +2383,6 @@ async function loadRewards() {
         rewards = [];
         return;
     }
-
-    /*
-       Apenas restaurantes e hotéis.
-    */
 
     rewards =
         (data || []).filter(reward => {
@@ -2444,10 +2477,6 @@ function rewardLocalityChanged() {
 
         return;
     }
-
-    /*
-       Só depois da localidade aparecem Restaurante/Hotel.
-    */
 
     document
         .getElementById("rewardTypeStep")
@@ -2641,17 +2670,14 @@ async function redeemReward(rewardId) {
         return;
     }
 
-
     showActionMessage(
         messageId,
         "⏳ A trocar recompensa...",
         "info"
     );
 
-
     const rewardCode =
         generateRewardCode();
-
 
     const {
         error: redemptionError
@@ -2677,10 +2703,8 @@ async function redeemReward(rewardId) {
         return;
     }
 
-
     const newPoints =
         currentPoints - requiredPoints;
-
 
     const {
         error: pointsError
@@ -2690,7 +2714,6 @@ async function redeemReward(rewardId) {
             points: newPoints
         })
         .eq("id", currentUser.id);
-
 
     if (pointsError) {
 
@@ -2707,12 +2730,10 @@ async function redeemReward(rewardId) {
         return;
     }
 
-
     await refreshProfile();
     await loadHistory();
 
     renderRewards();
-
 
     showActionMessage(
         messageId,
@@ -2769,7 +2790,6 @@ async function loadHistory() {
         document.getElementById("homeVisits").textContent =
             (visits || []).length;
     }
-
 
     const {
         data: redemptions,
@@ -3006,7 +3026,6 @@ function selectSuggestionType(type) {
 
         });
 
-
     document
         .getElementById("suggestionForm")
         .classList.remove("hidden");
@@ -3030,7 +3049,6 @@ async function submitSuggestion(event) {
 
         return;
     }
-
 
     const name =
         document.getElementById(
@@ -3066,7 +3084,6 @@ async function submitSuggestion(event) {
             ).value
         );
 
-
     const message =
         document.getElementById(
             "suggestionMessage"
@@ -3074,7 +3091,6 @@ async function submitSuggestion(event) {
 
     message.textContent =
         "A enviar sugestão...";
-
 
     const {
         error
@@ -3093,7 +3109,6 @@ async function submitSuggestion(event) {
             points_awarded: 0
         });
 
-
     if (error) {
 
         console.error(error);
@@ -3107,13 +3122,11 @@ async function submitSuggestion(event) {
         return;
     }
 
-
     message.textContent =
         "🎉 Sugestão enviada — aguarda aprovação. Os pontos serão atribuídos após aprovação.";
 
     message.style.color =
         "var(--green)";
-
 
     document
         .getElementById("suggestionForm")
@@ -3145,12 +3158,10 @@ function getSuggestionLocation() {
         return;
     }
 
-
     document.getElementById(
         "suggestionMessage"
     ).textContent =
         "📍 A obter localização...";
-
 
     navigator.geolocation.getCurrentPosition(
 
