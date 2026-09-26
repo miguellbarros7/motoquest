@@ -4901,9 +4901,14 @@ $("rewardForm").addEventListener(
                 }
             );
 
-    if (uploadError) {
-        throw uploadError;
-    }
+if (uploadError) {
+    console.error("ERRO NO UPLOAD DA FOTO:", uploadError);
+    alert(
+        "Erro ao carregar a fotografia:\n\n" +
+        (uploadError.message || JSON.stringify(uploadError))
+    );
+    return;
+}
 
     const {
         data: publicUrlData
