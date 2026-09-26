@@ -11,10 +11,6 @@
 
 <style>
 
-/* =========================
-   BASE
-========================= */
-
 * {
     box-sizing: border-box;
 }
@@ -106,9 +102,7 @@ header {
 
 .card h2 {
     margin-top: 0;
-
     color: #ff7200;
-
     font-size: 23px;
 }
 
@@ -123,21 +117,17 @@ header {
 
 .hero {
     text-align: center;
-
     padding: 30px 20px;
 }
 
 .hero-icon {
     font-size: 70px;
-
     margin-bottom: 10px;
 }
 
 .hero h2 {
     font-size: 28px;
-
     color: white;
-
     margin-bottom: 10px;
 }
 
@@ -152,31 +142,20 @@ header {
 
 input,
 select {
-
     width: 100%;
-
     padding: 15px;
-
     margin: 7px 0;
-
     border-radius: 10px;
-
     border: 1px solid #444;
-
     background: #111;
-
     color: white;
-
     font-size: 15px;
-
     outline: none;
 }
 
 input:focus,
 select:focus {
-
     border-color: #ff7200;
-
     box-shadow:
         0 0 0 2px rgba(255,114,0,0.15);
 }
@@ -191,15 +170,10 @@ select {
 ========================= */
 
 button {
-
     width: 100%;
-
     padding: 15px;
-
     margin-top: 10px;
-
     border: none;
-
     border-radius: 11px;
 
     background:
@@ -210,11 +184,8 @@ button {
         );
 
     color: white;
-
     font-size: 15px;
-
     font-weight: 800;
-
     cursor: pointer;
 
     transition:
@@ -223,37 +194,27 @@ button {
 }
 
 button:hover {
-
     transform: translateY(-1px);
-
     opacity: 0.92;
 }
 
 button:active {
-
     transform: translateY(1px);
 }
 
 button:disabled {
-
     background: #444;
-
     color: #999;
-
     cursor: not-allowed;
-
     transform: none;
 }
 
 .secondary {
-
     background: #292929;
-
     border: 1px solid #444;
 }
 
 .secondary:hover {
-
     background: #333;
 }
 
@@ -263,26 +224,18 @@ button:disabled {
 ========================= */
 
 .profile-header {
-
     display: flex;
-
     align-items: center;
-
     gap: 15px;
 }
 
 .profile-avatar {
-
     width: 58px;
-
     height: 58px;
-
     border-radius: 50%;
 
     display: flex;
-
     align-items: center;
-
     justify-content: center;
 
     background:
@@ -296,25 +249,18 @@ button:disabled {
 }
 
 .profile-info {
-
     flex: 1;
 }
 
 .profile-info h2 {
-
     margin: 0 0 4px 0;
-
     color: white;
-
     font-size: 20px;
 }
 
 .profile-info p {
-
     margin: 0;
-
     color: #999;
-
     font-size: 13px;
 }
 
@@ -324,13 +270,9 @@ button:disabled {
 ========================= */
 
 .points-box {
-
     margin-top: 20px;
-
     padding: 20px;
-
     border-radius: 15px;
-
     text-align: center;
 
     background:
@@ -344,24 +286,16 @@ button:disabled {
 }
 
 .points-label {
-
     color: #aaa;
-
     font-size: 13px;
-
     text-transform: uppercase;
-
     letter-spacing: 1px;
 }
 
 .points {
-
     margin-top: 5px;
-
     font-size: 42px;
-
     font-weight: 900;
-
     color: #ff7200;
 }
 
@@ -371,18 +305,13 @@ button:disabled {
 ========================= */
 
 .section-title {
-
     display: flex;
-
     align-items: center;
-
     justify-content: space-between;
-
     gap: 10px;
 }
 
 .section-title h2 {
-
     margin-bottom: 5px;
 }
 
@@ -392,36 +321,23 @@ button:disabled {
 ========================= */
 
 .filterRow {
-
     display: grid;
-
-    grid-template-columns:
-        1fr 1fr;
-
+    grid-template-columns: 1fr 1fr;
     gap: 12px;
-
     margin: 18px 0;
 }
 
 .filterBox {
-
     background: #151515;
-
     padding: 10px;
-
     border-radius: 12px;
-
     border: 1px solid #333;
 }
 
 .filterLabel {
-
     font-size: 12px;
-
     color: #999;
-
     margin-bottom: 4px;
-
     font-weight: bold;
 }
 
@@ -431,15 +347,10 @@ button:disabled {
 ========================= */
 
 .challenge {
-
     background: #171717;
-
     border: 1px solid #333;
-
     border-radius: 15px;
-
     padding: 18px;
-
     margin-top: 14px;
 
     transition:
@@ -448,42 +359,30 @@ button:disabled {
 }
 
 .challenge:hover {
-
     border-color: #ff7200;
-
     transform: translateY(-2px);
 }
 
 .challenge h3 {
-
     margin: 0 0 12px 0;
-
     font-size: 19px;
 }
 
 .location-meta {
-
     color: #aaa;
-
     font-size: 14px;
 }
 
 .points-reward {
-
     display: inline-block;
-
     margin-top: 10px;
-
     padding: 7px 11px;
-
     border-radius: 20px;
 
     background: rgba(255,114,0,0.12);
 
     color: #ff7200;
-
     font-size: 13px;
-
     font-weight: bold;
 }
 
@@ -493,7 +392,6 @@ button:disabled {
 ========================= */
 
 .reward {
-
     background:
         linear-gradient(
             145deg,
@@ -502,50 +400,38 @@ button:disabled {
         );
 
     border: 1px solid #333;
-
     border-radius: 16px;
 
     padding: 18px;
-
     margin-top: 15px;
 
     position: relative;
-
     overflow: hidden;
 }
 
 .reward::before {
-
     content: "";
 
     position: absolute;
 
     top: 0;
-
     left: 0;
 
     width: 4px;
-
     height: 100%;
 
     background: #ff7200;
 }
 
 .reward h3 {
-
     margin-top: 0;
-
     margin-bottom: 14px;
-
     font-size: 19px;
 }
 
 .reward-line {
-
     display: flex;
-
     justify-content: space-between;
-
     gap: 10px;
 
     padding: 7px 0;
@@ -556,25 +442,160 @@ button:disabled {
 }
 
 .reward-line:last-of-type {
-
     border-bottom: none;
 }
 
 .reward-label {
-
     color: #999;
 }
 
 .reward-value {
-
     text-align: right;
-
     font-weight: bold;
 }
 
 .reward-points {
+    color: #ff7200;
+}
+
+
+/* =========================
+   HISTÓRICO
+========================= */
+
+.history-item {
+    background: #171717;
+
+    border: 1px solid #333;
+
+    border-radius: 15px;
+
+    padding: 16px;
+
+    margin-top: 12px;
+
+    position: relative;
+}
+
+.history-item:hover {
+    border-color: #ff7200;
+}
+
+.history-header {
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+}
+
+.history-icon {
+    width: 45px;
+    height: 45px;
+
+    border-radius: 12px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    background: rgba(255,114,0,0.12);
+
+    font-size: 23px;
+}
+
+.history-content {
+    flex: 1;
+}
+
+.history-content h3 {
+    margin: 0 0 4px 0;
+
+    font-size: 16px;
+}
+
+.history-content p {
+    margin: 0;
+
+    color: #999;
+
+    font-size: 13px;
+}
+
+.history-points {
+    margin-top: 12px;
+
+    display: inline-block;
+
+    padding: 6px 10px;
+
+    border-radius: 20px;
+
+    background: rgba(255,114,0,0.12);
 
     color: #ff7200;
+
+    font-weight: bold;
+
+    font-size: 13px;
+}
+
+.history-date {
+    margin-top: 10px;
+
+    color: #666;
+
+    font-size: 12px;
+}
+
+.history-empty {
+    text-align: center;
+
+    padding: 25px 10px;
+
+    color: #888;
+}
+
+
+/* =========================
+   REDEMPTIONS
+========================= */
+
+.redemption-item {
+    background: #171717;
+
+    border: 1px solid #333;
+
+    border-radius: 15px;
+
+    padding: 16px;
+
+    margin-top: 12px;
+}
+
+.redemption-item h3 {
+    margin-top: 0;
+    margin-bottom: 8px;
+}
+
+.redemption-code {
+    margin-top: 12px;
+
+    padding: 12px;
+
+    border-radius: 10px;
+
+    background: #252525;
+
+    color: #ff7200;
+
+    text-align: center;
+
+    font-weight: 900;
+
+    letter-spacing: 2px;
 }
 
 
@@ -583,11 +604,8 @@ button:disabled {
 ========================= */
 
 .message {
-
     margin: 15px 0;
-
     padding: 15px;
-
     border-radius: 12px;
 
     background: #1c1c1c;
@@ -600,7 +618,6 @@ button:disabled {
 }
 
 .code {
-
     margin-top: 15px;
 
     padding: 18px;
@@ -629,13 +646,9 @@ button:disabled {
 ========================= */
 
 footer {
-
     text-align: center;
-
     padding: 35px 20px;
-
     color: #666;
-
     font-size: 13px;
 }
 
@@ -1000,6 +1013,56 @@ footer {
     </div>
 
 
+    <!-- HISTÓRICO DE VISITAS -->
+
+    <div class="card">
+
+        <div class="section-title">
+
+            <h2>
+                🏆 Histórico
+            </h2>
+
+        </div>
+
+        <p>
+            Consulta os locais que já visitaste
+            e os pontos que conquistaste.
+        </p>
+
+
+        <div id="visitHistory">
+            A carregar histórico...
+        </div>
+
+    </div>
+
+
+    <!-- RECOMPENSAS UTILIZADAS -->
+
+    <div class="card">
+
+        <div class="section-title">
+
+            <h2>
+                🎟️ Recompensas utilizadas
+            </h2>
+
+        </div>
+
+        <p>
+            Consulta os códigos das recompensas
+            que já trocaste.
+        </p>
+
+
+        <div id="redemptionHistory">
+            A carregar recompensas...
+        </div>
+
+    </div>
+
+
     <div
         id="message"
         class="message"
@@ -1308,6 +1371,10 @@ async function loadUser() {
 
     await loadRewards();
 
+    await loadVisitHistory();
+
+    await loadRedemptionHistory();
+
 }
 
 
@@ -1471,7 +1538,9 @@ function displayLocations(locations) {
                     ${location.latitude},
                     ${location.longitude},
                     ${location.radius},
-                    ${location.points}
+                    ${location.points},
+                    '${String(location.name).replace(/'/g, "\\'")}',
+                    '${String(location.locality || "").replace(/'/g, "\\'")}'
                 )"
             >
                 📍 Validar visita
@@ -1535,7 +1604,9 @@ async function validateChallenge(
     latitude,
     longitude,
     radius,
-    points
+    points,
+    locationName,
+    locality
 ) {
 
     const sessionResult =
@@ -1612,6 +1683,11 @@ async function validateChallenge(
                 (profileResult.data.points || 0) +
                 points;
 
+
+            /* =========================
+               ATUALIZAR PONTOS
+            ========================= */
+
             const updateResult =
                 await supabaseClient
                     .from("profiles")
@@ -1629,14 +1705,56 @@ async function validateChallenge(
                 return;
             }
 
+
+            /* =========================
+               GUARDAR HISTÓRICO
+            ========================= */
+
+            const historyResult =
+                await supabaseClient
+                    .from("visit_history")
+                    .insert({
+
+                        user_id:
+                            user.id,
+
+                        location_id:
+                            locationId,
+
+                        location_name:
+                            locationName,
+
+                        locality:
+                            locality,
+
+                        points_earned:
+                            points
+
+                    });
+
+            if (historyResult.error) {
+
+                console.log(
+                    "Erro ao guardar histórico:",
+                    historyResult.error
+                );
+
+            }
+
+
             document
                 .getElementById("profilePoints")
                 .textContent =
                 newPoints;
 
+
             displayRewards(
                 getFilteredRewards()
             );
+
+
+            await loadVisitHistory();
+
 
             showMessage(
                 "🎉 Visita validada!<br><br>" +
@@ -2182,6 +2300,9 @@ async function redeemReward(rewardId) {
     );
 
 
+    await loadRedemptionHistory();
+
+
     document
         .getElementById("message")
         .innerHTML =
@@ -2197,6 +2318,333 @@ async function redeemReward(rewardId) {
         rewardCode +
 
         "</div>";
+
+}
+
+
+/* =========================
+   HISTÓRICO DE VISITAS
+========================= */
+
+async function loadVisitHistory() {
+
+    const container =
+        document.getElementById(
+            "visitHistory"
+        );
+
+
+    const sessionResult =
+        await supabaseClient.auth.getSession();
+
+    const session =
+        sessionResult.data.session;
+
+
+    if (!session) {
+
+        container.innerHTML =
+            `<div class="history-empty">
+                Inicia sessão para veres o histórico.
+            </div>`;
+
+        return;
+    }
+
+
+    const result =
+        await supabaseClient
+            .from("visit_history")
+            .select("*")
+            .eq("user_id", session.user.id)
+            .order("created_at", {
+                ascending: false
+            });
+
+
+    if (result.error) {
+
+        container.innerHTML =
+            `<div class="history-empty">
+                Não foi possível carregar o histórico.
+            </div>`;
+
+        console.log(result.error);
+
+        return;
+    }
+
+
+    const history =
+        result.data || [];
+
+
+    if (!history.length) {
+
+        container.innerHTML =
+            `<div class="history-empty">
+
+                🏍️ Ainda não tens visitas registadas.
+
+                <br><br>
+
+                Visita o teu primeiro local
+                para começar a tua aventura!
+
+            </div>`;
+
+        return;
+    }
+
+
+    let html = "";
+
+
+    history.forEach(item => {
+
+        const date =
+            new Date(
+                item.created_at
+            );
+
+
+        const formattedDate =
+            date.toLocaleDateString(
+                "pt-PT",
+                {
+                    day: "2-digit",
+                    month: "2-digit",
+                    year: "numeric"
+                }
+            );
+
+
+        const formattedTime =
+            date.toLocaleTimeString(
+                "pt-PT",
+                {
+                    hour: "2-digit",
+                    minute: "2-digit"
+                }
+            );
+
+
+        html += `
+
+        <div class="history-item">
+
+            <div class="history-header">
+
+                <div class="history-icon">
+                    🏍️
+                </div>
+
+                <div class="history-content">
+
+                    <h3>
+                        ${item.location_name}
+                    </h3>
+
+                    <p>
+                        📍 ${item.locality || "Localidade"}
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <span class="history-points">
+                ⭐ +${item.points_earned} pontos
+            </span>
+
+
+            <div class="history-date">
+                📅 ${formattedDate} às ${formattedTime}
+            </div>
+
+        </div>
+
+        `;
+
+    });
+
+
+    container.innerHTML =
+        html;
+
+}
+
+
+/* =========================
+   HISTÓRICO DE RECOMPENSAS
+========================= */
+
+async function loadRedemptionHistory() {
+
+    const container =
+        document.getElementById(
+            "redemptionHistory"
+        );
+
+
+    const sessionResult =
+        await supabaseClient.auth.getSession();
+
+    const session =
+        sessionResult.data.session;
+
+
+    if (!session) {
+
+        container.innerHTML =
+            `<div class="history-empty">
+                Inicia sessão para veres as recompensas.
+            </div>`;
+
+        return;
+    }
+
+
+    const result =
+        await supabaseClient
+            .from("redemptions")
+            .select(`
+                id,
+                points_spent,
+                reward_code,
+                created_at,
+                rewards (
+                    name,
+                    reward,
+                    business,
+                    locality
+                )
+            `)
+            .eq("user_id", session.user.id)
+            .order("created_at", {
+                ascending: false
+            });
+
+
+    if (result.error) {
+
+        container.innerHTML =
+            `<div class="history-empty">
+                Não foi possível carregar as recompensas.
+            </div>`;
+
+        console.log(result.error);
+
+        return;
+    }
+
+
+    const history =
+        result.data || [];
+
+
+    if (!history.length) {
+
+        container.innerHTML =
+            `<div class="history-empty">
+
+                🎁 Ainda não trocaste nenhuma recompensa.
+
+                <br><br>
+
+                Continua a explorar para ganhar pontos!
+
+            </div>`;
+
+        return;
+    }
+
+
+    let html = "";
+
+
+    history.forEach(item => {
+
+        const reward =
+            item.rewards || {};
+
+
+        const date =
+            new Date(
+                item.created_at
+            );
+
+
+        const formattedDate =
+            date.toLocaleDateString(
+                "pt-PT",
+                {
+                    day: "2-digit",
+                    month: "2-digit",
+                    year: "numeric"
+                }
+            );
+
+
+        html += `
+
+        <div class="redemption-item">
+
+            <h3>
+                🎁 ${reward.name || "Recompensa"}
+            </h3>
+
+
+            ${
+                reward.business
+                ?
+                `<p>
+                    🏢 ${reward.business}
+                </p>`
+                :
+                ""
+            }
+
+
+            ${
+                reward.locality
+                ?
+                `<p>
+                    📍 ${reward.locality}
+                </p>`
+                :
+                ""
+            }
+
+
+            <p>
+                ⭐ ${item.points_spent} pontos utilizados
+            </p>
+
+
+            <div class="redemption-code">
+
+                🔑 ${item.reward_code || "Código indisponível"}
+
+            </div>
+
+
+            <p style="color:#666;font-size:12px;">
+
+                📅 ${formattedDate}
+
+            </p>
+
+        </div>
+
+        `;
+
+    });
+
+
+    container.innerHTML =
+        html;
 
 }
 
