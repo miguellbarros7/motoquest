@@ -31,7 +31,6 @@
                 #050505;
             color: white;
             min-height: 100vh;
-            padding-bottom: 105px;
         }
 
         button,
@@ -176,10 +175,6 @@
             min-height: 100vh;
         }
 
-        /* =========================
-           TOPO
-        ========================= */
-
         .topbar {
             height: 72px;
             border-bottom: 1px solid var(--border);
@@ -209,13 +204,27 @@
             font-weight: 800;
         }
 
-        /*
-            O MENU DE CIMA FICA ESCONDIDO.
-            O MENU PRINCIPAL PASSA PARA A BARRA INFERIOR.
-        */
-
         .desktop-nav {
-            display: none;
+            display: flex;
+            gap: 6px;
+            align-items: center;
+        }
+
+        .desktop-nav button {
+            border: 0;
+            background: transparent;
+            color: #aaa;
+            padding: 9px 11px;
+            border-radius: 9px;
+            font-size: 13px;
+            font-weight: 700;
+            transition: .2s;
+        }
+
+        .desktop-nav button:hover,
+        .desktop-nav button.active {
+            color: var(--orange);
+            background: rgba(255,90,0,.08);
         }
 
         .logout-btn {
@@ -243,7 +252,7 @@
             align-items: center;
             justify-content: center;
             text-align: center;
-            padding: 50px 20px 80px;
+            padding: 50px 20px;
         }
 
         .welcome {
@@ -258,13 +267,11 @@
         }
 
         /*
-            MENU CENTRAL
-
-            Sem cartões.
-            Sem caixas.
-            Letras grandes.
-            Pretas.
-            Hover laranja.
+            O MENU QUE PEDISTE:
+            CENTRAL
+            GRANDE
+            PRETO
+            SEM CARTÕES
         */
 
         .main-menu {
@@ -296,6 +303,10 @@
             text-shadow: 0 0 28px rgba(255,90,0,.35);
         }
 
+        .main-menu button.active {
+            color: #111;
+        }
+
         .home-points {
             margin-top: 48px;
             font-size: 15px;
@@ -314,7 +325,7 @@
         main {
             max-width: 1180px;
             margin: 0 auto;
-            padding: 45px 22px 120px;
+            padding: 45px 22px 100px;
         }
 
         .section {
@@ -339,7 +350,7 @@
         }
 
         /* =========================
-           FILTROS
+           FILTERS
         ========================= */
 
         .filters {
@@ -447,7 +458,7 @@
         }
 
         /* =========================
-           PERFIL
+           PROFILE
         ========================= */
 
         .profile-box {
@@ -462,7 +473,7 @@
         }
 
         /* =========================
-           MODAIS
+           MODAL
         ========================= */
 
         .modal {
@@ -509,112 +520,64 @@
         }
 
         /* =========================
-           MENU INFERIOR
+           MOBILE
         ========================= */
 
         .mobile-nav {
-            position: fixed;
-            left: 0;
-            right: 0;
-            bottom: 0;
-
-            display: flex;
-            justify-content: center;
-            align-items: center;
-
-            background: rgba(8,8,8,.96);
-            border-top: 1px solid rgba(255,255,255,.1);
-            backdrop-filter: blur(18px);
-
-            padding: 14px 18px;
-
-            z-index: 60;
+            display: none;
         }
-
-        .mobile-nav button {
-            border: 0;
-            background: transparent;
-            color: #777;
-
-            font-size: 13px;
-            font-weight: 800;
-
-            padding: 11px 17px;
-
-            border-radius: 10px;
-
-            transition:
-                color .2s ease,
-                background .2s ease,
-                transform .2s ease;
-        }
-
-        .mobile-nav button:hover {
-            color: var(--orange);
-            background: rgba(255,90,0,.08);
-            transform: translateY(-2px);
-        }
-
-        .mobile-nav button.active {
-            color: var(--orange);
-        }
-
-        /* =========================
-           RESPONSIVO
-        ========================= */
 
         @media (max-width: 900px) {
+            .desktop-nav {
+                display: none;
+            }
 
             .grid {
                 grid-template-columns: repeat(2, 1fr);
             }
 
             .mobile-nav {
-                overflow-x: auto;
-                justify-content: flex-start;
+                position: fixed;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                display: flex;
+                justify-content: space-around;
+                background: rgba(10,10,10,.96);
+                border-top: 1px solid var(--border);
+                padding: 10px 5px;
+                z-index: 60;
             }
 
             .mobile-nav button {
-                flex: 0 0 auto;
+                border: 0;
+                background: transparent;
+                color: #777;
+                font-size: 11px;
+                padding: 7px;
             }
 
+            .mobile-nav button.active {
+                color: var(--orange);
+            }
         }
 
         @media (max-width: 600px) {
-
-            body {
-                padding-bottom: 86px;
-            }
-
             .topbar {
-                height: 65px;
                 padding: 0 16px;
             }
 
-            .brand {
-                font-size: 20px;
-            }
-
-            .home {
-                min-height: calc(100vh - 65px);
-                padding: 35px 12px 80px;
-            }
-
-            .welcome {
-                margin-bottom: 28px;
-            }
-
             .main-menu {
-                gap: 10px;
+                gap: 12px;
             }
 
             .main-menu button {
-                font-size: 33px;
+                font-size: 34px;
                 letter-spacing: -2px;
             }
 
-            .home-points {
-                margin-top: 35px;
+            .welcome {
+                margin-bottom: 30px;
             }
 
             .grid {
@@ -625,16 +588,6 @@
                 padding-left: 15px;
                 padding-right: 15px;
             }
-
-            .mobile-nav {
-                padding: 9px 5px;
-            }
-
-            .mobile-nav button {
-                font-size: 10px;
-                padding: 9px 8px;
-            }
-
         }
     </style>
 </head>
@@ -661,16 +614,12 @@
 
             <div class="field">
                 <label>Email</label>
-                <input id="loginEmail"
-                       type="email"
-                       placeholder="O teu email">
+                <input id="loginEmail" type="email" placeholder="O teu email">
             </div>
 
             <div class="field">
                 <label>Password</label>
-                <input id="loginPassword"
-                       type="password"
-                       placeholder="A tua password">
+                <input id="loginPassword" type="password" placeholder="A tua password">
             </div>
 
             <button class="primary-btn" id="loginBtn">
@@ -690,23 +639,17 @@
 
             <div class="field">
                 <label>Nome</label>
-                <input id="registerName"
-                       type="text"
-                       placeholder="O teu nome">
+                <input id="registerName" type="text" placeholder="O teu nome">
             </div>
 
             <div class="field">
                 <label>Email</label>
-                <input id="registerEmail"
-                       type="email"
-                       placeholder="O teu email">
+                <input id="registerEmail" type="email" placeholder="O teu email">
             </div>
 
             <div class="field">
                 <label>Password</label>
-                <input id="registerPassword"
-                       type="password"
-                       placeholder="Mínimo 6 caracteres">
+                <input id="registerPassword" type="password" placeholder="Mínimo 6 caracteres">
             </div>
 
             <button class="primary-btn" id="registerBtn">
@@ -735,13 +678,22 @@
 
 <div id="app">
 
-    <!-- TOPO APENAS COM LOGO E PONTOS -->
-
     <header class="topbar">
 
         <div class="brand">
             MOTO<span>QUEST</span>
         </div>
+
+        <nav class="desktop-nav">
+
+            <button data-section="home">Início</button>
+            <button data-section="locations">Locais</button>
+            <button data-section="rewards">Recompensas</button>
+            <button data-section="history">Histórico</button>
+            <button data-section="profile">Perfil</button>
+            <button data-section="suggest">Sugerir local</button>
+
+        </nav>
 
         <div style="display:flex;align-items:center;gap:12px;">
 
@@ -769,9 +721,7 @@
             <div class="home">
 
                 <div class="welcome">
-                    Bem-vindo,
-                    <strong id="welcomeName">Motard</strong>
-                    👋
+                    Bem-vindo, <strong id="welcomeName">Motard</strong> 👋
                 </div>
 
                 <nav class="main-menu">
@@ -803,9 +753,7 @@
                 </nav>
 
                 <div class="home-points">
-                    Tens
-                    <strong id="homePoints">0</strong>
-                    pontos
+                    Tens <strong id="homePoints">0</strong> pontos
                 </div>
 
             </div>
@@ -836,9 +784,11 @@
                     <option value="Castelo">Castelo</option>
                 </select>
 
-                <input id="locationSearch"
-                       type="text"
-                       placeholder="Pesquisar local...">
+                <input
+                    id="locationSearch"
+                    type="text"
+                    placeholder="Pesquisar local..."
+                >
 
             </div>
 
@@ -925,12 +875,10 @@
 
                     <div class="field">
                         <label>Nome</label>
-                        <input id="profileNameInput"
-                               type="text">
+                        <input id="profileNameInput" type="text">
                     </div>
 
-                    <button class="primary-btn"
-                            id="saveProfileBtn">
+                    <button class="primary-btn" id="saveProfileBtn">
                         Guardar alterações
                     </button>
 
@@ -953,10 +901,8 @@
 
             <div class="section-header">
                 <h1>Sugerir local</h1>
-
                 <p>
-                    Conheces um sítio incrível?
-                    Usa a localização do teu dispositivo para o sugerir.
+                    Conheces um sítio incrível? Usa a localização do teu dispositivo para o sugerir.
                 </p>
             </div>
 
@@ -966,14 +912,12 @@
 
                     <div class="field">
                         <label>Nome do local</label>
-
                         <input id="suggestName"
                                type="text"
                                placeholder="Ex.: Miradouro da Serra">
                     </div>
 
                     <div class="field">
-
                         <label>Tipo</label>
 
                         <select id="suggestType">
@@ -995,54 +939,38 @@
                     </div>
 
                     <div class="field">
-
                         <label>Localidade</label>
-
                         <input id="suggestLocality"
                                type="text"
                                placeholder="Localidade">
-
                     </div>
 
                     <div class="field">
-
                         <label>Distrito</label>
-
                         <input id="suggestDistrict"
                                type="text"
                                placeholder="Distrito">
-
                     </div>
 
                     <div class="field">
-
                         <label>Descrição</label>
-
                         <textarea id="suggestDescription"
                                   placeholder="Conta-nos um pouco sobre este local"></textarea>
-
                     </div>
 
                     <button class="primary-btn"
                             id="getLocationBtn"
                             style="margin-bottom:10px;">
-
                         📍 Usar a minha localização
-
                     </button>
 
                     <div id="gpsStatus"
                          style="font-size:13px;color:#888;margin-bottom:15px;">
-
                         Ainda não foi obtida a localização.
-
                     </div>
 
-                    <button class="primary-btn"
-                            id="submitSuggestionBtn">
-
+                    <button class="primary-btn" id="submitSuggestionBtn">
                         Enviar sugestão
-
                     </button>
 
                     <div id="suggestMessage"
@@ -1054,15 +982,11 @@
             </div>
 
             <div style="margin-top:25px;">
-
                 <h2 style="margin-bottom:15px;">
                     As minhas sugestões
                 </h2>
 
-                <div id="suggestionsGrid"
-                     class="grid">
-                </div>
-
+                <div id="suggestionsGrid" class="grid"></div>
             </div>
 
         </section>
@@ -1071,7 +995,7 @@
 
 
     <!-- =========================
-         MENU INFERIOR
+         MOBILE NAV
     ========================= -->
 
     <nav class="mobile-nav">
@@ -1097,7 +1021,7 @@
         </button>
 
         <button data-section="suggest">
-            Sugerir local
+            Sugerir
         </button>
 
     </nav>
@@ -1106,7 +1030,7 @@
 
 
 <!-- =========================
-     MODAL VISITA
+     VISIT MODAL
 ========================= -->
 
 <div id="visitModal" class="modal">
@@ -1121,13 +1045,11 @@
 
         <div class="modal-actions">
 
-            <button class="secondary-btn"
-                    id="cancelVisitBtn">
+            <button class="secondary-btn" id="cancelVisitBtn">
                 Cancelar
             </button>
 
-            <button class="primary-btn"
-                    id="confirmVisitBtn">
+            <button class="primary-btn" id="confirmVisitBtn">
                 Verificar GPS
             </button>
 
@@ -1139,7 +1061,7 @@
 
 
 <!-- =========================
-     MODAL RECOMPENSA
+     REWARD MODAL
 ========================= -->
 
 <div id="rewardModal" class="modal">
@@ -1154,13 +1076,11 @@
 
         <div class="modal-actions">
 
-            <button class="secondary-btn"
-                    id="cancelRewardBtn">
+            <button class="secondary-btn" id="cancelRewardBtn">
                 Cancelar
             </button>
 
-            <button class="primary-btn"
-                    id="confirmRewardBtn">
+            <button class="primary-btn" id="confirmRewardBtn">
                 Confirmar
             </button>
 
@@ -1207,6 +1127,10 @@
     let suggestionLongitude = null;
 
 
+    /* =========================================================
+       ELEMENTOS
+    ========================================================= */
+
     const authScreen =
         document.getElementById("authScreen");
 
@@ -1215,7 +1139,7 @@
 
 
     /* =========================================================
-       LOGIN / REGISTO
+       AUTH
     ========================================================= */
 
     document
@@ -1293,11 +1217,10 @@
         }
 
         const { error } =
-            await supabaseClient.auth
-                .signInWithPassword({
-                    email,
-                    password
-                });
+            await supabaseClient.auth.signInWithPassword({
+                email,
+                password
+            });
 
         if (error) {
 
@@ -1351,11 +1274,8 @@
             return;
         }
 
-        const {
-            data,
-            error
-        } = await supabaseClient.auth
-            .signUp({
+        const { data, error } =
+            await supabaseClient.auth.signUp({
                 email,
                 password
             });
@@ -1370,15 +1290,14 @@
 
         if (data.user) {
 
-            const {
-                error: profileError
-            } = await supabaseClient
-                .from("profiles")
-                .insert({
-                    id: data.user.id,
-                    name,
-                    points: 0
-                });
+            const { error: profileError } =
+                await supabaseClient
+                    .from("profiles")
+                    .insert({
+                        id: data.user.id,
+                        name,
+                        points: 0
+                    });
 
             if (profileError) {
                 console.error(profileError);
@@ -1415,7 +1334,7 @@
 
 
     /* =========================================================
-       APP
+       START APP
     ========================================================= */
 
     async function startApp() {
@@ -1446,7 +1365,7 @@
 
 
     /* =========================================================
-       PERFIL
+       PROFILE
     ========================================================= */
 
     async function loadProfile() {
@@ -1521,6 +1440,7 @@
         document
             .getElementById("welcomeName")
             .textContent = name;
+
     }
 
 
@@ -1540,15 +1460,13 @@
         document
             .getElementById("profilePoints")
             .textContent = points;
+
     }
 
 
     document
         .getElementById("saveProfileBtn")
-        .addEventListener(
-            "click",
-            saveProfile
-        );
+        .addEventListener("click", saveProfile);
 
 
     async function saveProfile() {
@@ -1562,9 +1480,7 @@
                 .trim();
 
         const message =
-            document.getElementById(
-                "profileMessage"
-            );
+            document.getElementById("profileMessage");
 
         if (!name) {
 
@@ -1602,27 +1518,25 @@
 
         message.textContent =
             "Perfil atualizado.";
+
     }
 
 
     /* =========================================================
-       NAVEGAÇÃO
+       NAVIGAÇÃO
     ========================================================= */
 
     document
         .querySelectorAll("[data-section]")
         .forEach(button => {
 
-            button.addEventListener(
-                "click",
-                () => {
+            button.addEventListener("click", () => {
 
-                    showSection(
-                        button.dataset.section
-                    );
+                showSection(
+                    button.dataset.section
+                );
 
-                }
-            );
+            });
 
         });
 
@@ -1633,9 +1547,7 @@
             .querySelectorAll(".section")
             .forEach(element => {
 
-                element.classList.remove(
-                    "active"
-                );
+                element.classList.remove("active");
 
             });
 
@@ -1650,7 +1562,7 @@
 
         document
             .querySelectorAll(
-                ".mobile-nav button"
+                ".desktop-nav button, .mobile-nav button"
             )
             .forEach(button => {
 
@@ -1689,7 +1601,7 @@
 
 
     /* =========================================================
-       LOCAIS
+       LOCATIONS
     ========================================================= */
 
     async function loadLocations() {
@@ -1726,6 +1638,7 @@
                     type !== "restaurante" &&
                     type !== "hotel"
                 );
+
             });
 
         renderLocations();
@@ -1793,6 +1706,7 @@
                     matchesType &&
                     matchesSearch
                 );
+
             });
 
         if (!filtered.length) {
@@ -1841,22 +1755,15 @@
                             📍 ${escapeHtml(
                                 location.locality || ""
                             )}
-                            ${
-                                location.district
-                                ? ", " +
-                                  escapeHtml(
-                                      location.district
-                                  )
-                                : ""
-                            }
+                            ${location.district
+                                ? ", " + escapeHtml(location.district)
+                                : ""}
                         </p>
 
                         <div class="card-footer">
 
                             <span class="points">
-                                +${Number(
-                                    location.points || 0
-                                )} pts
+                                +${Number(location.points || 0)} pts
                             </span>
 
                             <div style="display:flex;gap:7px;">
@@ -1872,15 +1779,13 @@
                                         >
                                             Google Maps
                                         </a>
-                                    `
+                                      `
                                     : ""
                                 }
 
                                 <button
                                     class="small-btn"
-                                    onclick="openVisitModal(${Number(
-                                        location.id
-                                    )})"
+                                    onclick="openVisitModal(${Number(location.id)})"
                                 >
                                     Visitar
                                 </button>
@@ -1935,35 +1840,28 @@
             if (!selectedLocation) return;
 
             document
-                .getElementById(
-                    "visitModalText"
-                )
+                .getElementById("visitModalText")
                 .textContent =
                 `Vamos verificar se estás perto de "${selectedLocation.name}".`;
 
             document
-                .getElementById(
-                    "visitModal"
-                )
+                .getElementById("visitModal")
                 .classList.add("show");
+
         };
 
 
     document
         .getElementById("cancelVisitBtn")
-        .addEventListener(
-            "click",
-            () => {
+        .addEventListener("click", () => {
 
-                document
-                    .getElementById(
-                        "visitModal"
-                    )
-                    .classList.remove("show");
+            document
+                .getElementById("visitModal")
+                .classList.remove("show");
 
-                selectedLocation = null;
-            }
-        );
+            selectedLocation = null;
+
+        });
 
 
     document
@@ -1976,10 +1874,7 @@
 
     async function validateVisit() {
 
-        if (
-            !selectedLocation ||
-            !currentUser
-        ) {
+        if (!selectedLocation || !currentUser) {
             return;
         }
 
@@ -1998,8 +1893,7 @@
             );
 
         button.disabled = true;
-        button.textContent =
-            "A verificar...";
+        button.textContent = "A verificar...";
 
         navigator.geolocation.getCurrentPosition(
             async position => {
@@ -2016,26 +1910,19 @@
                         calculateDistance(
                             userLat,
                             userLng,
-                            Number(
-                                selectedLocation.latitude
-                            ),
-                            Number(
-                                selectedLocation.longitude
-                            )
+                            Number(selectedLocation.latitude),
+                            Number(selectedLocation.longitude)
                         );
 
                     const radius =
                         Number(
-                            selectedLocation.radius ||
-                            150
+                            selectedLocation.radius || 150
                         );
 
                     if (distance > radius) {
 
                         alert(
-                            `Ainda estás a ${Math.round(
-                                distance
-                            )} metros do local.`
+                            `Ainda estás a ${Math.round(distance)} metros do local.`
                         );
 
                         return;
@@ -2046,14 +1933,8 @@
                     } = await supabaseClient
                         .from("visit_history")
                         .select("id")
-                        .eq(
-                            "user_id",
-                            currentUser.id
-                        )
-                        .eq(
-                            "location_id",
-                            selectedLocation.id
-                        )
+                        .eq("user_id", currentUser.id)
+                        .eq("location_id", selectedLocation.id)
                         .limit(1);
 
                     if (
@@ -2070,8 +1951,7 @@
 
                     const points =
                         Number(
-                            selectedLocation.points ||
-                            0
+                            selectedLocation.points || 0
                         );
 
                     const {
@@ -2079,23 +1959,16 @@
                     } = await supabaseClient
                         .from("visit_history")
                         .insert({
-                            user_id:
-                                currentUser.id,
-                            location_id:
-                                selectedLocation.id,
-                            location_name:
-                                selectedLocation.name,
-                            locality:
-                                selectedLocation.locality,
-                            points_earned:
-                                points
+                            user_id: currentUser.id,
+                            location_id: selectedLocation.id,
+                            location_name: selectedLocation.name,
+                            locality: selectedLocation.locality,
+                            points_earned: points
                         });
 
                     if (historyError) {
 
-                        console.error(
-                            historyError
-                        );
+                        console.error(historyError);
 
                         alert(
                             "Não foi possível registar a visita."
@@ -2105,35 +1978,24 @@
                     }
 
                     const newPoints =
-                        Number(
-                            currentProfile.points ||
-                            0
-                        ) + points;
+                        Number(currentProfile.points || 0) +
+                        points;
 
                     const {
-                        data:
-                            updatedProfile,
-                        error:
-                            profileError
-                    } =
-                        await supabaseClient
-                            .from("profiles")
-                            .update({
-                                points:
-                                    newPoints
-                            })
-                            .eq(
-                                "id",
-                                currentUser.id
-                            )
-                            .select()
-                            .single();
+                        data: updatedProfile,
+                        error: profileError
+                    } = await supabaseClient
+                        .from("profiles")
+                        .update({
+                            points: newPoints
+                        })
+                        .eq("id", currentUser.id)
+                        .select()
+                        .single();
 
                     if (profileError) {
 
-                        console.error(
-                            profileError
-                        );
+                        console.error(profileError);
 
                         return;
                     }
@@ -2148,12 +2010,8 @@
                     );
 
                     document
-                        .getElementById(
-                            "visitModal"
-                        )
-                        .classList.remove(
-                            "show"
-                        );
+                        .getElementById("visitModal")
+                        .classList.remove("show");
 
                     selectedLocation = null;
 
@@ -2162,9 +2020,9 @@
                 } finally {
 
                     button.disabled = false;
-
                     button.textContent =
                         "Verificar GPS";
+
                 }
 
             },
@@ -2173,7 +2031,6 @@
                 console.error(error);
 
                 button.disabled = false;
-
                 button.textContent =
                     "Verificar GPS";
 
@@ -2198,8 +2055,7 @@
         lon2
     ) {
 
-        const earthRadius =
-            6371000;
+        const earthRadius = 6371000;
 
         const toRad =
             value =>
@@ -2229,7 +2085,7 @@
 
 
     /* =========================================================
-       RECOMPENSAS
+       REWARDS
     ========================================================= */
 
     async function loadRewards() {
@@ -2281,11 +2137,14 @@
                 .value;
 
         const filtered =
-            rewards.filter(
-                reward =>
+            rewards.filter(reward => {
+
+                return (
                     !type ||
                     reward.type === type
-            );
+                );
+
+            });
 
         if (!filtered.length) {
 
@@ -2309,8 +2168,7 @@
 
                         <span class="badge">
                             ${escapeHtml(
-                                reward.type ||
-                                "Recompensa"
+                                reward.type || "Recompensa"
                             )}
                         </span>
 
@@ -2322,8 +2180,7 @@
 
                         <p>
                             ${escapeHtml(
-                                reward.description ||
-                                ""
+                                reward.description || ""
                             )}
                         </p>
 
@@ -2335,7 +2192,7 @@
                                         reward.business
                                     )}
                                 </p>
-                            `
+                              `
                             : ""
                         }
 
@@ -2347,24 +2204,19 @@
                                         reward.locality
                                     )}
                                 </p>
-                            `
+                              `
                             : ""
                         }
 
                         <div class="card-footer">
 
                             <span class="points">
-                                ${Number(
-                                    reward.points ||
-                                    0
-                                )} pts
+                                ${Number(reward.points || 0)} pts
                             </span>
 
                             <button
                                 class="small-btn"
-                                onclick="openRewardModal(${Number(
-                                    reward.id
-                                )})"
+                                onclick="openRewardModal(${Number(reward.id)})"
                             >
                                 Usar recompensa
                             </button>
@@ -2384,48 +2236,35 @@
             selectedReward =
                 rewards.find(
                     reward =>
-                        Number(
-                            reward.id
-                        ) ===
-                        Number(
-                            rewardId
-                        )
+                        Number(reward.id) ===
+                        Number(rewardId)
                 );
 
             if (!selectedReward) return;
 
             document
-                .getElementById(
-                    "rewardModalText"
-                )
+                .getElementById("rewardModalText")
                 .textContent =
                 `${selectedReward.name} — ${selectedReward.reward}. Custará ${selectedReward.points} pontos.`;
 
             document
-                .getElementById(
-                    "rewardModal"
-                )
+                .getElementById("rewardModal")
                 .classList.add("show");
+
         };
 
 
     document
         .getElementById("cancelRewardBtn")
-        .addEventListener(
-            "click",
-            () => {
+        .addEventListener("click", () => {
 
-                document
-                    .getElementById(
-                        "rewardModal"
-                    )
-                    .classList.remove(
-                        "show"
-                    );
+            document
+                .getElementById("rewardModal")
+                .classList.remove("show");
 
-                selectedReward = null;
-            }
-        );
+            selectedReward = null;
+
+        });
 
 
     document
@@ -2438,24 +2277,15 @@
 
     async function redeemReward() {
 
-        if (
-            !selectedReward ||
-            !currentUser
-        ) {
+        if (!selectedReward || !currentUser) {
             return;
         }
 
         const cost =
-            Number(
-                selectedReward.points ||
-                0
-            );
+            Number(selectedReward.points || 0);
 
         const balance =
-            Number(
-                currentProfile?.points ||
-                0
-            );
+            Number(currentProfile?.points || 0);
 
         if (balance < cost) {
 
@@ -2478,14 +2308,10 @@
         } = await supabaseClient
             .from("redemptions")
             .insert({
-                user_id:
-                    currentUser.id,
-                reward_id:
-                    selectedReward.id,
-                points_spent:
-                    cost,
-                reward_code:
-                    code
+                user_id: currentUser.id,
+                reward_id: selectedReward.id,
+                points_spent: cost,
+                reward_code: code
             });
 
         if (error) {
@@ -2508,21 +2334,15 @@
         } = await supabaseClient
             .from("profiles")
             .update({
-                points:
-                    newBalance
+                points: newBalance
             })
-            .eq(
-                "id",
-                currentUser.id
-            )
+            .eq("id", currentUser.id)
             .select()
             .single();
 
         if (profileError) {
 
-            console.error(
-                profileError
-            );
+            console.error(profileError);
 
             return;
         }
@@ -2533,23 +2353,20 @@
         updatePointsUI();
 
         document
-            .getElementById(
-                "rewardModal"
-            )
-            .classList.remove(
-                "show"
-            );
+            .getElementById("rewardModal")
+            .classList.remove("show");
 
         alert(
             `Recompensa ativada!\n\nCódigo: ${code}`
         );
 
         selectedReward = null;
+
     }
 
 
     /* =========================================================
-       HISTÓRICO
+       HISTORY
     ========================================================= */
 
     async function loadHistory() {
@@ -2562,16 +2379,10 @@
         } = await supabaseClient
             .from("visit_history")
             .select("*")
-            .eq(
-                "user_id",
-                currentUser.id
-            )
-            .order(
-                "created_at",
-                {
-                    ascending: false
-                }
-            );
+            .eq("user_id", currentUser.id)
+            .order("created_at", {
+                ascending: false
+            });
 
         if (error) {
 
@@ -2580,9 +2391,7 @@
             return;
         }
 
-        renderHistory(
-            data || []
-        );
+        renderHistory(data || []);
     }
 
 
@@ -2613,7 +2422,8 @@
                 const date =
                     new Date(
                         item.created_at
-                    ).toLocaleDateString(
+                    )
+                    .toLocaleDateString(
                         "pt-PT",
                         {
                             day: "2-digit",
@@ -2637,8 +2447,7 @@
 
                         <p>
                             📍 ${escapeHtml(
-                                item.locality ||
-                                ""
+                                item.locality || ""
                             )}
                         </p>
 
@@ -2650,8 +2459,7 @@
 
                             <span class="points">
                                 +${Number(
-                                    item.points_earned ||
-                                    0
+                                    item.points_earned || 0
                                 )} pts
                             </span>
 
@@ -2704,11 +2512,7 @@
                     position.coords.longitude;
 
                 status.textContent =
-                    `Localização obtida: ${suggestionLatitude.toFixed(
-                        6
-                    )}, ${suggestionLongitude.toFixed(
-                        6
-                    )}`;
+                    `Localização obtida: ${suggestionLatitude.toFixed(6)}, ${suggestionLongitude.toFixed(6)}`;
 
             },
             error => {
@@ -2725,13 +2529,12 @@
                 maximumAge: 0
             }
         );
+
     }
 
 
     document
-        .getElementById(
-            "submitSuggestionBtn"
-        )
+        .getElementById("submitSuggestionBtn")
         .addEventListener(
             "click",
             submitSuggestion
@@ -2816,21 +2619,16 @@
         } = await supabaseClient
             .from("location_suggestions")
             .insert({
-                user_id:
-                    currentUser.id,
+                user_id: currentUser.id,
                 name,
                 type,
                 locality,
                 district,
                 description,
-                latitude:
-                    suggestionLatitude,
-                longitude:
-                    suggestionLongitude,
-                status:
-                    "pending",
-                points_awarded:
-                    0
+                latitude: suggestionLatitude,
+                longitude: suggestionLongitude,
+                status: "pending",
+                points_awarded: 0
             });
 
         if (error) {
@@ -2853,36 +2651,26 @@
             "Sugestão enviada! Será analisada pela equipa.";
 
         document
-            .getElementById(
-                "suggestName"
-            )
+            .getElementById("suggestName")
             .value = "";
 
         document
-            .getElementById(
-                "suggestLocality"
-            )
+            .getElementById("suggestLocality")
             .value = "";
 
         document
-            .getElementById(
-                "suggestDistrict"
-            )
+            .getElementById("suggestDistrict")
             .value = "";
 
         document
-            .getElementById(
-                "suggestDescription"
-            )
+            .getElementById("suggestDescription")
             .value = "";
 
         suggestionLatitude = null;
         suggestionLongitude = null;
 
         document
-            .getElementById(
-                "gpsStatus"
-            )
+            .getElementById("gpsStatus")
             .textContent =
             "Ainda não foi obtida a localização.";
 
@@ -2900,16 +2688,10 @@
         } = await supabaseClient
             .from("location_suggestions")
             .select("*")
-            .eq(
-                "user_id",
-                currentUser.id
-            )
-            .order(
-                "created_at",
-                {
-                    ascending: false
-                }
-            );
+            .eq("user_id", currentUser.id)
+            .order("created_at", {
+                ascending: false
+            });
 
         if (error) {
 
@@ -2918,15 +2700,11 @@
             return;
         }
 
-        renderSuggestions(
-            data || []
-        );
+        renderSuggestions(data || []);
     }
 
 
-    function renderSuggestions(
-        suggestions
-    ) {
+    function renderSuggestions(suggestions) {
 
         const grid =
             document.getElementById(
@@ -2986,15 +2764,13 @@
                             item.points_awarded > 0
                             ? `
                                 <div class="card-footer">
-
                                     <span class="points">
                                         +${Number(
                                             item.points_awarded
                                         )} pts
                                     </span>
-
                                 </div>
-                            `
+                              `
                             : ""
                         }
 
@@ -3006,82 +2782,55 @@
 
 
     /* =========================================================
-       SEGURANÇA HTML
+       HELPERS
     ========================================================= */
 
     function escapeHtml(value) {
 
-        return String(
-            value ?? ""
-        )
-        .replace(
-            /&/g,
-            "&amp;"
-        )
-        .replace(
-            /</g,
-            "&lt;"
-        )
-        .replace(
-            />/g,
-            "&gt;"
-        )
-        .replace(
-            /"/g,
-            "&quot;"
-        )
-        .replace(
-            /'/g,
-            "&#039;"
-        );
+        return String(value ?? "")
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
+
     }
 
 
     /* =========================================================
-       SESSÃO
+       SESSION
     ========================================================= */
 
     supabaseClient.auth
         .getSession()
-        .then(
-            async ({ data }) => {
+        .then(async ({ data }) => {
 
-                if (data.session) {
-                    await startApp();
-                }
-
+            if (data.session) {
+                await startApp();
             }
-        );
+
+        });
 
 
     supabaseClient.auth
         .onAuthStateChange(
-            async (
-                event,
-                session
-            ) => {
+            async (event, session) => {
 
                 if (
                     event === "SIGNED_IN" &&
                     session
                 ) {
-
                     await startApp();
-
                 }
 
-                if (
-                    event === "SIGNED_OUT"
-                ) {
+                if (event === "SIGNED_OUT") {
 
                     currentUser = null;
                     currentProfile = null;
 
-                    app.style.display =
-                        "none";
+                    app.style.display = "none";
+                    authScreen.style.display = "flex";
 
-                    authScreen.style.display =
-                        "flex";
                 }
 
             }
