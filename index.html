@@ -4345,7 +4345,6 @@ async function loadAdminLocations() {
         });
 }
 
-
 function editLocation(location) {
 
     if (!location) return;
@@ -4360,7 +4359,9 @@ function editLocation(location) {
         location.name || "";
 
     $("locationLocality").value =
-        location.localidade || "";
+        location.localidade ||
+        location.locality ||
+        "";
 
     $("locationType").value =
         normalizeFilterValue(
@@ -4388,6 +4389,13 @@ function editLocation(location) {
         location.description ||
         "";
 
+    selectedLocationImageFile = null;
+
+    $("locationImageFile").value = "";
+
+    $("locationUploadPreview")
+        .classList.add("hidden");
+
     selectedLocationPhoto =
         location.image_url
             ? {
@@ -4406,6 +4414,24 @@ function editLocation(location) {
             }
             : null;
 
+    if (selectedLocationPhoto) {
+
+        showSelectedPhoto(
+            selectedLocationPhoto,
+            "location"
+        );
+
+    } else {
+
+        $("selectedLocationPhoto")
+            .classList.add("hidden");
+    }
+
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+}
   
 
 function resetLocationForm() {
