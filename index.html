@@ -318,24 +318,55 @@
             pointer-events: none;
         }
 
+        /* =========================
+           BEM-VINDO
+        ========================= */
+
         .welcome {
             position: relative;
             z-index: 2;
 
-            font-size: clamp(22px, 3vw, 30px);
+            display: flex;
+            align-items: baseline;
+            justify-content: center;
+            flex-wrap: wrap;
 
+            gap: 8px;
+
+            font-size: 15px;
             font-weight: 500;
 
             margin-bottom: 42px;
 
-            color: #e8e8e8;
+            color: #8d8d8d;
 
-            letter-spacing: -.8px;
+            letter-spacing: .2px;
         }
 
         .welcome strong {
-            color: white;
-            font-weight: 800;
+            display: inline-block;
+
+            font-size: clamp(28px, 4vw, 38px);
+
+            font-weight: 900;
+
+            letter-spacing: -1.8px;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    #ffffff 0%,
+                    #ffffff 35%,
+                    #ff7a33 75%,
+                    #ff5a00 100%
+                );
+
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+
+            text-shadow:
+                0 0 25px rgba(255,90,0,.12);
         }
 
         /* =========================
@@ -526,6 +557,7 @@
         .main-menu button:hover::before {
             opacity: .48;
             transform: scale(1.09);
+
             filter:
                 saturate(1.05)
                 contrast(1.12);
@@ -1192,12 +1224,24 @@
                     115px;
             }
 
+            /* =========================
+               BEM-VINDO MOBILE
+            ========================= */
+
             .welcome {
                 margin-bottom: 27px;
 
-                font-size: 20px;
+                font-size: 13px;
 
-                letter-spacing: -.5px;
+                gap: 5px;
+
+                letter-spacing: .1px;
+            }
+
+            .welcome strong {
+                font-size: 25px;
+
+                letter-spacing: -1.2px;
             }
 
             .main-menu {
