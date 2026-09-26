@@ -16,26 +16,42 @@
 
         :root {
             --orange: #ff5a00;
+            --orange-light: #ff7a33;
             --black: #050505;
-            --dark: #0d0d0d;
-            --dark2: #151515;
+            --dark: #0b0b0b;
+            --dark2: #111111;
             --white: #ffffff;
-            --muted: #999999;
+            --muted: #8d8d8d;
+            --muted2: #5f5f5f;
             --border: rgba(255,255,255,.08);
+            --border-strong: rgba(255,255,255,.13);
+        }
+
+        html {
+            background: var(--black);
         }
 
         body {
-            font-family: Arial, Helvetica, sans-serif;
+            font-family:
+                Inter,
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                Arial,
+                Helvetica,
+                sans-serif;
+
             background:
                 radial-gradient(
-                    circle at 50% 45%,
-                    rgba(255,90,0,.08),
-                    transparent 35%
+                    circle at 50% 15%,
+                    rgba(255,90,0,.055),
+                    transparent 28%
                 ),
                 #050505;
+
             color: white;
             min-height: 100vh;
-            padding-bottom: 105px;
+            padding-bottom: 104px;
         }
 
         button,
@@ -63,11 +79,14 @@
 
         .auth-box {
             width: min(430px, 100%);
-            background: rgba(20,20,20,.9);
+            background: rgba(20,20,20,.92);
             border: 1px solid var(--border);
-            border-radius: 22px;
+            border-radius: 24px;
             padding: 35px;
-            box-shadow: 0 30px 80px rgba(0,0,0,.5);
+            box-shadow:
+                0 30px 80px rgba(0,0,0,.5),
+                0 0 60px rgba(255,90,0,.03);
+            backdrop-filter: blur(20px);
         }
 
         .logo {
@@ -134,7 +153,7 @@
         }
 
         .primary-btn:hover {
-            background: #ff7428;
+            background: var(--orange-light);
             transform: translateY(-1px);
         }
 
@@ -186,15 +205,22 @@
 
         .topbar {
             height: 72px;
+
             border-bottom: 1px solid var(--border);
-            background: rgba(5,5,5,.92);
-            backdrop-filter: blur(15px);
+
+            background: rgba(5,5,5,.88);
+
+            backdrop-filter: blur(20px);
+
             display: flex;
             align-items: center;
             justify-content: space-between;
+
             padding: 0 28px;
+
             position: sticky;
             top: 0;
+
             z-index: 50;
         }
 
@@ -224,6 +250,7 @@
             padding: 8px 12px;
             border-radius: 9px;
             font-size: 12px;
+            transition: .2s ease;
         }
 
         .logout-btn:hover {
@@ -232,78 +259,115 @@
         }
 
         /* =========================
-           HOME
+           HOME — PREMIUM 2026
         ========================= */
 
         .home {
             min-height: calc(100vh - 72px);
+
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
+
             text-align: center;
 
-            padding: 55px 24px 110px;
+            padding:
+                65px
+                24px
+                125px;
+
+            position: relative;
 
             background:
                 radial-gradient(
-                    circle at 50% 45%,
-                    rgba(255,90,0,.045),
-                    transparent 34%
+                    circle at 50% 42%,
+                    rgba(255,90,0,.07),
+                    transparent 30%
                 ),
-                #f5f5f5;
+                radial-gradient(
+                    circle at 50% 100%,
+                    rgba(255,90,0,.035),
+                    transparent 30%
+                ),
+                #050505;
 
-            color: #000;
+            color: white;
+
             overflow: hidden;
         }
 
+        .home::before {
+            content: "";
+
+            position: absolute;
+
+            width: 500px;
+            height: 500px;
+
+            border-radius: 50%;
+
+            background:
+                radial-gradient(
+                    circle,
+                    rgba(255,90,0,.045),
+                    transparent 68%
+                );
+
+            top: 50%;
+            left: 50%;
+
+            transform: translate(-50%, -50%);
+
+            pointer-events: none;
+        }
+
         .welcome {
+            position: relative;
+            z-index: 2;
+
             font-size: clamp(22px, 3vw, 30px);
-            font-weight: 700;
-            margin-bottom: 38px;
-            color: #111;
-            letter-spacing: -1px;
+
+            font-weight: 500;
+
+            margin-bottom: 42px;
+
+            color: #e8e8e8;
+
+            letter-spacing: -.8px;
         }
 
         .welcome strong {
-            color: #111;
+            color: white;
+            font-weight: 800;
         }
 
         /* =========================
-           MENU CENTRAL — 2026
+           MENU CENTRAL
         ========================= */
 
         .main-menu {
-            width: min(1040px, 100%);
+            position: relative;
+            z-index: 2;
+
+            width: min(850px, 100%);
 
             display: grid;
 
             grid-template-columns:
-                repeat(3, minmax(0, 1fr));
+                repeat(2, minmax(0, 1fr));
 
-            grid-template-areas:
-                "inicio locais recompensas"
-                "historico perfil sugerir";
-
-            gap: 14px;
+            gap: 16px;
 
             margin: 0 auto;
-
-            align-items: stretch;
-            justify-content: center;
         }
 
         .main-menu button {
             position: relative;
 
-            border: 1px solid #d6d6d6;
-
-            background: rgba(255,255,255,.88);
-
-            color: #080808;
-
             width: 100%;
-            min-height: 185px;
+
+            min-height: 205px;
 
             display: flex;
             flex-direction: column;
@@ -312,31 +376,34 @@
 
             text-align: left;
 
-            font-size: clamp(25px, 3vw, 39px);
-            line-height: .95;
+            padding: 28px;
 
-            font-weight: 900;
-            letter-spacing: -2px;
+            border:
+                1px solid
+                rgba(255,255,255,.085);
 
-            text-transform: uppercase;
+            border-radius: 26px;
 
-            padding: 25px;
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(255,255,255,.055),
+                    rgba(255,255,255,.018)
+                );
 
-            margin: 0;
-
-            cursor: pointer;
+            color: white;
 
             overflow: hidden;
 
             box-shadow:
-                0 1px 0 rgba(0,0,0,.04);
+                inset 0 1px 0 rgba(255,255,255,.035),
+                0 12px 35px rgba(0,0,0,.25);
 
             transition:
-                transform .28s cubic-bezier(.2,.8,.2,1),
-                background .28s ease,
-                color .28s ease,
-                border-color .28s ease,
-                box-shadow .28s ease;
+                transform .35s cubic-bezier(.2,.8,.2,1),
+                border-color .35s ease,
+                background .35s ease,
+                box-shadow .35s ease;
         }
 
         .main-menu button::before {
@@ -344,21 +411,22 @@
 
             position: absolute;
 
-            top: 18px;
-            left: 22px;
+            top: 22px;
+            left: 25px;
 
             font-size: 11px;
+
             line-height: 1;
 
             font-weight: 800;
 
-            letter-spacing: 1px;
+            letter-spacing: 1.5px;
 
-            color: #999;
+            color: #666;
 
             transition:
-                color .25s ease,
-                transform .25s ease;
+                color .3s ease,
+                transform .3s ease;
         }
 
         .main-menu button::after {
@@ -366,91 +434,163 @@
 
             position: absolute;
 
-            top: 16px;
-            right: 20px;
+            top: 20px;
+            right: 23px;
 
-            font-size: 19px;
-            font-weight: 400;
+            width: 38px;
+            height: 38px;
 
-            color: #aaa;
+            display: flex;
+            align-items: center;
+            justify-content: center;
 
-            opacity: .65;
+            border-radius: 50%;
+
+            border: 1px solid rgba(255,255,255,.08);
+
+            color: #777;
+
+            font-size: 18px;
 
             transition:
-                transform .28s ease,
-                color .25s ease,
-                opacity .25s ease;
+                color .3s ease,
+                border-color .3s ease,
+                background .3s ease,
+                transform .3s ease;
         }
 
         .main-menu button:hover {
-            background: var(--orange);
+            transform: translateY(-6px);
 
-            border-color: var(--orange);
+            border-color:
+                rgba(255,90,0,.45);
 
-            color: #fff;
-
-            transform:
-                translateY(-6px);
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(255,90,0,.14),
+                    rgba(255,255,255,.035)
+                );
 
             box-shadow:
-                0 18px 35px rgba(255,90,0,.16);
+                0 22px 45px rgba(0,0,0,.38),
+                0 0 35px rgba(255,90,0,.06);
         }
 
         .main-menu button:hover::before {
-            color: rgba(255,255,255,.7);
+            color: var(--orange);
 
             transform:
                 translateY(-2px);
         }
 
         .main-menu button:hover::after {
-            color: #fff;
-            opacity: 1;
+            color: white;
+
+            border-color:
+                rgba(255,90,0,.5);
+
+            background:
+                rgba(255,90,0,.16);
 
             transform:
-                translate(3px,-3px);
+                translate(2px,-2px);
         }
 
-        .main-menu button.active {
-            background: rgba(255,255,255,.88);
-            color: #000;
+        .main-menu button:active {
+            transform:
+                translateY(-2px)
+                scale(.99);
         }
 
-        .main-menu button:nth-child(1) {
-            grid-area: inicio;
+        .menu-label {
+            position: relative;
+            z-index: 2;
+
+            font-size:
+                clamp(25px, 3vw, 38px);
+
+            line-height: .95;
+
+            font-weight: 850;
+
+            letter-spacing: -1.8px;
+
+            text-transform: uppercase;
         }
 
-        .main-menu button:nth-child(2) {
-            grid-area: locais;
+        .menu-description {
+            position: relative;
+            z-index: 2;
+
+            margin-top: 11px;
+
+            color: #737373;
+
+            font-size: 12px;
+
+            font-weight: 500;
+
+            letter-spacing: .1px;
+
+            transition:
+                color .3s ease;
         }
 
-        .main-menu button:nth-child(3) {
-            grid-area: recompensas;
+        .main-menu button:hover .menu-description {
+            color: #aaa;
         }
 
-        .main-menu button:nth-child(4) {
-            grid-area: historico;
+        .menu-glow {
+            position: absolute;
+
+            width: 170px;
+            height: 170px;
+
+            right: -80px;
+            bottom: -90px;
+
+            border-radius: 50%;
+
+            background:
+                radial-gradient(
+                    circle,
+                    rgba(255,90,0,.12),
+                    transparent 68%
+                );
+
+            pointer-events: none;
+
+            transition:
+                transform .4s ease,
+                opacity .4s ease;
         }
 
-        .main-menu button:nth-child(5) {
-            grid-area: perfil;
-        }
-
-        .main-menu button:nth-child(6) {
-            grid-area: sugerir;
+        .main-menu button:hover .menu-glow {
+            transform: scale(1.35);
         }
 
         .home-points {
-            margin-top: 34px;
-            font-size: 14px;
-            color: #777;
+            position: relative;
+            z-index: 2;
+
+            margin-top: 31px;
+
+            font-size: 13px;
+
+            color: #686868;
+
             letter-spacing: .1px;
         }
 
         .home-points strong {
             color: var(--orange);
-            font-size: 22px;
+
+            font-size: 20px;
+
             font-weight: 900;
+
+            margin: 0 3px;
         }
 
         /* =========================
@@ -516,16 +656,28 @@
         }
 
         .card {
-            background: linear-gradient(145deg, #151515, #0d0d0d);
+            background:
+                linear-gradient(
+                    145deg,
+                    #151515,
+                    #0d0d0d
+                );
+
             border: 1px solid var(--border);
+
             border-radius: 18px;
+
             padding: 22px;
+
             transition: .2s;
         }
 
         .card:hover {
-            border-color: rgba(255,90,0,.4);
-            transform: translateY(-3px);
+            border-color:
+                rgba(255,90,0,.4);
+
+            transform:
+                translateY(-3px);
         }
 
         .card h3 {
@@ -541,12 +693,21 @@
 
         .badge {
             display: inline-block;
-            background: rgba(255,90,0,.1);
+
+            background:
+                rgba(255,90,0,.1);
+
             color: var(--orange);
-            padding: 5px 9px;
+
+            padding:
+                5px 9px;
+
             border-radius: 999px;
+
             font-size: 11px;
+
             font-weight: 800;
+
             margin-bottom: 13px;
         }
 
@@ -613,13 +774,22 @@
 
         .modal {
             display: none;
+
             position: fixed;
+
             inset: 0;
-            background: rgba(0,0,0,.75);
-            backdrop-filter: blur(6px);
+
+            background:
+                rgba(0,0,0,.78);
+
+            backdrop-filter:
+                blur(8px);
+
             z-index: 100;
+
             align-items: center;
             justify-content: center;
+
             padding: 20px;
         }
 
@@ -629,10 +799,19 @@
 
         .modal-box {
             width: min(480px, 100%);
+
             background: #151515;
-            border: 1px solid #292929;
+
+            border:
+                1px solid
+                #292929;
+
             border-radius: 20px;
+
             padding: 25px;
+
+            box-shadow:
+                0 30px 80px rgba(0,0,0,.55);
         }
 
         .modal-box h2 {
@@ -655,54 +834,120 @@
         }
 
         /* =========================
-           MENU INFERIOR
+           BARRA INFERIOR
+           APENAS SUGERIR LOCAL
         ========================= */
 
         .mobile-nav {
             position: fixed;
-            left: 0;
-            right: 0;
-            bottom: 0;
+
+            left: 50%;
+            bottom: 18px;
+
+            transform:
+                translateX(-50%);
+
+            width:
+                min(560px, calc(100% - 28px));
+
+            height: 62px;
 
             display: flex;
+
             justify-content: center;
             align-items: center;
 
-            background: rgba(8,8,8,.96);
-            border-top: 1px solid rgba(255,255,255,.1);
-            backdrop-filter: blur(18px);
+            background:
+                rgba(17,17,17,.94);
 
-            padding: 14px 18px;
+            border:
+                1px solid
+                rgba(255,255,255,.1);
+
+            border-radius: 20px;
+
+            backdrop-filter:
+                blur(22px);
+
+            box-shadow:
+                0 18px 50px rgba(0,0,0,.55),
+                inset 0 1px 0 rgba(255,255,255,.04);
+
+            padding: 6px;
 
             z-index: 60;
         }
 
         .mobile-nav button {
+            width: 100%;
+            height: 100%;
+
             border: 0;
-            background: transparent;
-            color: #777;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(255,90,0,.16),
+                    rgba(255,90,0,.07)
+                );
+
+            color: white;
 
             font-size: 13px;
+
             font-weight: 800;
 
-            padding: 11px 17px;
+            letter-spacing: .1px;
 
-            border-radius: 10px;
+            border-radius: 15px;
 
             transition:
-                color .2s ease,
-                background .2s ease,
-                transform .2s ease;
+                background .25s ease,
+                transform .25s ease,
+                border-color .25s ease;
+        }
+
+        .mobile-nav button::before {
+            content: "+";
+
+            display: inline-flex;
+
+            align-items: center;
+            justify-content: center;
+
+            width: 22px;
+            height: 22px;
+
+            margin-right: 8px;
+
+            border-radius: 50%;
+
+            background:
+                var(--orange);
+
+            color: white;
+
+            font-size: 16px;
+
+            line-height: 1;
+
+            vertical-align: -2px;
         }
 
         .mobile-nav button:hover {
-            color: var(--orange);
-            background: rgba(255,90,0,.08);
-            transform: translateY(-2px);
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(255,90,0,.28),
+                    rgba(255,90,0,.12)
+                );
+
+            transform:
+                translateY(-2px);
         }
 
         .mobile-nav button.active {
-            color: var(--orange);
+            color: white;
         }
 
         /* =========================
@@ -712,34 +957,31 @@
         @media (max-width: 900px) {
 
             .grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .mobile-nav {
-                overflow-x: auto;
-                justify-content: flex-start;
-            }
-
-            .mobile-nav button {
-                flex: 0 0 auto;
+                grid-template-columns:
+                    repeat(2, 1fr);
             }
 
             .main-menu {
-                width: min(700px, 100%);
-                gap: 12px;
+                width:
+                    min(700px, 100%);
+
+                gap: 13px;
             }
 
             .main-menu button {
-                min-height: 160px;
+                min-height: 180px;
+                padding: 24px;
+            }
+
+            .menu-label {
                 font-size: 29px;
-                padding: 21px;
             }
         }
 
         @media (max-width: 600px) {
 
             body {
-                padding-bottom: 86px;
+                padding-bottom: 96px;
             }
 
             .topbar {
@@ -752,13 +994,21 @@
             }
 
             .home {
-                min-height: calc(100vh - 65px);
-                padding: 38px 12px 90px;
+                min-height:
+                    calc(100vh - 65px);
+
+                padding:
+                    42px
+                    14px
+                    115px;
             }
 
             .welcome {
-                margin-bottom: 28px;
-                font-size: 21px;
+                margin-bottom: 27px;
+
+                font-size: 20px;
+
+                letter-spacing: -.5px;
             }
 
             .main-menu {
@@ -767,40 +1017,58 @@
                 grid-template-columns:
                     repeat(2, minmax(0, 1fr));
 
-                grid-template-areas:
-                    "inicio locais"
-                    "recompensas historico"
-                    "perfil sugerir";
-
-                gap: 9px;
+                gap: 10px;
             }
 
             .main-menu button {
-                width: 100%;
-                min-width: 0;
+                min-height: 155px;
 
-                min-height: 145px;
+                padding: 19px;
 
-                font-size: 21px;
-                letter-spacing: -1.2px;
-
-                padding: 17px;
+                border-radius: 20px;
             }
 
             .main-menu button::before {
-                top: 13px;
-                left: 15px;
+                top: 15px;
+                left: 17px;
                 font-size: 9px;
             }
 
             .main-menu button::after {
-                top: 11px;
+                top: 13px;
                 right: 14px;
-                font-size: 16px;
+
+                width: 31px;
+                height: 31px;
+
+                font-size: 15px;
+            }
+
+            .menu-label {
+                font-size: 20px;
+
+                letter-spacing:
+                    -1px;
+            }
+
+            .menu-description {
+                font-size: 10px;
+
+                margin-top: 8px;
+
+                line-height: 1.25;
+
+                max-width: 90px;
+
+                text-align: left;
             }
 
             .home-points {
-                margin-top: 28px;
+                margin-top: 25px;
+            }
+
+            .home-points strong {
+                font-size: 18px;
             }
 
             .grid {
@@ -813,25 +1081,63 @@
             }
 
             .mobile-nav {
-                padding: 9px 5px;
+                bottom: 12px;
+
+                width:
+                    calc(100% - 24px);
+
+                height: 58px;
+
+                border-radius: 18px;
             }
 
             .mobile-nav button {
-                font-size: 10px;
-                padding: 9px 8px;
+                font-size: 12px;
+                border-radius: 14px;
             }
         }
 
         @media (max-width: 380px) {
+
+            .home {
+                padding-left: 10px;
+                padding-right: 10px;
+            }
 
             .main-menu {
                 gap: 7px;
             }
 
             .main-menu button {
-                min-height: 128px;
+                min-height: 140px;
+
+                padding: 16px;
+
+                border-radius: 18px;
+            }
+
+            .menu-label {
                 font-size: 18px;
-                padding: 14px;
+            }
+
+            .menu-description {
+                font-size: 9px;
+            }
+
+            .mobile-nav {
+                width:
+                    calc(100% - 18px);
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+
+            *,
+            *::before,
+            *::after {
+                scroll-behavior: auto !important;
+                transition-duration: .01ms !important;
+                animation-duration: .01ms !important;
             }
         }
     </style>
@@ -971,39 +1277,70 @@
                 <nav class="main-menu">
 
                     <button
-                        data-section="home"
+                        data-section="locations"
                         data-number="01">
-                        INÍCIO
+
+                        <span class="menu-label">
+                            LOCAIS
+                        </span>
+
+                        <span class="menu-description">
+                            Descobre novos destinos
+                        </span>
+
+                        <span class="menu-glow"></span>
+
                     </button>
 
-                    <button
-                        data-section="locations"
-                        data-number="02">
-                        LOCAIS
-                    </button>
 
                     <button
                         data-section="rewards"
-                        data-number="03">
-                        RECOMPENSAS
+                        data-number="02">
+
+                        <span class="menu-label">
+                            RECOMPENSAS
+                        </span>
+
+                        <span class="menu-description">
+                            Usa os teus pontos
+                        </span>
+
+                        <span class="menu-glow"></span>
+
                     </button>
+
 
                     <button
                         data-section="history"
-                        data-number="04">
-                        HISTÓRICO
+                        data-number="03">
+
+                        <span class="menu-label">
+                            HISTÓRICO
+                        </span>
+
+                        <span class="menu-description">
+                            Vê as tuas aventuras
+                        </span>
+
+                        <span class="menu-glow"></span>
+
                     </button>
+
 
                     <button
                         data-section="profile"
-                        data-number="05">
-                        PERFIL
-                    </button>
+                        data-number="04">
 
-                    <button
-                        data-section="suggest"
-                        data-number="06">
-                        SUGERIR LOCAL
+                        <span class="menu-label">
+                            PERFIL
+                        </span>
+
+                        <span class="menu-description">
+                            Gere a tua conta
+                        </span>
+
+                        <span class="menu-glow"></span>
+
                     </button>
 
                 </nav>
@@ -1268,29 +1605,9 @@
     </main>
 
 
-    <!-- MENU INFERIOR -->
+    <!-- BARRA INFERIOR -->
 
     <nav class="mobile-nav">
-
-        <button data-section="home">
-            Início
-        </button>
-
-        <button data-section="locations">
-            Locais
-        </button>
-
-        <button data-section="rewards">
-            Recompensas
-        </button>
-
-        <button data-section="history">
-            Histórico
-        </button>
-
-        <button data-section="profile">
-            Perfil
-        </button>
 
         <button data-section="suggest">
             Sugerir local
