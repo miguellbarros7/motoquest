@@ -340,11 +340,12 @@ button:disabled {
 
 
 /* =========================
-   MENSAGEM DE CADA AÇÃO
+   MENSAGEM INDIVIDUAL
 ========================= */
 
 .action-message {
-    margin-top: 12px;
+    width: 100%;
+    margin-top: 10px;
     padding: 12px;
     border-radius: 10px;
     background: #202020;
@@ -523,6 +524,16 @@ button:disabled {
     background: #252525;
     color: #ff7200;
     text-align: center;
+    font-weight: 900;
+    letter-spacing: 2px;
+}
+
+.code {
+    margin-top: 10px;
+    padding: 10px;
+    background: #252525;
+    color: #ff7200;
+    border-radius: 8px;
     font-weight: 900;
     letter-spacing: 2px;
 }
@@ -1484,6 +1495,31 @@ function showActionMessage(
 
 
 /* =========================
+   FORMATAR DISTÂNCIA
+========================= */
+
+function formatDistance(distance) {
+
+    if (distance < 1000) {
+
+        return (
+            Math.round(distance) +
+            " metros"
+        );
+
+    }
+
+    return (
+        (distance / 1000)
+            .toFixed(1)
+            .replace(".", ",") +
+        " km"
+    );
+
+}
+
+
+/* =========================
    GPS
 ========================= */
 
@@ -1593,9 +1629,12 @@ async function validateChallenge(
 
                 showActionMessage(
                     messageId,
+
                     "❌ Estás a " +
-                    Math.round(distance) +
-                    " metros do local.",
+                    "<strong>" +
+                    formatDistance(distance) +
+                    "</strong> do local.",
+
                     "error"
                 );
 
@@ -1714,12 +1753,36 @@ async function validateChallenge(
         },
 
 
-        function() {
+        function(error) {
+
+            let errorMessage =
+                "❌ Não foi possível obter a tua localização.";
+
+            if (error && error.code === 1) {
+
+                errorMessage =
+                    "❌ Permissão de localização recusada. " +
+                    "Ativa o GPS/permissão de localização.";
+
+            }
+
+            if (error && error.code === 2) {
+
+                errorMessage =
+                    "❌ Não foi possível determinar a tua localização.";
+
+            }
+
+            if (error && error.code === 3) {
+
+                errorMessage =
+                    "❌ A localização demorou demasiado tempo.";
+
+            }
 
             showActionMessage(
                 messageId,
-                "❌ Não foi possível obter a localização. " +
-                "Verifica as permissões de GPS.",
+                errorMessage,
                 "error"
             );
 
