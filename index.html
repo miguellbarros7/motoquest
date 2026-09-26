@@ -22,11 +22,12 @@
 
     --bg: #070707;
     --bg-soft: #101010;
-    --card: rgba(24, 24, 24, 0.82);
+
+    --card: rgba(24,24,24,.84);
     --card-solid: #151515;
 
-    --border: rgba(255,255,255,0.08);
-    --border-orange: rgba(255,107,0,0.35);
+    --border: rgba(255,255,255,.08);
+    --border-orange: rgba(255,107,0,.35);
 
     --text: #f7f7f7;
     --muted: #8d8d8d;
@@ -35,7 +36,7 @@
     --green: #31d17c;
     --red: #ff4f4f;
 
-    --radius: 22px;
+    --radius: 21px;
 }
 
 * {
@@ -63,22 +64,29 @@ body {
     background:
         radial-gradient(
             circle at 50% -10%,
-            rgba(255,107,0,0.20),
+            rgba(255,107,0,.20),
             transparent 35%
         ),
         radial-gradient(
             circle at 100% 40%,
-            rgba(255,107,0,0.06),
+            rgba(255,107,0,.06),
             transparent 30%
         ),
         var(--bg);
 
-    letter-spacing: -0.01em;
+    letter-spacing: -.01em;
+
+    padding-bottom: 92px;
+}
+
+body.no-app {
+    padding-bottom: 0;
 }
 
 button,
 input,
-select {
+select,
+textarea {
     font: inherit;
 }
 
@@ -95,12 +103,12 @@ header {
     position: relative;
     overflow: hidden;
 
-    padding: 34px 20px 38px;
+    padding: 29px 18px 31px;
 
     background:
         linear-gradient(
             180deg,
-            rgba(255,107,0,0.18),
+            rgba(255,107,0,.18),
             transparent
         );
 
@@ -124,21 +132,27 @@ header::before {
 
     filter: blur(100px);
 
-    opacity: 0.20;
+    opacity: .20;
 }
 
 .header-content {
     position: relative;
+
     max-width: 760px;
+
     margin: auto;
+
     text-align: center;
 }
 
 .logo {
-    font-size: clamp(36px, 10vw, 58px);
+    font-size: clamp(36px,10vw,55px);
+
     font-weight: 950;
-    line-height: 0.95;
-    letter-spacing: -0.06em;
+
+    line-height: .95;
+
+    letter-spacing: -.06em;
 }
 
 .logo span {
@@ -147,33 +161,38 @@ header::before {
 
 .logo-badge {
     display: inline-flex;
+
     align-items: center;
+
     gap: 7px;
 
-    margin-top: 15px;
+    margin-top: 14px;
 
     padding: 7px 12px;
 
     border: 1px solid var(--border-orange);
+
     border-radius: 999px;
 
-    background: rgba(255,107,0,0.08);
+    background: rgba(255,107,0,.08);
 
     color: #ff9b54;
 
-    font-size: 11px;
+    font-size: 10px;
+
     font-weight: 800;
 
     text-transform: uppercase;
-    letter-spacing: 0.12em;
+
+    letter-spacing: .12em;
 }
 
 .tagline {
-    margin-top: 14px;
+    margin-top: 12px;
 
     color: var(--muted-light);
 
-    font-size: 14px;
+    font-size: 13px;
 }
 
 
@@ -183,11 +202,12 @@ header::before {
 
 .container {
     width: 100%;
+
     max-width: 760px;
 
     margin: auto;
 
-    padding: 22px 16px 50px;
+    padding: 20px 14px 40px;
 }
 
 
@@ -198,53 +218,44 @@ header::before {
 .card {
     position: relative;
 
-    margin-bottom: 16px;
-    padding: 21px;
+    margin-bottom: 15px;
+
+    padding: 20px;
 
     background:
         linear-gradient(
             145deg,
-            rgba(255,255,255,0.045),
-            rgba(255,255,255,0.018)
+            rgba(255,255,255,.045),
+            rgba(255,255,255,.018)
         );
 
     backdrop-filter: blur(18px);
+
     -webkit-backdrop-filter: blur(18px);
 
     border: 1px solid var(--border);
+
     border-radius: var(--radius);
 
     box-shadow:
-        0 18px 45px rgba(0,0,0,0.24);
-
-    animation: cardIn .45s ease both;
-}
-
-@keyframes cardIn {
-    from {
-        opacity: 0;
-        transform: translateY(8px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+        0 18px 45px rgba(0,0,0,.24);
 }
 
 .card h2 {
     margin: 0 0 8px;
 
-    color: var(--text);
+    font-size: 20px;
 
-    font-size: 21px;
     font-weight: 850;
-    letter-spacing: -0.03em;
+
+    letter-spacing: -.03em;
 }
 
-.card > p {
+.card p {
     color: var(--muted);
-    font-size: 14px;
+
+    font-size: 13px;
+
     line-height: 1.6;
 }
 
@@ -254,7 +265,7 @@ header::before {
 ===================================================== */
 
 .hero {
-    padding: 34px 22px 26px;
+    padding: 32px 20px 25px;
 
     text-align: center;
 
@@ -278,7 +289,7 @@ header::before {
 
     filter: blur(85px);
 
-    opacity: 0.15;
+    opacity: .15;
 }
 
 .hero-icon {
@@ -286,27 +297,27 @@ header::before {
 
     display: flex;
 
-    width: 92px;
-    height: 92px;
+    width: 88px;
+    height: 88px;
 
     margin: 0 auto 20px;
 
     align-items: center;
     justify-content: center;
 
-    border-radius: 28px;
+    border-radius: 27px;
 
     background:
         linear-gradient(
             145deg,
-            #ff8a00,
-            #e65300
+            var(--orange-light),
+            var(--orange-dark)
         );
 
     box-shadow:
-        0 16px 45px rgba(255,107,0,0.24);
+        0 16px 45px rgba(255,107,0,.24);
 
-    font-size: 46px;
+    font-size: 44px;
 
     transform: rotate(-3deg);
 }
@@ -318,10 +329,11 @@ header::before {
 
     margin: auto;
 
-    font-size: clamp(27px, 7vw, 40px);
+    font-size: clamp(28px,7vw,40px);
+
     line-height: 1.05;
 
-    letter-spacing: -0.05em;
+    letter-spacing: -.05em;
 }
 
 .hero h2 strong {
@@ -335,7 +347,8 @@ header::before {
 
     color: var(--muted-light);
 
-    font-size: 15px;
+    font-size: 14px;
+
     line-height: 1.65;
 }
 
@@ -353,14 +366,15 @@ button {
 
     width: 100%;
 
-    min-height: 52px;
+    min-height: 50px;
 
-    margin-top: 10px;
+    margin-top: 9px;
 
-    padding: 14px 18px;
+    padding: 13px 17px;
 
     border: 0;
-    border-radius: 15px;
+
+    border-radius: 14px;
 
     background:
         linear-gradient(
@@ -371,25 +385,25 @@ button {
 
     color: white;
 
-    font-size: 14px;
+    font-size: 13px;
+
     font-weight: 850;
 
     cursor: pointer;
 
     box-shadow:
-        0 9px 24px rgba(255,107,0,0.16);
+        0 9px 24px rgba(255,107,0,.16);
 
     transition:
         transform .18s ease,
-        box-shadow .18s ease,
-        opacity .18s ease;
+        box-shadow .18s ease;
 }
 
 button:hover {
     transform: translateY(-2px);
 
     box-shadow:
-        0 13px 30px rgba(255,107,0,0.22);
+        0 13px 30px rgba(255,107,0,.22);
 }
 
 button:active {
@@ -398,6 +412,7 @@ button:active {
 
 button:disabled {
     background: #252525;
+
     color: #666;
 
     box-shadow: none;
@@ -410,7 +425,7 @@ button:disabled:hover {
 }
 
 .secondary {
-    background: rgba(255,255,255,0.045);
+    background: rgba(255,255,255,.045);
 
     border: 1px solid var(--border);
 
@@ -420,9 +435,17 @@ button:disabled:hover {
 }
 
 .secondary:hover {
-    background: rgba(255,255,255,0.07);
+    background: rgba(255,255,255,.07);
 
     box-shadow: none;
+}
+
+.small-button {
+    min-height: 42px;
+
+    padding: 10px 13px;
+
+    font-size: 11px;
 }
 
 
@@ -431,14 +454,15 @@ button:disabled:hover {
 ===================================================== */
 
 input,
-select {
+select,
+textarea {
     width: 100%;
 
-    margin: 7px 0;
+    margin: 6px 0;
 
-    padding: 15px;
+    padding: 14px;
 
-    background: rgba(0,0,0,0.28);
+    background: rgba(0,0,0,.28);
 
     border: 1px solid var(--border);
 
@@ -448,27 +472,100 @@ select {
 
     color: white;
 
-    font-size: 14px;
+    font-size: 13px;
 
     transition:
         border-color .2s,
         box-shadow .2s;
 }
 
-input::placeholder {
+textarea {
+    min-height: 105px;
+
+    resize: vertical;
+}
+
+input::placeholder,
+textarea::placeholder {
     color: #666;
 }
 
 input:focus,
-select:focus {
+select:focus,
+textarea:focus {
     border-color: var(--border-orange);
 
     box-shadow:
-        0 0 0 3px rgba(255,107,0,0.08);
+        0 0 0 3px rgba(255,107,0,.08);
 }
 
 select {
     cursor: pointer;
+}
+
+
+/* =====================================================
+   HIDDEN
+===================================================== */
+
+.hidden {
+    display: none !important;
+}
+
+
+/* =====================================================
+   APP PAGES
+===================================================== */
+
+.app-page {
+    display: none;
+}
+
+.app-page.active {
+    display: block;
+
+    animation: pageIn .28s ease both;
+}
+
+@keyframes pageIn {
+
+    from {
+        opacity: 0;
+        transform: translateY(7px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+}
+
+
+/* =====================================================
+   PAGE HEADER
+===================================================== */
+
+.page-header {
+    margin-bottom: 15px;
+}
+
+.page-header h1 {
+    margin: 0;
+
+    font-size: 27px;
+
+    font-weight: 900;
+
+    letter-spacing: -.05em;
+}
+
+.page-header p {
+    margin: 5px 0 0;
+
+    color: var(--muted);
+
+    font-size: 12px;
 }
 
 
@@ -481,14 +578,14 @@ select {
 
     align-items: center;
 
-    gap: 14px;
+    gap: 13px;
 }
 
 .profile-avatar {
     flex: 0 0 auto;
 
-    width: 58px;
-    height: 58px;
+    width: 57px;
+    height: 57px;
 
     display: flex;
 
@@ -500,8 +597,8 @@ select {
     background:
         linear-gradient(
             145deg,
-            rgba(255,138,0,0.22),
-            rgba(255,107,0,0.08)
+            rgba(255,138,0,.22),
+            rgba(255,107,0,.08)
         );
 
     border: 1px solid var(--border-orange);
@@ -511,16 +608,19 @@ select {
 
 .profile-info {
     min-width: 0;
+
     flex: 1;
 }
 
 .profile-info h2 {
     margin: 0 0 4px;
 
-    font-size: 18px;
+    font-size: 17px;
 
     white-space: nowrap;
+
     overflow: hidden;
+
     text-overflow: ellipsis;
 }
 
@@ -529,7 +629,7 @@ select {
 
     color: var(--muted);
 
-    font-size: 12px;
+    font-size: 11px;
 }
 
 
@@ -540,19 +640,19 @@ select {
 .points-box {
     position: relative;
 
-    margin-top: 18px;
+    margin-top: 17px;
 
-    padding: 20px;
+    padding: 18px;
 
     overflow: hidden;
 
-    border-radius: 19px;
+    border-radius: 18px;
 
     background:
         linear-gradient(
             135deg,
-            rgba(255,107,0,0.13),
-            rgba(255,255,255,0.025)
+            rgba(255,107,0,.13),
+            rgba(255,255,255,.025)
         );
 
     border: 1px solid var(--border-orange);
@@ -566,9 +666,9 @@ select {
     right: 20px;
     top: 8px;
 
-    font-size: 65px;
+    color: rgba(255,107,0,.07);
 
-    color: rgba(255,107,0,0.07);
+    font-size: 65px;
 
     transform: rotate(15deg);
 }
@@ -578,10 +678,12 @@ select {
 
     color: var(--muted);
 
-    font-size: 11px;
+    font-size: 10px;
+
     font-weight: 800;
 
     text-transform: uppercase;
+
     letter-spacing: .12em;
 }
 
@@ -593,29 +695,126 @@ select {
     color: var(--orange);
 
     font-size: 43px;
+
     line-height: 1;
 
     font-weight: 950;
 
-    letter-spacing: -0.06em;
+    letter-spacing: -.06em;
 }
 
 
 /* =====================================================
-   SECTION TITLE
+   QUICK GRID
 ===================================================== */
 
-.section-title {
-    display: flex;
+.quick-grid {
+    display: grid;
 
-    align-items: center;
-    justify-content: space-between;
+    grid-template-columns: 1fr 1fr;
 
-    margin-bottom: 4px;
+    gap: 9px;
+
+    margin-top: 15px;
 }
 
-.section-title h2 {
+.quick-button {
+    min-height: 95px;
+
     margin: 0;
+
+    padding: 15px;
+
+    text-align: left;
+
+    background: rgba(255,255,255,.035);
+
+    border: 1px solid var(--border);
+
+    box-shadow: none;
+}
+
+.quick-button:hover {
+    background: rgba(255,107,0,.07);
+
+    border-color: rgba(255,107,0,.25);
+
+    box-shadow: none;
+}
+
+.quick-icon {
+    display: block;
+
+    margin-bottom: 8px;
+
+    font-size: 24px;
+}
+
+.quick-title {
+    display: block;
+
+    font-size: 13px;
+}
+
+.quick-subtitle {
+    display: block;
+
+    margin-top: 3px;
+
+    color: #777;
+
+    font-size: 10px;
+}
+
+
+/* =====================================================
+   SUBMENU
+===================================================== */
+
+.submenu {
+    display: flex;
+
+    gap: 7px;
+
+    margin-bottom: 15px;
+
+    overflow-x: auto;
+
+    scrollbar-width: none;
+}
+
+.submenu::-webkit-scrollbar {
+    display: none;
+}
+
+.submenu button {
+    flex: 0 0 auto;
+
+    width: auto;
+
+    min-height: 40px;
+
+    margin: 0;
+
+    padding: 9px 14px;
+
+    background: rgba(255,255,255,.04);
+
+    border: 1px solid var(--border);
+
+    color: #777;
+
+    box-shadow: none;
+
+    font-size: 11px;
+}
+
+.submenu button.active {
+    background: rgba(255,107,0,.12);
+
+    border-color: rgba(255,107,0,.3);
+
+    color: var(--orange);
 }
 
 
@@ -628,36 +827,37 @@ select {
 
     grid-template-columns: 1fr 1fr;
 
-    gap: 10px;
+    gap: 9px;
 
-    margin: 17px 0 13px;
+    margin: 14px 0;
 }
 
 .filterBox {
-    padding: 11px;
+    padding: 10px;
 
-    background: rgba(0,0,0,0.20);
+    background: rgba(0,0,0,.18);
 
     border: 1px solid var(--border);
 
-    border-radius: 14px;
+    border-radius: 13px;
 }
 
 .filterLabel {
     margin: 1px 2px 3px;
 
-    color: #686868;
+    color: #666;
 
     font-size: 9px;
+
     font-weight: 900;
 
-    letter-spacing: .12em;
+    letter-spacing: .1em;
 }
 
 .filterBox select {
     margin: 0;
 
-    padding: 9px 4px;
+    padding: 7px 2px;
 
     background: transparent;
 
@@ -665,31 +865,31 @@ select {
 
     box-shadow: none;
 
-    font-size: 12px;
+    font-size: 11px;
 }
 
 
 /* =====================================================
-   CHALLENGES
+   CHALLENGE
 ===================================================== */
 
 .challenge {
     position: relative;
 
-    margin-top: 12px;
+    margin-top: 11px;
 
-    padding: 18px;
+    padding: 17px;
 
     background:
         linear-gradient(
             145deg,
-            rgba(255,255,255,0.035),
-            rgba(255,255,255,0.012)
+            rgba(255,255,255,.035),
+            rgba(255,255,255,.012)
         );
 
     border: 1px solid var(--border);
 
-    border-radius: 18px;
+    border-radius: 17px;
 
     overflow: hidden;
 
@@ -704,16 +904,16 @@ select {
     position: absolute;
 
     left: 0;
-    top: 18px;
-    bottom: 18px;
+
+    top: 17px;
+
+    bottom: 17px;
 
     width: 3px;
 
-    border-radius: 4px;
+    border-radius: 5px;
 
     background: var(--orange);
-
-    opacity: .8;
 }
 
 .challenge:hover {
@@ -723,24 +923,23 @@ select {
 }
 
 .challenge h3 {
-    margin: 0 0 8px;
+    margin: 0 0 7px;
 
-    font-size: 17px;
+    font-size: 16px;
+
     font-weight: 850;
-
-    letter-spacing: -0.02em;
 }
 
 .location-meta {
-    color: var(--muted);
+    color: #777;
 
-    font-size: 12px;
+    font-size: 11px;
 }
 
 .challenge p {
-    color: #aaa;
+    color: #999;
 
-    font-size: 13px;
+    font-size: 12px;
 
     line-height: 1.55;
 }
@@ -748,11 +947,9 @@ select {
 .points-reward {
     display: inline-flex;
 
-    align-items: center;
+    margin-top: 2px;
 
-    margin-top: 3px;
-
-    padding: 7px 10px;
+    padding: 6px 9px;
 
     border-radius: 999px;
 
@@ -760,57 +957,158 @@ select {
 
     border: 1px solid rgba(255,107,0,.15);
 
-    color: #ff9a4d;
+    color: #ff9850;
 
-    font-size: 11px;
+    font-size: 10px;
+
     font-weight: 850;
 }
 
 
 /* =====================================================
-   ACTION MESSAGE
+   SUGGESTION
 ===================================================== */
 
-.action-message {
-    width: 100%;
+.suggestion-info {
+    display: grid;
 
-    margin-top: 9px;
+    grid-template-columns: repeat(3,1fr);
 
-    padding: 11px 12px;
+    gap: 7px;
 
-    border-radius: 12px;
+    margin: 14px 0;
+}
 
-    background: rgba(255,255,255,.035);
+.info-pill {
+    padding: 10px 7px;
 
-    border: 1px solid var(--border);
+    border-radius: 13px;
 
-    color: #bbb;
+    background: rgba(255,107,0,.06);
+
+    border: 1px solid rgba(255,107,0,.12);
 
     text-align: center;
 
-    font-size: 12px;
+    color: #aaa;
+
+    font-size: 10px;
+}
+
+.info-pill strong {
+    display: block;
+
+    margin-bottom: 3px;
+
+    color: var(--orange);
+
+    font-size: 16px;
+}
+
+.form-label {
+    display: block;
+
+    margin: 12px 2px 2px;
+
+    color: #777;
+
+    font-size: 10px;
+
+    font-weight: 800;
+
+    text-transform: uppercase;
+
+    letter-spacing: .08em;
+}
+
+.gps-box {
+    margin-top: 10px;
+
+    padding: 13px;
+
+    background: rgba(255,255,255,.025);
+
+    border: 1px solid var(--border);
+
+    border-radius: 14px;
+}
+
+.gps-status {
+    margin-bottom: 6px;
+
+    color: #777;
+
+    font-size: 11px;
 
     line-height: 1.5;
 }
 
-.action-message.success {
-    background: rgba(49,209,124,.07);
+.suggestion-item {
+    margin-top: 10px;
 
-    border-color: rgba(49,209,124,.22);
+    padding: 14px;
 
-    color: #73e6a7;
+    background: rgba(255,255,255,.025);
+
+    border: 1px solid var(--border);
+
+    border-radius: 15px;
 }
 
-.action-message.error {
-    background: rgba(255,79,79,.07);
+.suggestion-header {
+    display: flex;
 
-    border-color: rgba(255,79,79,.20);
+    justify-content: space-between;
 
-    color: #ff8888;
+    gap: 10px;
+
+    align-items: flex-start;
 }
 
-.action-message:empty {
-    display: none;
+.suggestion-header h3 {
+    margin: 0;
+
+    font-size: 14px;
+}
+
+.status {
+    flex: 0 0 auto;
+
+    padding: 5px 8px;
+
+    border-radius: 999px;
+
+    font-size: 9px;
+
+    font-weight: 900;
+}
+
+.status.pending {
+    background: rgba(255,180,0,.09);
+
+    color: #e7b84d;
+}
+
+.status.approved {
+    background: rgba(49,209,124,.08);
+
+    color: #63dc99;
+}
+
+.status.rejected {
+    background: rgba(255,79,79,.08);
+
+    color: #ff7b7b;
+}
+
+.suggestion-meta {
+    margin-top: 7px;
+
+    color: #777;
+
+    font-size: 10px;
+
+    line-height: 1.6;
 }
 
 
@@ -821,9 +1119,9 @@ select {
 .reward {
     position: relative;
 
-    margin-top: 12px;
+    margin-top: 11px;
 
-    padding: 18px;
+    padding: 17px;
 
     overflow: hidden;
 
@@ -836,17 +1134,7 @@ select {
 
     border: 1px solid var(--border);
 
-    border-radius: 18px;
-
-    transition:
-        transform .2s,
-        border-color .2s;
-}
-
-.reward:hover {
-    transform: translateY(-2px);
-
-    border-color: rgba(255,107,0,.25);
+    border-radius: 17px;
 }
 
 .reward::before {
@@ -870,9 +1158,10 @@ select {
 .reward h3 {
     position: relative;
 
-    margin: 0 0 13px;
+    margin: 0 0 11px;
 
-    font-size: 17px;
+    font-size: 16px;
+
     font-weight: 850;
 }
 
@@ -881,27 +1170,23 @@ select {
 
     justify-content: space-between;
 
-    gap: 12px;
+    gap: 10px;
 
-    padding: 9px 0;
+    padding: 8px 0;
 
     border-bottom: 1px solid rgba(255,255,255,.05);
 
-    font-size: 12px;
-}
-
-.reward-line:last-of-type {
-    border-bottom: 0;
+    font-size: 11px;
 }
 
 .reward-label {
-    color: #777;
+    color: #666;
 }
 
 .reward-value {
-    text-align: right;
-
     color: #ddd;
+
+    text-align: right;
 
     font-weight: 750;
 }
@@ -912,27 +1197,67 @@ select {
 
 
 /* =====================================================
+   ACTION MESSAGE
+===================================================== */
+
+.action-message {
+    width: 100%;
+
+    margin-top: 8px;
+
+    padding: 10px;
+
+    border-radius: 11px;
+
+    background: rgba(255,255,255,.03);
+
+    border: 1px solid var(--border);
+
+    color: #aaa;
+
+    text-align: center;
+
+    font-size: 11px;
+
+    line-height: 1.5;
+}
+
+.action-message.success {
+    background: rgba(49,209,124,.07);
+
+    border-color: rgba(49,209,124,.2);
+
+    color: #71e4a3;
+}
+
+.action-message.error {
+    background: rgba(255,79,79,.07);
+
+    border-color: rgba(255,79,79,.2);
+
+    color: #ff8585;
+}
+
+.action-message:empty {
+    display: none;
+}
+
+
+/* =====================================================
    HISTORY
 ===================================================== */
 
 .history-item,
 .redemption-item {
-    margin-top: 11px;
+    margin-top: 10px;
 
-    padding: 15px;
+    padding: 14px;
 
     background: rgba(255,255,255,.025);
 
     border: 1px solid var(--border);
 
-    border-radius: 16px;
-
-    transition: border-color .2s;
-}
-
-.history-item:hover,
-.redemption-item:hover {
-    border-color: rgba(255,107,0,.2);
+    border-radius: 15px;
 }
 
 .history-header {
@@ -940,21 +1265,21 @@ select {
 
     align-items: center;
 
-    gap: 12px;
+    gap: 11px;
 }
 
 .history-icon {
     flex: 0 0 auto;
 
-    width: 43px;
-    height: 43px;
+    width: 42px;
+    height: 42px;
 
     display: flex;
 
     align-items: center;
     justify-content: center;
 
-    border-radius: 14px;
+    border-radius: 13px;
 
     background: rgba(255,107,0,.09);
 
@@ -963,33 +1288,34 @@ select {
 
 .history-content {
     min-width: 0;
-    flex: 1;
 }
 
 .history-content h3 {
-    margin: 0 0 4px;
+    margin: 0 0 3px;
 
     font-size: 14px;
 
     white-space: nowrap;
+
     overflow: hidden;
+
     text-overflow: ellipsis;
 }
 
 .history-content p {
     margin: 0;
 
-    color: var(--muted);
+    color: #777;
 
     font-size: 11px;
 }
 
 .history-points {
-    display: inline-flex;
+    display: inline-block;
 
-    margin-top: 10px;
+    margin-top: 9px;
 
-    padding: 6px 9px;
+    padding: 5px 8px;
 
     border-radius: 999px;
 
@@ -998,11 +1324,12 @@ select {
     color: #ff9850;
 
     font-size: 10px;
+
     font-weight: 850;
 }
 
 .history-date {
-    margin-top: 9px;
+    margin-top: 8px;
 
     color: #555;
 
@@ -1010,76 +1337,188 @@ select {
 }
 
 .redemption-item h3 {
-    margin: 0 0 9px;
+    margin: 0 0 8px;
 
-    font-size: 15px;
+    font-size: 14px;
 }
 
 .redemption-item p {
     margin: 5px 0;
 
-    color: #888;
+    color: #777;
 
-    font-size: 12px;
+    font-size: 11px;
 }
 
 .redemption-code {
-    margin-top: 12px;
+    margin-top: 10px;
 
-    padding: 13px;
+    padding: 12px;
 
     background: rgba(255,107,0,.07);
 
-    border: 1px dashed rgba(255,107,0,.3);
+    border: 1px dashed rgba(255,107,0,.28);
 
-    border-radius: 12px;
+    border-radius: 11px;
 
     color: var(--orange);
 
     text-align: center;
 
-    font-size: 14px;
+    font-size: 13px;
+
     font-weight: 950;
 
     letter-spacing: .12em;
 }
 
-
-/* =====================================================
-   EMPTY
-===================================================== */
-
 .history-empty {
-    padding: 28px 12px;
+    padding: 25px 10px;
 
     color: #666;
 
     text-align: center;
 
-    font-size: 13px;
+    font-size: 12px;
 
     line-height: 1.6;
 }
 
 
 /* =====================================================
-   CODE
+   PROFILE STATS
 ===================================================== */
 
-.code {
-    margin-top: 9px;
+.stats-grid {
+    display: grid;
 
-    padding: 10px;
+    grid-template-columns: repeat(2,1fr);
 
-    background: rgba(0,0,0,.3);
+    gap: 9px;
 
-    border-radius: 9px;
+    margin-top: 14px;
+}
 
+.stat-box {
+    padding: 15px;
+
+    background: rgba(255,255,255,.025);
+
+    border: 1px solid var(--border);
+
+    border-radius: 15px;
+}
+
+.stat-icon {
+    font-size: 20px;
+}
+
+.stat-number {
+    margin-top: 7px;
+
+    color: white;
+
+    font-size: 22px;
+
+    font-weight: 900;
+}
+
+.stat-label {
+    margin-top: 3px;
+
+    color: #666;
+
+    font-size: 9px;
+
+    text-transform: uppercase;
+
+    letter-spacing: .08em;
+}
+
+
+/* =====================================================
+   BOTTOM NAV
+===================================================== */
+
+.bottom-nav {
+    position: fixed;
+
+    z-index: 1000;
+
+    left: 50%;
+
+    bottom: 9px;
+
+    transform: translateX(-50%);
+
+    width: calc(100% - 14px);
+
+    max-width: 740px;
+
+    display: grid;
+
+    grid-template-columns: repeat(5,1fr);
+
+    gap: 3px;
+
+    padding: 7px;
+
+    background: rgba(17,17,17,.92);
+
+    border: 1px solid rgba(255,255,255,.09);
+
+    border-radius: 20px;
+
+    box-shadow:
+        0 15px 45px rgba(0,0,0,.55);
+
+    backdrop-filter: blur(20px);
+
+    -webkit-backdrop-filter: blur(20px);
+}
+
+.bottom-nav button {
+    min-height: 55px;
+
+    margin: 0;
+
+    padding: 5px 3px;
+
+    background: transparent;
+
+    border: none;
+
+    color: #666;
+
+    box-shadow: none;
+
+    font-size: 8px;
+
+    font-weight: 800;
+}
+
+.bottom-nav button:hover {
+    transform: none;
+
+    background: rgba(255,255,255,.035);
+
+    box-shadow: none;
+}
+
+.bottom-nav button.active {
     color: var(--orange);
 
-    font-weight: 950;
+    background: rgba(255,107,0,.09);
 
-    letter-spacing: .12em;
+    border-radius: 14px;
+}
+
+.nav-icon {
+    display: block;
+
+    margin-bottom: 4px;
+
+    font-size: 20px;
 }
 
 
@@ -1088,66 +1527,36 @@ select {
 ===================================================== */
 
 footer {
-    padding: 35px 20px 45px;
+    padding: 30px 20px 40px;
 
     color: #444;
 
     text-align: center;
 
     font-size: 10px;
-
-    letter-spacing: .04em;
 }
 
 
 /* =====================================================
-   HIDDEN
+   RESPONSIVE
 ===================================================== */
 
-.hidden {
-    display: none !important;
-}
-
-
-/* =====================================================
-   MOBILE
-===================================================== */
-
-@media (max-width: 600px) {
-
-    .container {
-        padding-left: 12px;
-        padding-right: 12px;
-    }
-
-    .card {
-        padding: 18px;
-    }
+@media (max-width:600px) {
 
     .filterRow {
         grid-template-columns: 1fr;
-        gap: 8px;
     }
 
-    .hero {
-        padding: 30px 18px 22px;
+    .suggestion-info {
+        grid-template-columns: 1fr 1fr 1fr;
     }
 
 }
 
-
-/* =====================================================
-   DESKTOP
-===================================================== */
-
-@media (min-width: 700px) {
+@media (min-width:700px) {
 
     .container {
-        padding-top: 30px;
-    }
-
-    .card {
-        padding: 24px;
+        padding-top: 28px;
     }
 
 }
@@ -1157,7 +1566,7 @@ footer {
 </head>
 
 
-<body>
+<body class="no-app">
 
 
 <!-- =====================================================
@@ -1329,10 +1738,703 @@ footer {
      APP
 ===================================================== -->
 
-<section id="appScreen" class="hidden">
+<section
+    id="appScreen"
+    class="hidden"
+>
 
 
-    <!-- PERFIL -->
+<!-- =====================================================
+     INÍCIO
+===================================================== -->
+
+<section
+    id="pageHome"
+    class="app-page active"
+>
+
+    <div class="page-header">
+
+        <h1>
+            Olá, piloto 👋
+        </h1>
+
+        <p>
+            A tua próxima aventura está à tua espera.
+        </p>
+
+    </div>
+
+
+    <div class="card">
+
+        <div class="profile-header">
+
+            <div class="profile-avatar">
+                🏍️
+            </div>
+
+            <div class="profile-info">
+
+                <h2 id="homeProfileName">
+                    Utilizador
+                </h2>
+
+                <p>
+                    Piloto MotoQuest
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="points-box">
+
+            <div class="points-label">
+                Pontos disponíveis
+            </div>
+
+            <div
+                class="points"
+                id="homePoints"
+            >
+                0
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="card">
+
+        <h2>
+            ⚡ Acesso rápido
+        </h2>
+
+        <div class="quick-grid">
+
+            <button
+                class="quick-button"
+                onclick="showAppPage('explore')"
+            >
+
+                <span class="quick-icon">
+                    🗺️
+                </span>
+
+                <span class="quick-title">
+                    Explorar
+                </span>
+
+                <span class="quick-subtitle">
+                    Descobrir locais
+                </span>
+
+            </button>
+
+
+            <button
+                class="quick-button"
+                onclick="showAppPage('suggest')"
+            >
+
+                <span class="quick-icon">
+                    ➕
+                </span>
+
+                <span class="quick-title">
+                    Sugerir local
+                </span>
+
+                <span class="quick-subtitle">
+                    Ganhar pontos
+                </span>
+
+            </button>
+
+
+            <button
+                class="quick-button"
+                onclick="showAppPage('rewards')"
+            >
+
+                <span class="quick-icon">
+                    🎁
+                </span>
+
+                <span class="quick-title">
+                    Recompensas
+                </span>
+
+                <span class="quick-subtitle">
+                    Usar pontos
+                </span>
+
+            </button>
+
+
+            <button
+                class="quick-button"
+                onclick="showAppPage('history')"
+            >
+
+                <span class="quick-icon">
+                    📜
+                </span>
+
+                <span class="quick-title">
+                    Histórico
+                </span>
+
+                <span class="quick-subtitle">
+                    Ver aventura
+                </span>
+
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <div class="card">
+
+        <h2>
+            🧭 Como ganhar pontos?
+        </h2>
+
+        <p>
+            📍 Visita locais MotoQuest e valida a tua presença por GPS.
+        </p>
+
+        <p>
+            ➕ Sugere novos miradouros, baloiços ou monumentos.
+        </p>
+
+        <p>
+            ⭐ Quando uma sugestão é aprovada, recebes 50 pontos.
+        </p>
+
+        <p>
+            🎁 Troca os teus pontos por benefícios em restaurantes e hotéis parceiros.
+        </p>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     EXPLORAR
+===================================================== -->
+
+<section
+    id="pageExplore"
+    class="app-page"
+>
+
+    <div class="page-header">
+
+        <h1>
+            Explorar 🗺️
+        </h1>
+
+        <p>
+            Descobre os próximos pontos da tua aventura.
+        </p>
+
+    </div>
+
+
+    <div class="submenu">
+
+        <button
+            id="exploreTabLocations"
+            class="active"
+            onclick="showExploreTab('locations')"
+        >
+            📍 Locais
+        </button>
+
+        <button
+            id="exploreTabChallenges"
+            onclick="showExploreTab('challenges')"
+        >
+            🏆 Desafios
+        </button>
+
+        <button
+            onclick="showAppPage('suggest')"
+        >
+            ➕ Sugerir local
+        </button>
+
+    </div>
+
+
+    <div id="exploreLocationsTab">
+
+        <div class="card">
+
+            <h2>
+                📍 Locais para descobrir
+            </h2>
+
+            <p>
+                Miradouros, baloiços, monumentos,
+                castelos e outros pontos de interesse.
+            </p>
+
+
+            <div class="filterBox">
+
+                <div class="filterLabel">
+                    LOCALIDADE
+                </div>
+
+                <select
+                    id="locationFilter"
+                    onchange="filterLocations()"
+                >
+
+                    <option value="">
+                        Todas as localidades
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div id="locationsList">
+                A carregar localizações...
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div
+        id="exploreChallengesTab"
+        class="hidden"
+    >
+
+        <div class="card">
+
+            <h2>
+                🏆 Desafios
+            </h2>
+
+            <p>
+                Visita os locais, valida a tua posição
+                e conquista pontos.
+            </p>
+
+
+            <div id="challengeList">
+                A carregar desafios...
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     SUGERIR LOCAL
+===================================================== -->
+
+<section
+    id="pageSuggest"
+    class="app-page"
+>
+
+    <div class="page-header">
+
+        <h1>
+            Sugerir local ➕
+        </h1>
+
+        <p>
+            Ajuda a comunidade a descobrir novos lugares.
+        </p>
+
+    </div>
+
+
+    <div class="card">
+
+        <h2>
+            📍 Encontras-te um lugar incrível?
+        </h2>
+
+        <p>
+            Sugere-o ao MotoQuest. Depois de analisarmos
+            e aprovarmos o local, recebes pontos.
+        </p>
+
+
+        <div class="suggestion-info">
+
+            <div class="info-pill">
+                <strong>50</strong>
+                pontos
+            </div>
+
+            <div class="info-pill">
+                <strong>✓</strong>
+                aprovação
+            </div>
+
+            <div class="info-pill">
+                <strong>🏍️</strong>
+                comunidade
+            </div>
+
+        </div>
+
+
+        <label class="form-label">
+            Nome do local
+        </label>
+
+        <input
+            id="suggestionName"
+            type="text"
+            placeholder="Ex.: Miradouro da Serra"
+        >
+
+
+        <label class="form-label">
+            Localidade
+        </label>
+
+        <input
+            id="suggestionLocality"
+            type="text"
+            placeholder="Ex.: Covilhã"
+        >
+
+
+        <label class="form-label">
+            Tipo de local
+        </label>
+
+        <select id="suggestionType">
+
+            <option value="">
+                Seleciona o tipo
+            </option>
+
+            <option value="Miradouro">
+                📍 Miradouro
+            </option>
+
+            <option value="Baloiço">
+                🎢 Baloiço
+            </option>
+
+            <option value="Monumento">
+                🏛️ Monumento
+            </option>
+
+            <option value="Castelo">
+                🏰 Castelo
+            </option>
+
+            <option value="Outro">
+                🌄 Outro ponto de interesse
+            </option>
+
+        </select>
+
+
+        <label class="form-label">
+            Descrição
+        </label>
+
+        <textarea
+            id="suggestionDescription"
+            placeholder="Conta-nos um pouco sobre este lugar..."
+        ></textarea>
+
+
+        <div class="gps-box">
+
+            <div
+                id="suggestionGpsStatus"
+                class="gps-status"
+            >
+                📍 Ainda não obtivemos a localização GPS.
+            </div>
+
+            <button
+                class="secondary"
+                onclick="getSuggestionLocation()"
+            >
+                📍 Usar a minha localização
+            </button>
+
+        </div>
+
+
+        <button onclick="submitSuggestion()">
+            🚀 Enviar sugestão
+        </button>
+
+
+        <div
+            id="suggestionMessage"
+            class="action-message"
+        ></div>
+
+    </div>
+
+
+    <div class="card">
+
+        <h2>
+            📋 As minhas sugestões
+        </h2>
+
+        <p>
+            Consulta o estado dos locais que já sugeriste.
+        </p>
+
+
+        <div id="mySuggestions">
+            A carregar sugestões...
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     RECOMPENSAS
+===================================================== -->
+
+<section
+    id="pageRewards"
+    class="app-page"
+>
+
+    <div class="page-header">
+
+        <h1>
+            Recompensas 🎁
+        </h1>
+
+        <p>
+            Usa os teus pontos em negócios parceiros.
+        </p>
+
+    </div>
+
+
+    <div class="card">
+
+        <div class="points-box">
+
+            <div class="points-label">
+                Os teus pontos
+            </div>
+
+            <div
+                id="rewardsPoints"
+                class="points"
+            >
+                0
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="card">
+
+        <h2>
+            🤝 Parceiros MotoQuest
+        </h2>
+
+        <p>
+            Restaurantes e hotéis são reservados
+            para as recompensas dos nossos parceiros.
+        </p>
+
+
+        <div class="filterRow">
+
+            <div class="filterBox">
+
+                <div class="filterLabel">
+                    TIPO
+                </div>
+
+                <select
+                    id="rewardTypeFilter"
+                    onchange="filterRewards()"
+                >
+
+                    <option value="">
+                        Todos
+                    </option>
+
+                    <option value="Restaurante">
+                        🍽️ Restaurantes
+                    </option>
+
+                    <option value="Hotel">
+                        🏨 Hotéis
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="filterBox">
+
+                <div class="filterLabel">
+                    LOCALIDADE
+                </div>
+
+                <select
+                    id="rewardLocalityFilter"
+                    onchange="filterRewards()"
+                >
+
+                    <option value="">
+                        Todas
+                    </option>
+
+                </select>
+
+            </div>
+
+        </div>
+
+
+        <div id="rewards">
+            A carregar recompensas...
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     HISTÓRICO
+===================================================== -->
+
+<section
+    id="pageHistory"
+    class="app-page"
+>
+
+    <div class="page-header">
+
+        <h1>
+            Histórico 📜
+        </h1>
+
+        <p>
+            Tudo o que já conquistaste no MotoQuest.
+        </p>
+
+    </div>
+
+
+    <div class="submenu">
+
+        <button
+            id="historyTabVisits"
+            class="active"
+            onclick="showHistoryTab('visits')"
+        >
+            🏍️ Visitas
+        </button>
+
+        <button
+            id="historyTabRewards"
+            onclick="showHistoryTab('rewards')"
+        >
+            🎁 Recompensas
+        </button>
+
+    </div>
+
+
+    <div
+        id="historyVisitsTab"
+    >
+
+        <div class="card">
+
+            <h2>
+                🏍️ Visitas
+            </h2>
+
+            <div id="visitHistory">
+                A carregar histórico...
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div
+        id="historyRewardsTab"
+        class="hidden"
+    >
+
+        <div class="card">
+
+            <h2>
+                🎟️ Recompensas utilizadas
+            </h2>
+
+            <div id="redemptionHistory">
+                A carregar recompensas...
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     PERFIL
+===================================================== -->
+
+<section
+    id="pageProfile"
+    class="app-page"
+>
+
+    <div class="page-header">
+
+        <h1>
+            Perfil 👤
+        </h1>
+
+        <p>
+            A tua conta e progresso MotoQuest.
+        </p>
+
+    </div>
+
 
     <div class="card">
 
@@ -1348,8 +2450,8 @@ footer {
                     Utilizador
                 </h2>
 
-                <p>
-                    Piloto MotoQuest · Nível aventureiro
+                <p id="profileEmail">
+                    Piloto MotoQuest
                 </p>
 
             </div>
@@ -1373,6 +2475,50 @@ footer {
         </div>
 
 
+        <div class="stats-grid">
+
+            <div class="stat-box">
+
+                <div class="stat-icon">
+                    📍
+                </div>
+
+                <div
+                    class="stat-number"
+                    id="profileVisits"
+                >
+                    0
+                </div>
+
+                <div class="stat-label">
+                    Visitas
+                </div>
+
+            </div>
+
+
+            <div class="stat-box">
+
+                <div class="stat-icon">
+                    💡
+                </div>
+
+                <div
+                    class="stat-number"
+                    id="profileSuggestions"
+                >
+                    0
+                </div>
+
+                <div class="stat-label">
+                    Sugestões
+                </div>
+
+            </div>
+
+        </div>
+
+
         <button
             class="secondary"
             onclick="logout()"
@@ -1383,189 +2529,112 @@ footer {
     </div>
 
 
-    <!-- =================================================
-         DESAFIOS
-    ================================================= -->
-
     <div class="card">
 
-        <div class="section-title">
-
-            <h2>
-                🗺️ Missões
-            </h2>
-
-        </div>
+        <h2>
+            🏍️ Sobre o MotoQuest
+        </h2>
 
         <p>
-            Sai da rotina. Descobre novos lugares.
-            Cada visita pode valer pontos.
+            O MotoQuest transforma cada passeio
+            numa oportunidade para descobrir,
+            conquistar e desfrutar.
         </p>
 
-
-        <div class="filterBox">
-
-            <div class="filterLabel">
-                LOCALIDADE
-            </div>
-
-            <select
-                id="locationFilter"
-                onchange="filterLocations()"
-            >
-
-                <option value="">
-                    Todas as localidades
-                </option>
-
-            </select>
-
-        </div>
-
-
-        <div id="challenges">
-            A carregar localizações...
-        </div>
+        <p>
+            A comunidade ajuda a descobrir novos
+            lugares e os parceiros tornam os pontos
+            em recompensas reais.
+        </p>
 
     </div>
 
-
-    <!-- =================================================
-         RECOMPENSAS
-    ================================================= -->
-
-    <div class="card">
-
-        <div class="section-title">
-
-            <h2>
-                🎁 Recompensas
-            </h2>
-
-        </div>
-
-        <p>
-            Usa os teus pontos em hotéis
-            e restaurantes parceiros.
-        </p>
-
-
-        <div class="filterRow">
-
-
-            <div class="filterBox">
-
-                <div class="filterLabel">
-                    TIPO DE NEGÓCIO
-                </div>
-
-                <select
-                    id="rewardTypeFilter"
-                    onchange="filterRewards()"
-                >
-
-                    <option value="">
-                        Todos os negócios
-                    </option>
-
-                    <option value="Restaurante">
-                        🍽️ Restaurante
-                    </option>
-
-                    <option value="Hotel">
-                        🏨 Hotel
-                    </option>
-
-                </select>
-
-            </div>
-
-
-            <div class="filterBox">
-
-                <div class="filterLabel">
-                    LOCALIDADE
-                </div>
-
-                <select
-                    id="rewardLocalityFilter"
-                    onchange="filterRewards()"
-                >
-
-                    <option value="">
-                        Todas as localidades
-                    </option>
-
-                </select>
-
-            </div>
-
-
-        </div>
-
-
-        <div id="rewards">
-            A carregar recompensas...
-        </div>
-
-    </div>
-
-
-    <!-- =================================================
-         HISTÓRICO
-    ================================================= -->
-
-    <div class="card">
-
-        <div class="section-title">
-
-            <h2>
-                🏆 A tua aventura
-            </h2>
-
-        </div>
-
-        <p>
-            O teu percurso pelo mundo MotoQuest.
-        </p>
-
-
-        <div id="visitHistory">
-            A carregar histórico...
-        </div>
-
-    </div>
-
-
-    <!-- =================================================
-         RECOMPENSAS UTILIZADAS
-    ================================================= -->
-
-    <div class="card">
-
-        <div class="section-title">
-
-            <h2>
-                🎟️ Recompensas utilizadas
-            </h2>
-
-        </div>
-
-        <p>
-            Os teus códigos e recompensas anteriores.
-        </p>
-
-
-        <div id="redemptionHistory">
-            A carregar recompensas...
-        </div>
-
-    </div>
+</section>
 
 
 </section>
 
-</div>
+
+<!-- =====================================================
+     BOTTOM NAV
+===================================================== -->
+
+<nav
+    id="bottomNav"
+    class="bottom-nav hidden"
+>
+
+    <button
+        id="navHome"
+        class="active"
+        onclick="showAppPage('home')"
+    >
+
+        <span class="nav-icon">
+            🏠
+        </span>
+
+        Início
+
+    </button>
+
+
+    <button
+        id="navExplore"
+        onclick="showAppPage('explore')"
+    >
+
+        <span class="nav-icon">
+            🗺️
+        </span>
+
+        Explorar
+
+    </button>
+
+
+    <button
+        id="navRewards"
+        onclick="showAppPage('rewards')"
+    >
+
+        <span class="nav-icon">
+            🎁
+        </span>
+
+        Recompensas
+
+    </button>
+
+
+    <button
+        id="navHistory"
+        onclick="showAppPage('history')"
+    >
+
+        <span class="nav-icon">
+            📜
+        </span>
+
+        Histórico
+
+    </button>
+
+
+    <button
+        id="navProfile"
+        onclick="showAppPage('profile')"
+    >
+
+        <span class="nav-icon">
+            👤
+        </span>
+
+        Perfil
+
+    </button>
+
+</nav>
 
 
 <footer>
@@ -1603,6 +2672,10 @@ let allLocations = [];
 
 let allRewards = [];
 
+let suggestionLatitude = null;
+
+let suggestionLongitude = null;
+
 
 /* =====================================================
    ECRÃS
@@ -1621,6 +2694,12 @@ function hideAllScreens() {
     document
         .getElementById("appScreen")
         .classList.add("hidden");
+
+    document
+        .getElementById("bottomNav")
+        .classList.add("hidden");
+
+    document.body.classList.add("no-app");
 
 }
 
@@ -1654,6 +2733,249 @@ function showAppScreen() {
     document
         .getElementById("appScreen")
         .classList.remove("hidden");
+
+    document
+        .getElementById("bottomNav")
+        .classList.remove("hidden");
+
+    document.body.classList.remove("no-app");
+
+    showAppPage("home");
+
+}
+
+
+/* =====================================================
+   NAVEGAÇÃO PRINCIPAL
+===================================================== */
+
+function showAppPage(page) {
+
+    const pages = [
+        "home",
+        "explore",
+        "suggest",
+        "rewards",
+        "history",
+        "profile"
+    ];
+
+
+    pages.forEach(name => {
+
+        const element =
+            document.getElementById(
+                "page" +
+                name.charAt(0).toUpperCase() +
+                name.slice(1)
+            );
+
+
+        if (element) {
+
+            element.classList.remove("active");
+
+        }
+
+    });
+
+
+    const target =
+        document.getElementById(
+            "page" +
+            page.charAt(0).toUpperCase() +
+            page.slice(1)
+        );
+
+
+    if (target) {
+
+        target.classList.add("active");
+
+    }
+
+
+    const navButtons = [
+        "navHome",
+        "navExplore",
+        "navRewards",
+        "navHistory",
+        "navProfile"
+    ];
+
+
+    navButtons.forEach(id => {
+
+        const button =
+            document.getElementById(id);
+
+        if (button) {
+
+            button.classList.remove("active");
+
+        }
+
+    });
+
+
+    const navMap = {
+
+        home: "navHome",
+
+        explore: "navExplore",
+
+        rewards: "navRewards",
+
+        history: "navHistory",
+
+        profile: "navProfile"
+
+    };
+
+
+    if (navMap[page]) {
+
+        document
+            .getElementById(
+                navMap[page]
+            )
+            .classList.add("active");
+
+    }
+
+
+    if (page === "suggest") {
+
+        loadMySuggestions();
+
+    }
+
+
+    if (page === "profile") {
+
+        updateProfileStats();
+
+    }
+
+
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+
+}
+
+
+/* =====================================================
+   SUBMENU EXPLORAR
+===================================================== */
+
+function showExploreTab(tab) {
+
+    const locationsTab =
+        document.getElementById(
+            "exploreLocationsTab"
+        );
+
+    const challengesTab =
+        document.getElementById(
+            "exploreChallengesTab"
+        );
+
+
+    const locationsButton =
+        document.getElementById(
+            "exploreTabLocations"
+        );
+
+    const challengesButton =
+        document.getElementById(
+            "exploreTabChallenges"
+        );
+
+
+    locationsTab.classList.add("hidden");
+
+    challengesTab.classList.add("hidden");
+
+    locationsButton.classList.remove("active");
+
+    challengesButton.classList.remove("active");
+
+
+    if (tab === "locations") {
+
+        locationsTab.classList.remove("hidden");
+
+        locationsButton.classList.add("active");
+
+    }
+
+
+    if (tab === "challenges") {
+
+        challengesTab.classList.remove("hidden");
+
+        challengesButton.classList.add("active");
+
+    }
+
+}
+
+
+/* =====================================================
+   SUBMENU HISTÓRICO
+===================================================== */
+
+function showHistoryTab(tab) {
+
+    const visits =
+        document.getElementById(
+            "historyVisitsTab"
+        );
+
+    const rewards =
+        document.getElementById(
+            "historyRewardsTab"
+        );
+
+
+    const visitsButton =
+        document.getElementById(
+            "historyTabVisits"
+        );
+
+    const rewardsButton =
+        document.getElementById(
+            "historyTabRewards"
+        );
+
+
+    visits.classList.add("hidden");
+
+    rewards.classList.add("hidden");
+
+    visitsButton.classList.remove("active");
+
+    rewardsButton.classList.remove("active");
+
+
+    if (tab === "visits") {
+
+        visits.classList.remove("hidden");
+
+        visitsButton.classList.add("active");
+
+    }
+
+
+    if (tab === "rewards") {
+
+        rewards.classList.remove("hidden");
+
+        rewardsButton.classList.add("active");
+
+    }
 
 }
 
@@ -1825,7 +3147,7 @@ async function loadUser() {
         session.user;
 
 
-    const profileResult =
+    let profileResult =
         await supabaseClient
             .from("profiles")
             .select("*")
@@ -1848,35 +3170,48 @@ async function loadUser() {
             });
 
 
-        document
-            .getElementById("profileName")
-            .textContent =
-            user.email;
-
-
-        document
-            .getElementById("profilePoints")
-            .textContent =
-            "0";
-
-    } else {
-
-        const profile =
-            profileResult.data;
-
-
-        document
-            .getElementById("profileName")
-            .textContent =
-            profile.email || user.email;
-
-
-        document
-            .getElementById("profilePoints")
-            .textContent =
-            profile.points || 0;
+        profileResult =
+            await supabaseClient
+                .from("profiles")
+                .select("*")
+                .eq("id", user.id)
+                .single();
 
     }
+
+
+    const profile =
+        profileResult.data || {};
+
+
+    const email =
+        profile.email ||
+        user.email;
+
+
+    const points =
+        Number(profile.points) || 0;
+
+
+    document
+        .getElementById("homeProfileName")
+        .textContent =
+        email;
+
+
+    document
+        .getElementById("profileName")
+        .textContent =
+        email;
+
+
+    document
+        .getElementById("profileEmail")
+        .textContent =
+        email;
+
+
+    updateAllPoints(points);
 
 
     showAppScreen();
@@ -1889,6 +3224,40 @@ async function loadUser() {
     await loadVisitHistory();
 
     await loadRedemptionHistory();
+
+    await loadMySuggestions();
+
+    await updateProfileStats();
+
+}
+
+
+function updateAllPoints(points) {
+
+    const elements = [
+
+        "homePoints",
+
+        "profilePoints",
+
+        "rewardsPoints"
+
+    ];
+
+
+    elements.forEach(id => {
+
+        const element =
+            document.getElementById(id);
+
+        if (element) {
+
+            element.textContent =
+                Number(points) || 0;
+
+        }
+
+    });
 
 }
 
@@ -1924,7 +3293,7 @@ async function loadLocations() {
     if (result.error) {
 
         document
-            .getElementById("challenges")
+            .getElementById("locationsList")
             .innerHTML =
             "Erro ao carregar localizações.";
 
@@ -1940,9 +3309,9 @@ async function loadLocations() {
 
     createLocationFilter();
 
-    displayLocations(
-        allLocations
-    );
+    displayLocations(allLocations);
+
+    displayChallenges(allLocations);
 
 }
 
@@ -1973,8 +3342,8 @@ function createLocationFilter() {
     localities.forEach(locality => {
 
         select.innerHTML +=
-            `<option value="${locality}">
-                ${locality}
+            `<option value="${escapeHtml(locality)}">
+                ${escapeHtml(locality)}
             </option>`;
 
     });
@@ -2003,9 +3372,9 @@ function filterLocations() {
         allLocations;
 
 
-    displayLocations(
-        filtered
-    );
+    displayLocations(filtered);
+
+    displayChallenges(filtered);
 
 }
 
@@ -2014,7 +3383,7 @@ function displayLocations(locations) {
 
     const container =
         document.getElementById(
-            "challenges"
+            "locationsList"
         );
 
 
@@ -2022,7 +3391,7 @@ function displayLocations(locations) {
 
         container.innerHTML =
             `<div class="history-empty">
-                Ainda não existem localizações.
+                Ainda não existem locais nesta localidade.
             </div>`;
 
         return;
@@ -2034,61 +3403,106 @@ function displayLocations(locations) {
 
     locations.forEach(location => {
 
-        const safeName =
-            String(location.name)
-                .replace(/\\/g, "\\\\")
-                .replace(/'/g, "\\'");
-
-
-        const safeLocality =
-            String(location.locality || "")
-                .replace(/\\/g, "\\\\")
-                .replace(/'/g, "\\'");
-
-
         html += `
 
         <div class="challenge">
 
             <h3>
-                🏍️ ${location.name}
+                ${locationIcon(location.type)}
+                ${escapeHtml(location.name)}
             </h3>
 
             <div class="location-meta">
-                📍 ${location.locality}
+                📍 ${escapeHtml(location.locality || "")}
                 ${
                     location.district
                     ?
-                    " · " + location.district
+                    " · " +
+                    escapeHtml(location.district)
                     :
                     ""
                 }
             </div>
 
             <p>
-                ${location.description || ""}
+                ${escapeHtml(location.description || "")}
             </p>
 
             <span class="points-reward">
-                ⭐ +${location.points} pontos
+                ⭐ +${Number(location.points) || 0} pontos
+            </span>
+
+        </div>
+
+        `;
+
+    });
+
+
+    container.innerHTML =
+        html;
+
+}
+
+
+function displayChallenges(locations) {
+
+    const container =
+        document.getElementById(
+            "challengeList"
+        );
+
+
+    if (!locations.length) {
+
+        container.innerHTML =
+            `<div class="history-empty">
+                Ainda não existem desafios.
+            </div>`;
+
+        return;
+    }
+
+
+    let html = "";
+
+
+    locations.forEach(location => {
+
+        html += `
+
+        <div class="challenge">
+
+            <h3>
+                🏆 ${escapeHtml(location.name)}
+            </h3>
+
+            <div class="location-meta">
+                📍 ${escapeHtml(location.locality || "")}
+            </div>
+
+            <p>
+                ${escapeHtml(location.description || "Completa este desafio visitando o local.")}
+            </p>
+
+            <span class="points-reward">
+                ⭐ +${Number(location.points) || 0} pontos
             </span>
 
             <button
                 onclick="validateChallenge(
-                    ${location.id},
-                    ${location.latitude},
-                    ${location.longitude},
-                    ${location.radius},
-                    ${location.points},
-                    '${safeName}',
-                    '${safeLocality}'
+                    ${Number(location.id)},
+                    ${Number(location.latitude)},
+                    ${Number(location.longitude)},
+                    ${Number(location.radius) || 150},
+                    ${Number(location.points) || 100}
                 )"
             >
                 📍 Validar visita
             </button>
 
             <div
-                id="visit-message-${location.id}"
+                id="visit-message-${Number(location.id)}"
                 class="action-message"
             ></div>
 
@@ -2101,6 +3515,54 @@ function displayLocations(locations) {
 
     container.innerHTML =
         html;
+
+}
+
+
+/* =====================================================
+   ÍCONE LOCAL
+===================================================== */
+
+function locationIcon(type) {
+
+    const value =
+        String(type || "")
+            .toLowerCase();
+
+
+    if (value.includes("miradouro")) {
+        return "📍";
+    }
+
+    if (value.includes("baloi")) {
+        return "🎢";
+    }
+
+    if (value.includes("monumento")) {
+        return "🏛️";
+    }
+
+    if (value.includes("castelo")) {
+        return "🏰";
+    }
+
+    return "🌄";
+
+}
+
+
+/* =====================================================
+   ESCAPAR HTML
+===================================================== */
+
+function escapeHtml(value) {
+
+    return String(value ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
 
 }
 
@@ -2173,6 +3635,10 @@ function formatDistance(distance) {
 }
 
 
+/* =====================================================
+   CALCULAR DISTÂNCIA
+===================================================== */
+
 function calculateDistance(
     lat1,
     lon1,
@@ -2183,18 +3649,14 @@ function calculateDistance(
     const R =
         6371000;
 
-
     const rad =
         Math.PI / 180;
-
 
     const dLat =
         (lat2 - lat1) * rad;
 
-
     const dLon =
         (lon2 - lon1) * rad;
-
 
     const a =
         Math.sin(dLat / 2) ** 2 +
@@ -2203,14 +3665,12 @@ function calculateDistance(
         Math.cos(lat2 * rad) *
         Math.sin(dLon / 2) ** 2;
 
-
     const c =
         2 *
         Math.atan2(
             Math.sqrt(a),
             Math.sqrt(1 - a)
         );
-
 
     return R * c;
 
@@ -2226,9 +3686,7 @@ async function validateChallenge(
     latitude,
     longitude,
     radius,
-    points,
-    locationName,
-    locality
+    points
 ) {
 
     const messageId =
@@ -2274,6 +3732,26 @@ async function validateChallenge(
     }
 
 
+    const location =
+        allLocations.find(
+            item =>
+                Number(item.id) ===
+                Number(locationId)
+        );
+
+
+    if (!location) {
+
+        showActionMessage(
+            messageId,
+            "❌ Localização não encontrada.",
+            "error"
+        );
+
+        return;
+    }
+
+
     navigator.geolocation.getCurrentPosition(
 
         async function(position) {
@@ -2297,13 +3775,6 @@ async function validateChallenge(
                     Number(latitude),
                     Number(longitude)
                 );
-
-
-            console.log(
-                "Distância:",
-                distance,
-                "metros"
-            );
 
 
             if (
@@ -2350,9 +3821,15 @@ async function validateChallenge(
             }
 
 
+            const currentPoints =
+                Number(
+                    profileResult.data.points
+                ) || 0;
+
+
             const newPoints =
-                (profileResult.data.points || 0) +
-                points;
+                currentPoints +
+                Number(points);
 
 
             const updateResult =
@@ -2388,13 +3865,13 @@ async function validateChallenge(
                             locationId,
 
                         location_name:
-                            locationName,
+                            location.name,
 
                         locality:
-                            locality,
+                            location.locality,
 
                         points_earned:
-                            points
+                            Number(points)
 
                     });
 
@@ -2409,18 +3886,14 @@ async function validateChallenge(
             }
 
 
-            document
-                .getElementById("profilePoints")
-                .textContent =
-                newPoints;
-
-
-            displayRewards(
-                getFilteredRewards()
+            updateAllPoints(
+                newPoints
             );
 
 
             await loadVisitHistory();
+
+            await updateProfileStats();
 
 
             showActionMessage(
@@ -2428,7 +3901,7 @@ async function validateChallenge(
 
                 "🎉 <strong>Visita validada!</strong><br>" +
                 "Ganhaste <strong>" +
-                points +
+                Number(points) +
                 " pontos</strong>.",
 
                 "success"
@@ -2478,11 +3951,523 @@ async function validateChallenge(
 
         {
             enableHighAccuracy: true,
+
             timeout: 10000,
+
             maximumAge: 0
+
         }
 
     );
+
+}
+
+
+/* =====================================================
+   GPS PARA SUGESTÃO
+===================================================== */
+
+function getSuggestionLocation() {
+
+    const status =
+        document.getElementById(
+            "suggestionGpsStatus"
+        );
+
+
+    if (!navigator.geolocation) {
+
+        status.textContent =
+            "❌ O teu dispositivo não suporta GPS.";
+
+        return;
+    }
+
+
+    status.textContent =
+        "📍 A obter a tua localização...";
+
+
+    navigator.geolocation.getCurrentPosition(
+
+        function(position) {
+
+            suggestionLatitude =
+                Number(
+                    position.coords.latitude
+                );
+
+
+            suggestionLongitude =
+                Number(
+                    position.coords.longitude
+                );
+
+
+            status.innerHTML =
+                "✅ Localização obtida.<br>" +
+                "<small>" +
+                suggestionLatitude.toFixed(6) +
+                ", " +
+                suggestionLongitude.toFixed(6) +
+                "</small>";
+
+        },
+
+
+        function(error) {
+
+            if (error.code === 1) {
+
+                status.textContent =
+                    "❌ Permissão de localização recusada.";
+
+                return;
+            }
+
+
+            status.textContent =
+                "❌ Não foi possível obter a localização.";
+
+        },
+
+
+        {
+            enableHighAccuracy: true,
+
+            timeout: 10000,
+
+            maximumAge: 0
+
+        }
+
+    );
+
+}
+
+
+/* =====================================================
+   ENVIAR SUGESTÃO
+===================================================== */
+
+async function submitSuggestion() {
+
+    const message =
+        document.getElementById(
+            "suggestionMessage"
+        );
+
+
+    message.className =
+        "action-message";
+
+
+    message.innerHTML =
+        "⏳ A enviar sugestão...";
+
+
+    const sessionResult =
+        await supabaseClient.auth.getSession();
+
+
+    const session =
+        sessionResult.data.session;
+
+
+    if (!session) {
+
+        message.className =
+            "action-message error";
+
+        message.innerHTML =
+            "❌ Tens de iniciar sessão.";
+
+        return;
+    }
+
+
+    const name =
+        document
+            .getElementById(
+                "suggestionName"
+            )
+            .value
+            .trim();
+
+
+    const locality =
+        document
+            .getElementById(
+                "suggestionLocality"
+            )
+            .value
+            .trim();
+
+
+    const type =
+        document
+            .getElementById(
+                "suggestionType"
+            )
+            .value;
+
+
+    const description =
+        document
+            .getElementById(
+                "suggestionDescription"
+            )
+            .value
+            .trim();
+
+
+    const allowedTypes = [
+        "Miradouro",
+        "Baloiço",
+        "Monumento",
+        "Castelo",
+        "Outro"
+    ];
+
+
+    if (!name) {
+
+        message.className =
+            "action-message error";
+
+        message.innerHTML =
+            "❌ Indica o nome do local.";
+
+        return;
+    }
+
+
+    if (!locality) {
+
+        message.className =
+            "action-message error";
+
+        message.innerHTML =
+            "❌ Indica a localidade.";
+
+        return;
+    }
+
+
+    if (!allowedTypes.includes(type)) {
+
+        message.className =
+            "action-message error";
+
+        message.innerHTML =
+            "❌ Seleciona um tipo de local válido.";
+
+        return;
+    }
+
+
+    if (
+        suggestionLatitude === null ||
+        suggestionLongitude === null
+    ) {
+
+        message.className =
+            "action-message error";
+
+        message.innerHTML =
+            "❌ Primeiro obtém a localização GPS.";
+
+        return;
+    }
+
+
+    const result =
+        await supabaseClient
+            .from("location_suggestions")
+            .insert({
+
+                user_id:
+                    session.user.id,
+
+                name:
+                    name,
+
+                locality:
+                    locality,
+
+                description:
+                    description,
+
+                latitude:
+                    suggestionLatitude,
+
+                longitude:
+                    suggestionLongitude,
+
+                type:
+                    type,
+
+                status:
+                    "pending",
+
+                points_awarded:
+                    50,
+
+                points_given:
+                    false
+
+            });
+
+
+    if (result.error) {
+
+        console.log(result.error);
+
+        message.className =
+            "action-message error";
+
+        message.innerHTML =
+            "❌ Não foi possível enviar a sugestão.<br>" +
+            "<small>" +
+            escapeHtml(result.error.message) +
+            "</small>";
+
+        return;
+    }
+
+
+    message.className =
+        "action-message success";
+
+
+    message.innerHTML =
+        "🎉 <strong>Sugestão enviada!</strong><br>" +
+        "Agora fica em análise. " +
+        "Se for aprovada, recebes <strong>50 pontos</strong>.";
+
+
+    document
+        .getElementById(
+            "suggestionName"
+        )
+        .value = "";
+
+
+    document
+        .getElementById(
+            "suggestionLocality"
+        )
+        .value = "";
+
+
+    document
+        .getElementById(
+            "suggestionType"
+        )
+        .value = "";
+
+
+    document
+        .getElementById(
+            "suggestionDescription"
+        )
+        .value = "";
+
+
+    suggestionLatitude =
+        null;
+
+
+    suggestionLongitude =
+        null;
+
+
+    document
+        .getElementById(
+            "suggestionGpsStatus"
+        )
+        .textContent =
+        "📍 Ainda não obtivemos a localização GPS.";
+
+
+    await loadMySuggestions();
+
+}
+
+
+/* =====================================================
+   MINHAS SUGESTÕES
+===================================================== */
+
+async function loadMySuggestions() {
+
+    const container =
+        document.getElementById(
+            "mySuggestions"
+        );
+
+
+    if (!container) {
+        return;
+    }
+
+
+    const sessionResult =
+        await supabaseClient.auth.getSession();
+
+
+    const session =
+        sessionResult.data.session;
+
+
+    if (!session) {
+
+        container.innerHTML =
+            `<div class="history-empty">
+                Inicia sessão para veres as tuas sugestões.
+            </div>`;
+
+        return;
+    }
+
+
+    const result =
+        await supabaseClient
+            .from("location_suggestions")
+            .select("*")
+            .eq("user_id", session.user.id)
+            .order("created_at", {
+                ascending: false
+            });
+
+
+    if (result.error) {
+
+        container.innerHTML =
+            `<div class="history-empty">
+                Não foi possível carregar as sugestões.
+            </div>`;
+
+        console.log(result.error);
+
+        return;
+    }
+
+
+    const suggestions =
+        result.data || [];
+
+
+    if (!suggestions.length) {
+
+        container.innerHTML =
+            `<div class="history-empty">
+                Ainda não sugeriste nenhum local.
+            </div>`;
+
+        return;
+    }
+
+
+    let html = "";
+
+
+    suggestions.forEach(item => {
+
+        let statusClass =
+            "pending";
+
+        let statusText =
+            "Em análise";
+
+
+        if (item.status === "approved") {
+
+            statusClass =
+                "approved";
+
+            statusText =
+                "Aprovado";
+
+        }
+
+
+        if (item.status === "rejected") {
+
+            statusClass =
+                "rejected";
+
+            statusText =
+                "Rejeitado";
+
+        }
+
+
+        const date =
+            new Date(
+                item.created_at
+            );
+
+
+        const formattedDate =
+            date.toLocaleDateString(
+                "pt-PT",
+                {
+                    day: "2-digit",
+                    month: "2-digit",
+                    year: "numeric"
+                }
+            );
+
+
+        html += `
+
+        <div class="suggestion-item">
+
+            <div class="suggestion-header">
+
+                <h3>
+                    ${locationIcon(item.type)}
+                    ${escapeHtml(item.name)}
+                </h3>
+
+                <span class="status ${statusClass}">
+                    ${statusText}
+                </span>
+
+            </div>
+
+            <div class="suggestion-meta">
+
+                📍 ${escapeHtml(item.locality || "")}
+
+                ·
+
+                ${escapeHtml(item.type || "")}
+
+                <br>
+
+                📅 ${formattedDate}
+
+                ${
+                    item.status === "approved"
+                    ?
+                    "<br>⭐ +50 pontos atribuídos"
+                    :
+                    ""
+                }
+
+            </div>
+
+        </div>
+
+        `;
+
+    });
+
+
+    container.innerHTML =
+        html;
 
 }
 
@@ -2547,15 +4532,15 @@ function createRewardLocalityFilter() {
 
     select.innerHTML =
         `<option value="">
-            Todas as localidades
+            Todas
         </option>`;
 
 
     localities.forEach(locality => {
 
         select.innerHTML +=
-            `<option value="${locality}">
-                ${locality}
+            `<option value="${escapeHtml(locality)}">
+                ${escapeHtml(locality)}
             </option>`;
 
     });
@@ -2631,17 +4616,17 @@ function displayRewards(rewards) {
 
     const pointsElement =
         document.getElementById(
-            "profilePoints"
+            "rewardsPoints"
         );
 
 
     const userPoints =
         Number(
             pointsElement
-            ?
-            pointsElement.textContent
-            :
-            0
+                ?
+                pointsElement.textContent
+                :
+                0
         );
 
 
@@ -2693,24 +4678,26 @@ function displayRewards(rewards) {
         <div class="reward">
 
             <h3>
-                ${icon} ${reward.name}
+                ${icon} ${escapeHtml(reward.name)}
             </h3>
 
 
             ${
                 reward.business
                 ?
-                `<div class="reward-line">
+                `
+                <div class="reward-line">
 
                     <span class="reward-label">
                         🏢 Negócio
                     </span>
 
                     <span class="reward-value">
-                        ${reward.business}
+                        ${escapeHtml(reward.business)}
                     </span>
 
-                </div>`
+                </div>
+                `
                 :
                 ""
             }
@@ -2719,17 +4706,19 @@ function displayRewards(rewards) {
             ${
                 reward.type
                 ?
-                `<div class="reward-line">
+                `
+                <div class="reward-line">
 
                     <span class="reward-label">
                         🏪 Tipo
                     </span>
 
                     <span class="reward-value">
-                        ${reward.type}
+                        ${escapeHtml(reward.type)}
                     </span>
 
-                </div>`
+                </div>
+                `
                 :
                 ""
             }
@@ -2738,17 +4727,19 @@ function displayRewards(rewards) {
             ${
                 reward.locality
                 ?
-                `<div class="reward-line">
+                `
+                <div class="reward-line">
 
                     <span class="reward-label">
                         📍 Localidade
                     </span>
 
                     <span class="reward-value">
-                        ${reward.locality}
+                        ${escapeHtml(reward.locality)}
                     </span>
 
-                </div>`
+                </div>
+                `
                 :
                 ""
             }
@@ -2757,9 +4748,11 @@ function displayRewards(rewards) {
             ${
                 reward.description
                 ?
-                `<p>
-                    ${reward.description}
-                </p>`
+                `
+                <p>
+                    ${escapeHtml(reward.description)}
+                </p>
+                `
                 :
                 ""
             }
@@ -2798,7 +4791,7 @@ function displayRewards(rewards) {
                 </span>
 
                 <span class="reward-value">
-                    ${reward.reward}
+                    ${escapeHtml(reward.reward)}
                 </span>
 
             </div>
@@ -2809,22 +4802,26 @@ function displayRewards(rewards) {
 
                 ?
 
-                `<button
-                    onclick="redeemReward(${reward.id})"
+                `
+                <button
+                    onclick="redeemReward(${Number(reward.id)})"
                 >
                     🟢 Trocar recompensa
-                </button>`
+                </button>
+                `
 
                 :
 
-                `<button disabled>
+                `
+                <button disabled>
                     🔒 Pontos insuficientes
-                </button>`
+                </button>
+                `
             }
 
 
             <div
-                id="reward-message-${reward.id}"
+                id="reward-message-${Number(reward.id)}"
                 class="action-message"
             ></div>
 
@@ -2906,7 +4903,7 @@ async function redeemReward(rewardId) {
 
         showActionMessage(
             messageId,
-            "❌ Tens de iniciar sessão primeiro.",
+            "❌ Tens de iniciar sessão.",
             "error"
         );
 
@@ -2963,12 +4960,14 @@ async function redeemReward(rewardId) {
 
 
     const currentPoints =
-        profileResult.data.points || 0;
+        Number(
+            profileResult.data.points
+        ) || 0;
 
 
     if (
         currentPoints <
-        reward.points
+        Number(reward.points)
     ) {
 
         showActionMessage(
@@ -2997,7 +4996,7 @@ async function redeemReward(rewardId) {
                     reward.id,
 
                 points_spent:
-                    reward.points,
+                    Number(reward.points),
 
                 reward_code:
                     rewardCode
@@ -3011,7 +5010,9 @@ async function redeemReward(rewardId) {
 
         showActionMessage(
             messageId,
+
             "❌ Erro ao guardar a recompensa.",
+
             "error"
         );
 
@@ -3025,7 +5026,7 @@ async function redeemReward(rewardId) {
 
     const newPoints =
         currentPoints -
-        reward.points;
+        Number(reward.points);
 
 
     const updateResult =
@@ -3044,7 +5045,9 @@ async function redeemReward(rewardId) {
 
         showActionMessage(
             messageId,
+
             "❌ Erro ao atualizar os pontos.",
+
             "error"
         );
 
@@ -3052,14 +5055,8 @@ async function redeemReward(rewardId) {
     }
 
 
-    document
-        .getElementById("profilePoints")
-        .textContent =
-        newPoints;
-
-
-    displayRewards(
-        getFilteredRewards()
+    updateAllPoints(
+        newPoints
     );
 
 
@@ -3077,6 +5074,15 @@ async function redeemReward(rewardId) {
 
         "success"
     );
+
+
+    setTimeout(() => {
+
+        displayRewards(
+            getFilteredRewards()
+        );
+
+    }, 50);
 
 }
 
@@ -3143,14 +5149,9 @@ async function loadVisitHistory() {
 
         container.innerHTML =
             `<div class="history-empty">
-
                 🏍️ Ainda não tens visitas registadas.
-
                 <br><br>
-
-                Faz a tua primeira missão
-                para começar a aventura.
-
+                Faz a tua primeira missão!
             </div>`;
 
         return;
@@ -3202,11 +5203,11 @@ async function loadVisitHistory() {
                 <div class="history-content">
 
                     <h3>
-                        ${item.location_name}
+                        ${escapeHtml(item.location_name)}
                     </h3>
 
                     <p>
-                        📍 ${item.locality || "Localidade"}
+                        📍 ${escapeHtml(item.locality || "")}
                     </p>
 
                 </div>
@@ -3215,7 +5216,7 @@ async function loadVisitHistory() {
 
 
             <span class="history-points">
-                ⭐ +${item.points_earned} pontos
+                ⭐ +${Number(item.points_earned)} pontos
             </span>
 
 
@@ -3309,13 +5310,9 @@ async function loadRedemptionHistory() {
 
         container.innerHTML =
             `<div class="history-empty">
-
                 🎁 Ainda não trocaste nenhuma recompensa.
-
                 <br><br>
-
                 Continua a explorar para ganhar pontos!
-
             </div>`;
 
         return;
@@ -3353,7 +5350,10 @@ async function loadRedemptionHistory() {
         <div class="redemption-item">
 
             <h3>
-                🎁 ${reward.name || "Recompensa"}
+                🎁 ${escapeHtml(
+                    reward.name ||
+                    "Recompensa"
+                )}
             </h3>
 
 
@@ -3361,7 +5361,7 @@ async function loadRedemptionHistory() {
                 reward.business
                 ?
                 `<p>
-                    🏢 ${reward.business}
+                    🏢 ${escapeHtml(reward.business)}
                 </p>`
                 :
                 ""
@@ -3372,7 +5372,7 @@ async function loadRedemptionHistory() {
                 reward.locality
                 ?
                 `<p>
-                    📍 ${reward.locality}
+                    📍 ${escapeHtml(reward.locality)}
                 </p>`
                 :
                 ""
@@ -3380,12 +5380,18 @@ async function loadRedemptionHistory() {
 
 
             <p>
-                ⭐ ${item.points_spent} pontos utilizados
+                ⭐ ${Number(item.points_spent)}
+                pontos utilizados
             </p>
 
 
             <div class="redemption-code">
-                🔑 ${item.reward_code || "Código indisponível"}
+                🔑 ${
+                    escapeHtml(
+                        item.reward_code ||
+                        "Código indisponível"
+                    )
+                }
             </div>
 
 
@@ -3407,7 +5413,68 @@ async function loadRedemptionHistory() {
 
 
 /* =====================================================
-   SESSÃO
+   ESTATÍSTICAS DO PERFIL
+===================================================== */
+
+async function updateProfileStats() {
+
+    const sessionResult =
+        await supabaseClient.auth.getSession();
+
+
+    const session =
+        sessionResult.data.session;
+
+
+    if (!session) {
+        return;
+    }
+
+
+    const userId =
+        session.user.id;
+
+
+    const visitsResult =
+        await supabaseClient
+            .from("visit_history")
+            .select("id", {
+                count: "exact",
+                head: true
+            })
+            .eq("user_id", userId);
+
+
+    const suggestionsResult =
+        await supabaseClient
+            .from("location_suggestions")
+            .select("id", {
+                count: "exact",
+                head: true
+            })
+            .eq("user_id", userId);
+
+
+    document
+        .getElementById(
+            "profileVisits"
+        )
+        .textContent =
+        visitsResult.count || 0;
+
+
+    document
+        .getElementById(
+            "profileSuggestions"
+        )
+        .textContent =
+        suggestionsResult.count || 0;
+
+}
+
+
+/* =====================================================
+   SESSION
 ===================================================== */
 
 async function checkSession() {
