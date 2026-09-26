@@ -4875,27 +4875,78 @@ $("rewardForm").addEventListener(
                 $("rewardDescription").value.trim()
         };
 
-        if (selectedRewardPhoto) {
+      if (selectedLocationImageFile) {
 
-            payload.image_url =
-                selectedRewardPhoto.src?.large2x ||
-                selectedRewardPhoto.src?.large ||
-                selectedRewardPhoto.src?.medium ||
-                selectedRewardPhoto.src?.original ||
-                null;
+    showMessage(
+        "locationAdminMessage",
+        "A carregar a fotografia..."
+    );
 
-            payload.image_photographer =
-                selectedRewardPhoto.photographer ||
-                "Pexels";
+    const safeName =
+        selectedLocationImageFile.name
+            .replace(/[^a-zA-Z0-9._-]/g, "-")
+            .replace(/-+/g, "-");
 
-            payload.image_photographer_url =
-                selectedRewardPhoto.photographer_url ||
-                "https://www.pexels.com/";
+    const storagePath =
+        Date.now() + "-" + safeName;
 
-            payload.image_credit =
-                selectedRewardPhoto.photographer ||
-                "Pexels";
-        }
+    const {
+        error: uploadError
+    } =
+        await supabaseClient
+            .storage
+            .from("location-images")
+            .upload(
+                storagePath,
+                selectedLocationImageFile,
+                {
+                    cacheControl: "3600",
+                    upsert: false,
+                    contentType:
+                        selectedLocationImageFile.type
+                }
+            );
+
+    if (uploadError) {
+        throw uploadError;
+    }
+
+    const {
+        data: publicUrlData
+    } =
+        supabaseClient
+            .storage
+            .from("location-images")
+            .getPublicUrl(storagePath);
+
+    payload.image_url =
+        publicUrlData.publicUrl;
+
+    payload.image_photographer = null;
+    payload.image_photographer_url = null;
+    payload.image_credit = null;
+
+} else if (selectedLocationPhoto) {
+
+    payload.image_url =
+        selectedLocationPhoto.src?.large2x ||
+        selectedLocationPhoto.src?.large ||
+        selectedLocationPhoto.src?.medium ||
+        selectedLocationPhoto.src?.original ||
+        null;
+
+    payload.image_photographer =
+        selectedLocationPhoto.photographer ||
+        "Pexels";
+
+    payload.image_photographer_url =
+        selectedLocationPhoto.photographer_url ||
+        "https://www.pexels.com/";
+
+    payload.image_credit =
+        selectedLocationPhoto.photographer ||
+        "Pexels";
+}
 
         try {
 
