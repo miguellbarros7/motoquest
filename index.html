@@ -243,17 +243,26 @@
             justify-content: center;
             text-align: center;
 
-            padding: 40px 20px 100px;
+            padding: 55px 24px 110px;
 
-            background: #f5f5f5;
+            background:
+                radial-gradient(
+                    circle at 50% 45%,
+                    rgba(255,90,0,.045),
+                    transparent 34%
+                ),
+                #f5f5f5;
+
             color: #000;
+            overflow: hidden;
         }
 
         .welcome {
-            font-size: clamp(22px, 3vw, 32px);
+            font-size: clamp(22px, 3vw, 30px);
             font-weight: 700;
-            margin-bottom: 45px;
+            margin-bottom: 38px;
             color: #111;
+            letter-spacing: -1px;
         }
 
         .welcome strong {
@@ -261,75 +270,187 @@
         }
 
         /* =========================
-           MENU CENTRAL EM QUADRADOS
+           MENU CENTRAL — 2026
         ========================= */
 
         .main-menu {
-            width: min(900px, 100%);
+            width: min(1040px, 100%);
 
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
 
-            gap: 18px;
+            grid-template-columns:
+                repeat(3, minmax(0, 1fr));
 
-            align-items: center;
+            grid-template-areas:
+                "inicio locais recompensas"
+                "historico perfil sugerir";
+
+            gap: 14px;
+
+            margin: 0 auto;
+
+            align-items: stretch;
             justify-content: center;
         }
 
         .main-menu button {
-            border: 2px solid #000;
-            background: #fff;
-            color: #000;
+            position: relative;
+
+            border: 1px solid #d6d6d6;
+
+            background: rgba(255,255,255,.88);
+
+            color: #080808;
 
             width: 100%;
-            min-height: 115px;
+            min-height: 185px;
 
             display: flex;
-            align-items: center;
-            justify-content: center;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: flex-end;
 
-            text-align: center;
+            text-align: left;
 
-            font-size: clamp(22px, 3vw, 38px);
-            line-height: 1.05;
+            font-size: clamp(25px, 3vw, 39px);
+            line-height: .95;
 
             font-weight: 900;
-            letter-spacing: -1px;
+            letter-spacing: -2px;
+
             text-transform: uppercase;
 
-            padding: 20px;
+            padding: 25px;
+
             margin: 0;
 
             cursor: pointer;
 
+            overflow: hidden;
+
+            box-shadow:
+                0 1px 0 rgba(0,0,0,.04);
+
             transition:
-                background .18s ease,
-                color .18s ease,
-                border-color .18s ease,
-                transform .18s ease;
+                transform .28s cubic-bezier(.2,.8,.2,1),
+                background .28s ease,
+                color .28s ease,
+                border-color .28s ease,
+                box-shadow .28s ease;
+        }
+
+        .main-menu button::before {
+            content: attr(data-number);
+
+            position: absolute;
+
+            top: 18px;
+            left: 22px;
+
+            font-size: 11px;
+            line-height: 1;
+
+            font-weight: 800;
+
+            letter-spacing: 1px;
+
+            color: #999;
+
+            transition:
+                color .25s ease,
+                transform .25s ease;
+        }
+
+        .main-menu button::after {
+            content: "↗";
+
+            position: absolute;
+
+            top: 16px;
+            right: 20px;
+
+            font-size: 19px;
+            font-weight: 400;
+
+            color: #aaa;
+
+            opacity: .65;
+
+            transition:
+                transform .28s ease,
+                color .25s ease,
+                opacity .25s ease;
         }
 
         .main-menu button:hover {
             background: var(--orange);
+
             border-color: var(--orange);
+
             color: #fff;
-            transform: translateY(-4px);
+
+            transform:
+                translateY(-6px);
+
+            box-shadow:
+                0 18px 35px rgba(255,90,0,.16);
+        }
+
+        .main-menu button:hover::before {
+            color: rgba(255,255,255,.7);
+
+            transform:
+                translateY(-2px);
+        }
+
+        .main-menu button:hover::after {
+            color: #fff;
+            opacity: 1;
+
+            transform:
+                translate(3px,-3px);
         }
 
         .main-menu button.active {
-            background: #fff;
+            background: rgba(255,255,255,.88);
             color: #000;
         }
 
+        .main-menu button:nth-child(1) {
+            grid-area: inicio;
+        }
+
+        .main-menu button:nth-child(2) {
+            grid-area: locais;
+        }
+
+        .main-menu button:nth-child(3) {
+            grid-area: recompensas;
+        }
+
+        .main-menu button:nth-child(4) {
+            grid-area: historico;
+        }
+
+        .main-menu button:nth-child(5) {
+            grid-area: perfil;
+        }
+
+        .main-menu button:nth-child(6) {
+            grid-area: sugerir;
+        }
+
         .home-points {
-            margin-top: 45px;
-            font-size: 15px;
-            color: #666;
+            margin-top: 34px;
+            font-size: 14px;
+            color: #777;
+            letter-spacing: .1px;
         }
 
         .home-points strong {
             color: var(--orange);
             font-size: 22px;
+            font-weight: 900;
         }
 
         /* =========================
@@ -605,12 +726,13 @@
 
             .main-menu {
                 width: min(700px, 100%);
-                gap: 14px;
+                gap: 12px;
             }
 
             .main-menu button {
-                min-height: 105px;
-                font-size: 30px;
+                min-height: 160px;
+                font-size: 29px;
+                padding: 21px;
             }
         }
 
@@ -631,33 +753,54 @@
 
             .home {
                 min-height: calc(100vh - 65px);
-                padding: 30px 10px 80px;
+                padding: 38px 12px 90px;
             }
 
             .welcome {
-                margin-bottom: 32px;
-                font-size: 22px;
+                margin-bottom: 28px;
+                font-size: 21px;
             }
 
             .main-menu {
                 width: 100%;
-                grid-template-columns: repeat(2, 1fr);
-                gap: 10px;
+
+                grid-template-columns:
+                    repeat(2, minmax(0, 1fr));
+
+                grid-template-areas:
+                    "inicio locais"
+                    "recompensas historico"
+                    "perfil sugerir";
+
+                gap: 9px;
             }
 
             .main-menu button {
                 width: 100%;
                 min-width: 0;
-                min-height: 95px;
 
-                font-size: 20px;
-                letter-spacing: -1px;
+                min-height: 145px;
 
-                padding: 12px;
+                font-size: 21px;
+                letter-spacing: -1.2px;
+
+                padding: 17px;
+            }
+
+            .main-menu button::before {
+                top: 13px;
+                left: 15px;
+                font-size: 9px;
+            }
+
+            .main-menu button::after {
+                top: 11px;
+                right: 14px;
+                font-size: 16px;
             }
 
             .home-points {
-                margin-top: 35px;
+                margin-top: 28px;
             }
 
             .grid {
@@ -676,6 +819,19 @@
             .mobile-nav button {
                 font-size: 10px;
                 padding: 9px 8px;
+            }
+        }
+
+        @media (max-width: 380px) {
+
+            .main-menu {
+                gap: 7px;
+            }
+
+            .main-menu button {
+                min-height: 128px;
+                font-size: 18px;
+                padding: 14px;
             }
         }
     </style>
@@ -814,27 +970,39 @@
 
                 <nav class="main-menu">
 
-                    <button data-section="home">
+                    <button
+                        data-section="home"
+                        data-number="01">
                         INÍCIO
                     </button>
 
-                    <button data-section="locations">
+                    <button
+                        data-section="locations"
+                        data-number="02">
                         LOCAIS
                     </button>
 
-                    <button data-section="rewards">
+                    <button
+                        data-section="rewards"
+                        data-number="03">
                         RECOMPENSAS
                     </button>
 
-                    <button data-section="history">
+                    <button
+                        data-section="history"
+                        data-number="04">
                         HISTÓRICO
                     </button>
 
-                    <button data-section="profile">
+                    <button
+                        data-section="profile"
+                        data-number="05">
                         PERFIL
                     </button>
 
-                    <button data-section="suggest">
+                    <button
+                        data-section="suggest"
+                        data-number="06">
                         SUGERIR LOCAL
                     </button>
 
