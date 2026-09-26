@@ -261,51 +261,61 @@
         }
 
         /* =========================
-           MENU CENTRAL
+           MENU CENTRAL EM QUADRADOS
         ========================= */
 
         .main-menu {
-            width: 100%;
+            width: min(900px, 100%);
 
-            display: flex;
-            flex-direction: column;
+            display: grid;
+            grid-template-columns: repeat(2, minmax(280px, 1fr));
+
+            gap: 18px;
+
+            margin: 0 auto;
+
             align-items: center;
-            justify-content: center;
-
-            gap: 0;
+            justify-items: stretch;
         }
 
         .main-menu button {
-            border: none;
-            background: transparent;
+            border: 2px solid #111;
+            background: #f5f5f5;
 
             color: #000;
 
-            width: auto;
-            min-width: 0;
+            width: 100%;
+            min-height: 125px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
 
             text-align: center;
 
-            font-size: clamp(40px, 5.5vw, 72px);
+            font-size: clamp(27px, 3.5vw, 48px);
             line-height: 1;
 
             font-weight: 900;
-            letter-spacing: -3px;
+            letter-spacing: -2px;
             text-transform: uppercase;
 
-            padding: 4px 20px;
-            margin: 0;
+            padding: 20px;
 
             cursor: pointer;
 
             transition:
                 color .18s ease,
+                background .18s ease,
+                border-color .18s ease,
                 transform .18s ease;
         }
 
         .main-menu button:hover {
             color: var(--orange);
-            transform: scale(1.03);
+            border-color: var(--orange);
+            background: #ffffff;
+            transform: translateY(-4px);
         }
 
         .main-menu button.active {
@@ -313,7 +323,7 @@
         }
 
         .home-points {
-            margin-top: 45px;
+            margin-top: 35px;
             font-size: 15px;
             color: #666;
         }
@@ -594,8 +604,14 @@
                 flex: 0 0 auto;
             }
 
+            .main-menu {
+                width: min(720px, 100%);
+                gap: 14px;
+            }
+
             .main-menu button {
-                font-size: 48px;
+                min-height: 115px;
+                font-size: 38px;
             }
         }
 
@@ -616,30 +632,33 @@
 
             .home {
                 min-height: calc(100vh - 65px);
-                padding: 30px 10px 80px;
+                padding: 30px 15px 80px;
             }
 
             .welcome {
-                margin-bottom: 32px;
+                margin-bottom: 30px;
                 font-size: 22px;
             }
 
             .main-menu {
-                gap: 2px;
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                width: 100%;
+                gap: 10px;
             }
 
             .main-menu button {
                 width: 100%;
                 min-width: 0;
+                min-height: 105px;
 
-                font-size: 34px;
-                letter-spacing: -2px;
+                font-size: 25px;
+                letter-spacing: -1px;
 
-                padding: 5px 10px;
+                padding: 12px 6px;
             }
 
             .home-points {
-                margin-top: 35px;
+                margin-top: 30px;
             }
 
             .grid {
