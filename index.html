@@ -1231,8 +1231,6 @@ async function loadRewards() {
         await supabaseClient
             .from("rewards")
             .select("*")
-            .eq("active", true)
-            .in("type", ["Restaurante", "Hotel"])
             .order("locality")
             .order("points");
 
@@ -1242,7 +1240,8 @@ async function loadRewards() {
         document
             .getElementById("rewards")
             .innerHTML =
-            "Erro ao carregar recompensas.";
+            "Erro ao carregar recompensas: " +
+            result.error.message;
 
         console.log(result.error);
 
@@ -1251,7 +1250,17 @@ async function loadRewards() {
 
 
     allRewards =
-        result.data || [];
+        (result.data || []).filter(reward => {
+
+            return (
+                reward.active !== false &&
+                (
+                    reward.type === "Restaurante" ||
+                    reward.type === "Hotel"
+                )
+            );
+
+        });
 
 
     createRewardFilters();
