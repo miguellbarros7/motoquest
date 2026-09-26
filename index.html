@@ -2921,7 +2921,27 @@ function renderLocations() {
                             </button>
 
                         </div>
-
+${
+    location.maps_url ||
+    (location.latitude != null && location.longitude != null)
+        ? `
+            <a
+                class="maps-btn"
+                href="${
+                    location.maps_url ||
+                    "https://www.google.com/maps?q=" +
+                    encodeURIComponent(
+                        location.latitude + "," + location.longitude
+                    )
+                }"
+                target="_blank"
+                rel="noopener noreferrer"
+            >
+                📍 Ver no Google Maps
+            </a>
+        `
+        : ""
+}
                     </div>
 
                     ${credit}
