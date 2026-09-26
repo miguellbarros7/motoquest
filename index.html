@@ -4884,22 +4884,45 @@ $("rewardForm").addEventListener(
     const storagePath =
         Date.now() + "-" + safeName;
 
-    const {
-        error: uploadError
-    } =
-        await supabaseClient
-            .storage
-            .from("location-images")
-            .upload(
-                storagePath,
-                selectedLocationImageFile,
-                {
-                    cacheControl: "3600",
-                    upsert: false,
-                    contentType:
-                        selectedLocationImageFile.type
-                }
-            );
+    console.log("1 - Vou iniciar upload");
+console.log("2 - Ficheiro:", selectedLocationImageFile);
+console.log("3 - Nome:", selectedLocationImageFile?.name);
+console.log("4 - Tipo:", selectedLocationImageFile?.type);
+console.log("5 - Tamanho:", selectedLocationImageFile?.size);
+
+const {
+    data: uploadData,
+    error: uploadError
+} =
+    await supabaseClient
+        .storage
+        .from("location-images")
+        .upload(
+            storagePath,
+            selectedLocationImageFile,
+            {
+                cacheControl: "3600",
+                upsert: false,
+                contentType:
+                    selectedLocationImageFile.type
+            }
+        );
+
+console.log("6 - Resultado upload:", uploadData);
+console.log("7 - Erro upload:", uploadError);
+
+if (uploadError) {
+    console.error("ERRO NO UPLOAD:", uploadError);
+
+    alert(
+        "Erro no upload:\n\n" +
+        (uploadError.message || JSON.stringify(uploadError))
+    );
+
+    return;
+}
+
+alert("Fotografia enviada para o Storage!");
 
 if (uploadError) {
     console.error("ERRO NO UPLOAD DA FOTO:", uploadError);
