@@ -402,7 +402,74 @@
                 box-shadow .35s ease;
         }
 
-        /* Números removidos */
+        /* =========================
+           IMAGENS DOS QUADRADOS
+        ========================= */
+
+        .main-menu button::before {
+            content: "";
+
+            position: absolute;
+            inset: 0;
+
+            background-position: center;
+            background-size: cover;
+
+            opacity: .34;
+
+            filter:
+                saturate(.9)
+                contrast(1.08);
+
+            transform: scale(1.03);
+
+            transition:
+                transform .6s cubic-bezier(.2,.8,.2,1),
+                opacity .4s ease,
+                filter .4s ease;
+
+            z-index: 0;
+        }
+
+        .main-menu button:nth-child(1)::before {
+            background-image:
+                linear-gradient(
+                    180deg,
+                    rgba(0,0,0,.12),
+                    rgba(0,0,0,.82)
+                ),
+                url("https://images.unsplash.com/photo-1558981806-ec527fa84c39?auto=format&fit=crop&w=1200&q=85");
+        }
+
+        .main-menu button:nth-child(2)::before {
+            background-image:
+                linear-gradient(
+                    180deg,
+                    rgba(0,0,0,.14),
+                    rgba(0,0,0,.84)
+                ),
+                url("https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1200&q=85");
+        }
+
+        .main-menu button:nth-child(3)::before {
+            background-image:
+                linear-gradient(
+                    180deg,
+                    rgba(0,0,0,.12),
+                    rgba(0,0,0,.84)
+                ),
+                url("https://images.unsplash.com/photo-1500534623283-312aade485b7?auto=format&fit=crop&w=1200&q=85");
+        }
+
+        .main-menu button:nth-child(4)::before {
+            background-image:
+                linear-gradient(
+                    180deg,
+                    rgba(0,0,0,.12),
+                    rgba(0,0,0,.84)
+                ),
+                url("https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1200&q=85");
+        }
 
         .main-menu button::after {
             content: "↗";
@@ -421,11 +488,15 @@
 
             border-radius: 50%;
 
-            border: 1px solid rgba(255,255,255,.08);
+            border: 1px solid rgba(255,255,255,.12);
 
-            color: #777;
+            background: rgba(0,0,0,.18);
+
+            color: #aaa;
 
             font-size: 18px;
+
+            z-index: 3;
 
             transition:
                 color .3s ease,
@@ -450,6 +521,14 @@
             box-shadow:
                 0 22px 45px rgba(0,0,0,.38),
                 0 0 35px rgba(255,90,0,.06);
+        }
+
+        .main-menu button:hover::before {
+            opacity: .48;
+            transform: scale(1.09);
+            filter:
+                saturate(1.05)
+                contrast(1.12);
         }
 
         .main-menu button:hover::after {
@@ -485,6 +564,9 @@
             letter-spacing: -1.8px;
 
             text-transform: uppercase;
+
+            text-shadow:
+                0 3px 18px rgba(0,0,0,.55);
         }
 
         .menu-description {
@@ -493,20 +575,23 @@
 
             margin-top: 11px;
 
-            color: #737373;
+            color: #b0b0b0;
 
             font-size: 12px;
 
-            font-weight: 500;
+            font-weight: 600;
 
             letter-spacing: .1px;
+
+            text-shadow:
+                0 2px 10px rgba(0,0,0,.7);
 
             transition:
                 color .3s ease;
         }
 
         .main-menu button:hover .menu-description {
-            color: #aaa;
+            color: #eee;
         }
 
         .menu-glow {
@@ -529,6 +614,8 @@
 
             pointer-events: none;
 
+            z-index: 1;
+
             transition:
                 transform .4s ease,
                 opacity .4s ease;
@@ -538,11 +625,157 @@
             transform: scale(1.35);
         }
 
+        /* =========================
+           BARRA SUGERIR LOCAL
+        ========================= */
+
+        .suggest-home-bar {
+            position: relative;
+            z-index: 2;
+
+            width: min(850px, 100%);
+
+            margin-top: 16px;
+
+            border:
+                1px solid
+                rgba(255,255,255,.09);
+
+            border-radius: 20px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(255,90,0,.12),
+                    rgba(255,255,255,.035)
+                );
+
+            overflow: hidden;
+
+            box-shadow:
+                inset 0 1px 0 rgba(255,255,255,.04),
+                0 14px 35px rgba(0,0,0,.25);
+        }
+
+        .suggest-home-bar button {
+            position: relative;
+
+            width: 100%;
+
+            min-height: 72px;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: space-between;
+
+            gap: 15px;
+
+            border: 0;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    rgba(255,90,0,.12),
+                    rgba(255,255,255,.025)
+                );
+
+            color: white;
+
+            padding: 15px 20px;
+
+            text-align: left;
+
+            transition:
+                background .3s ease,
+                transform .3s ease;
+        }
+
+        .suggest-home-bar button:hover {
+            background:
+                linear-gradient(
+                    90deg,
+                    rgba(255,90,0,.22),
+                    rgba(255,255,255,.045)
+                );
+
+            transform: translateY(-2px);
+        }
+
+        .suggest-home-content {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+            min-width: 0;
+        }
+
+        .suggest-home-icon {
+            width: 42px;
+            height: 42px;
+
+            flex: 0 0 42px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 13px;
+
+            background:
+                rgba(255,90,0,.15);
+
+            border:
+                1px solid
+                rgba(255,90,0,.25);
+
+            color: var(--orange);
+
+            font-size: 21px;
+        }
+
+        .suggest-home-text strong {
+            display: block;
+
+            font-size: 14px;
+
+            font-weight: 850;
+
+            letter-spacing: -.2px;
+
+            margin-bottom: 3px;
+        }
+
+        .suggest-home-text span {
+            display: block;
+
+            color: #777;
+
+            font-size: 11px;
+
+            line-height: 1.3;
+        }
+
+        .suggest-home-arrow {
+            flex: 0 0 auto;
+
+            color: var(--orange);
+
+            font-size: 24px;
+
+            transition:
+                transform .3s ease;
+        }
+
+        .suggest-home-bar button:hover
+        .suggest-home-arrow {
+            transform: translateX(4px);
+        }
+
         .home-points {
             position: relative;
             z-index: 2;
 
-            margin-top: 31px;
+            margin-top: 25px;
 
             font-size: 13px;
 
@@ -803,7 +1036,7 @@
 
         /* =========================
            BARRA INFERIOR
-           MENU COMPLETO
+           APENAS NAVEGAÇÃO
         ========================= */
 
         .mobile-nav {
@@ -823,7 +1056,7 @@
             display: grid;
 
             grid-template-columns:
-                repeat(6, 1fr);
+                repeat(5, 1fr);
 
             gap: 5px;
 
@@ -894,47 +1127,6 @@
 
             box-shadow:
                 inset 0 0 0 1px
-                rgba(255,90,0,.18);
-        }
-
-        /* destaque para sugerir local */
-
-        .mobile-nav button[data-section="suggest"] {
-            color: var(--orange);
-        }
-
-        .mobile-nav button[data-section="suggest"]::before {
-            content: "+";
-
-            display: inline-flex;
-
-            align-items: center;
-            justify-content: center;
-
-            width: 20px;
-            height: 20px;
-
-            margin-right: 5px;
-
-            border-radius: 50%;
-
-            background:
-                var(--orange);
-
-            color: white;
-
-            font-size: 14px;
-
-            line-height: 1;
-
-            vertical-align: -3px;
-        }
-
-        .mobile-nav button[data-section="suggest"]:hover,
-        .mobile-nav button[data-section="suggest"].active {
-            color: white;
-
-            background:
                 rgba(255,90,0,.18);
         }
 
@@ -1054,8 +1246,38 @@
                 text-align: left;
             }
 
+            .suggest-home-bar {
+                margin-top: 10px;
+                border-radius: 17px;
+            }
+
+            .suggest-home-bar button {
+                min-height: 66px;
+                padding: 12px 14px;
+            }
+
+            .suggest-home-icon {
+                width: 36px;
+                height: 36px;
+                flex-basis: 36px;
+                border-radius: 11px;
+                font-size: 18px;
+            }
+
+            .suggest-home-text strong {
+                font-size: 12px;
+            }
+
+            .suggest-home-text span {
+                font-size: 9px;
+            }
+
+            .suggest-home-arrow {
+                font-size: 20px;
+            }
+
             .home-points {
-                margin-top: 25px;
+                margin-top: 20px;
             }
 
             .home-points strong {
@@ -1096,15 +1318,6 @@
 
                 line-height: 1.1;
             }
-
-            .mobile-nav button[data-section="suggest"]::before {
-                width: 17px;
-                height: 17px;
-
-                margin-right: 2px;
-
-                font-size: 12px;
-            }
         }
 
         @media (max-width: 380px) {
@@ -1132,6 +1345,30 @@
 
             .menu-description {
                 font-size: 9px;
+            }
+
+            .suggest-home-bar {
+                margin-top: 8px;
+            }
+
+            .suggest-home-bar button {
+                min-height: 62px;
+                padding: 10px 12px;
+            }
+
+            .suggest-home-icon {
+                width: 32px;
+                height: 32px;
+                flex-basis: 32px;
+                font-size: 16px;
+            }
+
+            .suggest-home-text strong {
+                font-size: 11px;
+            }
+
+            .suggest-home-text span {
+                font-size: 8px;
             }
 
             .mobile-nav {
@@ -1352,6 +1589,42 @@
                     </button>
 
                 </nav>
+
+
+                <!-- SUGERIR LOCAL FORA DOS QUADRADOS -->
+
+                <div class="suggest-home-bar">
+
+                    <button data-section="suggest">
+
+                        <div class="suggest-home-content">
+
+                            <div class="suggest-home-icon">
+                                +
+                            </div>
+
+                            <div class="suggest-home-text">
+
+                                <strong>
+                                    SUGERIR LOCAL
+                                </strong>
+
+                                <span>
+                                    Conheces um sítio incrível? Partilha-o com a comunidade.
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                        <div class="suggest-home-arrow">
+                            →
+                        </div>
+
+                    </button>
+
+                </div>
+
 
                 <div class="home-points">
                     Tens
@@ -1613,7 +1886,7 @@
     </main>
 
 
-    <!-- BARRA INFERIOR -->
+    <!-- MENU INFERIOR -->
 
     <nav class="mobile-nav">
 
@@ -1635,10 +1908,6 @@
 
         <button data-section="profile">
             Perfil
-        </button>
-
-        <button data-section="suggest">
-            Sugerir
         </button>
 
     </nav>
