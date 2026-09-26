@@ -1152,6 +1152,7 @@
                                 <input
                                     type="url"
                                     id="suggestionGoogleMapsUrl"
+                                    required
                                     placeholder="https://maps.google.com/..."
                                 >
                                 <div class="cascade-help">
@@ -1922,10 +1923,6 @@ function locationChanged() {
     selectedLocationLocality =
         select.value;
 
-    /*
-       Ao mudar de localidade começamos sempre em "Todos".
-       Assim que a localidade é escolhida, os locais aparecem logo.
-    */
     selectedLocationCategory = "";
 
     clearCategoryButtons();
@@ -1956,9 +1953,6 @@ function locationChanged() {
         .getElementById("locationCategoryStep")
         .classList.remove("hidden");
 
-    /*
-       Mostra imediatamente todos os locais da localidade.
-    */
     renderLocations();
 }
 
@@ -2017,11 +2011,6 @@ function renderLocations() {
         return;
     }
 
-    /*
-       Primeiro filtramos pela localidade.
-       Depois, apenas se tiver sido escolhida uma categoria,
-       aplicamos o filtro da categoria.
-    */
     let filtered =
         locations.filter(location => {
 
@@ -2075,6 +2064,12 @@ function renderLocations() {
             const icon =
                 getLocationIcon(location.type);
 
+            const mapsUrl =
+                getGoogleMapsUrl(location);
+
+            const safeMapsUrl =
+                escapeHtml(mapsUrl);
+
             return `
                 <article class="item-card">
 
@@ -2104,14 +2099,28 @@ function renderLocations() {
                         ⭐ +${Number(location.points) || 0} pontos
                     </div>
 
-                    <a
-                        class="btn maps-button"
-                        href="${getGoogleMapsUrl(location)}"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                    >
-                        🗺️ Abrir no Google Maps
-                    </a>
+                    ${
+                        mapsUrl !== "#"
+                        ? `
+                            <a
+                                class="btn maps-button"
+                                href="${safeMapsUrl}"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >
+                                🗺️ Abrir no Google Maps
+                            </a>
+                        `
+                        : `
+                            <button
+                                class="btn btn-secondary"
+                                type="button"
+                                disabled
+                            >
+                                🗺️ Google Maps indisponível
+                            </button>
+                        `
+                    }
 
                     <button
                         class="btn btn-primary"
@@ -2164,8 +2173,7 @@ function getLocationIcon(type) {
 function getGoogleMapsUrl(location) {
 
     /*
-       Se existir um link guardado no Supabase,
-       usamos esse link diretamente.
+       Primeiro usamos o link real guardado no Supabase.
     */
     const savedUrl =
         String(location.google_maps_url || "").trim();
@@ -2175,9 +2183,8 @@ function getGoogleMapsUrl(location) {
     }
 
     /*
-       Caso ainda não exista link guardado,
-       continuamos a gerar automaticamente
-       uma rota através das coordenadas.
+       Se o local ainda não tiver um link guardado,
+       usamos as coordenadas como alternativa.
     */
     const latitude =
         Number(location.latitude);
@@ -3170,26 +3177,41 @@ async function submitSuggestion(event) {
             "suggestionMessage"
         );
 
+    if (!googleMapsUrl) {
+
+        message.textContent =
+            "❌ Coloca o link do Google Maps do local.";
+
+        message.style.color =
+            "var(--red)";
+
+        return;
+    }
+
     /*
-       Se foi colocado um link, verificamos
-       se é realmente um URL válido.
+       Validamos o URL e aceitamos apenas HTTP/HTTPS.
     */
-    if (googleMapsUrl) {
+    try {
 
-        try {
-
+        const parsedUrl =
             new URL(googleMapsUrl);
 
-        } catch {
-
-            message.textContent =
-                "❌ O link do Google Maps não é válido.";
-
-            message.style.color =
-                "var(--red)";
-
-            return;
+        if (
+            parsedUrl.protocol !== "http:" &&
+            parsedUrl.protocol !== "https:"
+        ) {
+            throw new Error("URL inválido");
         }
+
+    } catch {
+
+        message.textContent =
+            "❌ O link do Google Maps não é válido.";
+
+        message.style.color =
+            "var(--red)";
+
+        return;
     }
 
     message.textContent =
@@ -3208,7 +3230,7 @@ async function submitSuggestion(event) {
             description: description || null,
             latitude,
             longitude,
-            google_maps_url: googleMapsUrl || null,
+            google_maps_url: googleMapsUrl,
             status: "pending",
             points_awarded: 0
         });
