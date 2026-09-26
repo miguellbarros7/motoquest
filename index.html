@@ -158,12 +158,6 @@ footer {
     display: none !important;
 }
 
-.localityTitle {
-    color: #ff6a00;
-    margin-top: 20px;
-    margin-bottom: 5px;
-}
-
 @media (max-width: 500px) {
 
     .filterRow {
@@ -186,13 +180,10 @@ footer {
 
 </header>
 
-
 <div class="container">
 
 
-<!-- =========================
-     MENU PRINCIPAL
-========================= -->
+<!-- MENU -->
 
 <section id="homeScreen" class="screen">
 
@@ -214,9 +205,7 @@ footer {
 </section>
 
 
-<!-- =========================
-     LOGIN / REGISTO
-========================= -->
+<!-- LOGIN -->
 
 <section id="loginScreen" class="screen hidden">
 
@@ -242,7 +231,6 @@ footer {
 
     </div>
 
-
     <div class="card">
 
         <h2>📝 Criar conta</h2>
@@ -265,7 +253,6 @@ footer {
 
     </div>
 
-
     <button
         class="secondary"
         onclick="showHomeScreen()"
@@ -276,9 +263,7 @@ footer {
 </section>
 
 
-<!-- =========================
-     ÁREA DO JOGADOR
-========================= -->
+<!-- ÁREA DO JOGADOR -->
 
 <section id="appScreen" class="screen hidden">
 
@@ -325,7 +310,10 @@ footer {
             Visita locais incríveis e ganha pontos.
         </p>
 
-        <select id="locationFilter" onchange="filterLocations()">
+        <select
+            id="locationFilter"
+            onchange="filterLocations()"
+        >
 
             <option value="">
                 Todas as localidades
@@ -352,7 +340,6 @@ footer {
             Usa os teus pontos para obter descontos em hotéis e restaurantes.
         </p>
 
-
         <div class="filterRow">
 
             <div>
@@ -374,7 +361,6 @@ footer {
 
             </div>
 
-
             <div>
 
                 <div class="filterLabel">
@@ -395,7 +381,6 @@ footer {
             </div>
 
         </div>
-
 
         <div id="rewards">
 
@@ -426,7 +411,6 @@ MotoQuest © 2026
 
 <script>
 
-
 /* =========================
    SUPABASE
 ========================= */
@@ -449,11 +433,12 @@ const supabaseClient =
 ========================= */
 
 let allLocations = [];
+
 let allRewards = [];
 
 
 /* =========================
-   MUDAR ECRÃ
+   ECRÃS
 ========================= */
 
 function hideAllScreens() {
@@ -522,7 +507,7 @@ function showMessage(message) {
 
 
 /* =========================
-   REGISTAR
+   REGISTO
 ========================= */
 
 async function register() {
@@ -538,7 +523,6 @@ async function register() {
             .getElementById("registerPassword")
             .value;
 
-
     if (!email || !password) {
 
         alert(
@@ -547,7 +531,6 @@ async function register() {
 
         return;
     }
-
 
     if (password.length < 6) {
 
@@ -558,7 +541,6 @@ async function register() {
         return;
     }
 
-
     const result =
         await supabaseClient.auth.signUp({
 
@@ -567,7 +549,6 @@ async function register() {
             password: password
 
         });
-
 
     if (result.error) {
 
@@ -579,10 +560,8 @@ async function register() {
         return;
     }
 
-
     const user =
         result.data.user;
-
 
     if (user) {
 
@@ -597,13 +576,12 @@ async function register() {
                 points: 0
 
             });
-    }
 
+    }
 
     alert(
         "Conta criada com sucesso! Já podes entrar."
     );
-
 
     document
         .getElementById("registerEmail")
@@ -633,7 +611,6 @@ async function login() {
             .getElementById("loginPassword")
             .value;
 
-
     if (!email || !password) {
 
         alert(
@@ -643,7 +620,6 @@ async function login() {
         return;
     }
 
-
     const result =
         await supabaseClient.auth.signInWithPassword({
 
@@ -652,7 +628,6 @@ async function login() {
             password: password
 
         });
-
 
     if (result.error) {
 
@@ -664,9 +639,7 @@ async function login() {
         return;
     }
 
-
     await loadUser();
-
 
     document
         .getElementById("loginEmail")
@@ -680,7 +653,7 @@ async function login() {
 
 
 /* =========================
-   CARREGAR UTILIZADOR
+   UTILIZADOR
 ========================= */
 
 async function loadUser() {
@@ -688,10 +661,8 @@ async function loadUser() {
     const sessionResult =
         await supabaseClient.auth.getSession();
 
-
     const session =
         sessionResult.data.session;
-
 
     if (!session) {
 
@@ -700,10 +671,8 @@ async function loadUser() {
         return;
     }
 
-
     const user =
         session.user;
-
 
     const profileResult =
         await supabaseClient
@@ -711,7 +680,6 @@ async function loadUser() {
             .select("*")
             .eq("id", user.id)
             .single();
-
 
     if (profileResult.error) {
 
@@ -727,12 +695,10 @@ async function loadUser() {
 
             });
 
-
         document
             .getElementById("profileName")
             .textContent =
             user.email;
-
 
         document
             .getElementById("profilePoints")
@@ -744,12 +710,10 @@ async function loadUser() {
         const profile =
             profileResult.data;
 
-
         document
             .getElementById("profileName")
             .textContent =
             profile.email || user.email;
-
 
         document
             .getElementById("profilePoints")
@@ -757,7 +721,6 @@ async function loadUser() {
             profile.points || 0;
 
     }
-
 
     showAppScreen();
 
@@ -776,21 +739,17 @@ async function logout() {
 
     await supabaseClient.auth.signOut();
 
-
     document
         .getElementById("profileName")
         .textContent = "-";
-
 
     document
         .getElementById("profilePoints")
         .textContent = "0";
 
-
     document
         .getElementById("message")
         .innerHTML = "";
-
 
     showHomeScreen();
 
@@ -798,7 +757,7 @@ async function logout() {
 
 
 /* =========================
-   CARREGAR LOCALIZAÇÕES
+   LOCALIZAÇÕES
 ========================= */
 
 async function loadLocations() {
@@ -810,7 +769,6 @@ async function loadLocations() {
             .eq("active", true)
             .order("locality")
             .order("name");
-
 
     if (result.error) {
 
@@ -824,10 +782,8 @@ async function loadLocations() {
         return;
     }
 
-
     allLocations =
         result.data || [];
-
 
     createLocationFilter();
 
@@ -838,17 +794,12 @@ async function loadLocations() {
 }
 
 
-/* =========================
-   FILTRO LOCALIDADES
-========================= */
-
 function createLocationFilter() {
 
     const select =
         document.getElementById(
             "locationFilter"
         );
-
 
     const localities = [
         ...new Set(
@@ -858,10 +809,8 @@ function createLocationFilter() {
         )
     ];
 
-
     select.innerHTML =
         '<option value="">Todas as localidades</option>';
-
 
     localities.forEach(locality => {
 
@@ -875,17 +824,12 @@ function createLocationFilter() {
 }
 
 
-/* =========================
-   FILTRAR LOCALIZAÇÕES
-========================= */
-
 function filterLocations() {
 
     const selected =
         document
             .getElementById("locationFilter")
             .value;
-
 
     if (!selected) {
 
@@ -896,13 +840,11 @@ function filterLocations() {
         return;
     }
 
-
     const filtered =
         allLocations.filter(
             location =>
                 location.locality === selected
         );
-
 
     displayLocations(
         filtered
@@ -911,17 +853,12 @@ function filterLocations() {
 }
 
 
-/* =========================
-   MOSTRAR LOCALIZAÇÕES
-========================= */
-
 function displayLocations(locations) {
 
     const container =
         document.getElementById(
             "challenges"
         );
-
 
     if (!locations.length) {
 
@@ -931,9 +868,7 @@ function displayLocations(locations) {
         return;
     }
 
-
     let html = "";
-
 
     locations.forEach(location => {
 
@@ -989,7 +924,6 @@ function displayLocations(locations) {
 
     });
 
-
     container.innerHTML =
         html;
 
@@ -997,7 +931,7 @@ function displayLocations(locations) {
 
 
 /* =========================
-   DISTÂNCIA GPS
+   GPS
 ========================= */
 
 function calculateDistance(
@@ -1040,10 +974,6 @@ function calculateDistance(
 }
 
 
-/* =========================
-   VALIDAR LOCALIZAÇÃO
-========================= */
-
 async function validateChallenge(
     locationId,
     latitude,
@@ -1055,10 +985,8 @@ async function validateChallenge(
     const sessionResult =
         await supabaseClient.auth.getSession();
 
-
     const session =
         sessionResult.data.session;
-
 
     if (!session) {
 
@@ -1069,7 +997,6 @@ async function validateChallenge(
         return;
     }
 
-
     if (!navigator.geolocation) {
 
         showMessage(
@@ -1079,11 +1006,9 @@ async function validateChallenge(
         return;
     }
 
-
     showMessage(
         "📍 A verificar a tua localização..."
     );
-
 
     navigator.geolocation.getCurrentPosition(
 
@@ -1095,7 +1020,6 @@ async function validateChallenge(
             const userLon =
                 position.coords.longitude;
 
-
             const distance =
                 calculateDistance(
                     userLat,
@@ -1103,7 +1027,6 @@ async function validateChallenge(
                     latitude,
                     longitude
                 );
-
 
             if (distance > radius) {
 
@@ -1120,10 +1043,8 @@ async function validateChallenge(
                 return;
             }
 
-
             const user =
                 session.user;
-
 
             const profileResult =
                 await supabaseClient
@@ -1131,7 +1052,6 @@ async function validateChallenge(
                     .select("points")
                     .eq("id", user.id)
                     .single();
-
 
             if (profileResult.error) {
 
@@ -1142,25 +1062,19 @@ async function validateChallenge(
                 return;
             }
 
-
             const currentPoints =
                 profileResult.data.points || 0;
 
-
             const newPoints =
                 currentPoints + points;
-
 
             const updateResult =
                 await supabaseClient
                     .from("profiles")
                     .update({
-
                         points: newPoints
-
                     })
                     .eq("id", user.id);
-
 
             if (updateResult.error) {
 
@@ -1168,19 +1082,13 @@ async function validateChallenge(
                     "Erro ao adicionar os pontos."
                 );
 
-                console.log(
-                    updateResult.error
-                );
-
                 return;
             }
-
 
             document
                 .getElementById("profilePoints")
                 .textContent =
                 newPoints;
-
 
             showMessage(
 
@@ -1222,7 +1130,7 @@ async function validateChallenge(
 
 
 /* =========================
-   CARREGAR RECOMPENSAS
+   RECOMPENSAS
 ========================= */
 
 async function loadRewards() {
@@ -1233,7 +1141,6 @@ async function loadRewards() {
             .select("*")
             .order("locality")
             .order("points");
-
 
     if (result.error) {
 
@@ -1248,20 +1155,15 @@ async function loadRewards() {
         return;
     }
 
+    /*
+       IMPORTANTE:
+       Aqui não filtramos os dados.
+       Tudo o que vier da tabela rewards
+       será colocado em allRewards.
+    */
 
     allRewards =
-        (result.data || []).filter(reward => {
-
-            return (
-                reward.active !== false &&
-                (
-                    reward.type === "Restaurante" ||
-                    reward.type === "Hotel"
-                )
-            );
-
-        });
-
+        result.data || [];
 
     createRewardFilters();
 
@@ -1273,7 +1175,7 @@ async function loadRewards() {
 
 
 /* =========================
-   CRIAR OS DOIS FILTROS
+   FILTROS RECOMPENSAS
 ========================= */
 
 function createRewardFilters() {
@@ -1288,7 +1190,6 @@ function createRewardFilters() {
             "rewardLocalityFilter"
         );
 
-
     const types = [
         ...new Set(
             allRewards
@@ -1296,7 +1197,6 @@ function createRewardFilters() {
                 .filter(Boolean)
         )
     ];
-
 
     const localities = [
         ...new Set(
@@ -1306,14 +1206,11 @@ function createRewardFilters() {
         )
     ];
 
-
     typeSelect.innerHTML =
         '<option value="">Todos os negócios</option>';
 
-
     localitySelect.innerHTML =
         '<option value="">Todas as localidades</option>';
-
 
     types.forEach(type => {
 
@@ -1327,14 +1224,12 @@ function createRewardFilters() {
             icon = "🏨";
         }
 
-
         typeSelect.innerHTML +=
             `<option value="${type}">
                 ${icon} ${type}
             </option>`;
 
     });
-
 
     localities.forEach(locality => {
 
@@ -1359,12 +1254,10 @@ function filterRewards() {
             .getElementById("rewardTypeFilter")
             .value;
 
-
     const selectedLocality =
         document
             .getElementById("rewardLocalityFilter")
             .value;
-
 
     const filtered =
         allRewards.filter(reward => {
@@ -1373,11 +1266,9 @@ function filterRewards() {
                 !selectedType ||
                 reward.type === selectedType;
 
-
             const localityMatches =
                 !selectedLocality ||
                 reward.locality === selectedLocality;
-
 
             return (
                 typeMatches &&
@@ -1385,7 +1276,6 @@ function filterRewards() {
             );
 
         });
-
 
     displayRewards(
         filtered
@@ -1405,18 +1295,15 @@ function displayRewards(rewards) {
             "rewards"
         );
 
-
     if (!rewards.length) {
 
         container.innerHTML =
-            "Não existem recompensas para estes filtros.";
+            "Não existem recompensas.";
 
         return;
     }
 
-
     let html = "";
-
 
     rewards.forEach(reward => {
 
@@ -1429,7 +1316,6 @@ function displayRewards(rewards) {
         if (reward.type === "Hotel") {
             icon = "🏨";
         }
-
 
         html += `
 
@@ -1473,9 +1359,15 @@ function displayRewards(rewards) {
                 ""
             }
 
-            <p>
-                ${reward.description || ""}
-            </p>
+            ${
+                reward.description
+                ?
+                `<p>
+                    ${reward.description}
+                </p>`
+                :
+                ""
+            }
 
             <p>
                 💰 <strong>
@@ -1499,7 +1391,6 @@ function displayRewards(rewards) {
 
     });
 
-
     container.innerHTML =
         html;
 
@@ -1507,7 +1398,7 @@ function displayRewards(rewards) {
 
 
 /* =========================
-   CÓDIGO DA RECOMPENSA
+   CÓDIGO RECOMPENSA
 ========================= */
 
 function generateRewardCode() {
@@ -1515,9 +1406,7 @@ function generateRewardCode() {
     const characters =
         "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
 
-
     let code = "MQ-";
-
 
     for (
         let i = 0;
@@ -1531,12 +1420,10 @@ function generateRewardCode() {
                 characters.length
             );
 
-
         code +=
             characters[randomIndex];
 
     }
-
 
     return code;
 
@@ -1552,10 +1439,8 @@ async function redeemReward(rewardId) {
     const sessionResult =
         await supabaseClient.auth.getSession();
 
-
     const session =
         sessionResult.data.session;
-
 
     if (!session) {
 
@@ -1566,10 +1451,8 @@ async function redeemReward(rewardId) {
         return;
     }
 
-
     const user =
         session.user;
-
 
     const rewardResult =
         await supabaseClient
@@ -1577,7 +1460,6 @@ async function redeemReward(rewardId) {
             .select("*")
             .eq("id", rewardId)
             .single();
-
 
     if (rewardResult.error) {
 
@@ -1588,10 +1470,8 @@ async function redeemReward(rewardId) {
         return;
     }
 
-
     const reward =
         rewardResult.data;
-
 
     const profileResult =
         await supabaseClient
@@ -1599,7 +1479,6 @@ async function redeemReward(rewardId) {
             .select("points")
             .eq("id", user.id)
             .single();
-
 
     if (profileResult.error) {
 
@@ -1610,10 +1489,8 @@ async function redeemReward(rewardId) {
         return;
     }
 
-
     const currentPoints =
         profileResult.data.points || 0;
-
 
     if (currentPoints < reward.points) {
 
@@ -1624,10 +1501,8 @@ async function redeemReward(rewardId) {
         return;
     }
 
-
     const rewardCode =
         generateRewardCode();
-
 
     const redemptionResult =
         await supabaseClient
@@ -1646,7 +1521,6 @@ async function redeemReward(rewardId) {
             .select()
             .single();
 
-
     if (redemptionResult.error) {
 
         showMessage(
@@ -1660,11 +1534,9 @@ async function redeemReward(rewardId) {
         return;
     }
 
-
     const newPoints =
         currentPoints -
         reward.points;
-
 
     const updateResult =
         await supabaseClient
@@ -1676,26 +1548,19 @@ async function redeemReward(rewardId) {
             })
             .eq("id", user.id);
 
-
     if (updateResult.error) {
 
         showMessage(
             "A recompensa foi registada, mas houve um erro nos pontos."
         );
 
-        console.log(
-            updateResult.error
-        );
-
         return;
     }
-
 
     document
         .getElementById("profilePoints")
         .textContent =
         newPoints;
-
 
     document
         .getElementById("message")
@@ -1724,7 +1589,6 @@ async function checkSession() {
 
     const result =
         await supabaseClient.auth.getSession();
-
 
     if (result.data.session) {
 
