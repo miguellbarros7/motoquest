@@ -4522,8 +4522,15 @@ function resetLocationForm() {
 
     selectedLocationPhoto =
         null;
+    
+selectedLocationImageFile =
+    null;
 
-    $("selectedLocationPhoto")
+$("locationImageFile")
+    .value = "";
+
+$("locationUploadPreview")
+    .classList.add("hidden");    $("selectedLocationPhoto")
         .classList.add("hidden");
 
     $("pexelsLocationResults")
