@@ -79,6 +79,18 @@ select {
     color: #111;
 }
 
+.filterRow {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+.filterLabel {
+    font-size: 13px;
+    color: #aaa;
+    margin-top: 8px;
+}
+
 button {
     width: 100%;
     padding: 14px;
@@ -150,6 +162,14 @@ footer {
     color: #ff6a00;
     margin-top: 20px;
     margin-bottom: 5px;
+}
+
+@media (max-width: 500px) {
+
+    .filterRow {
+        grid-template-columns: 1fr;
+    }
+
 }
 
 </style>
@@ -329,16 +349,53 @@ footer {
         <h2>🎁 Recompensas</h2>
 
         <p>
-            Usa os teus pontos para obter recompensas.
+            Usa os teus pontos para obter descontos em hotéis e restaurantes.
         </p>
 
-        <select id="rewardFilter" onchange="filterRewards()">
 
-            <option value="">
-                Todas as localidades
-            </option>
+        <div class="filterRow">
 
-        </select>
+            <div>
+
+                <div class="filterLabel">
+                    Tipo de negócio
+                </div>
+
+                <select
+                    id="rewardTypeFilter"
+                    onchange="filterRewards()"
+                >
+
+                    <option value="">
+                        Todos os negócios
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div>
+
+                <div class="filterLabel">
+                    Localidade
+                </div>
+
+                <select
+                    id="rewardLocalityFilter"
+                    onchange="filterRewards()"
+                >
+
+                    <option value="">
+                        Todas as localidades
+                    </option>
+
+                </select>
+
+            </div>
+
+        </div>
+
 
         <div id="rewards">
 
@@ -1175,6 +1232,8 @@ async function loadRewards() {
             .from("rewards")
             .select("*")
             .eq("active", true)
+            .in("type", ["Restaurante", "Hotel"])
+            .order("locality")
             .order("points");
 
 
@@ -1195,7 +1254,7 @@ async function loadRewards() {
         result.data || [];
 
 
-    createRewardFilter();
+    createRewardFilters();
 
     displayRewards(
         allRewards
@@ -1205,15 +1264,29 @@ async function loadRewards() {
 
 
 /* =========================
-   FILTRO DE RECOMPENSAS
+   CRIAR OS DOIS FILTROS
 ========================= */
 
-function createRewardFilter() {
+function createRewardFilters() {
 
-    const select =
+    const typeSelect =
         document.getElementById(
-            "rewardFilter"
+            "rewardTypeFilter"
         );
+
+    const localitySelect =
+        document.getElementById(
+            "rewardLocalityFilter"
+        );
+
+
+    const types = [
+        ...new Set(
+            allRewards
+                .map(reward => reward.type)
+                .filter(Boolean)
+        )
+    ];
 
 
     const localities = [
@@ -1225,13 +1298,38 @@ function createRewardFilter() {
     ];
 
 
-    select.innerHTML =
+    typeSelect.innerHTML =
+        '<option value="">Todos os negócios</option>';
+
+
+    localitySelect.innerHTML =
         '<option value="">Todas as localidades</option>';
+
+
+    types.forEach(type => {
+
+        let icon = "🏪";
+
+        if (type === "Restaurante") {
+            icon = "🍽️";
+        }
+
+        if (type === "Hotel") {
+            icon = "🏨";
+        }
+
+
+        typeSelect.innerHTML +=
+            `<option value="${type}">
+                ${icon} ${type}
+            </option>`;
+
+    });
 
 
     localities.forEach(locality => {
 
-        select.innerHTML +=
+        localitySelect.innerHTML +=
             `<option value="${locality}">
                 ${locality}
             </option>`;
@@ -1247,27 +1345,37 @@ function createRewardFilter() {
 
 function filterRewards() {
 
-    const selected =
+    const selectedType =
         document
-            .getElementById("rewardFilter")
+            .getElementById("rewardTypeFilter")
             .value;
 
 
-    if (!selected) {
-
-        displayRewards(
-            allRewards
-        );
-
-        return;
-    }
+    const selectedLocality =
+        document
+            .getElementById("rewardLocalityFilter")
+            .value;
 
 
     const filtered =
-        allRewards.filter(
-            reward =>
-                reward.locality === selected
-        );
+        allRewards.filter(reward => {
+
+            const typeMatches =
+                !selectedType ||
+                reward.type === selectedType;
+
+
+            const localityMatches =
+                !selectedLocality ||
+                reward.locality === selectedLocality;
+
+
+            return (
+                typeMatches &&
+                localityMatches
+            );
+
+        });
 
 
     displayRewards(
@@ -1292,7 +1400,7 @@ function displayRewards(rewards) {
     if (!rewards.length) {
 
         container.innerHTML =
-            "Ainda não existem recompensas.";
+            "Não existem recompensas para estes filtros.";
 
         return;
     }
@@ -1303,13 +1411,36 @@ function displayRewards(rewards) {
 
     rewards.forEach(reward => {
 
+        let icon = "🎁";
+
+        if (reward.type === "Restaurante") {
+            icon = "🍽️";
+        }
+
+        if (reward.type === "Hotel") {
+            icon = "🏨";
+        }
+
+
         html += `
 
         <div class="reward">
 
             <h3>
-                🎁 ${reward.name}
+                ${icon} ${reward.name}
             </h3>
+
+            ${
+                reward.type
+                ?
+                `<p>
+                    🏪 <strong>
+                    ${reward.type}
+                    </strong>
+                </p>`
+                :
+                ""
+            }
 
             ${
                 reward.locality
@@ -1327,7 +1458,7 @@ function displayRewards(rewards) {
                 reward.business
                 ?
                 `<p>
-                    🏪 ${reward.business}
+                    🏢 ${reward.business}
                 </p>`
                 :
                 ""
