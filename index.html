@@ -4407,93 +4407,95 @@ function editLocation(location) {
             }
             : null;
 
-    if (selectedLocationImageFile) {
+  function editLocation(location) {
 
-    showMessage(
-        "locationAdminMessage",
-        "A carregar a fotografia..."
-    );
+    if (!location) return;
 
-    const safeName =
-        selectedLocationImageFile.name
-            .replace(
-                /[^a-zA-Z0-9._-]/g,
-                "-"
-            )
-            .replace(
-                /-+/g,
-                "-"
-            );
+    $("locationFormTitle").textContent =
+        "Editar local";
 
-    const storagePath =
-        Date.now() +
-        "-" +
-        safeName;
+    $("locationId").value =
+        location.id || "";
 
-    const {
-        error: uploadError
-    } =
-        await supabaseClient
-            .storage
-            .from("location-images")
-            .upload(
-                storagePath,
-                selectedLocationImageFile,
-                {
-                    cacheControl: "3600",
-                    upsert: false,
-                    contentType:
-                        selectedLocationImageFile.type
-                }
-            );
+    $("locationName").value =
+        location.name || "";
 
-    if (uploadError) {
-        throw uploadError;
-    }
+    $("locationLocality").value =
+        location.localidade ||
+        location.locality ||
+        "";
 
-    const {
-        data: publicUrlData
-    } =
-        supabaseClient
-            .storage
-            .from("location-images")
-            .getPublicUrl(
-                storagePath
-            );
+    $("locationType").value =
+        normalizeFilterValue(
+            location.type
+        ) || "miradouro";
 
-    payload.image_url =
-        publicUrlData.publicUrl;
+    $("locationPoints").value =
+        Number(location.points || 0);
 
-    payload.image_photographer = null;
-    payload.image_photographer_url = null;
-    payload.image_credit = null;
+    $("locationLat").value =
+        location.latitude ??
+        location.lat ??
+        "";
 
-} else if (selectedLocationPhoto) {
+    $("locationLng").value =
+        location.longitude ??
+        location.lng ??
+        "";
 
-    payload.image_url =
-        selectedLocationPhoto.src?.large2x ||
-        selectedLocationPhoto.src?.large ||
-        selectedLocationPhoto.src?.medium ||
-        selectedLocationPhoto.src?.original ||
+    $("locationMaps").value =
+        location.maps_url ||
+        "";
+
+    $("locationDescription").value =
+        location.description ||
+        "";
+
+    selectedLocationImageFile =
         null;
 
-    payload.image_photographer =
-        selectedLocationPhoto.photographer ||
-        "Pexels";
+    $("locationImageFile").value =
+        "";
 
-    payload.image_photographer_url =
-        selectedLocationPhoto.photographer_url ||
-        "https://www.pexels.com/";
+    $("locationUploadPreview")
+        .classList.add("hidden");
 
-    payload.image_credit =
-        selectedLocationPhoto.photographer ||
-        "Pexels";
-};
+    selectedLocationPhoto =
+        location.image_url
+            ? {
+                src: {
+                    medium: location.image_url
+                },
+                photographer:
+                    location.image_photographer ||
+                    location.image_credit ||
+                    "Pexels",
+                photographer_url:
+                    location.image_photographer_url ||
+                    "https://www.pexels.com/",
+                alt:
+                    location.name
+            }
+            : null;
+
+    if (selectedLocationPhoto) {
+
+        showSelectedPhoto(
+            selectedLocationPhoto,
+            "location"
+        );
+
     } else {
+
         $("selectedLocationPhoto")
             .classList.add("hidden");
     }
 
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+}
     window.scrollTo({
         top: 0,
         behavior: "smooth"
