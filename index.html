@@ -18,8 +18,7 @@
 body {
     margin: 0;
     font-family: Arial, Helvetica, sans-serif;
-    background:
-        radial-gradient(circle at top, #292929 0%, #111 45%);
+    background: radial-gradient(circle at top, #292929 0%, #111 45%);
     color: white;
     min-height: 100vh;
 }
@@ -43,19 +42,10 @@ select {
 ========================= */
 
 header {
-    background:
-        linear-gradient(
-            135deg,
-            #ff7a00,
-            #ff4d00
-        );
-
+    background: linear-gradient(135deg, #ff7a00, #ff4d00);
     padding: 28px 20px;
-
     text-align: center;
-
-    box-shadow:
-        0 8px 30px rgba(0,0,0,0.35);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.35);
 }
 
 .logo {
@@ -81,23 +71,12 @@ header {
 ========================= */
 
 .card {
-    background:
-        linear-gradient(
-            145deg,
-            #222,
-            #181818
-        );
-
+    background: linear-gradient(145deg, #222, #181818);
     border: 1px solid #333;
-
     border-radius: 20px;
-
     padding: 22px;
-
     margin-bottom: 20px;
-
-    box-shadow:
-        0 10px 30px rgba(0,0,0,0.25);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.25);
 }
 
 .card h2 {
@@ -156,8 +135,7 @@ select {
 input:focus,
 select:focus {
     border-color: #ff7200;
-    box-shadow:
-        0 0 0 2px rgba(255,114,0,0.15);
+    box-shadow: 0 0 0 2px rgba(255,114,0,0.15);
 }
 
 select {
@@ -175,22 +153,12 @@ button {
     margin-top: 10px;
     border: none;
     border-radius: 11px;
-
-    background:
-        linear-gradient(
-            135deg,
-            #ff7900,
-            #ff4d00
-        );
-
+    background: linear-gradient(135deg, #ff7900, #ff4d00);
     color: white;
     font-size: 15px;
     font-weight: 800;
     cursor: pointer;
-
-    transition:
-        transform 0.15s,
-        opacity 0.15s;
+    transition: transform 0.15s, opacity 0.15s;
 }
 
 button:hover {
@@ -233,18 +201,10 @@ button:disabled {
     width: 58px;
     height: 58px;
     border-radius: 50%;
-
     display: flex;
     align-items: center;
     justify-content: center;
-
-    background:
-        linear-gradient(
-            135deg,
-            #ff7900,
-            #ff4d00
-        );
-
+    background: linear-gradient(135deg, #ff7900, #ff4d00);
     font-size: 28px;
 }
 
@@ -274,14 +234,11 @@ button:disabled {
     padding: 20px;
     border-radius: 15px;
     text-align: center;
-
-    background:
-        linear-gradient(
-            135deg,
-            rgba(255,114,0,0.15),
-            rgba(255,114,0,0.04)
-        );
-
+    background: linear-gradient(
+        135deg,
+        rgba(255,114,0,0.15),
+        rgba(255,114,0,0.04)
+    );
     border: 1px solid rgba(255,114,0,0.3);
 }
 
@@ -352,10 +309,7 @@ button:disabled {
     border-radius: 15px;
     padding: 18px;
     margin-top: 14px;
-
-    transition:
-        border-color 0.2s,
-        transform 0.2s;
+    transition: border-color 0.2s, transform 0.2s;
 }
 
 .challenge:hover {
@@ -378,12 +332,41 @@ button:disabled {
     margin-top: 10px;
     padding: 7px 11px;
     border-radius: 20px;
-
     background: rgba(255,114,0,0.12);
-
     color: #ff7200;
     font-size: 13px;
     font-weight: bold;
+}
+
+
+/* =========================
+   MENSAGEM DE CADA AÇÃO
+========================= */
+
+.action-message {
+    margin-top: 12px;
+    padding: 12px;
+    border-radius: 10px;
+    background: #202020;
+    border: 1px solid #333;
+    color: #ddd;
+    text-align: center;
+    line-height: 1.5;
+    font-size: 14px;
+}
+
+.action-message.success {
+    border-color: #ff7200;
+    background: rgba(255,114,0,0.10);
+}
+
+.action-message.error {
+    border-color: #8a3333;
+    background: rgba(150,40,40,0.10);
+}
+
+.action-message:empty {
+    display: none;
 }
 
 
@@ -392,34 +375,22 @@ button:disabled {
 ========================= */
 
 .reward {
-    background:
-        linear-gradient(
-            145deg,
-            #1d1d1d,
-            #151515
-        );
-
+    background: linear-gradient(145deg, #1d1d1d, #151515);
     border: 1px solid #333;
     border-radius: 16px;
-
     padding: 18px;
     margin-top: 15px;
-
     position: relative;
     overflow: hidden;
 }
 
 .reward::before {
     content: "";
-
     position: absolute;
-
     top: 0;
     left: 0;
-
     width: 4px;
     height: 100%;
-
     background: #ff7200;
 }
 
@@ -433,11 +404,8 @@ button:disabled {
     display: flex;
     justify-content: space-between;
     gap: 10px;
-
     padding: 7px 0;
-
     border-bottom: 1px solid #292929;
-
     font-size: 14px;
 }
 
@@ -465,16 +433,10 @@ button:disabled {
 
 .history-item {
     background: #171717;
-
     border: 1px solid #333;
-
     border-radius: 15px;
-
     padding: 16px;
-
     margin-top: 12px;
-
-    position: relative;
 }
 
 .history-item:hover {
@@ -483,26 +445,18 @@ button:disabled {
 
 .history-header {
     display: flex;
-
     align-items: center;
-
     gap: 12px;
 }
 
 .history-icon {
     width: 45px;
     height: 45px;
-
     border-radius: 12px;
-
     display: flex;
-
     align-items: center;
-
     justify-content: center;
-
     background: rgba(255,114,0,0.12);
-
     font-size: 23px;
 }
 
@@ -512,49 +466,35 @@ button:disabled {
 
 .history-content h3 {
     margin: 0 0 4px 0;
-
     font-size: 16px;
 }
 
 .history-content p {
     margin: 0;
-
     color: #999;
-
     font-size: 13px;
 }
 
 .history-points {
     margin-top: 12px;
-
     display: inline-block;
-
     padding: 6px 10px;
-
     border-radius: 20px;
-
     background: rgba(255,114,0,0.12);
-
     color: #ff7200;
-
     font-weight: bold;
-
     font-size: 13px;
 }
 
 .history-date {
     margin-top: 10px;
-
     color: #666;
-
     font-size: 12px;
 }
 
 .history-empty {
     text-align: center;
-
     padding: 25px 10px;
-
     color: #888;
 }
 
@@ -565,13 +505,9 @@ button:disabled {
 
 .redemption-item {
     background: #171717;
-
     border: 1px solid #333;
-
     border-radius: 15px;
-
     padding: 16px;
-
     margin-top: 12px;
 }
 
@@ -582,62 +518,13 @@ button:disabled {
 
 .redemption-code {
     margin-top: 12px;
-
     padding: 12px;
-
     border-radius: 10px;
-
     background: #252525;
-
     color: #ff7200;
-
     text-align: center;
-
     font-weight: 900;
-
     letter-spacing: 2px;
-}
-
-
-/* =========================
-   MESSAGE
-========================= */
-
-.message {
-    margin: 15px 0;
-    padding: 15px;
-    border-radius: 12px;
-
-    background: #1c1c1c;
-
-    border: 1px solid #333;
-
-    text-align: center;
-
-    line-height: 1.5;
-}
-
-.code {
-    margin-top: 15px;
-
-    padding: 18px;
-
-    background:
-        linear-gradient(
-            135deg,
-            #ff7900,
-            #ff4d00
-        );
-
-    text-align: center;
-
-    font-size: 30px;
-
-    font-weight: 900;
-
-    border-radius: 12px;
-
-    letter-spacing: 4px;
 }
 
 
@@ -1013,7 +900,7 @@ footer {
     </div>
 
 
-    <!-- HISTÓRICO DE VISITAS -->
+    <!-- HISTÓRICO -->
 
     <div class="card">
 
@@ -1061,12 +948,6 @@ footer {
         </div>
 
     </div>
-
-
-    <div
-        id="message"
-        class="message"
-    ></div>
 
 
 </section>
@@ -1505,6 +1386,17 @@ function displayLocations(locations) {
 
     locations.forEach(location => {
 
+        const safeName =
+            String(location.name)
+                .replace(/\\/g, "\\\\")
+                .replace(/'/g, "\\'");
+
+        const safeLocality =
+            String(location.locality || "")
+                .replace(/\\/g, "\\\\")
+                .replace(/'/g, "\\'");
+
+
         html += `
 
         <div class="challenge">
@@ -1539,12 +1431,17 @@ function displayLocations(locations) {
                     ${location.longitude},
                     ${location.radius},
                     ${location.points},
-                    '${String(location.name).replace(/'/g, "\\'")}',
-                    '${String(location.locality || "").replace(/'/g, "\\'")}'
+                    '${safeName}',
+                    '${safeLocality}'
                 )"
             >
                 📍 Validar visita
             </button>
+
+            <div
+                id="visit-message-${location.id}"
+                class="action-message"
+            ></div>
 
         </div>
 
@@ -1554,6 +1451,34 @@ function displayLocations(locations) {
 
     container.innerHTML =
         html;
+
+}
+
+
+/* =========================
+   MENSAGEM INDIVIDUAL
+========================= */
+
+function showActionMessage(
+    elementId,
+    message,
+    type = ""
+) {
+
+    const element =
+        document.getElementById(
+            elementId
+        );
+
+    if (!element) {
+        return;
+    }
+
+    element.className =
+        "action-message " + type;
+
+    element.innerHTML =
+        message;
 
 }
 
@@ -1609,33 +1534,47 @@ async function validateChallenge(
     locality
 ) {
 
+    const messageId =
+        "visit-message-" +
+        locationId;
+
+
+    showActionMessage(
+        messageId,
+        "📍 A verificar a tua localização..."
+    );
+
+
     const sessionResult =
         await supabaseClient.auth.getSession();
 
     const session =
         sessionResult.data.session;
 
+
     if (!session) {
 
-        showMessage(
-            "Tens de iniciar sessão."
+        showActionMessage(
+            messageId,
+            "❌ Tens de iniciar sessão.",
+            "error"
         );
 
         return;
     }
+
 
     if (!navigator.geolocation) {
 
-        showMessage(
-            "O teu dispositivo não suporta GPS."
+        showActionMessage(
+            messageId,
+            "❌ O teu dispositivo não suporta GPS.",
+            "error"
         );
 
         return;
     }
 
-    showMessage(
-        "📍 A verificar a tua localização..."
-    );
 
     navigator.geolocation.getCurrentPosition(
 
@@ -1649,19 +1588,24 @@ async function validateChallenge(
                     longitude
                 );
 
+
             if (distance > radius) {
 
-                showMessage(
+                showActionMessage(
+                    messageId,
                     "❌ Estás a " +
                     Math.round(distance) +
-                    " metros do local."
+                    " metros do local.",
+                    "error"
                 );
 
                 return;
             }
 
+
             const user =
                 session.user;
+
 
             const profileResult =
                 await supabaseClient
@@ -1670,23 +1614,23 @@ async function validateChallenge(
                     .eq("id", user.id)
                     .single();
 
+
             if (profileResult.error) {
 
-                showMessage(
-                    "Erro ao encontrar o perfil."
+                showActionMessage(
+                    messageId,
+                    "❌ Erro ao encontrar o perfil.",
+                    "error"
                 );
 
                 return;
             }
 
+
             const newPoints =
                 (profileResult.data.points || 0) +
                 points;
 
-
-            /* =========================
-               ATUALIZAR PONTOS
-            ========================= */
 
             const updateResult =
                 await supabaseClient
@@ -1696,19 +1640,18 @@ async function validateChallenge(
                     })
                     .eq("id", user.id);
 
+
             if (updateResult.error) {
 
-                showMessage(
-                    "Erro ao adicionar pontos."
+                showActionMessage(
+                    messageId,
+                    "❌ Erro ao adicionar pontos.",
+                    "error"
                 );
 
                 return;
             }
 
-
-            /* =========================
-               GUARDAR HISTÓRICO
-            ========================= */
 
             const historyResult =
                 await supabaseClient
@@ -1731,6 +1674,7 @@ async function validateChallenge(
                             points
 
                     });
+
 
             if (historyResult.error) {
 
@@ -1756,23 +1700,31 @@ async function validateChallenge(
             await loadVisitHistory();
 
 
-            showMessage(
-                "🎉 Visita validada!<br><br>" +
+            showActionMessage(
+                messageId,
+
+                "🎉 <strong>Visita validada!</strong><br>" +
                 "Ganhaste <strong>" +
                 points +
-                " pontos</strong>."
+                " pontos</strong>.",
+
+                "success"
             );
 
         },
+
 
         function() {
 
-            showMessage(
+            showActionMessage(
+                messageId,
                 "❌ Não foi possível obter a localização. " +
-                "Verifica as permissões de GPS."
+                "Verifica as permissões de GPS.",
+                "error"
             );
 
         },
+
 
         {
             enableHighAccuracy: true,
@@ -1798,6 +1750,7 @@ async function loadRewards() {
             .order("locality")
             .order("points");
 
+
     if (result.error) {
 
         document
@@ -1811,10 +1764,13 @@ async function loadRewards() {
         return;
     }
 
+
     allRewards =
         result.data || [];
 
+
     createRewardLocalityFilter();
+
 
     displayRewards(
         getFilteredRewards()
@@ -1830,6 +1786,7 @@ function createRewardLocalityFilter() {
             "rewardLocalityFilter"
         );
 
+
     const localities = [
         ...new Set(
             allRewards
@@ -1838,10 +1795,12 @@ function createRewardLocalityFilter() {
         )
     ];
 
+
     select.innerHTML =
         `<option value="">
             Todas as localidades
         </option>`;
+
 
     localities.forEach(locality => {
 
@@ -1864,6 +1823,7 @@ function getFilteredRewards() {
             )
             .value;
 
+
     const locality =
         document
             .getElementById(
@@ -1871,15 +1831,18 @@ function getFilteredRewards() {
             )
             .value;
 
+
     return allRewards.filter(reward => {
 
         const typeOK =
             !type ||
             reward.type === type;
 
+
         const localityOK =
             !locality ||
             reward.locality === locality;
+
 
         return typeOK && localityOK;
 
@@ -1904,6 +1867,7 @@ function displayRewards(rewards) {
             "rewards"
         );
 
+
     if (!rewards.length) {
 
         container.innerHTML =
@@ -1912,10 +1876,12 @@ function displayRewards(rewards) {
         return;
     }
 
+
     const pointsElement =
         document.getElementById(
             "profilePoints"
         );
+
 
     const userPoints =
         Number(
@@ -1924,12 +1890,14 @@ function displayRewards(rewards) {
                 : 0
         );
 
+
     let html = "";
 
 
     rewards.forEach(reward => {
 
         let icon = "🎁";
+
 
         if (
             reward.type &&
@@ -1941,6 +1909,7 @@ function displayRewards(rewards) {
             icon = "🍽️";
 
         }
+
 
         if (
             reward.type &&
@@ -1956,6 +1925,7 @@ function displayRewards(rewards) {
 
         const rewardPoints =
             Number(reward.points) || 0;
+
 
         const enoughPoints =
             userPoints >= rewardPoints;
@@ -2095,6 +2065,12 @@ function displayRewards(rewards) {
                 </button>`
             }
 
+
+            <div
+                id="reward-message-${reward.id}"
+                class="action-message"
+            ></div>
+
         </div>
 
         `;
@@ -2117,7 +2093,9 @@ function generateRewardCode() {
     const characters =
         "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
 
+
     let code = "MQ-";
+
 
     for (
         let i = 0;
@@ -2135,6 +2113,7 @@ function generateRewardCode() {
 
     }
 
+
     return code;
 
 }
@@ -2146,20 +2125,36 @@ function generateRewardCode() {
 
 async function redeemReward(rewardId) {
 
+    const messageId =
+        "reward-message-" +
+        rewardId;
+
+
+    showActionMessage(
+        messageId,
+        "⏳ A processar a tua recompensa..."
+    );
+
+
     const sessionResult =
         await supabaseClient.auth.getSession();
+
 
     const session =
         sessionResult.data.session;
 
+
     if (!session) {
 
-        showMessage(
-            "Tens de iniciar sessão primeiro."
+        showActionMessage(
+            messageId,
+            "❌ Tens de iniciar sessão primeiro.",
+            "error"
         );
 
         return;
     }
+
 
     const user =
         session.user;
@@ -2175,8 +2170,10 @@ async function redeemReward(rewardId) {
 
     if (rewardResult.error) {
 
-        showMessage(
-            "Erro ao encontrar a recompensa."
+        showActionMessage(
+            messageId,
+            "❌ Erro ao encontrar a recompensa.",
+            "error"
         );
 
         return;
@@ -2197,8 +2194,10 @@ async function redeemReward(rewardId) {
 
     if (profileResult.error) {
 
-        showMessage(
-            "Erro ao encontrar os teus pontos."
+        showActionMessage(
+            messageId,
+            "❌ Erro ao encontrar os teus pontos.",
+            "error"
         );
 
         return;
@@ -2214,8 +2213,10 @@ async function redeemReward(rewardId) {
         reward.points
     ) {
 
-        showMessage(
-            "❌ Não tens pontos suficientes."
+        showActionMessage(
+            messageId,
+            "❌ Não tens pontos suficientes.",
+            "error"
         );
 
         return;
@@ -2250,8 +2251,10 @@ async function redeemReward(rewardId) {
 
     if (redemptionResult.error) {
 
-        showMessage(
-            "Erro ao guardar a recompensa."
+        showActionMessage(
+            messageId,
+            "❌ Erro ao guardar a recompensa.",
+            "error"
         );
 
         console.log(
@@ -2281,8 +2284,10 @@ async function redeemReward(rewardId) {
 
     if (updateResult.error) {
 
-        showMessage(
-            "Erro ao atualizar os pontos."
+        showActionMessage(
+            messageId,
+            "❌ Erro ao atualizar os pontos.",
+            "error"
         );
 
         return;
@@ -2303,21 +2308,17 @@ async function redeemReward(rewardId) {
     await loadRedemptionHistory();
 
 
-    document
-        .getElementById("message")
-        .innerHTML =
+    showActionMessage(
+        messageId,
 
-        "🎉 <strong>Recompensa trocada com sucesso!</strong>" +
-
-        "<br><br>" +
-
+        "🎉 <strong>Recompensa trocada!</strong><br>" +
         "Apresenta este código no estabelecimento:" +
-
         "<div class='code'>" +
-
         rewardCode +
+        "</div>",
 
-        "</div>";
+        "success"
+    );
 
 }
 
@@ -2336,6 +2337,7 @@ async function loadVisitHistory() {
 
     const sessionResult =
         await supabaseClient.auth.getSession();
+
 
     const session =
         sessionResult.data.session;
@@ -2477,7 +2479,7 @@ async function loadVisitHistory() {
 
 
 /* =========================
-   HISTÓRICO DE RECOMPENSAS
+   HISTÓRICO RECOMPENSAS
 ========================= */
 
 async function loadRedemptionHistory() {
@@ -2490,6 +2492,7 @@ async function loadRedemptionHistory() {
 
     const sessionResult =
         await supabaseClient.auth.getSession();
+
 
     const session =
         sessionResult.data.session;
@@ -2624,16 +2627,12 @@ async function loadRedemptionHistory() {
 
 
             <div class="redemption-code">
-
                 🔑 ${item.reward_code || "Código indisponível"}
-
             </div>
 
 
             <p style="color:#666;font-size:12px;">
-
                 📅 ${formattedDate}
-
             </p>
 
         </div>
@@ -2650,20 +2649,6 @@ async function loadRedemptionHistory() {
 
 
 /* =========================
-   MENSAGEM
-========================= */
-
-function showMessage(message) {
-
-    document
-        .getElementById("message")
-        .innerHTML =
-        message;
-
-}
-
-
-/* =========================
    SESSÃO
 ========================= */
 
@@ -2671,6 +2656,7 @@ async function checkSession() {
 
     const result =
         await supabaseClient.auth.getSession();
+
 
     if (result.data.session) {
 
