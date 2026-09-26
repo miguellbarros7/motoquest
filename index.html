@@ -11,168 +11,668 @@
 
 <style>
 
+/* =========================
+   BASE
+========================= */
+
 * {
     box-sizing: border-box;
 }
 
 body {
     margin: 0;
-    font-family: Arial, sans-serif;
-    background: #111;
+    font-family: Arial, Helvetica, sans-serif;
+    background:
+        radial-gradient(circle at top, #292929 0%, #111 45%);
     color: white;
+    min-height: 100vh;
 }
 
-header {
-    background: #ff6a00;
-    padding: 25px 20px;
-    text-align: center;
-}
-
-header h1 {
-    margin: 0;
-    font-size: 38px;
-}
-
-header p {
-    margin: 8px 0 0;
-    font-size: 17px;
+button,
+input,
+select {
+    font-family: inherit;
 }
 
 .container {
-    max-width: 700px;
+    width: 100%;
+    max-width: 760px;
     margin: auto;
     padding: 20px;
 }
 
-.card {
-    background: #1d1d1d;
-    border-radius: 15px;
-    padding: 20px;
-    margin-bottom: 20px;
-}
 
-.center {
+/* =========================
+   HEADER
+========================= */
+
+header {
+    background:
+        linear-gradient(
+            135deg,
+            #ff7a00,
+            #ff4d00
+        );
+
+    padding: 28px 20px;
+
     text-align: center;
+
+    box-shadow:
+        0 8px 30px rgba(0,0,0,0.35);
 }
 
-h2 {
-    color: #ff6a00;
+.logo {
+    font-size: 42px;
+    font-weight: 900;
+    letter-spacing: -2px;
 }
 
-input,
-select {
-    width: 100%;
-    padding: 14px;
-    margin: 8px 0;
-    border: none;
-    border-radius: 8px;
-    font-size: 16px;
-}
-
-select {
-    background: white;
+.logo span {
     color: #111;
 }
 
-.filterRow {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-    margin-bottom: 15px;
-}
-
-.filterLabel {
-    font-size: 13px;
-    color: #aaa;
-    margin-bottom: 4px;
-}
-
-button {
-    width: 100%;
-    padding: 14px;
-    margin-top: 10px;
-    border: none;
-    border-radius: 8px;
-    background: #ff6a00;
-    color: white;
-    font-size: 16px;
+.tagline {
+    margin-top: 8px;
+    font-size: 15px;
     font-weight: bold;
+    opacity: 0.9;
+}
+
+
+/* =========================
+   CARDS
+========================= */
+
+.card {
+    background:
+        linear-gradient(
+            145deg,
+            #222,
+            #181818
+        );
+
+    border: 1px solid #333;
+
+    border-radius: 20px;
+
+    padding: 22px;
+
+    margin-bottom: 20px;
+
+    box-shadow:
+        0 10px 30px rgba(0,0,0,0.25);
+}
+
+.card h2 {
+    margin-top: 0;
+
+    color: #ff7200;
+
+    font-size: 23px;
+}
+
+.card p {
+    line-height: 1.5;
+}
+
+
+/* =========================
+   HERO
+========================= */
+
+.hero {
+    text-align: center;
+
+    padding: 30px 20px;
+}
+
+.hero-icon {
+    font-size: 70px;
+
+    margin-bottom: 10px;
+}
+
+.hero h2 {
+    font-size: 28px;
+
+    color: white;
+
+    margin-bottom: 10px;
+}
+
+.hero strong {
+    color: #ff7200;
+}
+
+
+/* =========================
+   INPUTS
+========================= */
+
+input,
+select {
+
+    width: 100%;
+
+    padding: 15px;
+
+    margin: 7px 0;
+
+    border-radius: 10px;
+
+    border: 1px solid #444;
+
+    background: #111;
+
+    color: white;
+
+    font-size: 15px;
+
+    outline: none;
+}
+
+input:focus,
+select:focus {
+
+    border-color: #ff7200;
+
+    box-shadow:
+        0 0 0 2px rgba(255,114,0,0.15);
+}
+
+select {
     cursor: pointer;
 }
 
+
+/* =========================
+   BUTTONS
+========================= */
+
+button {
+
+    width: 100%;
+
+    padding: 15px;
+
+    margin-top: 10px;
+
+    border: none;
+
+    border-radius: 11px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #ff7900,
+            #ff4d00
+        );
+
+    color: white;
+
+    font-size: 15px;
+
+    font-weight: 800;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.15s,
+        opacity 0.15s;
+}
+
 button:hover {
-    background: #e85f00;
+
+    transform: translateY(-1px);
+
+    opacity: 0.92;
+}
+
+button:active {
+
+    transform: translateY(1px);
 }
 
 button:disabled {
-    background: #555;
-    color: #aaa;
+
+    background: #444;
+
+    color: #999;
+
     cursor: not-allowed;
+
+    transform: none;
 }
 
 .secondary {
-    background: #333;
+
+    background: #292929;
+
+    border: 1px solid #444;
 }
 
 .secondary:hover {
-    background: #444;
+
+    background: #333;
+}
+
+
+/* =========================
+   PROFILE
+========================= */
+
+.profile-header {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 15px;
+}
+
+.profile-avatar {
+
+    width: 58px;
+
+    height: 58px;
+
+    border-radius: 50%;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    background:
+        linear-gradient(
+            135deg,
+            #ff7900,
+            #ff4d00
+        );
+
+    font-size: 28px;
+}
+
+.profile-info {
+
+    flex: 1;
+}
+
+.profile-info h2 {
+
+    margin: 0 0 4px 0;
+
+    color: white;
+
+    font-size: 20px;
+}
+
+.profile-info p {
+
+    margin: 0;
+
+    color: #999;
+
+    font-size: 13px;
+}
+
+
+/* =========================
+   PONTOS
+========================= */
+
+.points-box {
+
+    margin-top: 20px;
+
+    padding: 20px;
+
+    border-radius: 15px;
+
+    text-align: center;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255,114,0,0.15),
+            rgba(255,114,0,0.04)
+        );
+
+    border: 1px solid rgba(255,114,0,0.3);
+}
+
+.points-label {
+
+    color: #aaa;
+
+    font-size: 13px;
+
+    text-transform: uppercase;
+
+    letter-spacing: 1px;
 }
 
 .points {
-    font-size: 35px;
-    font-weight: bold;
-    color: #ff6a00;
-    text-align: center;
+
+    margin-top: 5px;
+
+    font-size: 42px;
+
+    font-weight: 900;
+
+    color: #ff7200;
 }
 
-.challenge,
-.reward {
-    border: 2px solid #333;
+
+/* =========================
+   SECTION TITLE
+========================= */
+
+.section-title {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 10px;
+}
+
+.section-title h2 {
+
+    margin-bottom: 5px;
+}
+
+
+/* =========================
+   FILTERS
+========================= */
+
+.filterRow {
+
+    display: grid;
+
+    grid-template-columns:
+        1fr 1fr;
+
+    gap: 12px;
+
+    margin: 18px 0;
+}
+
+.filterBox {
+
+    background: #151515;
+
+    padding: 10px;
+
     border-radius: 12px;
-    padding: 15px;
-    margin-top: 15px;
+
+    border: 1px solid #333;
 }
 
-.reward h3,
+.filterLabel {
+
+    font-size: 12px;
+
+    color: #999;
+
+    margin-bottom: 4px;
+
+    font-weight: bold;
+}
+
+
+/* =========================
+   CHALLENGES
+========================= */
+
+.challenge {
+
+    background: #171717;
+
+    border: 1px solid #333;
+
+    border-radius: 15px;
+
+    padding: 18px;
+
+    margin-top: 14px;
+
+    transition:
+        border-color 0.2s,
+        transform 0.2s;
+}
+
+.challenge:hover {
+
+    border-color: #ff7200;
+
+    transform: translateY(-2px);
+}
+
 .challenge h3 {
-    margin-top: 0;
+
+    margin: 0 0 12px 0;
+
+    font-size: 19px;
 }
 
-.reward p {
-    margin: 8px 0;
+.location-meta {
+
+    color: #aaa;
+
+    font-size: 14px;
 }
+
+.points-reward {
+
+    display: inline-block;
+
+    margin-top: 10px;
+
+    padding: 7px 11px;
+
+    border-radius: 20px;
+
+    background: rgba(255,114,0,0.12);
+
+    color: #ff7200;
+
+    font-size: 13px;
+
+    font-weight: bold;
+}
+
+
+/* =========================
+   REWARDS
+========================= */
+
+.reward {
+
+    background:
+        linear-gradient(
+            145deg,
+            #1d1d1d,
+            #151515
+        );
+
+    border: 1px solid #333;
+
+    border-radius: 16px;
+
+    padding: 18px;
+
+    margin-top: 15px;
+
+    position: relative;
+
+    overflow: hidden;
+}
+
+.reward::before {
+
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+
+    left: 0;
+
+    width: 4px;
+
+    height: 100%;
+
+    background: #ff7200;
+}
+
+.reward h3 {
+
+    margin-top: 0;
+
+    margin-bottom: 14px;
+
+    font-size: 19px;
+}
+
+.reward-line {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    gap: 10px;
+
+    padding: 7px 0;
+
+    border-bottom: 1px solid #292929;
+
+    font-size: 14px;
+}
+
+.reward-line:last-of-type {
+
+    border-bottom: none;
+}
+
+.reward-label {
+
+    color: #999;
+}
+
+.reward-value {
+
+    text-align: right;
+
+    font-weight: bold;
+}
+
+.reward-points {
+
+    color: #ff7200;
+}
+
+
+/* =========================
+   MESSAGE
+========================= */
 
 .message {
-    text-align: center;
+
     margin: 15px 0;
-    font-weight: bold;
+
+    padding: 15px;
+
+    border-radius: 12px;
+
+    background: #1c1c1c;
+
+    border: 1px solid #333;
+
+    text-align: center;
+
+    line-height: 1.5;
 }
 
 .code {
+
     margin-top: 15px;
-    padding: 15px;
-    background: #ff6a00;
+
+    padding: 18px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #ff7900,
+            #ff4d00
+        );
+
     text-align: center;
-    font-size: 28px;
-    font-weight: bold;
-    border-radius: 10px;
-    letter-spacing: 3px;
+
+    font-size: 30px;
+
+    font-weight: 900;
+
+    border-radius: 12px;
+
+    letter-spacing: 4px;
 }
 
+
+/* =========================
+   FOOTER
+========================= */
+
 footer {
+
     text-align: center;
-    padding: 30px;
-    color: #777;
+
+    padding: 35px 20px;
+
+    color: #666;
+
+    font-size: 13px;
 }
+
+
+/* =========================
+   HIDDEN
+========================= */
 
 .hidden {
     display: none !important;
 }
 
-@media (max-width: 500px) {
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 600px) {
+
+    .container {
+        padding: 14px;
+    }
+
+    .logo {
+        font-size: 36px;
+    }
 
     .filterRow {
         grid-template-columns: 1fr;
+    }
+
+    .card {
+        padding: 18px;
+    }
+
+    .hero-icon {
+        font-size: 60px;
     }
 
 }
@@ -183,40 +683,84 @@ footer {
 
 <body>
 
+
 <header>
 
-<h1>🏍️ MotoQuest</h1>
+    <div class="logo">
+        🏍️ Moto<span>Quest</span>
+    </div>
 
-<p>Explora. Conquista. Desfruta.</p>
+    <div class="tagline">
+        Explora. Conquista. Desfruta.
+    </div>
 
 </header>
+
 
 <div class="container">
 
 
-<!-- INÍCIO -->
+<!-- =========================
+     HOME
+========================= -->
 
 <section id="homeScreen">
 
-    <div class="card center">
+    <div class="card hero">
 
-        <h2>Bem-vindo ao MotoQuest 🏍️</h2>
+        <div class="hero-icon">
+            🏍️
+        </div>
+
+        <h2>
+            A tua próxima aventura começa aqui.
+        </h2>
 
         <p>
-            Descobre novos lugares, completa desafios,
-            ganha pontos e troca-os por recompensas.
+            Descobre estradas, visita lugares,
+            ganha pontos e troca-os por
+            <strong>recompensas reais.</strong>
         </p>
 
         <button onclick="showLoginScreen()">
-            🔐 Entrar
+            🚀 Começar aventura
         </button>
+
+    </div>
+
+
+    <div class="card">
+
+        <h2>Como funciona?</h2>
+
+        <p>
+            📍 <strong>1. Descobre</strong><br>
+            Encontra novos lugares para visitar.
+        </p>
+
+        <p>
+            🏍️ <strong>2. Explora</strong><br>
+            Vai de mota até ao local.
+        </p>
+
+        <p>
+            ⭐ <strong>3. Ganha pontos</strong><br>
+            Valida a tua visita através do GPS.
+        </p>
+
+        <p>
+            🎁 <strong>4. Desfruta</strong><br>
+            Troca os teus pontos por recompensas.
+        </p>
 
     </div>
 
 </section>
 
 
-<!-- LOGIN -->
+<!-- =========================
+     LOGIN
+========================= -->
 
 <section id="loginScreen" class="hidden">
 
@@ -260,7 +804,7 @@ footer {
         >
 
         <button onclick="register()">
-            Registar
+            Criar conta
         </button>
 
     </div>
@@ -276,7 +820,9 @@ footer {
 </section>
 
 
-<!-- APP -->
+<!-- =========================
+     APP
+========================= -->
 
 <section id="appScreen" class="hidden">
 
@@ -285,29 +831,48 @@ footer {
 
     <div class="card">
 
-        <h2>👤 O teu perfil</h2>
+        <div class="profile-header">
 
-        <p>
-            Utilizador:
-            <strong id="profileName">-</strong>
-        </p>
+            <div class="profile-avatar">
+                🏍️
+            </div>
 
-        <p>
-            Os teus pontos:
-        </p>
+            <div class="profile-info">
 
-        <div
-            class="points"
-            id="profilePoints"
-        >
-            0
+                <h2 id="profileName">
+                    Utilizador
+                </h2>
+
+                <p>
+                    Piloto MotoQuest
+                </p>
+
+            </div>
+
         </div>
+
+
+        <div class="points-box">
+
+            <div class="points-label">
+                Os teus pontos
+            </div>
+
+            <div
+                class="points"
+                id="profilePoints"
+            >
+                0
+            </div>
+
+        </div>
+
 
         <button
             class="secondary"
             onclick="logout()"
         >
-            🚪 Sair
+            🚪 Terminar sessão
         </button>
 
     </div>
@@ -317,22 +882,39 @@ footer {
 
     <div class="card">
 
-        <h2>🗺️ Desafios</h2>
+        <div class="section-title">
+
+            <h2>
+                🗺️ Desafios
+            </h2>
+
+        </div>
 
         <p>
-            Visita locais incríveis e ganha pontos.
+            Descobre novos lugares e ganha pontos
+            pelas tuas visitas.
         </p>
 
-        <select
-            id="locationFilter"
-            onchange="filterLocations()"
-        >
 
-            <option value="">
-                Todas as localidades
-            </option>
+        <div class="filterBox">
 
-        </select>
+            <div class="filterLabel">
+                LOCALIDADE
+            </div>
+
+            <select
+                id="locationFilter"
+                onchange="filterLocations()"
+            >
+
+                <option value="">
+                    Todas as localidades
+                </option>
+
+            </select>
+
+        </div>
+
 
         <div id="challenges">
             A carregar localizações...
@@ -345,22 +927,26 @@ footer {
 
     <div class="card">
 
-        <h2>🎁 Recompensas</h2>
+        <div class="section-title">
+
+            <h2>
+                🎁 Recompensas
+            </h2>
+
+        </div>
 
         <p>
-            Usa os teus pontos para obter descontos
+            Troca os teus pontos por descontos
             em restaurantes e hotéis parceiros.
         </p>
 
 
-        <!-- FILTROS -->
-
         <div class="filterRow">
 
-            <div>
+            <div class="filterBox">
 
                 <div class="filterLabel">
-                    Tipo de negócio
+                    TIPO DE NEGÓCIO
                 </div>
 
                 <select
@@ -385,10 +971,10 @@ footer {
             </div>
 
 
-            <div>
+            <div class="filterBox">
 
                 <div class="filterLabel">
-                    Localidade
+                    LOCALIDADE
                 </div>
 
                 <select
@@ -427,7 +1013,8 @@ footer {
 
 <footer>
 
-MotoQuest © 2026
+    MotoQuest © 2026<br>
+    Explora. Conquista. Desfruta.
 
 </footer>
 
@@ -477,6 +1064,7 @@ function hideAllScreens() {
     document
         .getElementById("appScreen")
         .classList.add("hidden");
+
 }
 
 
@@ -847,6 +1435,7 @@ function displayLocations(locations) {
 
     let html = "";
 
+
     locations.forEach(location => {
 
         html += `
@@ -857,29 +1446,24 @@ function displayLocations(locations) {
                 🏍️ ${location.name}
             </h3>
 
-            <p>
+            <div class="location-meta">
                 📍 ${location.locality}
-            </p>
-
-            ${
-                location.district
-                ?
-                `<p>
-                    🗺️ ${location.district}
-                </p>`
-                :
-                ""
-            }
+                ${
+                    location.district
+                    ?
+                    " · " + location.district
+                    :
+                    ""
+                }
+            </div>
 
             <p>
                 ${location.description || ""}
             </p>
 
-            <p>
-                🎯 <strong>
-                ${location.points} pontos
-                </strong>
-            </p>
+            <span class="points-reward">
+                ⭐ +${location.points} pontos
+            </span>
 
             <button
                 onclick="validateChallenge(
@@ -1121,10 +1705,6 @@ async function loadRewards() {
 }
 
 
-/* =========================
-   LOCALIDADES RECOMPENSAS
-========================= */
-
 function createRewardLocalityFilter() {
 
     const select =
@@ -1156,10 +1736,6 @@ function createRewardLocalityFilter() {
 
 }
 
-
-/* =========================
-   OBTER FILTROS
-========================= */
 
 function getFilteredRewards() {
 
@@ -1194,10 +1770,6 @@ function getFilteredRewards() {
 }
 
 
-/* =========================
-   FILTRAR RECOMPENSAS
-========================= */
-
 function filterRewards() {
 
     displayRewards(
@@ -1206,10 +1778,6 @@ function filterRewards() {
 
 }
 
-
-/* =========================
-   MOSTRAR RECOMPENSAS
-========================= */
 
 function displayRewards(rewards) {
 
@@ -1287,11 +1855,17 @@ function displayRewards(rewards) {
             ${
                 reward.business
                 ?
-                `<p>
-                    🏢 <strong>
-                    ${reward.business}
-                    </strong>
-                </p>`
+                `<div class="reward-line">
+
+                    <span class="reward-label">
+                        🏢 Negócio
+                    </span>
+
+                    <span class="reward-value">
+                        ${reward.business}
+                    </span>
+
+                </div>`
                 :
                 ""
             }
@@ -1300,12 +1874,17 @@ function displayRewards(rewards) {
             ${
                 reward.type
                 ?
-                `<p>
-                    🏪 Tipo:
-                    <strong>
-                    ${reward.type}
-                    </strong>
-                </p>`
+                `<div class="reward-line">
+
+                    <span class="reward-label">
+                        🏪 Tipo
+                    </span>
+
+                    <span class="reward-value">
+                        ${reward.type}
+                    </span>
+
+                </div>`
                 :
                 ""
             }
@@ -1314,12 +1893,17 @@ function displayRewards(rewards) {
             ${
                 reward.locality
                 ?
-                `<p>
-                    📍 Localidade:
-                    <strong>
-                    ${reward.locality}
-                    </strong>
-                </p>`
+                `<div class="reward-line">
+
+                    <span class="reward-label">
+                        📍 Localidade
+                    </span>
+
+                    <span class="reward-value">
+                        ${reward.locality}
+                    </span>
+
+                </div>`
                 :
                 ""
             }
@@ -1336,28 +1920,43 @@ function displayRewards(rewards) {
             }
 
 
-            <p>
-                ⭐ Os teus pontos:
-                <strong>
+            <div class="reward-line">
+
+                <span class="reward-label">
+                    ⭐ Os teus pontos
+                </span>
+
+                <span class="reward-value">
                     ${userPoints}
-                </strong>
-            </p>
+                </span>
+
+            </div>
 
 
-            <p>
-                💰 Custo:
-                <strong>
+            <div class="reward-line">
+
+                <span class="reward-label">
+                    💰 Custo
+                </span>
+
+                <span class="reward-value reward-points">
                     ${rewardPoints} pontos
-                </strong>
-            </p>
+                </span>
+
+            </div>
 
 
-            <p>
-                🎁 Recompensa:
-                <strong>
+            <div class="reward-line">
+
+                <span class="reward-label">
+                    🎁 Recompensa
+                </span>
+
+                <span class="reward-value">
                     ${reward.reward}
-                </strong>
-            </p>
+                </span>
+
+            </div>
 
 
             ${
@@ -1617,7 +2216,7 @@ function showMessage(message) {
 
 
 /* =========================
-   VERIFICAR SESSÃO
+   SESSÃO
 ========================= */
 
 async function checkSession() {
