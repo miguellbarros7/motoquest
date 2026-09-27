@@ -3855,23 +3855,38 @@ document
                 const tab =
                     button.dataset.adminTab;
 
+                // Remove active dos botões
                 document
                     .querySelectorAll(".admin-tab")
-                    .forEach(item =>
-                        item.classList.remove("active")
-                    );
+                    .forEach(item => {
+                        item.classList.remove("active");
+                    });
 
+                // Ativa o botão escolhido
                 button.classList.add("active");
 
+                // Esconde TODOS os painéis
                 document
-                    .querySelectorAll(".admin-panel")
-                    .forEach(panel =>
-                        panel.classList.remove("active")
+                    .querySelectorAll("#adminSection .admin-panel")
+                    .forEach(panel => {
+                        panel.classList.remove("active");
+                        panel.style.display = "none";
+                    });
+
+                // Mostra APENAS o painel escolhido
+                const selectedPanel =
+                    document.getElementById(
+                        `admin${capitalize(tab)}Panel`
                     );
 
-                $(`admin${capitalize(tab)}Panel`)
-                    .classList.add("active");
+                if (selectedPanel) {
 
+                    selectedPanel.classList.add("active");
+                    selectedPanel.style.display = "block";
+
+                }
+
+                // Carrega o conteúdo correspondente
                 if (tab === "locations") {
                     loadAdminLocations();
                 }
@@ -3886,12 +3901,6 @@ document
             }
         );
     });
-
-
-function capitalize(value) {
-    return value.charAt(0).toUpperCase() + value.slice(1);
-}
-
 
 /* =========================================================
    ADMIN OPEN
