@@ -2873,7 +2873,6 @@ async function loadLocations() {
     renderLocations();
 }
 
-
 function renderLocalityFilters() {
 
     const container =
@@ -2882,7 +2881,7 @@ function renderLocalityFilters() {
     const localities =
         [...new Set(
             locations
-                .map(location => location.localidade)
+                .map(location => location.locality)
                 .filter(Boolean)
         )]
         .sort((a, b) =>
@@ -2891,68 +2890,71 @@ function renderLocalityFilters() {
 
     container.innerHTML = "";
 
-    const allButton =
-        document.createElement("button");
+    const select =
+        document.createElement("select");
 
-    allButton.className =
-        "filter-btn" +
-        (
-            selectedLocalityFilter === "all"
-                ? " active"
-                : ""
+    select.id =
+        "localitySelect";
+
+    select.className =
+        "filter-select";
+
+    const allOption =
+        document.createElement("option");
+
+    allOption.value = "all";
+    allOption.textContent =
+        "Todas as localidades";
+
+    select.appendChild(
+        allOption
+    );
+
+    localities.forEach(locality => {
+
+        const option =
+            document.createElement("option");
+
+        option.value =
+            locality;
+
+        option.textContent =
+            locality;
+
+        if (
+            normalizeFilterValue(
+                selectedLocalityFilter
+            ) ===
+            normalizeFilterValue(locality)
+        ) {
+            option.selected = true;
+        }
+
+        select.appendChild(
+            option
         );
+    });
 
-    allButton.textContent =
-        "Todas";
+    if (
+        selectedLocalityFilter === "all"
+    ) {
+        select.value = "all";
+    }
 
-    allButton.addEventListener(
-        "click",
+    select.addEventListener(
+        "change",
         () => {
 
-            selectedLocalityFilter = "all";
+            selectedLocalityFilter =
+                select.value;
 
-            renderLocalityFilters();
             renderLocations();
         }
     );
 
     container.appendChild(
-        allButton
+        select
     );
-
-    localities.forEach(locality => {
-
-        const button =
-            document.createElement("button");
-
-        button.className =
-            "filter-btn" +
-            (
-                normalizeFilterValue(
-                    selectedLocalityFilter
-                ) ===
-                normalizeFilterValue(locality)
-                    ? " active"
-                    : ""
-            );
-
-        button.textContent =
-            locality;
-
-        button.addEventListener(
-            "click",
-            () => {
-
-                selectedLocalityFilter =
-                    locality;
-
-                renderLocalityFilters();
-                renderLocations();
-            }
-        );
-
-        container.appendChild(button);
-    });
 }
 
 
