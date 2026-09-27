@@ -2979,7 +2979,7 @@ function renderLocations() {
             const localityMatch =
                 selectedLocalityFilter === "all" ||
                 normalizeFilterValue(
-                    location.localidade
+                    location.locality
                 ) ===
                 normalizeFilterValue(
                     selectedLocalityFilter
@@ -3036,8 +3036,8 @@ function renderLocations() {
 
                         <div class="card-kicker">
                             ${escapeHtml(type)}
-                            ${location.localidade
-                                ? " · " + escapeHtml(location.localidade)
+                            ${location.locality
+                                ? " · " + escapeHtml(location.locality)
                                 : ""}
                         </div>
 
