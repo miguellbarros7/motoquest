@@ -2181,37 +2181,35 @@
 
                 <!-- ADMIN USERS -->
 
-                <div
-                    id="adminUsersPanel"
-                    class="admin-panel"
-                >
+<div
+    id="adminUsersPanel"
+    class="admin-panel"
+>
 
-                    <div class="admin-form">
+    <div class="admin-form">
 
-                        <h3>
-                            Utilizadores
-                        </h3>
+        <h3>
+            Utilizadores
+        </h3>
 
-                        <p class="section-subtitle">
-                            Podes alterar nome, pontos e acesso de administrador.
-                        </p>
+        <p class="section-subtitle">
+            Gere os dados e os pontos dos utilizadores.
+        </p>
 
-                    </div>
+    </div>
 
-                    <div
-                        id="adminUsersList"
-                        class="admin-list"
-                    ></div>
+    <div
+        id="adminUsersList"
+        class="admin-list"
+    ></div>
 
-                </div>
+</div>
 
-            </div>
+</div>
 
-        </section>
+</section>
 
-    </main>
-
-
+</main>
     <!-- NAV -->
 
     <nav class="bottom-nav">
@@ -5089,13 +5087,12 @@ async function loadAdminUsers() {
     const {
         data,
         error
-    } =
-        await supabaseClient
-            .from("profiles")
-            .select("*")
-            .order("created_at", {
-                ascending: false
-            });
+    } = await supabaseClient
+        .from("profiles")
+        .select("id, name, points, is_admin")
+        .order("name", {
+            ascending: true
+        });
 
     if (error) {
 
@@ -5109,8 +5106,7 @@ async function loadAdminUsers() {
         return;
     }
 
-    const users =
-        data || [];
+    const users = data || [];
 
     $("adminUsersList").innerHTML =
         users.length
@@ -5127,8 +5123,6 @@ async function loadAdminUsers() {
                         </div>
 
                         <div class="admin-item-meta">
-                            ${Number(user.points || 0)} pts
-                            ·
                             ${user.is_admin
                                 ? "Administrador"
                                 : "Utilizador"}
@@ -5140,11 +5134,54 @@ async function loadAdminUsers() {
 
                     <div class="admin-item-actions">
 
+                        <label
+                            style="
+                                display:flex;
+                                flex-direction:column;
+                                gap:5px;
+                                font-size:11px;
+                                color:#aaa;
+                            "
+                        >
+                            Nome
+
+                            <input
+                                type="text"
+                                class="admin-user-name"
+                                data-id="${user.id}"
+                                value="${escapeHtml(
+                                    user.name || ""
+                                )}"
+                            >
+                        </label>
+
+                        <label
+                            style="
+                                display:flex;
+                                flex-direction:column;
+                                gap:5px;
+                                font-size:11px;
+                                color:#aaa;
+                            "
+                        >
+                            Pontos
+
+                            <input
+                                type="number"
+                                class="admin-user-points"
+                                data-id="${user.id}"
+                                value="${Number(
+                                    user.points || 0
+                                )}"
+                                min="0"
+                            >
+                        </label>
+
                         <button
-                            class="small-btn edit-user-btn"
+                            class="small-btn save-user-btn"
                             data-id="${user.id}"
                         >
-                            Editar
+                            Guardar
                         </button>
 
                     </div>
@@ -5157,21 +5194,64 @@ async function loadAdminUsers() {
             </div>`;
 
     document
-        .querySelectorAll(".edit-user-btn")
+        .querySelectorAll(".save-user-btn")
         .forEach(button => {
 
             button.addEventListener(
                 "click",
-                () => {
+                async () => {
 
-                    const user =
-                        users.find(
-                            item =>
-                                String(item.id) ===
-                                String(button.dataset.id)
+                    const userId =
+                        button.dataset.id;
+
+                    const nameInput =
+                        document.querySelector(
+                            `.admin-user-name[data-id="${userId}"]`
                         );
 
-                    editAdminUser(user);
+                    const pointsInput =
+                        document.querySelector(
+                            `.admin-user-points[data-id="${userId}"]`
+                        );
+
+                    const name =
+                        nameInput.value.trim();
+
+                    const points =
+                        Number(
+                            pointsInput.value
+                        ) || 0;
+
+                    button.disabled = true;
+
+                    const {
+                        error
+                    } = await supabaseClient
+                        .from("profiles")
+                        .update({
+                            name: name,
+                            points: points
+                        })
+                        .eq("id", userId);
+
+                    button.disabled = false;
+
+                    if (error) {
+
+                        console.error(error);
+
+                        alert(
+                            "Erro ao guardar as alterações."
+                        );
+
+                        return;
+                    }
+
+                    alert(
+                        "Utilizador atualizado com sucesso."
+                    );
+
+                    loadAdminUsers();
                 }
             );
         });
