@@ -3840,7 +3840,6 @@ $("extractCoordinatesBtn").addEventListener(
 /* =========================================================
    ADMIN TABS
 ========================================================= */
-
 document
     .querySelectorAll(".admin-tab")
     .forEach(button => {
@@ -3852,38 +3851,29 @@ document
                 const tab =
                     button.dataset.adminTab;
 
-                // Remove active dos botões
                 document
                     .querySelectorAll(".admin-tab")
                     .forEach(item => {
                         item.classList.remove("active");
                     });
 
-                // Ativa o botão escolhido
                 button.classList.add("active");
 
-                // Esconde TODOS os painéis
                 document
                     .querySelectorAll("#adminSection .admin-panel")
                     .forEach(panel => {
                         panel.classList.remove("active");
-                        panel.style.display = "none";
                     });
 
-                // Mostra APENAS o painel escolhido
                 const selectedPanel =
                     document.getElementById(
                         `admin${capitalize(tab)}Panel`
                     );
 
                 if (selectedPanel) {
-
                     selectedPanel.classList.add("active");
-                    selectedPanel.style.display = "block";
-
                 }
 
-                // Carrega o conteúdo correspondente
                 if (tab === "locations") {
                     loadAdminLocations();
                 }
@@ -3899,6 +3889,42 @@ document
         );
     });
 
+
+/* =========================================================
+   ADMIN OPEN
+========================================================= */
+
+$("openAdminBtn").addEventListener(
+    "click",
+    () => {
+
+        if (!isAdmin()) {
+            return;
+        }
+
+        showSection("admin");
+    }
+);
+
+
+$("adminBackBtn").addEventListener(
+    "click",
+    () => {
+        showSection("profile");
+    }
+);
+
+
+async function loadAdminData() {
+
+    if (!isAdmin()) return;
+
+    await Promise.all([
+        loadAdminLocations(),
+        loadAdminRewards(),
+        loadAdminUsers()
+    ]);
+}
 /* =========================================================
    ADMIN OPEN
 ========================================================= */
