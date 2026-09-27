@@ -1345,6 +1345,8 @@
   
   <div class="location-filters">
 
+    <div class="location-filters">
+
     <div class="filter-group">
 
         <label
@@ -1393,9 +1395,12 @@
             <option value="monumento">
                 Monumento
             </option>
+
         </select>
 
     </div>
+
+</div>
 
 </div>
     <div
@@ -2928,8 +2933,10 @@ async function loadLocations() {
 
 function renderLocalityFilters() {
 
-    const container =
-        $("localityFilters");
+    const select =
+        $("localitySelect");
+
+    if (!select) return;
 
     const localities =
         [...new Set(
@@ -2941,76 +2948,26 @@ function renderLocalityFilters() {
             a.localeCompare(b, "pt")
         );
 
-    container.innerHTML = "";
-
-    const select =
-        document.createElement("select");
-
-    select.id =
-        "localitySelect";
-
-    select.className =
-        "filter-select";
-
-    const allOption =
-        document.createElement("option");
-
-    allOption.value = "all";
-    allOption.textContent =
-        "Todas as localidades";
-
-    select.appendChild(
-        allOption
-    );
+    select.innerHTML = `
+        <option value="all">
+            Todas as localidades
+        </option>
+    `;
 
     localities.forEach(locality => {
 
         const option =
             document.createElement("option");
 
-        option.value =
-            locality;
+        option.value = locality;
+        option.textContent = locality;
 
-        option.textContent =
-            locality;
-
-        if (
-            normalizeFilterValue(
-                selectedLocalityFilter
-            ) ===
-            normalizeFilterValue(locality)
-        ) {
-            option.selected = true;
-        }
-
-        select.appendChild(
-            option
-        );
+        select.appendChild(option);
     });
 
-    if (
-        selectedLocalityFilter === "all"
-    ) {
-        select.value = "all";
-    }
-
-    select.addEventListener(
-        "change",
-        () => {
-
-            selectedLocalityFilter =
-                select.value;
-
-            renderLocations();
-        }
-    );
-
-    container.appendChild(
-        select
-    );
+    select.value =
+        selectedLocalityFilter || "all";
 }
-
-
 function renderLocations() {
 
     const container =
@@ -3221,30 +3178,39 @@ function buildPhotoCredit(item) {
 
 /* TYPE FILTERS */
 
-document
-    .querySelectorAll(".type-filter")
-    .forEach(button => {
+const localitySelect =
+    $("localitySelect");
 
-        button.addEventListener(
-            "click",
-            () => {
+if (localitySelect) {
 
-                document
-                    .querySelectorAll(".type-filter")
-                    .forEach(item =>
-                        item.classList.remove("active")
-                    );
+    localitySelect.addEventListener(
+        "change",
+        () => {
 
-                button.classList.add("active");
+            selectedLocalityFilter =
+                localitySelect.value;
 
-                selectedTypeFilter =
-                    button.dataset.type;
+            renderLocations();
+        }
+    );
+}
 
-                renderLocations();
-            }
-        );
-    });
+const typeSelect =
+    $("typeSelect");
 
+if (typeSelect) {
+
+    typeSelect.addEventListener(
+        "change",
+        () => {
+
+            selectedTypeFilter =
+                typeSelect.value;
+
+            renderLocations();
+        }
+    );
+}
 
 /* =========================================================
    REWARDS
