@@ -919,7 +919,19 @@
             display: grid;
             grid-template-columns: repeat(5, 1fr);
         }
+.nav-btn {
+    transition: 0.25s ease;
+}
 
+.nav-btn:hover {
+    color: var(--orange);
+    background: rgba(255, 102, 0, 0.12);
+    box-shadow: inset 0 0 20px rgba(255, 102, 0, 0.18);
+}
+
+.nav-btn:hover .nav-icon {
+    color: var(--orange);
+}
         .nav-btn {
             border: 0;
             background: transparent;
