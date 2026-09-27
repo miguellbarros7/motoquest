@@ -1292,59 +1292,62 @@
         </div>
     </div>
 
+  
+  <div class="location-filters">
+
     <div class="filter-group">
 
-        <div class="filter-label">
+        <label
+            class="filter-label"
+            for="localitySelect"
+        >
             Localidade
-        </div>
+        </label>
 
-        <div
-            id="localityFilters"
-            class="filters"
-        ></div>
+        <select
+            id="localitySelect"
+            class="filter-select"
+        >
+            <option value="all">
+                Todas as localidades
+            </option>
+        </select>
 
     </div>
 
     <div class="filter-group">
 
-        <div class="filter-label">
+        <label
+            class="filter-label"
+            for="typeSelect"
+        >
             Tipo de local
-        </div>
+        </label>
 
-        <div class="filters">
+        <select
+            id="typeSelect"
+            class="filter-select"
+        >
+            <option value="all">
+                Todos os tipos
+            </option>
 
-            <button
-                class="filter-btn type-filter active"
-                data-type="all"
-            >
-                Todos
-            </button>
-
-            <button
-                class="filter-btn type-filter"
-                data-type="miradouro"
-            >
+            <option value="miradouro">
                 Miradouro
-            </button>
+            </option>
 
-            <button
-                class="filter-btn type-filter"
-                data-type="baloico"
-            >
+            <option value="baloico">
                 Baloiço
-            </button>
+            </option>
 
-            <button
-                class="filter-btn type-filter"
-                data-type="monumento"
-            >
+            <option value="monumento">
                 Monumento
-            </button>
-
-        </div>
+            </option>
+        </select>
 
     </div>
 
+</div>
     <div
         id="locationsGrid"
         class="locations-grid"
