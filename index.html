@@ -4495,7 +4495,7 @@ $("locationForm").addEventListener(
 
         const payload = {
             name,
-            localidade: locality,
+            locality: locality,
             type,
             points,
             description,
@@ -4509,7 +4509,59 @@ $("locationForm").addEventListener(
                     ? null
                     : Number(lngValue)
         };
+if (selectedLocationImageFile) {
 
+    showMessage(
+        "locationAdminMessage",
+        "A carregar a fotografia..."
+    );
+
+    const safeName =
+        selectedLocationImageFile.name
+            .replace(/[^a-zA-Z0-9._-]/g, "-")
+            .replace(/-+/g, "-");
+
+    const storagePath =
+        Date.now() + "-" + safeName;
+
+    const {
+        data: uploadData,
+        error: uploadError
+    } =
+        await supabaseClient
+            .storage
+            .from("location-images")
+            .upload(
+                storagePath,
+                selectedLocationImageFile,
+                {
+                    cacheControl: "3600",
+                    upsert: false,
+                    contentType:
+                        selectedLocationImageFile.type
+                }
+            );
+
+    if (uploadError) {
+        throw uploadError;
+    }
+
+    const {
+        data: publicUrlData
+    } =
+        supabaseClient
+            .storage
+            .from("location-images")
+            .getPublicUrl(storagePath);
+
+    payload.image_url =
+        publicUrlData.publicUrl;
+
+    payload.image_photographer = null;
+    payload.image_photographer_url = null;
+    payload.image_credit = null;
+
+}
         if (selectedLocationPhoto) {
 
             payload.image_url =
@@ -4869,106 +4921,7 @@ $("rewardForm").addEventListener(
                 $("rewardDescription").value.trim()
         };
 
-      if (selectedLocationImageFile) {
-
-    showMessage(
-        "locationAdminMessage",
-        "A carregar a fotografia..."
-    );
-
-    const safeName =
-        selectedLocationImageFile.name
-            .replace(/[^a-zA-Z0-9._-]/g, "-")
-            .replace(/-+/g, "-");
-
-    const storagePath =
-        Date.now() + "-" + safeName;
-
-    console.log("1 - Vou iniciar upload");
-console.log("2 - Ficheiro:", selectedLocationImageFile);
-console.log("3 - Nome:", selectedLocationImageFile?.name);
-console.log("4 - Tipo:", selectedLocationImageFile?.type);
-console.log("5 - Tamanho:", selectedLocationImageFile?.size);
-
-const {
-    data: uploadData,
-    error: uploadError
-} =
-    await supabaseClient
-        .storage
-        .from("location-images")
-        .upload(
-            storagePath,
-            selectedLocationImageFile,
-            {
-                cacheControl: "3600",
-                upsert: false,
-                contentType:
-                    selectedLocationImageFile.type
-            }
-        );
-
-console.log("6 - Resultado upload:", uploadData);
-console.log("7 - Erro upload:", uploadError);
-
-if (uploadError) {
-    console.error("ERRO NO UPLOAD:", uploadError);
-
-    alert(
-        "Erro no upload:\n\n" +
-        (uploadError.message || JSON.stringify(uploadError))
-    );
-
-    return;
-}
-
-alert("Fotografia enviada para o Storage!");
-
-if (uploadError) {
-    console.error("ERRO NO UPLOAD DA FOTO:", uploadError);
-    alert(
-        "Erro ao carregar a fotografia:\n\n" +
-        (uploadError.message || JSON.stringify(uploadError))
-    );
-    return;
-}
-
-    const {
-        data: publicUrlData
-    } =
-        supabaseClient
-            .storage
-            .from("location-images")
-            .getPublicUrl(storagePath);
-
-    payload.image_url =
-        publicUrlData.publicUrl;
-
-    payload.image_photographer = null;
-    payload.image_photographer_url = null;
-    payload.image_credit = null;
-
-} else if (selectedLocationPhoto) {
-
-    payload.image_url =
-        selectedLocationPhoto.src?.large2x ||
-        selectedLocationPhoto.src?.large ||
-        selectedLocationPhoto.src?.medium ||
-        selectedLocationPhoto.src?.original ||
-        null;
-
-    payload.image_photographer =
-        selectedLocationPhoto.photographer ||
-        "Pexels";
-
-    payload.image_photographer_url =
-        selectedLocationPhoto.photographer_url ||
-        "https://www.pexels.com/";
-
-    payload.image_credit =
-        selectedLocationPhoto.photographer ||
-        "Pexels";
-}
+      
 
         try {
 
