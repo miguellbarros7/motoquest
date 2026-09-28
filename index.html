@@ -1244,10 +1244,14 @@
             class="section active"
         >
 
-            <div class="welcome">
-                <span>Bem-vindo,</span>
-                <strong id="welcomeName">Motard</strong>
-            </div>
+         <div class="welcome">
+    <span>Bem-vindo,</span>
+    <strong id="welcomeName">Motard</strong>
+
+    <div class="welcome-points">
+        <span id="welcomePoints">0</span> pontos
+    </div>
+</div>
 
             <div class="home-grid">
 
@@ -2754,6 +2758,7 @@ function updateProfileUI() {
 
     $("welcomeName").textContent = name;
     $("topPoints").textContent = points;
+    $("welcomePoints").textContent = points;
     $("profileName").textContent = name;
 
     $("profileEmail").textContent =
