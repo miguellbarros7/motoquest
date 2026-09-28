@@ -3113,26 +3113,34 @@ function updateProfileUI() {
 
 async function initializeApp() {
 
- $("authScreen")
-    .classList.add("hidden");
-
-$("app")
-    .classList.remove("hidden");
-
-$("app").querySelector(".bottom-nav").style.display = "grid";
-
     if (!currentUser) {
 
         const {
             data
-        } =
-            await supabaseClient.auth.getUser();
+        } = await supabaseClient.auth.getUser();
 
         currentUser = data.user;
     }
 
     if (!currentUser) {
+
+        $("app").classList.add("hidden");
+        $("authScreen").classList.remove("hidden");
+
         return;
+    }
+
+    $("authScreen")
+        .classList.add("hidden");
+
+    $("app")
+        .classList.remove("hidden");
+
+    const bottomNav =
+        $("app").querySelector(".bottom-nav");
+
+    if (bottomNav) {
+        bottomNav.style.display = "grid";
     }
 
     try {
