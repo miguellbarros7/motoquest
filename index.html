@@ -3996,21 +3996,30 @@ $("confirmVisitBtn").addEventListener(
             }
 
 
-            const {
-                data: publicUrlData
-            } =
-                supabaseClient
-                    .storage
-                    .from("location-images")
-                    .getPublicUrl(
-                        filePath
-                    );
+         const {
+    data: publicUrlData
+} =
+    supabaseClient
+        .storage
+        .from("location-images")
+        .getPublicUrl(
+            filePath
+        );
 
+const imageUrl =
+    publicUrlData?.publicUrl || null;
 
-            const photoUrl =
-                publicUrlData.publicUrl;
+console.log(
+    "FOTO SUGESTÃO:",
+    imageUrl
+);
 
+if (!imageUrl) {
 
+    throw new Error(
+        "A fotografia foi carregada, mas não foi possível obter o URL."
+    );
+}
             /* Guardar visita */
 
             const {
