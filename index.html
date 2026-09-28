@@ -4402,11 +4402,22 @@ $("suggestForm").addEventListener(
                         }
                     );
 
-            if (uploadError) {
-                throw uploadError;
-            }
+          if (uploadError) {
 
+    console.error(
+        "ERRO UPLOAD FOTO SUGESTÃO:",
+        uploadError
+    );
 
+    showMessage(
+        "suggestMessage",
+        "Erro ao carregar a fotografia: " +
+        uploadError.message,
+        "error"
+    );
+
+    return;
+}
             /* 2. Obter URL da fotografia */
 
             const {
