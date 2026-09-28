@@ -3547,8 +3547,8 @@ document.addEventListener(
 
             $("editNameMessage").textContent = "";
 
-            $("editNameModal")
-                .classList.remove("hidden");
+            $("editNameInline")
+                .classList.toggle("hidden");
 
             return;
         }
@@ -3558,7 +3558,7 @@ document.addEventListener(
             event.target.closest("#cancelEditNameBtn")
         ) {
 
-            $("editNameModal")
+            $("editNameInline")
                 .classList.add("hidden");
 
             return;
@@ -3633,7 +3633,7 @@ async function saveProfileName() {
 
         updateProfileUI();
 
-        $("editNameModal")
+        $("editNameInline")
             .classList.add("hidden");
 
         alert(
