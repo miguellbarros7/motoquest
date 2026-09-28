@@ -1176,6 +1176,95 @@ body.nav-ready .bottom-nav {
     font-size: 13px;
     font-weight: 600;
 }
+/* =========================
+   TOPO MOTOQUEST
+========================= */
+
+.topbar {
+    position: relative;
+}
+
+.top-actions {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.top-points {
+    border: 1px solid rgba(255, 106, 0, .25);
+    background: rgba(255, 106, 0, .08);
+    color: #fff;
+    border-radius: 999px;
+    padding: 8px 12px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 12px;
+}
+
+.top-points strong {
+    color: #fff;
+    font-size: 14px;
+}
+
+.top-points span:last-child {
+    color: var(--orange);
+    font-weight: 700;
+}
+
+.top-menu-btn {
+    width: 38px;
+    height: 38px;
+    border: 1px solid var(--border);
+    border-radius: 50%;
+    background: var(--panel-2);
+    color: #fff;
+    font-size: 24px;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.top-menu-btn:hover {
+    border-color: rgba(255, 106, 0, .45);
+}
+
+.top-menu {
+    position: absolute;
+    top: 48px;
+    right: 0;
+    width: 190px;
+    padding: 6px;
+    background: #151515;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    box-shadow: 0 12px 30px rgba(0,0,0,.45);
+    z-index: 500;
+}
+
+.top-menu button {
+    width: 100%;
+    border: 0;
+    background: transparent;
+    color: #fff;
+    padding: 12px 10px;
+    border-radius: 9px;
+    text-align: left;
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    font-size: 13px;
+}
+
+.top-menu button:hover {
+    background: #202020;
+}
+
+.top-menu #topLogoutBtn {
+    color: #ff6a00;
+}
     </style>
 </head>
 
@@ -1257,23 +1346,69 @@ body.nav-ready .bottom-nav {
 ========================= -->
 
 <div id="app" class="hidden">
+<header class="topbar">
 
-    <header class="topbar">
+    <button
+        id="brandHomeBtn"
+        class="brand"
+        type="button"
+    >
+        MOTO<span>QUEST</span>
+    </button>
+
+    <div class="top-actions">
 
         <button
-            id="brandHomeBtn"
-            class="brand"
+            id="topPointsBtn"
+            class="top-points"
+            type="button"
+            data-go="rewards"
         >
-            MOTO<span>QUEST</span>
-        </button>
-
-        <div class="top-points">
-            <span>●</span>
+            <span>🏆</span>
             <strong id="topPoints">0</strong>
             <span>pts</span>
+        </button>
+
+        <button
+            id="topMenuBtn"
+            class="top-menu-btn"
+            type="button"
+            aria-label="Abrir menu"
+        >
+            ⋮
+        </button>
+
+        <div
+            id="topMenu"
+            class="top-menu hidden"
+        >
+
+            <button
+                type="button"
+                data-go="profile"
+            >
+                👤 <span>O meu perfil</span>
+            </button>
+
+            <button
+                type="button"
+                id="topSettingsBtn"
+            >
+                ⚙️ <span>Definições</span>
+            </button>
+
+            <button
+                type="button"
+                id="topLogoutBtn"
+            >
+                🚪 <span>Terminar sessão</span>
+            </button>
+
         </div>
 
-    </header>
+    </div>
+
+</header>
 
 
     <main>
@@ -3189,6 +3324,72 @@ document.body.classList.remove("nav-ready");
         setAuthMode("login");
     }
 );
+/* =========================
+   MENU DO TOPO
+========================= */
+
+$("topMenuBtn").addEventListener(
+    "click",
+    event => {
+
+        event.stopPropagation();
+
+        $("topMenu").classList.toggle("hidden");
+    }
+);
+
+
+/* Fechar menu ao clicar fora */
+
+document.addEventListener(
+    "click",
+    event => {
+
+        const menu =
+            $("topMenu");
+
+        const button =
+            $("topMenuBtn");
+
+        if (
+            !menu.contains(event.target) &&
+            !button.contains(event.target)
+        ) {
+            menu.classList.add("hidden");
+        }
+    }
+);
+
+
+/* Terminar sessão pelo menu do topo */
+
+$("topLogoutBtn").addEventListener(
+    "click",
+    () => {
+
+        $("topMenu").classList.add("hidden");
+
+        $("logoutBtn").click();
+    }
+);
+
+
+/* Fechar menu ao escolher uma opção */
+
+$("topMenu")
+    .querySelectorAll("[data-go]")
+    .forEach(button => {
+
+        button.addEventListener(
+            "click",
+            () => {
+
+                $("topMenu").classList.add("hidden");
+
+            }
+        );
+
+    });
 
 
 /* =========================================================
