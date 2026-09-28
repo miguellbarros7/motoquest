@@ -2521,9 +2521,45 @@
             style="margin-bottom:20px;"
         ></div>
 
+        <!-- LOCALIZAÇÃO -->
+
+        <button
+            id="getVisitLocationBtn"
+            class="secondary-btn full-btn"
+            type="button"
+        >
+            📍 Confirmar a minha localização
+        </button>
+
+        <div
+            id="visitLocationStatus"
+            class="form-message"
+        ></div>
+
+
+        <!-- FOTOGRAFIA -->
+
+        <div
+            class="field"
+            style="margin-top:18px;"
+        >
+            <label>Foto da visita</label>
+
+            <input
+                id="visitPhotoInput"
+                type="file"
+                accept="image/*"
+                capture="environment"
+            >
+        </div>
+
+
+        <!-- CONFIRMAR -->
+
         <button
             id="confirmVisitBtn"
             class="primary-btn full-btn"
+            type="button"
         >
             Confirmar visita
         </button>
@@ -2535,7 +2571,6 @@
 
     </div>
 </div>
-
 
 <!-- =========================
      REWARD MODAL
@@ -3687,6 +3722,131 @@ function openVisitModal(location) {
     $("visitModal")
         .classList.add("open");
 }
+function calculateDistance(
+    lat1,
+    lon1,
+    lat2,
+    lon2
+) {
+    const earthRadius = 6371000;
+
+    const toRadians =
+        degrees =>
+            degrees * Math.PI / 180;
+
+    const dLat =
+        toRadians(lat2 - lat1);
+
+    const dLon =
+        toRadians(lon2 - lon1);
+
+    const a =
+        Math.sin(dLat / 2) *
+        Math.sin(dLat / 2) +
+        Math.cos(toRadians(lat1)) *
+        Math.cos(toRadians(lat2)) *
+        Math.sin(dLon / 2) *
+        Math.sin(dLon / 2);
+
+    const c =
+        2 *
+        Math.atan2(
+            Math.sqrt(a),
+            Math.sqrt(1 - a)
+        );
+
+    return earthRadius * c;
+}
+const VISIT_RADIUS_METERS = 100;
+
+let currentVisitLatitude = null;
+let currentVisitLongitude = null;
+
+
+$("getVisitLocationBtn").addEventListener(
+    "click",
+    () => {
+
+        if (!selectedVisitLocation) {
+            return;
+        }
+
+        if (!navigator.geolocation) {
+
+            showMessage(
+                "visitLocationStatus",
+                "O teu dispositivo não suporta localização.",
+                "error"
+            );
+
+            return;
+        }
+
+        showMessage(
+            "visitLocationStatus",
+            "A obter a tua localização...",
+            "success"
+        );
+
+        navigator.geolocation.getCurrentPosition(
+            position => {
+
+                currentVisitLatitude =
+                    position.coords.latitude;
+
+                currentVisitLongitude =
+                    position.coords.longitude;
+
+
+                const distance =
+                    calculateDistance(
+                        currentVisitLatitude,
+                        currentVisitLongitude,
+                        Number(selectedVisitLocation.latitude),
+                        Number(selectedVisitLocation.longitude)
+                    );
+
+
+                if (distance <= VISIT_RADIUS_METERS) {
+
+                    showMessage(
+                        "visitLocationStatus",
+                        `Estás no local. Distância: ${Math.round(distance)} m.`,
+                        "success"
+                    );
+
+                } else {
+
+                    showMessage(
+                        "visitLocationStatus",
+                        `Estás a ${Math.round(distance)} m do local. Aproxima-te para confirmar a visita.`,
+                        "error"
+                    );
+
+                    currentVisitLatitude = null;
+                    currentVisitLongitude = null;
+                }
+
+            },
+            error => {
+
+                console.error(error);
+
+                showMessage(
+                    "visitLocationStatus",
+                    "Não foi possível obter a localização. Verifica as permissões do navegador.",
+                    "error"
+                );
+
+            },
+            {
+                enableHighAccuracy: true,
+                timeout: 10000,
+                maximumAge: 0
+            }
+        );
+    }
+);
 
 
 $("confirmVisitBtn").addEventListener(
@@ -3694,6 +3854,35 @@ $("confirmVisitBtn").addEventListener(
     async () => {
 
         if (!selectedVisitLocation || !currentUser) {
+            return;
+        }
+
+        if (
+            currentVisitLatitude === null ||
+            currentVisitLongitude === null
+        ) {
+
+            showMessage(
+                "visitMessage",
+                "Primeiro confirma a tua localização.",
+                "error"
+            );
+
+            return;
+        }
+
+        const photoFile =
+            $("visitPhotoInput")
+                .files?.[0] || null;
+
+        if (!photoFile) {
+
+            showMessage(
+                "visitMessage",
+                "Tira uma fotografia para confirmar a visita.",
+                "error"
+            );
+
             return;
         }
 
@@ -3709,26 +3898,143 @@ $("confirmVisitBtn").addEventListener(
                     selectedVisitLocation.points || 0
                 );
 
+
+            const distance =
+                calculateDistance(
+                    currentVisitLatitude,
+                    currentVisitLongitude,
+                    Number(selectedVisitLocation.latitude),
+                    Number(selectedVisitLocation.longitude)
+                );
+
+
+            if (distance > VISIT_RADIUS_METERS) {
+
+                throw new Error(
+                    "Estás demasiado longe deste local."
+                );
+            }
+
+
+            /* Verificar se já visitou */
+
+            const {
+                data: existingVisit,
+                error: existingVisitError
+            } =
+                await supabaseClient
+                    .from("visits")
+                    .select("id")
+                    .eq(
+                        "user_id",
+                        currentUser.id
+                    )
+                    .eq(
+                        "location_id",
+                        selectedVisitLocation.id
+                    )
+                    .maybeSingle();
+
+            if (existingVisitError) {
+                throw existingVisitError;
+            }
+
+            if (existingVisit) {
+
+                throw new Error(
+                    "Já confirmaste a visita a este local."
+                );
+            }
+
+
+            /* Upload da fotografia */
+
+            const extension =
+                photoFile.name
+                    .split(".")
+                    .pop()
+                    .toLowerCase();
+
+            const filePath =
+                `visits/${currentUser.id}/${Date.now()}.${extension}`;
+
+
+            const {
+                error: uploadError
+            } =
+                await supabaseClient
+                    .storage
+                    .from("location-images")
+                    .upload(
+                        filePath,
+                        photoFile,
+                        {
+                            upsert: false
+                        }
+                    );
+
+            if (uploadError) {
+                throw uploadError;
+            }
+
+
+            const {
+                data: publicUrlData
+            } =
+                supabaseClient
+                    .storage
+                    .from("location-images")
+                    .getPublicUrl(
+                        filePath
+                    );
+
+
+            const photoUrl =
+                publicUrlData.publicUrl;
+
+
+            /* Guardar visita */
+
             const {
                 error: visitError
             } =
                 await supabaseClient
                     .from("visits")
                     .insert({
-                        user_id: currentUser.id,
+                        user_id:
+                            currentUser.id,
+
                         location_id:
                             selectedVisitLocation.id,
-                        points
+
+                        photo_url:
+                            photoUrl,
+
+                        latitude:
+                            currentVisitLatitude,
+
+                        longitude:
+                            currentVisitLongitude,
+
+                        distance_meters:
+                            distance,
+
+                        points_awarded:
+                            points
                     });
 
             if (visitError) {
                 throw visitError;
             }
 
+
+            /* Atualizar pontos */
+
             const newPoints =
                 Number(
                     currentProfile?.points || 0
                 ) + points;
+
 
             const {
                 data,
@@ -3737,9 +4043,13 @@ $("confirmVisitBtn").addEventListener(
                 await supabaseClient
                     .from("profiles")
                     .update({
-                        points: newPoints
+                        points:
+                            newPoints
                     })
-                    .eq("id", currentUser.id)
+                    .eq(
+                        "id",
+                        currentUser.id
+                    )
                     .select()
                     .single();
 
@@ -3747,15 +4057,19 @@ $("confirmVisitBtn").addEventListener(
                 throw error;
             }
 
-            currentProfile = data;
+
+            currentProfile =
+                data;
 
             updateProfileUI();
 
+
             showMessage(
                 "visitMessage",
-                `Visita registada. Ganhaste ${points} pontos!`,
+                `Visita confirmada! Ganhaste ${points} pontos.`,
                 "success"
             );
+
 
             await loadHistory();
 
@@ -3766,7 +4080,7 @@ $("confirmVisitBtn").addEventListener(
             showMessage(
                 "visitMessage",
                 error.message ||
-                "Não foi possível registar a visita.",
+                "Não foi possível confirmar a visita.",
                 "error"
             );
 
@@ -3776,7 +4090,6 @@ $("confirmVisitBtn").addEventListener(
         }
     }
 );
-
 
 /* =========================================================
    REWARD MODAL
