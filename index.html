@@ -3971,12 +3971,7 @@ async function loadFavorites() {
 }
 function renderLocations() {
 
-    const container =
-        $("locationsGrid");
-
     const filtered =
-        locations.filter(location => {
-            const filtered =
     locations.filter(location => {
 
         const viewMatch =
@@ -3986,27 +3981,25 @@ function renderLocations() {
             );
 
         const localityMatch =
+            selectedLocalityFilter === "all" ||
+            normalizeFilterValue(
+                location.locality
+            ) ===
+            normalizeFilterValue(
+                selectedLocalityFilter
+            );
 
-            const localityMatch =
-                selectedLocalityFilter === "all" ||
-                normalizeFilterValue(
-                    location.locality
-                ) ===
-                normalizeFilterValue(
-                    selectedLocalityFilter
-                );
+        const typeMatch =
+            selectedTypeFilter === "all" ||
+            normalizeFilterValue(
+                location.type
+            ) ===
+            normalizeFilterValue(
+                selectedTypeFilter
+            );
 
-            const typeMatch =
-                selectedTypeFilter === "all" ||
-                normalizeFilterValue(
-                    location.type
-                ) ===
-                normalizeFilterValue(
-                    selectedTypeFilter
-                );
-
-return viewMatch && localityMatch && typeMatch;
-        });
+        return viewMatch && localityMatch && typeMatch;
+    });
 
     if (!filtered.length) {
 
