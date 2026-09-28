@@ -1736,15 +1736,39 @@
                     >
                         Recompensas
                     </button>
+<button
+    class="admin-tab"
+    data-admin-tab="users"
+>
+    Utilizadores
+</button>
 
-                    <button
-                        class="admin-tab"
-                        data-admin-tab="users"
-                    >
-                        Utilizadores
-                    </button>
+<button
+    class="admin-tab"
+    data-admin-tab="suggestions"
+>
+    Sugestões
+</button>
 
-                </div>
+</div>
+
+<div
+    id="adminSuggestionsNotice"
+    class="hidden"
+    style="
+        margin:-8px 0 20px;
+        padding:12px 14px;
+        border:1px solid rgba(255,106,0,.28);
+        border-radius:12px;
+        background:rgba(255,106,0,.08);
+        color:#fff;
+        font-size:13px;
+    "
+>
+    🟠 Tens
+    <strong id="adminPendingSuggestionsCount">0</strong>
+    sugestões para analisar.
+</div>
 
 
                 <!-- ADMIN LOCATIONS -->
@@ -2219,10 +2243,39 @@
 
     </div>
 
+   <div
+    id="adminUsersList"
+    class="admin-list"
+></div>
+
+</div>
+
+
+<!-- ADMIN SUGESTÕES -->
+
+<div
+    id="adminSuggestionsPanel"
+    class="admin-panel"
+>
+
+    <div class="admin-form">
+
+        <h3>
+            Sugestões de locais
+        </h3>
+
+        <p class="section-subtitle">
+            Analisa os locais enviados pelos utilizadores.
+        </p>
+
+    </div>
+
     <div
-        id="adminUsersList"
+        id="adminSuggestionsList"
         class="admin-list"
     ></div>
+
+</div>
 
 </div>
 
@@ -4022,6 +4075,9 @@ document
                 if (tab === "users") {
                     loadAdminUsers();
                 }
+if (tab === "suggestions") {
+    loadAdminSuggestions();
+}
             }
         );
     });
@@ -4058,11 +4114,12 @@ async function loadAdminData() {
 
     if (!isAdmin()) return;
 
-    await Promise.all([
-        loadAdminLocations(),
-        loadAdminRewards(),
-        loadAdminUsers()
-    ]);
+  await Promise.all([
+    loadAdminLocations(),
+    loadAdminRewards(),
+    loadAdminUsers(),
+    loadAdminSuggestions()
+]);
 }
 /* =========================================================
    ADMIN OPEN
@@ -5253,7 +5310,281 @@ async function deleteReward(reward) {
 /* =========================================================
    ADMIN USERS
 ========================================================= */
+async function loadAdminSuggestions() {
+    if (!isAdmin()) return;
 
+    const {
+        data: suggestions,
+        error
+    } = await supabaseClient
+        .from("suggestions")
+        .select("*")
+        .eq("status", "pendente")
+        .order("created_at", { ascending: false });
+
+    if (error) {
+        console.error("ERRO SUGESTÕES:", error);
+
+        $("adminSuggestionsNotice").classList.add("hidden");
+
+        $("adminSuggestionsList").innerHTML =
+            `<div class="empty">Erro ao carregar sugestões.</div>`;
+
+        return;
+    }
+
+    const list = suggestions || [];
+    const count = list.length;
+
+    $("adminPendingSuggestionsCount").textContent = count;
+
+    $("adminSuggestionsNotice")
+        .classList
+        .toggle("hidden", count === 0);
+
+    if (!list.length) {
+        $("adminSuggestionsList").innerHTML =
+            `<div class="empty">Não existem sugestões pendentes.</div>`;
+
+        return;
+    }
+
+    const userIds = [
+        ...new Set(
+            list
+                .map(item => item.user_id)
+                .filter(Boolean)
+        )
+    ];
+
+    let profilesById = {};
+
+    if (userIds.length) {
+
+        const {
+            data: profiles,
+            error: profilesError
+        } = await supabaseClient
+            .from("profiles")
+            .select("id, name")
+            .in("id", userIds);
+
+        if (profilesError) {
+            console.error(
+                "ERRO PERFIS SUGESTÕES:",
+                profilesError
+            );
+        } else {
+
+            profilesById = Object.fromEntries(
+                (profiles || []).map(
+                    profile => [
+                        profile.id,
+                        profile
+                    ]
+                )
+            );
+
+        }
+    }
+
+    $("adminSuggestionsList").innerHTML =
+        list.map(suggestion => {
+
+            const profile =
+                profilesById[suggestion.user_id];
+
+            const userName =
+                profile?.name || "Utilizador";
+
+            const mapsLink =
+                suggestion.maps_url ||
+                (
+                    Number.isFinite(
+                        Number(suggestion.latitude)
+                    ) &&
+                    Number.isFinite(
+                        Number(suggestion.longitude)
+                    )
+                        ? `https://www.google.com/maps?q=${suggestion.latitude},${suggestion.longitude}`
+                        : ""
+                );
+
+            return `
+                <div
+                    class="admin-item"
+                    style="align-items:flex-start;"
+                >
+
+                    <div class="admin-item-main">
+
+                        <div class="admin-item-title">
+                            ${escapeHtml(
+                                suggestion.name ||
+                                "Sem nome"
+                            )}
+                        </div>
+
+                        <div class="admin-item-meta">
+                            ${escapeHtml(
+                                suggestion.localidade || "-"
+                            )}
+                            ·
+                            ${escapeHtml(
+                                suggestion.type || "-"
+                            )}
+                        </div>
+
+                        <div
+                            style="
+                                margin-top:8px;
+                                color:#aaa;
+                                font-size:12px;
+                            "
+                        >
+                            👤 Sugerido por:
+                            <strong style="color:#fff;">
+                                ${escapeHtml(userName)}
+                            </strong>
+                        </div>
+
+                        <div
+                            style="
+                                margin-top:7px;
+                                color:#888;
+                                font-size:12px;
+                                line-height:1.5;
+                            "
+                        >
+                            ${escapeHtml(
+                                suggestion.description ||
+                                "Sem descrição."
+                            )}
+                        </div>
+
+                        ${
+                            mapsLink
+                                ? `
+                                    <a
+                                        href="${escapeHtml(
+                                            mapsLink
+                                        )}"
+                                        target="_blank"
+                                        rel="noopener"
+                                        class="maps-btn"
+                                        style="
+                                            margin-top:10px;
+                                            max-width:220px;
+                                        "
+                                    >
+                                        🗺️ Ver no Google Maps
+                                    </a>
+                                `
+                                : ""
+                        }
+
+                    </div>
+
+                    <div class="admin-item-actions">
+
+                        <button
+                            class="small-btn approve-suggestion-btn"
+                            data-id="${suggestion.id}"
+                        >
+                            Aprovar
+                        </button>
+
+                        <button
+                            class="small-btn delete reject-suggestion-btn"
+                            data-id="${suggestion.id}"
+                        >
+                            Rejeitar
+                        </button>
+
+                    </div>
+
+                </div>
+            `;
+
+        }).join("");
+
+    document
+        .querySelectorAll(".approve-suggestion-btn")
+        .forEach(button => {
+
+            button.addEventListener(
+                "click",
+                () =>
+                    updateSuggestionStatus(
+                        button.dataset.id,
+                        "aprovada"
+                    )
+            );
+
+        });
+
+    document
+        .querySelectorAll(".reject-suggestion-btn")
+        .forEach(button => {
+
+            button.addEventListener(
+                "click",
+                () =>
+                    updateSuggestionStatus(
+                        button.dataset.id,
+                        "rejeitada"
+                    )
+            );
+
+        });
+}
+
+
+async function updateSuggestionStatus(
+    suggestionId,
+    status
+) {
+    if (!isAdmin()) return;
+
+    const actionText =
+        status === "aprovada"
+            ? "aprovar"
+            : "rejeitar";
+
+    if (
+        !confirm(
+            `Queres ${actionText} esta sugestão?`
+        )
+    ) {
+        return;
+    }
+
+    try {
+
+        const { error } =
+            await supabaseClient
+                .from("suggestions")
+                .update({ status })
+                .eq("id", suggestionId)
+                .eq("status", "pendente");
+
+        if (error) {
+            throw error;
+        }
+
+        await loadAdminSuggestions();
+
+    } catch (error) {
+
+        console.error(error);
+
+        alert(
+            error.message ||
+            "Não foi possível atualizar a sugestão."
+        );
+    }
+}
+    
 async function loadAdminUsers() {
 
     if (!isAdmin()) return;
