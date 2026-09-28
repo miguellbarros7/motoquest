@@ -55,10 +55,7 @@
         .hidden {
             display: none !important;
         }
-  /* Esconder menu durante o login */
-#authScreen:not(.hidden) ~ #app .bottom-nav {
-    display: none;
-}
+
 
         /* =========================
            AUTH
@@ -1048,7 +1045,9 @@
         .nav-btn.active {
             color: var(--orange);
         }
-
+#app.hidden .bottom-nav {
+    display: none !important;
+}
         /* =========================
            EMPTY
         ========================= */
@@ -3119,6 +3118,7 @@ async function initializeApp() {
 
     $("app")
         .classList.remove("hidden");
+    $("app").querySelector(".bottom-nav").style.display = "grid";
 
     if (!currentUser) {
 
