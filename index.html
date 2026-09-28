@@ -4287,7 +4287,53 @@ function buildPhotoCredit(item) {
     `;
 }
 
+/* FILTRO TODOS / FAVORITOS */
 
+const showAllLocationsBtn =
+    $("showAllLocationsBtn");
+
+const showFavoriteLocationsBtn =
+    $("showFavoriteLocationsBtn");
+
+if (showAllLocationsBtn) {
+
+    showAllLocationsBtn.addEventListener(
+        "click",
+        () => {
+
+            selectedLocationView = "all";
+
+            showAllLocationsBtn.classList.add("active");
+
+            if (showFavoriteLocationsBtn) {
+                showFavoriteLocationsBtn.classList.remove("active");
+            }
+
+            renderLocations();
+        }
+    );
+}
+
+if (showFavoriteLocationsBtn) {
+
+    showFavoriteLocationsBtn.addEventListener(
+        "click",
+        () => {
+
+            selectedLocationView = "favorites";
+
+            showFavoriteLocationsBtn.classList.add("active");
+
+            if (showAllLocationsBtn) {
+                showAllLocationsBtn.classList.remove("active");
+            }
+
+            renderLocations();
+        }
+    );
+}
+
+/* TYPE FILTERS */
 /* TYPE FILTERS */
 
 const localitySelect =
