@@ -999,20 +999,22 @@
         /* =========================
            BOTTOM NAV
         ========================= */
-
-        .bottom-nav {
-            position: fixed;
-            z-index: 200;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 76px;
-            background: rgba(10,10,10,.96);
-            backdrop-filter: blur(16px);
-            border-top: 1px solid var(--border);
-            display: none;
-            grid-template-columns: repeat(5, 1fr);
-        }
+.bottom-nav {
+    position: fixed;
+    z-index: 200;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 76px;
+    background: rgba(10,10,10,.96);
+    backdrop-filter: blur(16px);
+    border-top: 1px solid var(--border);
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+}
+        #authScreen:not(.hidden) ~ #app .bottom-nav {
+    display: none !important;
+}
 .nav-btn {
     transition: 0.25s ease;
 }
