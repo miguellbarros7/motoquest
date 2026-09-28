@@ -1867,20 +1867,68 @@ body.nav-ready .bottom-nav {
     </div>
 
 
-    <button
-        id="changePasswordBtn"
-        class="profile-setting-btn"
-        type="button"
+  <button
+    id="changePasswordBtn"
+    class="profile-setting-btn"
+    type="button"
+>
+    <span>🔒</span>
+
+    <div>
+        <strong>Palavra-passe</strong>
+        <small>Alterar a palavra-passe</small>
+    </div>
+
+    <span>›</span>
+</button>
+
+
+<div
+    id="changePasswordInline"
+    class="edit-name-inline hidden"
+>
+
+    <input
+        id="newPassword"
+        type="password"
+        minlength="6"
+        placeholder="Nova palavra-passe"
     >
-        <span>🔒</span>
 
-        <div>
-            <strong>Palavra-passe</strong>
-            <small>Alterar a palavra-passe</small>
-        </div>
+    <input
+        id="confirmPassword"
+        type="password"
+        minlength="6"
+        placeholder="Confirmar palavra-passe"
+        style="margin-top:10px;"
+    >
 
-        <span>›</span>
-    </button>
+    <div
+        style="display:flex; gap:10px; margin-top:10px;"
+    >
+
+        <button
+            id="savePasswordBtn"
+            class="primary-btn"
+            type="button"
+        >
+            Guardar
+        </button>
+
+        <button
+            id="cancelPasswordBtn"
+            class="secondary-btn"
+            type="button"
+        >
+            Cancelar
+        </button>
+
+    </div>
+
+    <div
+        id="passwordMessage"
+        class="form-message"
+    ></div>
 
 </div>
             <!-- ADMIN -->
