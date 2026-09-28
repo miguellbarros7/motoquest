@@ -3512,17 +3512,15 @@ document.body.classList.add("nav-ready");
 
     try {
 
-        await ensureProfile(
-            currentUser
-        );
+       await ensureProfile(currentUser);
+updateProfileUI();
 
-        updateProfileUI();
-
-        await Promise.all([
-            loadLocations(),
-            loadRewards(),
-            loadHistory()
-        ]);
+await Promise.all([
+    loadLocations(),
+    loadRewards(),
+    loadHistory(),
+    loadFavorites()
+]);
 
     } catch (error) {
 
@@ -3893,8 +3891,30 @@ async function loadLocations() {
     renderLocalityFilters();
     renderLocations();
 }
+  let favoriteLocationIds = new Set();
 
-function renderLocalityFilters() {
+async function loadFavorites() {
+
+    if (!currentUser) return;
+
+    const { data, error } =
+        await supabaseClient
+            .from("favorites")
+            .select("location_id")
+            .eq("user_id", currentUser.id);
+
+    if (error) {
+        console.error("Erro ao carregar favoritos:", error);
+        return;
+    }
+
+    favoriteLocationIds =
+        new Set(
+            (data || []).map(item =>
+                String(item.location_id)
+            )
+        );
+}function renderLocalityFilters() {
 
     const select =
         $("localitySelect");
@@ -3985,26 +4005,35 @@ function renderLocations() {
             const credit =
                 buildPhotoCredit(location);
 
+            const isFavorite =
+                favoriteLocationIds.has(
+                    String(location.id)
+                );
+
             return `
                 <article class="location-card">
 
-                <img
-    class="location-image"
-    src="${escapeHtml(image)}"
-    alt="${escapeHtml(location.name || "Local")}"
-    loading="lazy"
->
+                    <img
+                        class="location-image"
+                        src="${escapeHtml(image)}"
+                        alt="${escapeHtml(location.name || "Local")}"
+                        loading="lazy"
+                    >
 
-<button
-    class="favorite-btn"
-    data-location-id="${location.id}"
-    type="button"
-    aria-label="Adicionar aos favoritos"
->
-    ☆
-</button>
+                    <button
+                        class="favorite-btn"
+                        data-location-id="${location.id}"
+                        type="button"
+                        aria-label="${
+                            isFavorite
+                                ? "Remover dos favoritos"
+                                : "Adicionar aos favoritos"
+                        }"
+                    >
+                        ${isFavorite ? "★" : "☆"}
+                    </button>
 
-<div class="card-body">
+                    <div class="card-body">
 
                         <div class="card-kicker">
                             ${escapeHtml(type)}
@@ -4038,27 +4067,34 @@ function renderLocations() {
                             </button>
 
                         </div>
-${
-    location.maps_url ||
-    (location.latitude != null && location.longitude != null)
-        ? `
-            <a
-                class="maps-btn"
-                href="${
-                    location.maps_url ||
-                    "https://www.google.com/maps?q=" +
-                    encodeURIComponent(
-                        location.latitude + "," + location.longitude
-                    )
-                }"
-                target="_blank"
-                rel="noopener noreferrer"
-            >
-                📍 Ver no Google Maps
-            </a>
-        `
-        : ""
-}
+
+                        ${
+                            location.maps_url ||
+                            (
+                                location.latitude != null &&
+                                location.longitude != null
+                            )
+                                ? `
+                                    <a
+                                        class="maps-btn"
+                                        href="${
+                                            location.maps_url ||
+                                            "https://www.google.com/maps?q=" +
+                                            encodeURIComponent(
+                                                location.latitude +
+                                                "," +
+                                                location.longitude
+                                            )
+                                        }"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                    >
+                                        📍 Ver no Google Maps
+                                    </a>
+                                `
+                                : ""
+                        }
+
                     </div>
 
                     ${credit}
@@ -4087,8 +4123,89 @@ ${
                 }
             );
         });
-}
 
+    container
+        .querySelectorAll(".favorite-btn")
+        .forEach(button => {
+
+            button.addEventListener(
+                "click",
+                async () => {
+
+                    const locationId =
+                        String(
+                            button.dataset.locationId
+                        );
+
+                    const isFavorite =
+                        favoriteLocationIds.has(
+                            locationId
+                        );
+
+                    button.disabled = true;
+
+                    try {
+
+                        if (isFavorite) {
+
+                            const { error } =
+                                await supabaseClient
+                                    .from("favorites")
+                                    .delete()
+                                    .eq("user_id", currentUser.id)
+                                    .eq(
+                                        "location_id",
+                                        Number(locationId)
+                                    );
+
+                            if (error) {
+                                throw error;
+                            }
+
+                            favoriteLocationIds.delete(
+                                locationId
+                            );
+
+                        } else {
+
+                            const { error } =
+                                await supabaseClient
+                                    .from("favorites")
+                                    .insert({
+                                        user_id:
+                                            currentUser.id,
+                                        location_id:
+                                            Number(locationId)
+                                    });
+
+                            if (error) {
+                                throw error;
+                            }
+
+                            favoriteLocationIds.add(
+                                locationId
+                            );
+                        }
+
+                        renderLocations();
+
+                    } catch (error) {
+
+                        console.error(
+                            "Erro ao alterar favorito:",
+                            error
+                        );
+
+                        alert(
+                            "Não foi possível atualizar o favorito."
+                        );
+
+                        button.disabled = false;
+                    }
+                }
+            );
+        });
+}
 
 function getTypeLabel(type) {
 
