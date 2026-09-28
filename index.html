@@ -3494,7 +3494,118 @@ $("topMenu")
    ALTERAR NOME
 ========================= */
 
+document.addEventListener(
+    "DOMContentLoaded",
+    () => {
 
+        $("editProfileNameBtn").addEventListener(
+            "click",
+            () => {
+
+                $("newProfileName").value =
+                    currentProfile?.name || "";
+
+                $("editNameMessage").textContent = "";
+
+                $("editNameModal")
+                    .classList.remove("hidden");
+            }
+        );
+
+
+        $("cancelEditNameBtn").addEventListener(
+            "click",
+            () => {
+
+                $("editNameModal")
+                    .classList.add("hidden");
+            }
+        );
+
+
+        $("saveProfileNameBtn").addEventListener(
+            "click",
+            async () => {
+
+                const newName =
+                    $("newProfileName")
+                        .value
+                        .trim();
+
+                if (!newName) {
+
+                    showMessage(
+                        "editNameMessage",
+                        "Introduz um nome.",
+                        "error"
+                    );
+
+                    return;
+                }
+
+                if (newName.length < 2) {
+
+                    showMessage(
+                        "editNameMessage",
+                        "O nome deve ter pelo menos 2 caracteres.",
+                        "error"
+                    );
+
+                    return;
+                }
+
+                try {
+
+                    const {
+                        data,
+                        error
+                    } =
+                        await supabaseClient
+                            .from("profiles")
+                            .update({
+                                name: newName
+                            })
+                            .eq(
+                                "id",
+                                currentUser.id
+                            )
+                            .select()
+                            .single();
+
+                    if (error) {
+                        throw error;
+                    }
+
+                    currentProfile = data;
+
+                    updateProfileUI();
+
+                    $("editNameModal")
+                        .classList.add("hidden");
+
+                    alert(
+                        "Nome atualizado com sucesso."
+                    );
+
+                } catch (error) {
+
+                    console.error(
+                        "Erro ao alterar nome:",
+                        error
+                    );
+
+                    showMessage(
+                        "editNameMessage",
+                        error.message ||
+                        "Não foi possível alterar o nome.",
+                        "error"
+                    );
+                }
+            }
+        );
+
+    }
+);
 /* =========================================================
    LOCATIONS
 ========================================================= */
