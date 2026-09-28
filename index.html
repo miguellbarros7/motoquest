@@ -3051,7 +3051,72 @@ body.nav-ready .bottom-nav {
             >
                 Visitar local
             </div>
+<!-- MODAL DE RESGATE -->
 
+<div
+    id="rewardModal"
+    class="modal hidden"
+>
+    <div class="modal-card">
+
+        <div class="modal-header">
+            <div>
+                <h3 id="rewardModalTitle">
+                    Resgatar recompensa
+                </h3>
+
+                <p
+                    id="rewardModalDescription"
+                    class="section-subtitle"
+                >
+                    Confirma o resgate desta recompensa.
+                </p>
+            </div>
+
+            <button
+                id="closeRewardModalBtn"
+                class="secondary-btn"
+                type="button"
+            >
+                Fechar
+            </button>
+        </div>
+
+        <div class="profile-card">
+
+            <div
+                class="home-points"
+                style="margin-bottom:0;"
+            >
+                <div class="home-points-label">
+                    Custo
+                </div>
+
+                <div
+                    id="rewardModalPoints"
+                    class="home-points-value"
+                >
+                    0 pts
+                </div>
+            </div>
+
+        </div>
+
+        <div
+            id="rewardModalMessage"
+            class="form-message"
+        ></div>
+
+        <button
+            id="confirmRewardBtn"
+            class="primary-btn full-btn"
+            type="button"
+        >
+            Confirmar resgate
+        </button>
+
+    </div>
+</div>
             <button
                 class="close-btn"
                 data-close-modal="visitModal"
@@ -5123,102 +5188,23 @@ function openRewardModal(reward) {
 
     if (!reward) return;
 
-    selectedReward =
-        reward;
-
     $("rewardModalTitle").textContent =
-        reward.name;
+        reward.name || "Resgatar recompensa";
 
-    $("rewardModalText").textContent =
-        `Esta recompensa custa ${Number(reward.points || 0)} pontos.`;
+    $("rewardModalDescription").textContent =
+        reward.description ||
+        "Confirma o resgate desta recompensa.";
 
-    showMessage(
-        "rewardMessage",
-        ""
-    );
+    $("rewardModalPoints").textContent =
+        `${Number(reward.points || 0)} pts`;
 
-    $("rewardModal")
-        .classList.add("open");
+    $("rewardModalMessage").textContent = "";
+
+    $("confirmRewardBtn").dataset.rewardId =
+        reward.id;
+
+    $("rewardModal").classList.remove("hidden");
 }
-
-
-$("confirmRewardBtn").addEventListener(
-    "click",
-    async () => {
-
-        if (!selectedReward || !currentUser) {
-            return;
-        }
-
-        const cost =
-            Number(selectedReward.points || 0);
-
-        const currentPoints =
-            Number(currentProfile?.points || 0);
-
-        if (currentPoints < cost) {
-
-            showMessage(
-                "rewardMessage",
-                "Não tens pontos suficientes.",
-                "error"
-            );
-
-            return;
-        }
-
-        $("confirmRewardBtn").disabled = true;
-
-        try {
-
-            const newPoints =
-                currentPoints - cost;
-
-            const {
-                data,
-                error
-            } =
-                await supabaseClient
-                    .from("profiles")
-                    .update({
-                        points: newPoints
-                    })
-                    .eq("id", currentUser.id)
-                    .select()
-                    .single();
-
-            if (error) {
-                throw error;
-            }
-
-            currentProfile = data;
-
-            updateProfileUI();
-
-            showMessage(
-                "rewardMessage",
-                "Recompensa resgatada!",
-                "success"
-            );
-
-        } catch (error) {
-
-            console.error(error);
-
-            showMessage(
-                "rewardMessage",
-                error.message ||
-                "Não foi possível resgatar.",
-                "error"
-            );
-
-        } finally {
-
-            $("confirmRewardBtn").disabled = false;
-        }
-    }
-);
-
 
 /* CLOSE MODALS */
 
@@ -5238,8 +5224,7 @@ document
         );
     });
 
-
-document
+openRewardModaldocument
     .querySelectorAll(".modal")
     .forEach(modal => {
 
