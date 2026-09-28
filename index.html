@@ -5546,41 +5546,233 @@ async function updateSuggestionStatus(
 ) {
     if (!isAdmin()) return;
 
-    const actionText =
-        status === "aprovada"
-            ? "aprovar"
-            : "rejeitar";
+    if (status === "rejeitada") {
 
-    if (
-        !confirm(
-            `Queres ${actionText} esta sugestão?`
-        )
-    ) {
+        if (!confirm("Queres rejeitar esta sugestão?")) {
+            return;
+        }
+
+        try {
+            const { error } =
+                await supabaseClient
+                    .from("suggestions")
+                    .update({
+                        status: "rejeitada"
+                    })
+                    .eq("id", suggestionId)
+                    .eq("status", "pendente");
+
+            if (error) throw error;
+
+            await loadAdminSuggestions();
+
+        } catch (error) {
+
+            console.error(error);
+
+            alert(
+                error.message ||
+                "Não foi possível rejeitar a sugestão."
+            );
+        }
+
         return;
     }
 
+
+    if (status !== "aprovada") return;
+
+
+    const confirmed =
+        confirm(
+            "Queres aprovar esta sugestão e criar o local oficial?"
+        );
+
+    if (!confirmed) {
+        return;
+    }
+
+
     try {
 
-        const { error } =
-            await supabaseClient
-                .from("suggestions")
-                .update({ status })
-                .eq("id", suggestionId)
-                .eq("status", "pendente");
+        /* 1. Buscar a sugestão */
 
-        if (error) {
-            throw error;
+        const {
+            data: suggestion,
+            error: suggestionError
+        } = await supabaseClient
+            .from("suggestions")
+            .select("*")
+            .eq("id", suggestionId)
+            .eq("status", "pendente")
+            .single();
+
+        if (suggestionError) {
+            throw suggestionError;
         }
+
+
+        /* 2. Escolher a foto oficial */
+
+        const fileInput =
+            document.createElement("input");
+
+        fileInput.type = "file";
+        fileInput.accept = "image/*";
+        fileInput.style.display = "none";
+
+        document.body.appendChild(fileInput);
+
+
+        const chooseFile =
+            new Promise(resolve => {
+
+                fileInput.addEventListener(
+                    "change",
+                    () => {
+                        resolve(
+                            fileInput.files?.[0] || null
+                        );
+                    },
+                    { once: true }
+                );
+
+            });
+
+
+        fileInput.click();
+
+
+        const imageFile = await chooseFile;
+
+
+        /* 3. Remover o input temporário */
+
+        fileInput.remove();
+
+
+        /* 4. Upload da foto, se foi escolhida */
+
+        let imageUrl = null;
+
+
+        if (imageFile) {
+
+            const extension =
+                imageFile.name
+                    .split(".")
+                    .pop()
+                    .toLowerCase();
+
+            const filePath =
+                `locations/${Date.now()}-${Math.random()
+                    .toString(36)
+                    .slice(2)}.${extension}`;
+
+
+            const {
+                error: uploadError
+            } = await supabaseClient
+                .storage
+                .from("location-images")
+                .upload(
+                    filePath,
+                    imageFile,
+                    {
+                        upsert: false
+                    }
+                );
+
+
+            if (uploadError) {
+                throw uploadError;
+            }
+
+
+            const {
+                data: publicUrlData
+            } =
+                supabaseClient
+                    .storage
+                    .from("location-images")
+                    .getPublicUrl(filePath);
+
+
+            imageUrl =
+                publicUrlData.publicUrl;
+        }
+
+
+        /* 5. Criar o local oficial */
+
+        const locationPayload = {
+            name: suggestion.name,
+            locality: suggestion.localidade || null,
+            type: suggestion.type || null,
+            points: 0,
+            description: suggestion.description || null,
+            maps_url: suggestion.maps_url || null,
+            latitude: suggestion.latitude || null,
+            longitude: suggestion.longitude || null
+        };
+
+
+        if (imageUrl) {
+            locationPayload.image_url = imageUrl;
+        }
+
+
+        const {
+            error: locationError
+        } = await supabaseClient
+            .from("locations")
+            .insert(locationPayload);
+
+
+        if (locationError) {
+            throw locationError;
+        }
+
+
+        /* 6. Marcar a sugestão como aprovada */
+
+        const {
+            error: statusError
+        } = await supabaseClient
+            .from("suggestions")
+            .update({
+                status: "aprovada",
+                approved_image_url: imageUrl
+            })
+            .eq("id", suggestionId)
+            .eq("status", "pendente");
+
+
+        if (statusError) {
+            throw statusError;
+        }
+
+
+        /* 7. Atualizar lista */
 
         await loadAdminSuggestions();
 
+
+        alert(
+            "Local aprovado e adicionado ao MotoQuest!"
+        );
+
+
     } catch (error) {
 
-        console.error(error);
+        console.error(
+            "ERRO AO APROVAR SUGESTÃO:",
+            error
+        );
 
         alert(
             error.message ||
-            "Não foi possível atualizar a sugestão."
+            "Não foi possível aprovar a sugestão."
         );
     }
 }
