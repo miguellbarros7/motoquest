@@ -2269,6 +2269,160 @@
         </p>
 
     </div>
+<!-- EDITAR SUGESTÃO -->
+
+<div
+    id="suggestionEditModal"
+    class="modal-overlay hidden"
+>
+    <div class="modal-card">
+
+        <div class="modal-header">
+            <div>
+                <h3>Editar sugestão</h3>
+                <p class="section-subtitle">
+                    Confirma e corrige os dados antes de aprovar.
+                </p>
+            </div>
+
+            <button
+                id="closeSuggestionEditBtn"
+                class="secondary-btn"
+                type="button"
+            >
+                Fechar
+            </button>
+        </div>
+
+
+        <div class="field">
+            <label>Nome do local</label>
+
+            <input
+                id="editSuggestionName"
+                type="text"
+            >
+        </div>
+
+
+        <div class="field">
+            <label>Localidade</label>
+
+            <input
+                id="editSuggestionLocality"
+                type="text"
+            >
+        </div>
+
+
+        <div class="field">
+            <label>Tipo</label>
+
+            <select id="editSuggestionType">
+
+                <option value="Miradouro">
+                    Miradouro
+                </option>
+
+                <option value="Baloiço">
+                    Baloiço
+                </option>
+
+                <option value="Monumento">
+                    Monumento
+                </option>
+
+            </select>
+        </div>
+
+
+        <div class="field">
+            <label>Descrição</label>
+
+            <textarea
+                id="editSuggestionDescription"
+            ></textarea>
+        </div>
+
+
+        <div class="field">
+            <label>Latitude</label>
+
+            <input
+                id="editSuggestionLat"
+                type="number"
+                step="any"
+            >
+        </div>
+
+
+        <div class="field">
+            <label>Longitude</label>
+
+            <input
+                id="editSuggestionLng"
+                type="number"
+                step="any"
+            >
+        </div>
+
+
+        <div class="field">
+            <label>Link Google Maps</label>
+
+            <input
+                id="editSuggestionMaps"
+                type="text"
+            >
+        </div>
+
+
+        <div class="field">
+            <label>Foto oficial do local</label>
+
+            <input
+                id="editSuggestionImage"
+                type="file"
+                accept="image/*"
+            >
+        </div>
+
+
+        <div
+            id="editSuggestionMessage"
+            class="form-message"
+        ></div>
+
+
+        <div
+            style="
+                display:flex;
+                gap:10px;
+                margin-top:20px;
+            "
+        >
+
+            <button
+                id="saveSuggestionEditBtn"
+                class="secondary-btn"
+                type="button"
+            >
+                Guardar alterações
+            </button>
+
+
+            <button
+                id="approveEditedSuggestionBtn"
+                class="primary-btn"
+                type="button"
+            >
+                Aprovar local
+            </button>
+
+        </div>
+
+    </div>
+</div>
 
     <div
         id="adminSuggestionsList"
@@ -5410,12 +5564,15 @@ async function loadAdminSuggestions() {
                         : ""
                 );
 
-            return `
-                <div
-                    class="admin-item"
-                    style="align-items:flex-start;"
-                >
-
+           return `
+    <div
+        class="admin-item suggestion-admin-item"
+        style="
+            align-items:flex-start;
+            cursor:pointer;
+        "
+        data-id="${suggestion.id}"
+    >
                     <div class="admin-item-main">
 
                         <div class="admin-item-title">
@@ -5538,9 +5695,109 @@ async function loadAdminSuggestions() {
 
         });
 }
+document
+    .querySelectorAll(".suggestion-admin-item")
+    .forEach(item => {
+
+        item.addEventListener(
+            "click",
+            event => {
+
+                if (
+                    event.target.closest(
+                        "button, a"
+                    )
+                ) {
+                    return;
+                }
+
+                openSuggestionEdit(
+                    item.dataset.id
+                );
+
+            }
+        );
+
+    });
+let editingSuggestionId = null;
+let editingSuggestion = null;
 
 
-async function updateSuggestionStatus(
+let editingSuggestionId = null;
+let editingSuggestion = null;
+
+
+async function openSuggestionEdit(
+    suggestionId
+) {
+    if (!isAdmin()) return;
+
+    try {
+
+        const {
+            data: suggestion,
+            error
+        } = await supabaseClient
+            .from("suggestions")
+            .select("*")
+            .eq("id", suggestionId)
+            .single();
+
+        if (error) {
+            throw error;
+        }
+
+        editingSuggestionId =
+            suggestionId;
+
+        editingSuggestion =
+            suggestion;
+
+
+        $("editSuggestionName").value =
+            suggestion.name || "";
+
+        $("editSuggestionLocality").value =
+            suggestion.localidade || "";
+
+        $("editSuggestionType").value =
+            suggestion.type || "Miradouro";
+
+        $("editSuggestionDescription").value =
+            suggestion.description || "";
+
+        $("editSuggestionLat").value =
+            suggestion.latitude ?? "";
+
+        $("editSuggestionLng").value =
+            suggestion.longitude ?? "";
+
+        $("editSuggestionMaps").value =
+            suggestion.maps_url || "";
+
+        $("editSuggestionImage").value =
+            "";
+
+
+        $("editSuggestionMessage").textContent =
+            "";
+
+
+        $("suggestionEditModal")
+            .classList
+            .remove("hidden");
+
+    } catch (error) {
+
+        console.error(error);
+
+        alert(
+            error.message ||
+            "Não foi possível abrir a sugestão."
+        );
+    }
+}
+    async function updateSuggestionStatus(
     suggestionId,
     status
 ) {
