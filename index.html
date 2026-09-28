@@ -126,7 +126,55 @@
 
 .favorite-btn:hover {
     color: #ff7a1a;
-}        /* =========================
+    
+}   
+        .rewards-points-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px;
+    margin-bottom: 10px;
+    border-radius: 18px;
+    background: linear-gradient(
+        135deg,
+        rgba(255,106,0,.16),
+        rgba(255,106,0,.04)
+    );
+    border: 1px solid rgba(255,106,0,.22);
+}
+
+.rewards-points-label {
+    color: #999;
+    font-size: 12px;
+    margin-bottom: 5px;
+}
+
+.rewards-points-value {
+    color: #fff;
+    font-size: 30px;
+    font-weight: 800;
+    letter-spacing: -.5px;
+}
+
+.rewards-points-icon {
+    width: 46px;
+    height: 46px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 14px;
+    background: rgba(255,106,0,.14);
+    color: #ff6a00;
+    font-size: 24px;
+}
+
+.rewards-intro {
+    color: #777;
+    font-size: 12px;
+    margin: 0 2px 18px;
+}        
+        
+        /* =========================
            AUTH
         ========================= */
 
@@ -1770,31 +1818,58 @@ body.nav-ready .bottom-nav {
     ></div>
 
 </section>
-        <!-- RECOMPENSAS -->
+     <!-- RECOMPENSAS -->
 
-        <section
-            id="rewardsSection"
-            class="section"
-        >
+<section
+    id="rewardsSection"
+    class="section"
+>
 
-            <div class="section-header">
-                <div>
-                    <h1 class="section-title">
-                        Recompensas
-                    </h1>
+    <div class="section-header">
 
-                    <div class="section-subtitle">
-                        Troca os teus pontos por experiências.
-                    </div>
-                </div>
+        <div>
+            <h1 class="section-title">
+                Recompensas
+            </h1>
+
+            <div class="section-subtitle">
+                Troca os teus pontos por experiências.
+            </div>
+        </div>
+
+    </div>
+
+    <div class="rewards-points-card">
+
+        <div>
+            <div class="rewards-points-label">
+                Os teus pontos
             </div>
 
             <div
-                id="rewardsGrid"
-                class="rewards-grid"
-            ></div>
+                id="rewardsPoints"
+                class="rewards-points-value"
+            >
+                0
+            </div>
+        </div>
 
-        </section>
+        <div class="rewards-points-icon">
+            ✦
+        </div>
+
+    </div>
+
+    <div class="rewards-intro">
+        Continua a explorar para desbloquear novas experiências.
+    </div>
+
+    <div
+        id="rewardsGrid"
+        class="rewards-grid"
+    ></div>
+
+</section>
 
 
         <!-- HISTÓRICO -->
