@@ -1012,9 +1012,7 @@
     display: grid;
     grid-template-columns: repeat(5, 1fr);
 }
-        #authScreen:not(.hidden) ~ #app .bottom-nav {
-    display: none !important;
-}
+       
 .nav-btn {
     transition: 0.25s ease;
 }
@@ -3115,12 +3113,13 @@ function updateProfileUI() {
 
 async function initializeApp() {
 
-    $("authScreen")
-        .classList.add("hidden");
+ $("authScreen")
+    .classList.add("hidden");
 
-    $("app")
-        .classList.remove("hidden");
-    $("app").querySelector(".bottom-nav").style.display = "grid";
+$("app")
+    .classList.remove("hidden");
+
+$("app").querySelector(".bottom-nav").style.display = "grid";
 
     if (!currentUser) {
 
