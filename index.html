@@ -5736,6 +5736,7 @@ $("closeSuggestionEditBtn")
         closeSuggestionEdit
     );
 
+
 async function openSuggestionEdit(
     suggestionId
 ) {
@@ -5762,7 +5763,6 @@ async function openSuggestionEdit(
         editingSuggestion =
             suggestion;
 
-
         $("editSuggestionName").value =
             suggestion.name || "";
 
@@ -5787,10 +5787,8 @@ async function openSuggestionEdit(
         $("editSuggestionImage").value =
             "";
 
-
         $("editSuggestionMessage").textContent =
             "";
-
 
         $("suggestionEditModal")
             .classList
@@ -5806,20 +5804,253 @@ async function openSuggestionEdit(
         );
     }
 }
+
+
+/* APROVAR LOCAL */
+
+$("approveEditedSuggestionBtn")
+    .addEventListener(
+        "click",
+        async () => {
+
+            if (!isAdmin()) return;
+
+            if (!editingSuggestionId) {
+                return;
+            }
+
+            try {
+
+                const suggestionId =
+                    editingSuggestionId;
+
+
+                /* 1. Ler dados editados */
+
+                const name =
+                    $("editSuggestionName")
+                        .value
+                        .trim();
+
+                const locality =
+                    $("editSuggestionLocality")
+                        .value
+                        .trim();
+
+                const type =
+                    $("editSuggestionType")
+                        .value;
+
+                const description =
+                    $("editSuggestionDescription")
+                        .value
+                        .trim();
+
+                const latitudeValue =
+                    $("editSuggestionLat")
+                        .value
+                        .trim();
+
+                const longitudeValue =
+                    $("editSuggestionLng")
+                        .value
+                        .trim();
+
+                const mapsUrl =
+                    $("editSuggestionMaps")
+                        .value
+                        .trim();
+
+
+                if (!name) {
+                    showMessage(
+                        "editSuggestionMessage",
+                        "Indica o nome do local.",
+                        "error"
+                    );
+                    return;
+                }
+
+
+                /* 2. Foto oficial */
+
+                const imageFile =
+                    $("editSuggestionImage")
+                        .files?.[0] || null;
+
+                let imageUrl = null;
+
+
+                /* 3. Upload da foto */
+
+                if (imageFile) {
+
+                    const extension =
+                        imageFile.name
+                            .split(".")
+                            .pop()
+                            .toLowerCase();
+
+                    const filePath =
+                        `locations/${Date.now()}-${Math.random()
+                            .toString(36)
+                            .slice(2)}.${extension}`;
+
+                    const {
+                        error: uploadError
+                    } = await supabaseClient
+                        .storage
+                        .from("location-images")
+                        .upload(
+                            filePath,
+                            imageFile,
+                            {
+                                upsert: false
+                            }
+                        );
+
+                    if (uploadError) {
+                        throw uploadError;
+                    }
+
+                    const {
+                        data: publicUrlData
+                    } =
+                        supabaseClient
+                            .storage
+                            .from("location-images")
+                            .getPublicUrl(
+                                filePath
+                            );
+
+                    imageUrl =
+                        publicUrlData.publicUrl;
+                }
+
+
+                /* 4. Criar local oficial */
+
+                const locationPayload = {
+                    name: name,
+                    locality:
+                        locality || null,
+                    type:
+                        type || null,
+                    points: 0,
+                    description:
+                        description || null,
+                    maps_url:
+                        mapsUrl || null,
+                    latitude:
+                        latitudeValue
+                            ? Number(latitudeValue)
+                            : null,
+                    longitude:
+                        longitudeValue
+                            ? Number(longitudeValue)
+                            : null
+                };
+
+
+                if (imageUrl) {
+                    locationPayload.image_url =
+                        imageUrl;
+                }
+
+
+                const {
+                    error: locationError
+                } = await supabaseClient
+                    .from("locations")
+                    .insert(
+                        locationPayload
+                    );
+
+                if (locationError) {
+                    throw locationError;
+                }
+
+
+                /* 5. Aprovar sugestão */
+
+                const updatePayload = {
+                    status: "aprovada"
+                };
+
+                if (imageUrl) {
+                    updatePayload.approved_image_url =
+                        imageUrl;
+                }
+
+
+                const {
+                    error: statusError
+                } = await supabaseClient
+                    .from("suggestions")
+                    .update(
+                        updatePayload
+                    )
+                    .eq(
+                        "id",
+                        suggestionId
+                    )
+                    .eq(
+                        "status",
+                        "pendente"
+                    );
+
+                if (statusError) {
+                    throw statusError;
+                }
+
+
+                /* 6. Fechar */
+
+                closeSuggestionEdit();
+
+                await loadAdminSuggestions();
+
+                alert(
+                    "Local aprovado e adicionado ao MotoQuest!"
+                );
+
+            } catch (error) {
+
+                console.error(
+                    "ERRO AO APROVAR LOCAL:",
+                    error
+                );
+
+                showMessage(
+                    "editSuggestionMessage",
+                    error.message ||
+                    "Não foi possível aprovar o local.",
+                    "error"
+                );
+            }
+        }
+    );
+
+
+/* REJEITAR / APROVAÇÃO DIRETA */
+
 async function updateSuggestionStatus(
     suggestionId,
     status
 ) {
     if (!isAdmin()) return;
 
-    try {
+    if (status === "rejeitada") {
 
-        /* REJEITAR */
-        if (status === "rejeitada") {
+        if (
+            !confirm(
+                "Queres rejeitar esta sugestão?"
+            )
+        ) {
+            return;
+        }
 
-            if (!confirm("Queres rejeitar esta sugestão?")) {
-                return;
-            }
+        try {
 
             const { error } =
                 await supabaseClient
@@ -5827,8 +6058,14 @@ async function updateSuggestionStatus(
                     .update({
                         status: "rejeitada"
                     })
-                    .eq("id", suggestionId)
-                    .eq("status", "pendente");
+                    .eq(
+                        "id",
+                        suggestionId
+                    )
+                    .eq(
+                        "status",
+                        "pendente"
+                    );
 
             if (error) {
                 throw error;
@@ -5836,166 +6073,15 @@ async function updateSuggestionStatus(
 
             await loadAdminSuggestions();
 
-            return;
+        } catch (error) {
+
+            console.error(error);
+
+            alert(
+                error.message ||
+                "Não foi possível rejeitar a sugestão."
+            );
         }
-
-        /* 1. Buscar a sugestão */
-
-        const {
-            data: suggestion,
-            error: suggestionError
-        } = await supabaseClient
-            .from("suggestions")
-            .select("*")
-            .eq("id", suggestionId)
-            .eq("status", "pendente")
-            .single();
-
-        if (suggestionError) {
-            throw suggestionError;
-        }
-
-        /* 2. Escolher a foto oficial */
-
-        const fileInput =
-            document.createElement("input");
-
-        fileInput.type = "file";
-        fileInput.accept = "image/*";
-        fileInput.style.display = "none";
-
-        document.body.appendChild(fileInput);
-
-        const chooseFile =
-            new Promise(resolve => {
-
-                fileInput.addEventListener(
-                    "change",
-                    () => {
-                        resolve(
-                            fileInput.files?.[0] || null
-                        );
-                    },
-                    { once: true }
-                );
-
-            });
-
-        fileInput.click();
-
-        const imageFile = await chooseFile;
-
-        fileInput.remove();
-
-        /* 3. Upload da foto */
-
-        let imageUrl = null;
-
-        if (imageFile) {
-
-            const extension =
-                imageFile.name
-                    .split(".")
-                    .pop()
-                    .toLowerCase();
-
-            const filePath =
-                `locations/${Date.now()}-${Math.random()
-                    .toString(36)
-                    .slice(2)}.${extension}`;
-
-            const {
-                error: uploadError
-            } = await supabaseClient
-                .storage
-                .from("location-images")
-                .upload(
-                    filePath,
-                    imageFile,
-                    {
-                        upsert: false
-                    }
-                );
-
-            if (uploadError) {
-                throw uploadError;
-            }
-
-            const {
-                data: publicUrlData
-            } =
-                supabaseClient
-                    .storage
-                    .from("location-images")
-                    .getPublicUrl(filePath);
-
-            imageUrl =
-                publicUrlData.publicUrl;
-        }
-
-        /* 4. Criar o local oficial */
-
-        const locationPayload = {
-            name: suggestion.name,
-            locality: suggestion.localidade || null,
-            type: suggestion.type || null,
-            points: 0,
-            description: suggestion.description || null,
-            maps_url: suggestion.maps_url || null,
-            latitude: suggestion.latitude || null,
-            longitude: suggestion.longitude || null
-        };
-
-        if (imageUrl) {
-            locationPayload.image_url = imageUrl;
-        }
-
-        const {
-            error: locationError
-        } = await supabaseClient
-            .from("locations")
-            .insert(locationPayload);
-
-        if (locationError) {
-            throw locationError;
-        }
-
-        /* 5. Marcar a sugestão como aprovada */
-
-        const {
-            error: statusError
-        } = await supabaseClient
-            .from("suggestions")
-            .update({
-                status: "aprovada",
-                approved_image_url: imageUrl
-            })
-            .eq("id", suggestionId)
-            .eq("status", "pendente");
-
-        if (statusError) {
-            throw statusError;
-        }
-
-        /* 6. Atualizar lista */
-
-        await loadAdminSuggestions();
-
-        alert(
-            "Local aprovado e adicionado ao MotoQuest!"
-        );
-
-    } catch (error) {
-
-        console.error(
-            "ERRO AO APROVAR SUGESTÃO:",
-            error
-        );
-
-        alert(
-            error.message ||
-            "Não foi possível processar a sugestão."
-        );
     }
 }
     
