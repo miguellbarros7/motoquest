@@ -3197,9 +3197,11 @@ async function loadRewards() {
         return;
     }
 
-    rewards = data || [];
+   rewards = data || [];
 
-    renderRewards();
+console.log("RECOMPENSAS RECEBIDAS:", rewards);
+
+renderRewards();
 }
 
 
