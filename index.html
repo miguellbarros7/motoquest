@@ -3976,6 +3976,16 @@ function renderLocations() {
 
     const filtered =
         locations.filter(location => {
+            const filtered =
+    locations.filter(location => {
+
+        const viewMatch =
+            selectedLocationView === "all" ||
+            favoriteLocationIds.has(
+                String(location.id)
+            );
+
+        const localityMatch =
 
             const localityMatch =
                 selectedLocalityFilter === "all" ||
@@ -3995,7 +4005,7 @@ function renderLocations() {
                     selectedTypeFilter
                 );
 
-            return localityMatch && typeMatch;
+return viewMatch && localityMatch && typeMatch;
         });
 
     if (!filtered.length) {
