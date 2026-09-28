@@ -6354,17 +6354,97 @@ $("approveEditedSuggestionBtn")
                         .trim();
 
 
+             $("approveEditedSuggestionBtn")
+    .addEventListener(
+        "click",
+        async () => {
+
+            if (!isAdmin()) return;
+
+            if (!editingSuggestionId) {
+                return;
+            }
+
+            try {
+
+                const suggestionId =
+                    editingSuggestionId;
+
+
+                /* 1. Ler dados editados */
+
+                const name =
+                    $("editSuggestionName")
+                        .value
+                        .trim();
+
+                const locality =
+                    $("editSuggestionLocality")
+                        .value
+                        .trim();
+
+                const type =
+                    $("editSuggestionType")
+                        .value;
+
+                const description =
+                    $("editSuggestionDescription")
+                        .value
+                        .trim();
+
+                const latitudeValue =
+                    $("editSuggestionLat")
+                        .value
+                        .trim();
+
+                const longitudeValue =
+                    $("editSuggestionLng")
+                        .value
+                        .trim();
+
+                const mapsUrl =
+                    $("editSuggestionMaps")
+                        .value
+                        .trim();
+
+
                 if (!name) {
+
                     showMessage(
                         "editSuggestionMessage",
                         "Indica o nome do local.",
                         "error"
                     );
+
                     return;
                 }
 
 
-                /* 2. Foto oficial */
+                /* 2. Guardar referência da foto
+                   enviada pelo utilizador */
+
+                const {
+                    data: originalSuggestion,
+                    error: suggestionReadError
+                } = await supabaseClient
+                    .from("suggestions")
+                    .select("image_url")
+                    .eq(
+                        "id",
+                        suggestionId
+                    )
+                    .single();
+
+                if (suggestionReadError) {
+                    throw suggestionReadError;
+                }
+
+                const userPhotoUrl =
+                    originalSuggestion?.image_url ||
+                    null;
+
+
+                /* 3. Foto oficial */
 
                 const imageFile =
                     $("editSuggestionImage")
@@ -6373,7 +6453,7 @@ $("approveEditedSuggestionBtn")
                 let imageUrl = null;
 
 
-                /* 3. Upload da foto */
+                /* 4. Upload da foto oficial */
 
                 if (imageFile) {
 
@@ -6416,27 +6496,36 @@ $("approveEditedSuggestionBtn")
                             );
 
                     imageUrl =
-                        publicUrlData.publicUrl;
+                        publicUrlData?.publicUrl ||
+                        null;
                 }
 
 
-                /* 4. Criar local oficial */
+                /* 5. Criar local oficial */
 
                 const locationPayload = {
+
                     name: name,
+
                     locality:
                         locality || null,
+
                     type:
                         type || null,
+
                     points: 0,
+
                     description:
                         description || null,
+
                     maps_url:
                         mapsUrl || null,
+
                     latitude:
                         latitudeValue
                             ? Number(latitudeValue)
                             : null,
+
                     longitude:
                         longitudeValue
                             ? Number(longitudeValue)
@@ -6445,6 +6534,7 @@ $("approveEditedSuggestionBtn")
 
 
                 if (imageUrl) {
+
                     locationPayload.image_url =
                         imageUrl;
                 }
@@ -6458,18 +6548,23 @@ $("approveEditedSuggestionBtn")
                         locationPayload
                     );
 
+                /* Se o local não for gravado,
+                   PARA AQUI e não apaga a foto */
+
                 if (locationError) {
                     throw locationError;
                 }
 
 
-                /* 5. Aprovar sugestão */
+                /* 6. Aprovar sugestão */
 
                 const updatePayload = {
                     status: "aprovada"
                 };
 
+
                 if (imageUrl) {
+
                     updatePayload.approved_image_url =
                         imageUrl;
                 }
@@ -6491,12 +6586,79 @@ $("approveEditedSuggestionBtn")
                         "pendente"
                     );
 
+                /* Se a aprovação falhar,
+                   NÃO apaga a foto */
+
                 if (statusError) {
                     throw statusError;
                 }
 
 
-                /* 6. Fechar */
+                /* 7. Só agora apagar a foto
+                   original do utilizador */
+
+                if (userPhotoUrl) {
+
+                    try {
+
+                        const marker =
+                            "/storage/v1/object/public/location-images/";
+
+                        const markerIndex =
+                            userPhotoUrl.indexOf(
+                                marker
+                            );
+
+                        if (markerIndex !== -1) {
+
+                            const storagePath =
+                                decodeURIComponent(
+                                    userPhotoUrl.substring(
+                                        markerIndex +
+                                        marker.length
+                                    )
+                                );
+
+                            const {
+                                error: deletePhotoError
+                            } =
+                                await supabaseClient
+                                    .storage
+                                    .from(
+                                        "location-images"
+                                    )
+                                    .remove([
+                                        storagePath
+                                    ]);
+
+                            if (deletePhotoError) {
+
+                                console.error(
+                                    "LOCAL APROVADO, MAS NÃO FOI POSSÍVEL APAGAR A FOTO ORIGINAL:",
+                                    deletePhotoError
+                                );
+
+                            } else {
+
+                                console.log(
+                                    "Foto original do utilizador apagada com sucesso."
+                                );
+
+                            }
+                        }
+
+                    } catch (deleteError) {
+
+                        console.error(
+                            "ERRO AO APAGAR FOTO ORIGINAL:",
+                            deleteError
+                        );
+
+                    }
+                }
+
+
+                /* 8. Fechar */
 
                 closeSuggestionEdit();
 
@@ -6525,7 +6687,97 @@ $("approveEditedSuggestionBtn")
 
 
 /* REJEITAR / APROVAÇÃO DIRETA */
+async function deleteSuggestionPhoto(
+    suggestionId
+) {
 
+    try {
+
+        /* 1. Obter o URL da fotografia */
+
+        const {
+            data: suggestion,
+            error: suggestionError
+        } = await supabaseClient
+            .from("suggestions")
+            .select("image_url")
+            .eq(
+                "id",
+                suggestionId
+            )
+            .single();
+
+        if (suggestionError) {
+            throw suggestionError;
+        }
+
+        const imageUrl =
+            suggestion?.image_url || null;
+
+        if (!imageUrl) {
+            return;
+        }
+
+
+        /* 2. Descobrir o caminho dentro do Storage */
+
+        const marker =
+            "/storage/v1/object/public/location-images/";
+
+        const markerIndex =
+            imageUrl.indexOf(marker);
+
+        if (markerIndex === -1) {
+
+            console.error(
+                "Não foi possível descobrir o caminho da fotografia."
+            );
+
+            return;
+        }
+
+
+        const storagePath =
+            decodeURIComponent(
+                imageUrl.substring(
+                    markerIndex +
+                    marker.length
+                )
+            );
+
+
+        /* 3. Apagar fotografia */
+
+        const {
+            error: deleteError
+        } =
+            await supabaseClient
+                .storage
+                .from("location-images")
+                .remove([
+                    storagePath
+                ]);
+
+        if (deleteError) {
+            throw deleteError;
+        }
+
+        console.log(
+            "Fotografia da sugestão apagada:",
+            storagePath
+        );
+
+    } catch (error) {
+
+        console.error(
+            "ERRO AO APAGAR FOTO DA SUGESTÃO:",
+            error
+        );
+
+        throw error;
+    }
+}
+                
 async function updateSuggestionStatus(
     suggestionId,
     status
@@ -6544,7 +6796,11 @@ async function updateSuggestionStatus(
 
         try {
 
-            const { error } =
+            /* 1. Rejeitar a sugestão */
+
+            const {
+                error: statusError
+            } =
                 await supabaseClient
                     .from("suggestions")
                     .update({
@@ -6559,15 +6815,43 @@ async function updateSuggestionStatus(
                         "pendente"
                     );
 
-            if (error) {
-                throw error;
+            if (statusError) {
+                throw statusError;
             }
+
+
+            /* 2. Só depois de rejeitar
+               com sucesso, apagar a foto */
+
+            try {
+
+                await deleteSuggestionPhoto(
+                    suggestionId
+                );
+
+            } catch (deleteError) {
+
+                console.error(
+                    "Sugestão rejeitada, mas a fotografia não foi apagada:",
+                    deleteError
+                );
+
+                alert(
+                    "A sugestão foi rejeitada, mas não foi possível apagar a fotografia."
+                );
+            }
+
+
+            /* 3. Atualizar lista */
 
             await loadAdminSuggestions();
 
         } catch (error) {
 
-            console.error(error);
+            console.error(
+                "ERRO AO REJEITAR SUGESTÃO:",
+                error
+            );
 
             alert(
                 error.message ||
