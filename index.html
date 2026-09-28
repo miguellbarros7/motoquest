@@ -3988,14 +3988,23 @@ function renderLocations() {
             return `
                 <article class="location-card">
 
-                    <img
-                        class="location-image"
-                        src="${escapeHtml(image)}"
-                        alt="${escapeHtml(location.name || "Local")}"
-                        loading="lazy"
-                    >
+                <img
+    class="location-image"
+    src="${escapeHtml(image)}"
+    alt="${escapeHtml(location.name || "Local")}"
+    loading="lazy"
+>
 
-                    <div class="card-body">
+<button
+    class="favorite-btn"
+    data-location-id="${location.id}"
+    type="button"
+    aria-label="Adicionar aos favoritos"
+>
+    ☆
+</button>
+
+<div class="card-body">
 
                         <div class="card-kicker">
                             ${escapeHtml(type)}
