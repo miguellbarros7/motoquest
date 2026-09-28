@@ -5983,15 +5983,19 @@ async function loadAdminSuggestions() {
                         : ""
                 );
 
-           return `
-    <div
-        class="admin-item suggestion-admin-item"
-        style="
-            align-items:flex-start;
-            cursor:pointer;
-        "
-        data-id="${suggestion.id}"
-    >
+            const suggestionPhoto =
+                suggestion.image_url || "";
+
+            return `
+                <div
+                    class="admin-item suggestion-admin-item"
+                    style="
+                        align-items:flex-start;
+                        cursor:pointer;
+                    "
+                    data-id="${suggestion.id}"
+                >
+
                     <div class="admin-item-main">
 
                         <div class="admin-item-title">
@@ -6024,9 +6028,57 @@ async function loadAdminSuggestions() {
                             </strong>
                         </div>
 
+                        ${
+                            suggestionPhoto
+                                ? `
+                                    <div
+                                        style="
+                                            margin-top:14px;
+                                        "
+                                    >
+                                        <div
+                                            style="
+                                                color:#aaa;
+                                                font-size:12px;
+                                                margin-bottom:7px;
+                                            "
+                                        >
+                                            📷 Foto enviada pelo utilizador
+                                        </div>
+
+                                        <img
+                                            src="${escapeHtml(
+                                                suggestionPhoto
+                                            )}"
+                                            alt="Fotografia enviada pelo utilizador"
+                                            style="
+                                                display:block;
+                                                width:100%;
+                                                max-width:320px;
+                                                height:190px;
+                                                object-fit:cover;
+                                                border-radius:12px;
+                                                border:1px solid rgba(255,255,255,.08);
+                                            "
+                                        >
+                                    </div>
+                                `
+                                : `
+                                    <div
+                                        style="
+                                            margin-top:12px;
+                                            color:#777;
+                                            font-size:12px;
+                                        "
+                                    >
+                                        📷 Sem fotografia.
+                                    </div>
+                                `
+                        }
+
                         <div
                             style="
-                                margin-top:7px;
+                                margin-top:10px;
                                 color:#888;
                                 font-size:12px;
                                 line-height:1.5;
@@ -6084,18 +6136,18 @@ async function loadAdminSuggestions() {
 
         }).join("");
 
-document
-    .querySelectorAll(".approve-suggestion-btn")
-    .forEach(button => {
+    document
+        .querySelectorAll(".approve-suggestion-btn")
+        .forEach(button => {
 
-        button.addEventListener(
-            "click",
-            () => openSuggestionEdit(
-                button.dataset.id
-            )
-        );
+            button.addEventListener(
+                "click",
+                () => openSuggestionEdit(
+                    button.dataset.id
+                )
+            );
 
-    });
+        });
 
     document
         .querySelectorAll(".reject-suggestion-btn")
@@ -6111,7 +6163,8 @@ document
             );
 
         });
-        document
+
+    document
         .querySelectorAll(".suggestion-admin-item")
         .forEach(item => {
 
