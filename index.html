@@ -7198,28 +7198,6 @@ document
 ========================================================= */
 
 supabaseClient.auth
-    .getSession()
-    .then(async ({ data }) => {
-
-        currentUser =
-            data.session?.user || null;
-
-        if (currentUser) {
-
-            await initializeApp();
-
-        } else {
-
-            $("authScreen")
-                .classList.remove("hidden");
-
-            $("app")
-                .classList.add("hidden");
-        }
-    });
-
-
-supabaseClient.auth
     .onAuthStateChange(
         async (_event, session) => {
 
@@ -7228,11 +7206,7 @@ supabaseClient.auth
 
             if (currentUser) {
 
-                if (
-                    $("app").classList.contains("hidden")
-                ) {
-                    await initializeApp();
-                }
+                await initializeApp();
 
             } else {
 
@@ -7241,6 +7215,13 @@ supabaseClient.auth
 
                 $("authScreen")
                     .classList.remove("hidden");
+
+                const bottomNav =
+                    $("app").querySelector(".bottom-nav");
+
+                if (bottomNav) {
+                    bottomNav.style.display = "none";
+                }
             }
         }
     );
