@@ -88,7 +88,40 @@
     background: #ff6a00;
     color: #fff;
     box-shadow: 0 4px 14px rgba(255, 106, 0, .22);
-}        /* =========================
+    
+}   
+.locations-title-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.favorite-filter-btn {
+    width: 40px;
+    height: 40px;
+    border: 1px solid #2d2d2d;
+    border-radius: 12px;
+    background: #151515;
+    color: #777;
+    font-size: 19px;
+    cursor: pointer;
+    transition: all .2s ease;
+}
+
+.favorite-filter-btn:hover {
+    color: #fff;
+    border-color: #444;
+    background: #202020;
+}
+
+.favorite-filter-btn.active {
+    color: #ff6a00;
+    border-color: rgba(255, 106, 0, .45);
+    background: rgba(255, 106, 0, .10);
+}
+        
+        /* =========================
            AUTH
         ========================= */
 
@@ -4320,30 +4353,8 @@ function buildPhotoCredit(item) {
 
 /* FILTRO TODOS / FAVORITOS */
 
-const showAllLocationsBtn =
-    $("showAllLocationsBtn");
-
 const showFavoriteLocationsBtn =
     $("showFavoriteLocationsBtn");
-
-if (showAllLocationsBtn) {
-
-    showAllLocationsBtn.addEventListener(
-        "click",
-        () => {
-
-            selectedLocationView = "all";
-
-            showAllLocationsBtn.classList.add("active");
-
-            if (showFavoriteLocationsBtn) {
-                showFavoriteLocationsBtn.classList.remove("active");
-            }
-
-            renderLocations();
-        }
-    );
-}
 
 if (showFavoriteLocationsBtn) {
 
@@ -4351,12 +4362,17 @@ if (showFavoriteLocationsBtn) {
         "click",
         () => {
 
-            selectedLocationView = "favorites";
+            if (selectedLocationView === "favorites") {
 
-            showFavoriteLocationsBtn.classList.add("active");
+                selectedLocationView = "all";
 
-            if (showAllLocationsBtn) {
-                showAllLocationsBtn.classList.remove("active");
+                showFavoriteLocationsBtn.classList.remove("active");
+
+            } else {
+
+                selectedLocationView = "favorites";
+
+                showFavoriteLocationsBtn.classList.add("active");
             }
 
             renderLocations();
