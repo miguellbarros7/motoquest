@@ -4753,17 +4753,17 @@ async function loadAdminRewards() {
                 ascending: false
             });
 
-    if (error) {
+if (error) {
 
-        console.error(error);
+    console.error("ERRO ADMIN RECOMPENSAS:", error);
 
-        $("adminRewardsList").innerHTML =
-            `<div class="empty">
-                Erro ao carregar recompensas.
-            </div>`;
+    $("adminRewardsList").innerHTML =
+        `<div class="empty">
+            Erro: ${escapeHtml(error.message || "Erro desconhecido")}
+        </div>`;
 
-        return;
-    }
+    return;
+}
 
     const list =
         data || [];
