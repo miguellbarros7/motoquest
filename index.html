@@ -4357,38 +4357,121 @@ $("suggestForm").addEventListener(
         const lngValue =
             $("suggestLng").value.trim();
 
-        const payload = {
+        const imageFile =
+            $("suggestImage")
+                .files?.[0] || null;
 
-            user_id:
-                currentUser.id,
 
-            name:
-                $("suggestName").value.trim(),
+        if (!imageFile) {
 
-            localidade:
-                $("suggestLocality").value.trim(),
+            showMessage(
+                "suggestMessage",
+                "É obrigatório tirar uma fotografia do local.",
+                "error"
+            );
 
-            type:
-                $("suggestType").value,
+            return;
+        }
 
-            description:
-                $("suggestDescription").value.trim(),
-
-            latitude:
-                latValue
-                    ? Number(latValue)
-                    : null,
-
-            longitude:
-                lngValue
-                    ? Number(lngValue)
-                    : null,
-
-            maps_url:
-                $("suggestMaps").value.trim() || null
-        };
 
         try {
+
+            /* 1. Upload da fotografia */
+
+            const extension =
+                imageFile.name
+                    .split(".")
+                    .pop()
+                    .toLowerCase();
+
+            const filePath =
+                `suggestions/${currentUser.id}/${Date.now()}.${extension}`;
+
+
+            const {
+                error: uploadError
+            } =
+                await supabaseClient
+                    .storage
+                    .from("location-images")
+                    .upload(
+                        filePath,
+                        imageFile,
+                        {
+                            upsert: false
+                        }
+                    );
+
+            if (uploadError) {
+                throw uploadError;
+            }
+
+
+            /* 2. Obter URL da fotografia */
+
+            const {
+                data: publicUrlData
+            } =
+                supabaseClient
+                    .storage
+                    .from("location-images")
+                    .getPublicUrl(
+                        filePath
+                    );
+
+
+            const imageUrl =
+                publicUrlData.publicUrl;
+
+
+            /* 3. Criar sugestão */
+
+            const payload = {
+
+                user_id:
+                    currentUser.id,
+
+                name:
+                    $("suggestName")
+                        .value
+                        .trim(),
+
+                localidade:
+                    $("suggestLocality")
+                        .value
+                        .trim(),
+
+                type:
+                    $("suggestType")
+                        .value,
+
+                description:
+                    $("suggestDescription")
+                        .value
+                        .trim(),
+
+                latitude:
+                    latValue
+                        ? Number(latValue)
+                        : null,
+
+                longitude:
+                    lngValue
+                        ? Number(lngValue)
+                        : null,
+
+                maps_url:
+                    $("suggestMaps")
+                        .value
+                        .trim() || null,
+
+                image_url:
+                    imageUrl,
+
+                status:
+                    "pendente"
+            };
+
 
             const {
                 error
@@ -4397,19 +4480,25 @@ $("suggestForm").addEventListener(
                     .from("suggestions")
                     .insert(payload);
 
+
             if (error) {
                 throw error;
             }
+
+
+            /* 4. Limpar formulário */
 
             $("suggestForm").reset();
 
             $("suggestMaps").value = "";
 
+
             showMessage(
                 "suggestMessage",
-                "Sugestão enviada. Obrigado!",
+                "Sugestão enviada com fotografia. Obrigado!",
                 "success"
             );
+
 
         } catch (error) {
 
@@ -4424,7 +4513,6 @@ $("suggestForm").addEventListener(
         }
     }
 );
-
 /* =========================================================
    GOOGLE MAPS GPS
 ========================================================= */
