@@ -1135,6 +1135,24 @@
                 align-items: stretch;
             }
         }
+        .welcome-points {
+    display: flex;
+    align-items: baseline;
+    gap: 5px;
+    margin-top: 4px;
+    font-size: 14px;
+}
+
+.welcome-points strong {
+    color: #fff;
+    font-size: 18px;
+}
+
+.welcome-points span {
+    color: #ff6a00;
+    font-size: 13px;
+    font-weight: 600;
+}
     </style>
 </head>
 
@@ -1244,15 +1262,15 @@
             class="section active"
         >
 
-         <div class="welcome">
+       <div class="welcome">
     <span>Bem-vindo,</span>
     <strong id="welcomeName">Motard</strong>
 
     <div class="welcome-points">
-        <span id="welcomePoints">0</span> pontos
+        <strong id="welcomePoints">0</strong>
+        <span>pontos</span>
     </div>
 </div>
-
             <div class="home-grid">
 
                 <button
