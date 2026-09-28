@@ -1594,78 +1594,101 @@
 
         <!-- SUGERIR -->
 
-        <section
-            id="suggestSection"
-            class="section"
+       <section id="suggestSection" class="section">
+  <div class="section-header">
+    <div>
+      <h1 class="section-title">Sugerir local</h1>
+      <div class="section-subtitle">
+        Conheces um sítio que devia estar no MotoQuest?
+      </div>
+    </div>
+  </div>
+
+  <div class="profile-card">
+    <form id="suggestForm">
+
+      <div class="field">
+        <label>Nome do local</label>
+        <input
+          id="suggestName"
+          required
+          placeholder="Ex.: Miradouro da Serra"
         >
+      </div>
 
-            <div class="section-header">
-                <div>
-                    <h1 class="section-title">
-                        Sugerir local
-                    </h1>
+      <div class="field">
+        <label>Localidade</label>
+        <input
+          id="suggestLocality"
+          required
+          placeholder="Ex.: Covilhã"
+        >
+      </div>
 
-                    <div class="section-subtitle">
-                        Conheces um sítio que devia estar no MotoQuest?
-                    </div>
-                </div>
-            </div>
+      <div class="field">
+        <label>Tipo</label>
+        <select id="suggestType" required>
+          <option value="">Seleciona o tipo</option>
+          <option value="Miradouro">Miradouro</option>
+          <option value="Baloiço">Baloiço</option>
+          <option value="Monumento">Monumento</option>
+        </select>
+      </div>
 
-            <div class="profile-card">
+      <div class="field">
+        <label>Descrição</label>
+        <textarea
+          id="suggestDescription"
+          placeholder="Conta-nos um pouco sobre o local..."
+        ></textarea>
+      </div>
 
-                <form id="suggestForm">
+      <div class="field">
+        <label>Latitude</label>
+        <input
+          id="suggestLat"
+          type="number"
+          step="any"
+          placeholder="Ex.: 40.283"
+        >
+      </div>
 
-                    <div class="field">
-                        <label>Nome do local</label>
-                        <input
-                            id="suggestName"
-                            required
-                            placeholder="Ex.: Miradouro da Serra"
-                        >
-                    </div>
+      <div class="field">
+        <label>Longitude</label>
+        <input
+          id="suggestLng"
+          type="number"
+          step="any"
+          placeholder="Ex.: -7.503"
+        >
+      </div>
 
-                    <div class="field">
-                        <label>Localidade</label>
-                        <input
-                            id="suggestLocality"
-                            required
-                            placeholder="Ex.: Covilhã"
-                        >
-                    </div>
+      <button
+        id="useSuggestLocationBtn"
+        class="secondary-btn full-btn"
+        type="button"
+      >
+        📍 Usar a minha localização
+      </button>
 
-                    <div class="field">
-                        <label>Descrição</label>
-                        <textarea
-                            id="suggestDescription"
-                            placeholder="Conta-nos um pouco sobre o local..."
-                        ></textarea>
-                    </div>
+      <div class="field">
+        <label>Link Google Maps</label>
+        <input
+          id="suggestMaps"
+          readonly
+          placeholder="Será gerado automaticamente"
+        >
+      </div>
 
-                    <div class="field">
-                        <label>Link Google Maps</label>
-                        <input
-                            id="suggestMaps"
-                            placeholder="https://maps.google.com/..."
-                        >
-                    </div>
+      <button class="primary-btn full-btn" type="submit">
+        Enviar sugestão
+      </button>
 
-                    <button
-                        class="primary-btn full-btn"
-                        type="submit"
-                    >
-                        Enviar sugestão
-                    </button>
+      <div id="suggestMessage" class="form-message"></div>
 
-                    <div
-                        id="suggestMessage"
-                        class="form-message"
-                    ></div>
-
-                </form>
-
-            </div>
-
-        </section>
+    </form>
+  </div>
+</section>
 
 
         <!-- ADMIN -->
@@ -3692,6 +3715,96 @@ document
    SUGGESTION
 ========================================================= */
 
+$("suggestLat").addEventListener("input", updateSuggestMaps);
+
+$("suggestLng").addEventListener("input", updateSuggestMaps);
+
+function updateSuggestMaps() {
+
+    const lat = Number($("suggestLat").value);
+    const lng = Number($("suggestLng").value);
+
+    if (
+        Number.isFinite(lat) &&
+        Number.isFinite(lng)
+    ) {
+
+        $("suggestMaps").value =
+            `https://www.google.com/maps?q=${lat},${lng}`;
+    } else {
+
+        $("suggestMaps").value = "";
+    }
+}
+
+
+$("useSuggestLocationBtn").addEventListener(
+    "click",
+    () => {
+
+        if (!navigator.geolocation) {
+
+            showMessage(
+                "suggestMessage",
+                "O teu dispositivo não suporta localização.",
+                "error"
+            );
+
+            return;
+        }
+
+        showMessage(
+            "suggestMessage",
+            "A obter a tua localização...",
+            "success"
+        );
+
+        navigator.geolocation.getCurrentPosition(
+
+            position => {
+
+                const latitude =
+                    position.coords.latitude;
+
+                const longitude =
+                    position.coords.longitude;
+
+                $("suggestLat").value =
+                    latitude.toFixed(6);
+
+                $("suggestLng").value =
+                    longitude.toFixed(6);
+
+                updateSuggestMaps();
+
+                showMessage(
+                    "suggestMessage",
+                    "Localização obtida com sucesso.",
+                    "success"
+                );
+            },
+
+            error => {
+
+                console.error(error);
+
+                showMessage(
+                    "suggestMessage",
+                    "Não foi possível obter a localização. Verifica as permissões do navegador.",
+                    "error"
+                );
+            },
+
+            {
+                enableHighAccuracy: true,
+                timeout: 10000,
+                maximumAge: 0
+            }
+        );
+    }
+);
+
+
 $("suggestForm").addEventListener(
     "submit",
     async event => {
@@ -3700,14 +3813,41 @@ $("suggestForm").addEventListener(
 
         if (!currentUser) return;
 
+        const latValue =
+            $("suggestLat").value.trim();
+
+        const lngValue =
+            $("suggestLng").value.trim();
+
         const payload = {
-            user_id: currentUser.id,
-            name: $("suggestName").value.trim(),
-            localidade: $("suggestLocality").value.trim(),
+
+            user_id:
+                currentUser.id,
+
+            name:
+                $("suggestName").value.trim(),
+
+            localidade:
+                $("suggestLocality").value.trim(),
+
+            type:
+                $("suggestType").value,
+
             description:
                 $("suggestDescription").value.trim(),
+
+            latitude:
+                latValue
+                    ? Number(latValue)
+                    : null,
+
+            longitude:
+                lngValue
+                    ? Number(lngValue)
+                    : null,
+
             maps_url:
-                $("suggestMaps").value.trim()
+                $("suggestMaps").value.trim() || null
         };
 
         try {
@@ -3724,6 +3864,8 @@ $("suggestForm").addEventListener(
             }
 
             $("suggestForm").reset();
+
+            $("suggestMaps").value = "";
 
             showMessage(
                 "suggestMessage",
@@ -3744,7 +3886,6 @@ $("suggestForm").addEventListener(
         }
     }
 );
-
 
 /* =========================================================
    GOOGLE MAPS GPS
