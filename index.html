@@ -1000,6 +1000,7 @@
            BOTTOM NAV
         ========================= */
 .bottom-nav {
+        display: none !important;
     position: fixed;
     z-index: 200;
     bottom: 0;
@@ -3140,9 +3141,12 @@ async function initializeApp() {
         $("app").querySelector(".bottom-nav");
 
     if (bottomNav) {
-        bottomNav.style.display = "grid";
-    }
-
+    bottomNav.style.setProperty(
+        "display",
+        "grid",
+        "important"
+    );
+}
     try {
 
         await ensureProfile(
