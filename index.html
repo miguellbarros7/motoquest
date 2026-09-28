@@ -6316,7 +6316,6 @@ $("approveEditedSuggestionBtn")
                 const suggestionId =
                     editingSuggestionId;
 
-
                 /* 1. Ler dados editados */
 
                 const name =
@@ -6352,61 +6351,6 @@ $("approveEditedSuggestionBtn")
                     $("editSuggestionMaps")
                         .value
                         .trim();
-
-
-             $("approveEditedSuggestionBtn")
-    .addEventListener(
-        "click",
-        async () => {
-
-            if (!isAdmin()) return;
-
-            if (!editingSuggestionId) {
-                return;
-            }
-
-            try {
-
-                const suggestionId =
-                    editingSuggestionId;
-
-
-                /* 1. Ler dados editados */
-
-                const name =
-                    $("editSuggestionName")
-                        .value
-                        .trim();
-
-                const locality =
-                    $("editSuggestionLocality")
-                        .value
-                        .trim();
-
-                const type =
-                    $("editSuggestionType")
-                        .value;
-
-                const description =
-                    $("editSuggestionDescription")
-                        .value
-                        .trim();
-
-                const latitudeValue =
-                    $("editSuggestionLat")
-                        .value
-                        .trim();
-
-                const longitudeValue =
-                    $("editSuggestionLng")
-                        .value
-                        .trim();
-
-                const mapsUrl =
-                    $("editSuggestionMaps")
-                        .value
-                        .trim();
-
 
                 if (!name) {
 
@@ -6418,7 +6362,6 @@ $("approveEditedSuggestionBtn")
 
                     return;
                 }
-
 
                 /* 2. Guardar referência da foto
                    enviada pelo utilizador */
@@ -6443,7 +6386,6 @@ $("approveEditedSuggestionBtn")
                     originalSuggestion?.image_url ||
                     null;
 
-
                 /* 3. Foto oficial */
 
                 const imageFile =
@@ -6451,7 +6393,6 @@ $("approveEditedSuggestionBtn")
                         .files?.[0] || null;
 
                 let imageUrl = null;
-
 
                 /* 4. Upload da foto oficial */
 
@@ -6500,7 +6441,6 @@ $("approveEditedSuggestionBtn")
                         null;
                 }
 
-
                 /* 5. Criar local oficial */
 
                 const locationPayload = {
@@ -6532,13 +6472,11 @@ $("approveEditedSuggestionBtn")
                             : null
                 };
 
-
                 if (imageUrl) {
 
                     locationPayload.image_url =
                         imageUrl;
                 }
-
 
                 const {
                     error: locationError
@@ -6548,13 +6486,9 @@ $("approveEditedSuggestionBtn")
                         locationPayload
                     );
 
-                /* Se o local não for gravado,
-                   PARA AQUI e não apaga a foto */
-
                 if (locationError) {
                     throw locationError;
                 }
-
 
                 /* 6. Aprovar sugestão */
 
@@ -6562,13 +6496,11 @@ $("approveEditedSuggestionBtn")
                     status: "aprovada"
                 };
 
-
                 if (imageUrl) {
 
                     updatePayload.approved_image_url =
                         imageUrl;
                 }
-
 
                 const {
                     error: statusError
@@ -6586,13 +6518,9 @@ $("approveEditedSuggestionBtn")
                         "pendente"
                     );
 
-                /* Se a aprovação falhar,
-                   NÃO apaga a foto */
-
                 if (statusError) {
                     throw statusError;
                 }
-
 
                 /* 7. Só agora apagar a foto
                    original do utilizador */
@@ -6643,7 +6571,6 @@ $("approveEditedSuggestionBtn")
                                 console.log(
                                     "Foto original do utilizador apagada com sucesso."
                                 );
-
                             }
                         }
 
@@ -6653,10 +6580,8 @@ $("approveEditedSuggestionBtn")
                             "ERRO AO APAGAR FOTO ORIGINAL:",
                             deleteError
                         );
-
                     }
                 }
-
 
                 /* 8. Fechar */
 
@@ -6684,7 +6609,6 @@ $("approveEditedSuggestionBtn")
             }
         }
     );
-
 
 /* REJEITAR / APROVAÇÃO DIRETA */
 async function deleteSuggestionPhoto(
