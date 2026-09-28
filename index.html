@@ -3495,117 +3495,126 @@ $("topMenu")
 ========================= */
 
 document.addEventListener(
-    "DOMContentLoaded",
-    () => {
+    "click",
+    event => {
 
-        $("editProfileNameBtn").addEventListener(
-            "click",
-            () => {
+        if (
+            event.target.closest("#editProfileNameBtn")
+        ) {
 
-                $("newProfileName").value =
-                    currentProfile?.name || "";
+            $("newProfileName").value =
+                currentProfile?.name || "";
 
-                $("editNameMessage").textContent = "";
+            $("editNameMessage").textContent = "";
 
-                $("editNameModal")
-                    .classList.remove("hidden");
-            }
-        );
+            $("editNameModal")
+                .classList.remove("hidden");
 
-
-        $("cancelEditNameBtn").addEventListener(
-            "click",
-            () => {
-
-                $("editNameModal")
-                    .classList.add("hidden");
-            }
-        );
+            return;
+        }
 
 
-        $("saveProfileNameBtn").addEventListener(
-            "click",
-            async () => {
+        if (
+            event.target.closest("#cancelEditNameBtn")
+        ) {
 
-                const newName =
-                    $("newProfileName")
-                        .value
-                        .trim();
+            $("editNameModal")
+                .classList.add("hidden");
 
-                if (!newName) {
+            return;
+        }
 
-                    showMessage(
-                        "editNameMessage",
-                        "Introduz um nome.",
-                        "error"
-                    );
 
-                    return;
-                }
+        if (
+            event.target.closest("#saveProfileNameBtn")
+        ) {
 
-                if (newName.length < 2) {
+            saveProfileName();
 
-                    showMessage(
-                        "editNameMessage",
-                        "O nome deve ter pelo menos 2 caracteres.",
-                        "error"
-                    );
-
-                    return;
-                }
-
-                try {
-
-                    const {
-                        data,
-                        error
-                    } =
-                        await supabaseClient
-                            .from("profiles")
-                            .update({
-                                name: newName
-                            })
-                            .eq(
-                                "id",
-                                currentUser.id
-                            )
-                            .select()
-                            .single();
-
-                    if (error) {
-                        throw error;
-                    }
-
-                    currentProfile = data;
-
-                    updateProfileUI();
-
-                    $("editNameModal")
-                        .classList.add("hidden");
-
-                    alert(
-                        "Nome atualizado com sucesso."
-                    );
-
-                } catch (error) {
-
-                    console.error(
-                        "Erro ao alterar nome:",
-                        error
-                    );
-
-                    showMessage(
-                        "editNameMessage",
-                        error.message ||
-                        "Não foi possível alterar o nome.",
-                        "error"
-                    );
-                }
-            }
-        );
+            return;
+        }
 
     }
 );
+
+
+async function saveProfileName() {
+
+    const newName =
+        $("newProfileName")
+            .value
+            .trim();
+
+    if (!newName) {
+
+        showMessage(
+            "editNameMessage",
+            "Introduz um nome.",
+            "error"
+        );
+
+        return;
+    }
+
+    if (newName.length < 2) {
+
+        showMessage(
+            "editNameMessage",
+            "O nome deve ter pelo menos 2 caracteres.",
+            "error"
+        );
+
+        return;
+    }
+
+    try {
+
+        const {
+            data,
+            error
+        } =
+            await supabaseClient
+                .from("profiles")
+                .update({
+                    name: newName
+                })
+                .eq(
+                    "id",
+                    currentUser.id
+                )
+                .select()
+                .single();
+
+        if (error) {
+            throw error;
+        }
+
+        currentProfile = data;
+
+        updateProfileUI();
+
+        $("editNameModal")
+            .classList.add("hidden");
+
+        alert(
+            "Nome atualizado com sucesso."
+        );
+
+    } catch (error) {
+
+        console.error(
+            "Erro ao alterar nome:",
+            error
+        );
+
+        showMessage(
+            "editNameMessage",
+            error.message ||
+            "Não foi possível alterar o nome.",
+            "error"
+        );
+    }
+}
 /* =========================================================
    LOCATIONS
 ========================================================= */
