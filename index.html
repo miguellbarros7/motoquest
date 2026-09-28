@@ -56,8 +56,39 @@
             display: none !important;
         }
 
+.location-view-tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 14px;
+    padding: 4px;
+    background: #151515;
+    border: 1px solid #292929;
+    border-radius: 14px;
+}
 
-        /* =========================
+.location-view-tab {
+    flex: 1;
+    min-height: 42px;
+    border: 0;
+    border-radius: 10px;
+    background: transparent;
+    color: #888;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all .2s ease;
+}
+
+.location-view-tab:hover {
+    color: #fff;
+    background: #202020;
+}
+
+.location-view-tab.active {
+    background: #ff6a00;
+    color: #fff;
+    box-shadow: 0 4px 14px rgba(255, 106, 0, .22);
+}        /* =========================
            AUTH
         ========================= */
 
