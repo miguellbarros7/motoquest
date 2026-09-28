@@ -1760,44 +1760,84 @@ body.nav-ready .bottom-nav {
             </div>
 
 
-            <!-- DADOS DA CONTA -->
+         <!-- DADOS DA CONTA -->
 
-            <div class="profile-settings">
+<div class="profile-settings">
 
-                <button
-                    id="editProfileNameBtn"
-                    class="profile-setting-btn"
-                    type="button"
-                >
-                    <span>👤</span>
+    <button
+        id="editProfileNameBtn"
+        class="profile-setting-btn"
+        type="button"
+    >
+        <span>👤</span>
 
-                    <div>
-                        <strong>Nome</strong>
-                        <small>Alterar o teu nome</small>
-                    </div>
+        <div>
+            <strong>Nome</strong>
+            <small>Alterar o teu nome</small>
+        </div>
 
-                    <span>›</span>
-                </button>
-
-
-                <button
-                    id="changePasswordBtn"
-                    class="profile-setting-btn"
-                    type="button"
-                >
-                    <span>🔒</span>
-
-                    <div>
-                        <strong>Palavra-passe</strong>
-                        <small>Alterar a palavra-passe</small>
-                    </div>
-
-                    <span>›</span>
-                </button>
-
-            </div>
+        <span>›</span>
+    </button>
 
 
+    <div
+        id="editNameInline"
+        class="edit-name-inline hidden"
+    >
+
+        <input
+            id="newProfileName"
+            type="text"
+            maxlength="40"
+            placeholder="Novo nome"
+        >
+
+        <div
+            style="display:flex; gap:10px; margin-top:10px;"
+        >
+
+            <button
+                id="saveProfileNameBtn"
+                class="primary-btn"
+                type="button"
+            >
+                Guardar
+            </button>
+
+            <button
+                id="cancelEditNameBtn"
+                class="secondary-btn"
+                type="button"
+            >
+                Cancelar
+            </button>
+
+        </div>
+
+        <div
+            id="editNameMessage"
+            class="form-message"
+        ></div>
+
+    </div>
+
+
+    <button
+        id="changePasswordBtn"
+        class="profile-setting-btn"
+        type="button"
+    >
+        <span>🔒</span>
+
+        <div>
+            <strong>Palavra-passe</strong>
+            <small>Alterar a palavra-passe</small>
+        </div>
+
+        <span>›</span>
+    </button>
+
+</div>
             <!-- ADMIN -->
 
             <div
