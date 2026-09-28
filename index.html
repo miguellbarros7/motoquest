@@ -5722,9 +5722,20 @@ document
 let editingSuggestionId = null;
 let editingSuggestion = null;
 
+function closeSuggestionEdit() {
+    editingSuggestionId = null;
+    editingSuggestion = null;
 
-let editingSuggestionId = null;
-let editingSuggestion = null;
+    $("suggestionEditModal")
+        .classList
+        .add("hidden");
+}
+
+$("closeSuggestionEditBtn")
+    .addEventListener(
+        "click",
+        closeSuggestionEdit
+    );
 
 
 async function openSuggestionEdit(
@@ -5835,8 +5846,26 @@ async function openSuggestionEdit(
 
         return;
     }
+document
+    .querySelectorAll(".suggestion-admin-item")
+    .forEach(item => {
 
+        item.addEventListener(
+            "click",
+            event => {
 
+                if (
+                    event.target.closest("button, a")
+                ) {
+                    return;
+                }
+
+                openSuggestionEdit(
+                    item.dataset.id
+                );
+            }
+        );
+    });
     if (status !== "aprovada") return;
 
 
