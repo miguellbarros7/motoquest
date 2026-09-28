@@ -3185,17 +3185,17 @@ async function loadRewards() {
             .select("*");
            
 
-    if (error) {
+if (error) {
 
-        console.error(error);
+    console.error("ERRO RECOMPENSAS:", error);
 
-        $("rewardsGrid").innerHTML =
-            `<div class="empty">
-                Não foi possível carregar as recompensas.
-            </div>`;
+    $("rewardsGrid").innerHTML =
+        `<div class="empty">
+            Erro: ${escapeHtml(error.message || "Erro desconhecido")}
+        </div>`;
 
-        return;
-    }
+    return;
+}
 
    rewards = data || [];
 
