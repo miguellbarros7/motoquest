@@ -1668,105 +1668,97 @@ body.nav-ready .bottom-nav {
         </section>
 
 
-        <!-- LOCAIS -->
+       <!-- LOCAIS -->
 
-       
 <section
     id="locationsSection"
     class="section"
 >
 
     <div class="section-header">
-        <div>
-            <h1 class="section-title">
-                Locais
-            </h1>
 
-            <div class="section-subtitle">
-                Descobre pontos para a tua próxima aventura.
+        <div class="locations-title-row">
+
+            <div>
+                <h1 class="section-title">
+                    Locais
+                </h1>
+
+                <div class="section-subtitle">
+                    Descobre pontos para a tua próxima aventura.
+                </div>
             </div>
+
+            <button
+                id="showFavoriteLocationsBtn"
+                class="favorite-filter-btn"
+                type="button"
+                aria-label="Mostrar favoritos"
+            >
+                ★
+            </button>
+
         </div>
+
     </div>
 
-  
-  <div class="location-filters">
-<div class="location-view-tabs">
-
-    <button
-        id="showAllLocationsBtn"
-        class="location-view-tab active"
-        type="button"
-    >
-        Todos
-    </button>
-
-    <button
-        id="showFavoriteLocationsBtn"
-        class="location-view-tab"
-        type="button"
-    >
-        ★ Favoritos
-    </button>
-
-</div>
     <div class="location-filters">
 
-    <div class="filter-group">
+        <div class="filter-group">
 
-        <label
-            class="filter-label"
-            for="localitySelect"
-        >
-            Localidade
-        </label>
+            <label
+                class="filter-label"
+                for="localitySelect"
+            >
+                Localidade
+            </label>
 
-        <select
-            id="localitySelect"
-            class="filter-select"
-        >
-            <option value="all">
-                Todas as localidades
-            </option>
-        </select>
+            <select
+                id="localitySelect"
+                class="filter-select"
+            >
+                <option value="all">
+                    Todas as localidades
+                </option>
+            </select>
+
+        </div>
+
+        <div class="filter-group">
+
+            <label
+                class="filter-label"
+                for="typeSelect"
+            >
+                Tipo de local
+            </label>
+
+            <select
+                id="typeSelect"
+                class="filter-select"
+            >
+                <option value="all">
+                    Todos os tipos
+                </option>
+
+                <option value="miradouro">
+                    Miradouro
+                </option>
+
+                <option value="baloico">
+                    Baloiço
+                </option>
+
+                <option value="monumento">
+                    Monumento
+                </option>
+
+            </select>
+
+        </div>
 
     </div>
 
-    <div class="filter-group">
-
-        <label
-            class="filter-label"
-            for="typeSelect"
-        >
-            Tipo de local
-        </label>
-
-        <select
-            id="typeSelect"
-            class="filter-select"
-        >
-            <option value="all">
-                Todos os tipos
-            </option>
-
-            <option value="miradouro">
-                Miradouro
-            </option>
-
-            <option value="baloico">
-                Baloiço
-            </option>
-
-            <option value="monumento">
-                Monumento
-            </option>
-
-        </select>
-
-    </div>
-
-</div>
-
-</div>
     <div
         id="locationsGrid"
         class="locations-grid"
@@ -4380,7 +4372,6 @@ if (showFavoriteLocationsBtn) {
     );
 }
 
-/* TYPE FILTERS */
 /* TYPE FILTERS */
 
 const localitySelect =
