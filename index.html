@@ -3645,8 +3645,41 @@ document.addEventListener(
 
             return;
         }
+if (
+    event.target.closest("#changePasswordBtn")
+) {
+
+    $("newPassword").value = "";
+    $("confirmPassword").value = "";
+
+    $("passwordMessage").textContent = "";
+
+    $("changePasswordInline")
+        .classList.toggle("hidden");
+
+    return;
+}
 
 
+if (
+    event.target.closest("#cancelPasswordBtn")
+) {
+
+    $("changePasswordInline")
+        .classList.add("hidden");
+
+    return;
+}
+
+
+if (
+    event.target.closest("#savePasswordBtn")
+) {
+
+    saveNewPassword();
+
+    return;
+}
         if (
             event.target.closest("#cancelEditNameBtn")
         ) {
@@ -3744,6 +3777,85 @@ async function saveProfileName() {
             "editNameMessage",
             error.message ||
             "Não foi possível alterar o nome.",
+            "error"
+        );
+    }
+}
+    async function saveNewPassword() {
+
+    const password =
+        $("newPassword").value;
+
+    const confirmPassword =
+        $("confirmPassword").value;
+
+    if (!password || !confirmPassword) {
+
+        showMessage(
+            "passwordMessage",
+            "Preenche os dois campos.",
+            "error"
+        );
+
+        return;
+    }
+
+    if (password.length < 6) {
+
+        showMessage(
+            "passwordMessage",
+            "A palavra-passe deve ter pelo menos 6 caracteres.",
+            "error"
+        );
+
+        return;
+    }
+
+    if (password !== confirmPassword) {
+
+        showMessage(
+            "passwordMessage",
+            "As palavras-passe não coincidem.",
+            "error"
+        );
+
+        return;
+    }
+
+    try {
+
+        const {
+            error
+        } =
+            await supabaseClient.auth.updateUser({
+                password: password
+            });
+
+        if (error) {
+            throw error;
+        }
+
+        $("newPassword").value = "";
+        $("confirmPassword").value = "";
+
+        $("changePasswordInline")
+            .classList.add("hidden");
+
+        alert(
+            "Palavra-passe alterada com sucesso."
+        );
+
+    } catch (error) {
+
+        console.error(
+            "Erro ao alterar palavra-passe:",
+            error
+        );
+
+        showMessage(
+            "passwordMessage",
+            error.message ||
+            "Não foi possível alterar a palavra-passe.",
             "error"
         );
     }
