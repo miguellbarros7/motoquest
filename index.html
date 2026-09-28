@@ -4742,16 +4742,13 @@ async function loadAdminRewards() {
 
     if (!isAdmin()) return;
 
-    const {
-        data,
-        error
-    } =
-        await supabaseClient
-            .from("rewards")
-            .select("*")
-            .order("created_at", {
-                ascending: false
-            });
+const {
+    data,
+    error
+} =
+    await supabaseClient
+        .from("rewards")
+        .select("*");
 
 if (error) {
 
