@@ -5694,31 +5694,32 @@ async function loadAdminSuggestions() {
             );
 
         });
-}
-document
-    .querySelectorAll(".suggestion-admin-item")
-    .forEach(item => {
+        document
+        .querySelectorAll(".suggestion-admin-item")
+        .forEach(item => {
 
-        item.addEventListener(
-            "click",
-            event => {
+            item.addEventListener(
+                "click",
+                event => {
 
-                if (
-                    event.target.closest(
-                        "button, a"
-                    )
-                ) {
-                    return;
+                    if (
+                        event.target.closest(
+                            "button, a"
+                        )
+                    ) {
+                        return;
+                    }
+
+                    openSuggestionEdit(
+                        item.dataset.id
+                    );
+
                 }
+            );
 
-                openSuggestionEdit(
-                    item.dataset.id
-                );
+        });
+}
 
-            }
-        );
-
-    });
 let editingSuggestionId = null;
 let editingSuggestion = null;
 
@@ -5846,40 +5847,8 @@ async function openSuggestionEdit(
 
         return;
     }
-document
-    .querySelectorAll(".suggestion-admin-item")
-    .forEach(item => {
 
-        item.addEventListener(
-            "click",
-            event => {
-
-                if (
-                    event.target.closest("button, a")
-                ) {
-                    return;
-                }
-
-                openSuggestionEdit(
-                    item.dataset.id
-                );
-            }
-        );
-    });
-    if (status !== "aprovada") return;
-
-
-    const confirmed =
-        confirm(
-            "Queres aprovar esta sugestão e criar o local oficial?"
-        );
-
-    if (!confirmed) {
-        return;
-    }
-
-
-    try {
+ 
 
         /* 1. Buscar a sugestão */
 
