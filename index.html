@@ -55,6 +55,10 @@
         .hidden {
             display: none !important;
         }
+  /* Esconder menu durante o login */
+#authScreen:not(.hidden) ~ #app .bottom-nav {
+    display: none;
+}
 
         /* =========================
            AUTH
