@@ -3182,10 +3182,8 @@ async function loadRewards() {
     } =
         await supabaseClient
             .from("rewards")
-            .select("*")
-            .order("created_at", {
-                ascending: false
-            });
+            .select("*");
+           
 
     if (error) {
 
