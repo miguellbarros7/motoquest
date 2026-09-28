@@ -1265,6 +1265,57 @@ body.nav-ready .bottom-nav {
 .top-menu #topLogoutBtn {
     color: #ff6a00;
 }
+/* =========================
+   PERFIL
+========================= */
+
+.profile-settings {
+    width: 100%;
+    margin-top: 22px;
+    border-top: 1px solid var(--border);
+    padding-top: 10px;
+}
+
+.profile-setting-btn {
+    width: 100%;
+    border: 0;
+    border-bottom: 1px solid var(--border);
+    background: transparent;
+    color: #fff;
+    padding: 14px 4px;
+    display: grid;
+    grid-template-columns: 32px 1fr 20px;
+    align-items: center;
+    text-align: left;
+    gap: 8px;
+}
+
+.profile-setting-btn > span:first-child {
+    font-size: 18px;
+}
+
+.profile-setting-btn > span:last-child {
+    color: #777;
+    font-size: 22px;
+    text-align: right;
+}
+
+.profile-setting-btn strong {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.profile-setting-btn small {
+    display: block;
+    margin-top: 3px;
+    color: #777;
+    font-size: 12px;
+}
+
+.profile-setting-btn:hover {
+    background: rgba(255,255,255,.03);
+}
     </style>
 </head>
 
@@ -1651,89 +1702,137 @@ body.nav-ready .bottom-nav {
 
         <!-- PERFIL -->
 
-        <section
-            id="profileSection"
-            class="section"
-        >
+       <section
+    id="profileSection"
+    class="section"
+>
 
-            <div class="profile-box">
+    <div class="profile-box">
 
-                <div class="section-header">
-                    <div>
-                        <h1 class="section-title">
-                            Perfil
-                        </h1>
-                    </div>
+        <div class="section-header">
+            <div>
+                <h1 class="section-title">
+                    O meu perfil
+                </h1>
+
+                <div class="section-subtitle">
+                    Gere os dados da tua conta.
+                </div>
+            </div>
+        </div>
+
+        <div class="profile-card">
+
+            <div
+                id="profileAvatar"
+                class="profile-avatar"
+            >
+                M
+            </div>
+
+            <div
+                id="profileName"
+                class="profile-name"
+            >
+                Motard
+            </div>
+
+            <div
+                id="profileEmail"
+                class="profile-email"
+            >
+                -
+            </div>
+
+            <div class="home-points">
+
+                <div class="home-points-label">
+                    Pontos
                 </div>
 
-                <div class="profile-card">
-
-                    <div
-                        id="profileAvatar"
-                        class="profile-avatar"
-                    >
-                        M
-                    </div>
-
-                    <div
-                        id="profileName"
-                        class="profile-name"
-                    >
-                        Motard
-                    </div>
-
-                    <div
-                        id="profileEmail"
-                        class="profile-email"
-                    >
-                        -
-                    </div>
-
-                    <div class="home-points">
-
-                        <div class="home-points-label">
-                            Pontos
-                        </div>
-
-                        <div
-                            id="profilePoints"
-                            class="home-points-value"
-                        >
-                            0
-                        </div>
-
-                    </div>
-
-                    <div
-                        id="adminProfileButton"
-                        class="profile-actions hidden"
-                    >
-                        <button
-                            id="openAdminBtn"
-                            class="primary-btn full-btn"
-                        >
-                            Painel de administração
-                        </button>
-                    </div>
-
-                    <div class="profile-actions">
-
-                        <button
-                            id="logoutBtn"
-                            class="secondary-btn full-btn"
-                        >
-                            Terminar sessão
-                        </button>
-
-                    </div>
-
+                <div
+                    id="profilePoints"
+                    class="home-points-value"
+                >
+                    0
                 </div>
 
             </div>
 
-        </section>
+
+            <!-- DADOS DA CONTA -->
+
+            <div class="profile-settings">
+
+                <button
+                    id="editProfileNameBtn"
+                    class="profile-setting-btn"
+                    type="button"
+                >
+                    <span>👤</span>
+
+                    <div>
+                        <strong>Nome</strong>
+                        <small>Alterar o teu nome</small>
+                    </div>
+
+                    <span>›</span>
+                </button>
 
 
+                <button
+                    id="changePasswordBtn"
+                    class="profile-setting-btn"
+                    type="button"
+                >
+                    <span>🔒</span>
+
+                    <div>
+                        <strong>Palavra-passe</strong>
+                        <small>Alterar a palavra-passe</small>
+                    </div>
+
+                    <span>›</span>
+                </button>
+
+            </div>
+
+
+            <!-- ADMIN -->
+
+            <div
+                id="adminProfileButton"
+                class="profile-actions hidden"
+            >
+                <button
+                    id="openAdminBtn"
+                    class="primary-btn full-btn"
+                    type="button"
+                >
+                    Painel de administração
+                </button>
+            </div>
+
+
+            <!-- LOGOUT -->
+
+            <div class="profile-actions">
+
+                <button
+                    id="logoutBtn"
+                    class="secondary-btn full-btn"
+                    type="button"
+                >
+                    🚪 Terminar sessão
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
         <!-- SUGERIR -->
 
        <section id="suggestSection" class="section">
