@@ -5806,19 +5806,21 @@ async function openSuggestionEdit(
         );
     }
 }
-    async function updateSuggestionStatus(
+async function updateSuggestionStatus(
     suggestionId,
     status
 ) {
     if (!isAdmin()) return;
 
-    if (status === "rejeitada") {
+    try {
 
-        if (!confirm("Queres rejeitar esta sugestão?")) {
-            return;
-        }
+        /* REJEITAR */
+        if (status === "rejeitada") {
 
-        try {
+            if (!confirm("Queres rejeitar esta sugestão?")) {
+                return;
+            }
+
             const { error } =
                 await supabaseClient
                     .from("suggestions")
@@ -5828,24 +5830,14 @@ async function openSuggestionEdit(
                     .eq("id", suggestionId)
                     .eq("status", "pendente");
 
-            if (error) throw error;
+            if (error) {
+                throw error;
+            }
 
             await loadAdminSuggestions();
 
-        } catch (error) {
-
-            console.error(error);
-
-            alert(
-                error.message ||
-                "Não foi possível rejeitar a sugestão."
-            );
+            return;
         }
-
-        return;
-    }
-
- 
 
         /* 1. Buscar a sugestão */
 
@@ -5863,7 +5855,6 @@ async function openSuggestionEdit(
             throw suggestionError;
         }
 
-
         /* 2. Escolher a foto oficial */
 
         const fileInput =
@@ -5874,7 +5865,6 @@ async function openSuggestionEdit(
         fileInput.style.display = "none";
 
         document.body.appendChild(fileInput);
-
 
         const chooseFile =
             new Promise(resolve => {
@@ -5891,22 +5881,15 @@ async function openSuggestionEdit(
 
             });
 
-
         fileInput.click();
-
 
         const imageFile = await chooseFile;
 
-
-        /* 3. Remover o input temporário */
-
         fileInput.remove();
 
-
-        /* 4. Upload da foto, se foi escolhida */
+        /* 3. Upload da foto */
 
         let imageUrl = null;
-
 
         if (imageFile) {
 
@@ -5921,7 +5904,6 @@ async function openSuggestionEdit(
                     .toString(36)
                     .slice(2)}.${extension}`;
 
-
             const {
                 error: uploadError
             } = await supabaseClient
@@ -5935,11 +5917,9 @@ async function openSuggestionEdit(
                     }
                 );
 
-
             if (uploadError) {
                 throw uploadError;
             }
-
 
             const {
                 data: publicUrlData
@@ -5949,13 +5929,11 @@ async function openSuggestionEdit(
                     .from("location-images")
                     .getPublicUrl(filePath);
 
-
             imageUrl =
                 publicUrlData.publicUrl;
         }
 
-
-        /* 5. Criar o local oficial */
+        /* 4. Criar o local oficial */
 
         const locationPayload = {
             name: suggestion.name,
@@ -5968,11 +5946,9 @@ async function openSuggestionEdit(
             longitude: suggestion.longitude || null
         };
 
-
         if (imageUrl) {
             locationPayload.image_url = imageUrl;
         }
-
 
         const {
             error: locationError
@@ -5980,13 +5956,11 @@ async function openSuggestionEdit(
             .from("locations")
             .insert(locationPayload);
 
-
         if (locationError) {
             throw locationError;
         }
 
-
-        /* 6. Marcar a sugestão como aprovada */
+        /* 5. Marcar a sugestão como aprovada */
 
         const {
             error: statusError
@@ -5999,21 +5973,17 @@ async function openSuggestionEdit(
             .eq("id", suggestionId)
             .eq("status", "pendente");
 
-
         if (statusError) {
             throw statusError;
         }
 
-
-        /* 7. Atualizar lista */
+        /* 6. Atualizar lista */
 
         await loadAdminSuggestions();
-
 
         alert(
             "Local aprovado e adicionado ao MotoQuest!"
         );
-
 
     } catch (error) {
 
@@ -6024,7 +5994,7 @@ async function openSuggestionEdit(
 
         alert(
             error.message ||
-            "Não foi possível aprovar a sugestão."
+            "Não foi possível processar a sugestão."
         );
     }
 }
