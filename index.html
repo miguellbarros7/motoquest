@@ -6522,6 +6522,65 @@ $("approveEditedSuggestionBtn")
                     throw statusError;
                 }
 
+                /* 7. Dar 50 pontos ao utilizador que sugeriu */
+
+const {
+    data: suggestionUser,
+    error: suggestionUserError
+} = await supabaseClient
+    .from("suggestions")
+    .select("user_id")
+    .eq("id", suggestionId)
+    .single();
+
+if (suggestionUserError) {
+    throw suggestionUserError;
+}
+
+if (suggestionUser?.user_id) {
+
+    const {
+        data: userProfile,
+        error: userProfileError
+    } = await supabaseClient
+        .from("profiles")
+        .select("points")
+        .eq("id", suggestionUser.user_id)
+        .single();
+
+    if (userProfileError) {
+        throw userProfileError;
+    }
+
+    const currentPoints =
+        Number(userProfile?.points || 0);
+
+    const newPoints =
+        currentPoints + 50;
+
+    const {
+        error: pointsError
+    } = await supabaseClient
+        .from("profiles")
+        .update({
+            points: newPoints
+        })
+        .eq(
+            "id",
+            suggestionUser.user_id
+        );
+
+    if (pointsError) {
+        throw pointsError;
+    }
+
+    console.log(
+        "Utilizador recebeu +50 pontos."
+    );
+}
+
+/* 8. Só agora apagar a foto
+   original do utilizador */
                 /* 7. Só agora apagar a foto
                    original do utilizador */
 
