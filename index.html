@@ -2002,7 +2002,7 @@
                             <div class="field">
                                 <label>Categoria</label>
 
-                                <select id="rewardCategory">
+                                <select id="rewardType">
                                     <option value="restaurante">
                                         Restaurante
                                     </option>
@@ -4778,7 +4778,7 @@ if (error) {
 
                         <div class="admin-item-meta">
                             ${escapeHtml(
-                                reward.category || "Experiência"
+                                reward.type || "Experiência"
                             )}
                             ·
                             ${Number(reward.points || 0)} pts
@@ -4865,9 +4865,9 @@ function editReward(reward) {
     $("rewardName").value =
         reward.name || "";
 
-    $("rewardCategory").value =
-        reward.category ||
-        "restaurante";
+    $("rewardType").value =
+    reward.type ||
+    "restaurante";
 
     $("rewardPoints").value =
         Number(reward.points || 0);
@@ -4962,8 +4962,8 @@ $("rewardForm").addEventListener(
             name:
                 $("rewardName").value.trim(),
 
-            category:
-                $("rewardCategory").value,
+          type:
+    $("rewardType").value,
 
             points:
                 Number(
