@@ -4814,17 +4814,18 @@ function renderRedemptions() {
                         ${date}
                     </div>
 
-                    <div
-                        id="${qrId}"
-                        style="
-                            width:140px;
-                            height:140px;
-                            background:#fff;
-                            padding:10px;
-                            border-radius:12px;
-                            margin:18px 0;
-                        "
-                    ></div>
+                   <div class="reward-qr-area">
+
+    <div
+        id="${qrId}"
+        class="reward-qr"
+    ></div>
+
+    <div class="reward-qr-code">
+        ${escapeHtml(redemption.code || "-")}
+    </div>
+
+</div>
 
                     <div class="card-footer">
 
