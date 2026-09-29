@@ -5322,7 +5322,31 @@ $("confirmRewardBtn").addEventListener("click", async () => {
 
         button.disabled = false;
     }
-});/* CLOSE MODALS */
+});
+    
+    /* HISTÓRICO - VISITAS / RECOMPENSAS */
+
+$("historyVisitsBtn").addEventListener("click", () => {
+
+    $("historyVisitsBtn").classList.add("active");
+    $("historyRewardsBtn").classList.remove("active");
+
+    $("historyList").classList.remove("hidden");
+    $("redemptionsList").classList.add("hidden");
+});
+
+
+$("historyRewardsBtn").addEventListener("click", async () => {
+
+    $("historyRewardsBtn").classList.add("active");
+    $("historyVisitsBtn").classList.remove("active");
+
+    $("historyList").classList.add("hidden");
+    $("redemptionsList").classList.remove("hidden");
+
+    await loadRedemptions();
+});
+    /* CLOSE MODALS */
 
 document
     .querySelectorAll("[data-close-modal]")
