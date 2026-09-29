@@ -5153,11 +5153,11 @@ $("confirmRewardBtn").addEventListener("click", async () => {
     const currentPoints = Number(currentProfile.points || 0);
 
     if (currentPoints < rewardCost) {
-        showMessage(
-            "rewardModalMessage",
-            "Não tens pontos suficientes para esta recompensa.",
-            "error"
-        );
+      showMessage(
+    "rewardModalMessage",
+    "Erro: " + (error.message || "Não foi possível resgatar."),
+    "error"
+);
         return;
     }
 
