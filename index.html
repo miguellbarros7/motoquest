@@ -4758,8 +4758,64 @@ async function loadRedemptions() {
 
     renderRedemptions();
 }
+function renderRedemptions() {
 
+    const container = $("redemptionsList");
 
+    if (!redemptions.length) {
+
+        container.innerHTML =
+            `<div class="empty">
+                Ainda não resgataste nenhuma recompensa.
+            </div>`;
+
+        return;
+    }
+
+    container.innerHTML =
+        redemptions.map(redemption => {
+
+            const date =
+                redemption.created_at
+                    ? new Date(redemption.created_at)
+                        .toLocaleDateString("pt-PT")
+                    : "";
+
+            return `
+                <div class="history-card">
+
+                    <div class="card-kicker">
+                        RECOMPENSA RESGATADA
+                    </div>
+
+                    <div class="card-title">
+                        ${escapeHtml(redemption.reward_name || "Recompensa")}
+                    </div>
+
+                    <div class="card-description">
+                        ${date}
+                    </div>
+
+                    <div class="card-footer">
+
+                        <div class="points">
+                            ${Number(redemption.points_spent || 0)} pts
+                        </div>
+
+                        <strong style="
+                            color:#ff6a00;
+                            letter-spacing:1px;
+                        ">
+                            ${escapeHtml(redemption.code || "-")}
+                        </strong>
+
+                    </div>
+
+                </div>
+            `;
+
+        }).join("");
+}
 function renderHistory() {
 
     const container =
