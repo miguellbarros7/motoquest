@@ -1874,30 +1874,54 @@ body.nav-ready .bottom-nav {
 
         <!-- HISTÓRICO -->
 
-        <section
-            id="historySection"
-            class="section"
-        >
+      <section
+    id="historySection"
+    class="section"
+>
 
-            <div class="section-header">
-                <div>
-                    <h1 class="section-title">
-                        Histórico
-                    </h1>
+    <div class="section-header">
+        <div>
+            <h1 class="section-title">
+                Histórico
+            </h1>
 
-                    <div class="section-subtitle">
-                        Os teus locais visitados.
-                    </div>
-                </div>
+            <div class="section-subtitle">
+                Consulta a tua atividade no MotoQuest.
             </div>
+        </div>
+    </div>
 
-            <div
-                id="historyList"
-                class="history-list"
-            ></div>
+    <div class="history-tabs">
 
-        </section>
+        <button
+            id="historyVisitsBtn"
+            class="history-tab active"
+            type="button"
+        >
+            Visitas
+        </button>
 
+        <button
+            id="historyRewardsBtn"
+            class="history-tab"
+            type="button"
+        >
+            Recompensas
+        </button>
+
+    </div>
+
+    <div
+        id="historyList"
+        class="history-list"
+    ></div>
+
+    <div
+        id="redemptionsList"
+        class="history-list hidden"
+    ></div>
+
+</section>
 
         <!-- PERFIL -->
 
