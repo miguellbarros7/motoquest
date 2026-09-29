@@ -4794,6 +4794,8 @@ function renderRedemptions() {
                         .toLocaleDateString("pt-PT")
                     : "";
 
+            const qrId = `qr-${redemption.id}`;
+
             return `
                 <div class="history-card">
 
@@ -4808,6 +4810,18 @@ function renderRedemptions() {
                     <div class="card-description">
                         ${date}
                     </div>
+
+                    <div
+                        id="${qrId}"
+                        style="
+                            width:140px;
+                            height:140px;
+                            background:#fff;
+                            padding:10px;
+                            border-radius:12px;
+                            margin:18px 0;
+                        "
+                    ></div>
 
                     <div class="card-footer">
 
@@ -4828,6 +4842,24 @@ function renderRedemptions() {
             `;
 
         }).join("");
+
+
+    redemptions.forEach(redemption => {
+
+        const qrElement =
+            document.getElementById(
+                `qr-${redemption.id}`
+            );
+
+        if (!qrElement || !redemption.code) return;
+
+        new QRCode(qrElement, {
+            text: redemption.code,
+            width: 120,
+            height: 120
+        });
+
+    });
 }
 function renderHistory() {
 
