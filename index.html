@@ -4865,51 +4865,65 @@ function renderRedemptions() {
 
     }).join("");
 
-      redemptions.forEach(redemption => {
+    redemptions.forEach(redemption => {
 
-    const container =
-        $("historyList");
+        const qrElement =
+            document.getElementById(`qr-${redemption.id}`);
+
+        if (!qrElement || !redemption.code) return;
+
+        new QRCode(qrElement, {
+            text: redemption.code,
+            width: 120,
+            height: 120
+        });
+
+    });
+}
+
+
+function renderHistory() {
+
+    const container = $("historyList");
 
     if (!history.length) {
 
-        container.innerHTML =
-            `<div class="empty">
+        container.innerHTML = `
+            <div class="empty">
                 Ainda não visitaste nenhum local.
-            </div>`;
+            </div>
+        `;
 
         return;
     }
 
-    container.innerHTML =
-        history.map(item => {
+    container.innerHTML = history.map(item => {
 
-            const locationName =
-                item.locations?.name ||
-                "Local";
+        const locationName =
+            item.locations?.name || "Local";
 
-            return `
-                <div class="history-item">
+        return `
+            <div class="history-item">
 
-                    <div>
-                        <div class="history-name">
-                            ${escapeHtml(locationName)}
-                        </div>
-
-                        <div class="history-date">
-                            ${formatDate(item.created_at)}
-                        </div>
+                <div>
+                    <div class="history-name">
+                        ${escapeHtml(locationName)}
                     </div>
 
-                    <div class="points">
-                        +${Number(item.points || 0)} pts
+                    <div class="history-date">
+                        ${formatDate(item.created_at)}
                     </div>
-
                 </div>
-            `;
 
-        }).join("");
+                <div class="points">
+                    +${Number(item.points || 0)} pts
+                </div>
+
+            </div>
+        `;
+
+    }).join("");
 }
-
 
 /* =========================================================
    VISIT MODAL
