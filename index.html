@@ -4865,40 +4865,10 @@ function renderRedemptions() {
 
     }).join("");
 
-    redemptions.forEach(redemption => {
-
-        const qrElement =
-            document.getElementById(`qr-${redemption.id}`);
-
-        if (!qrElement || !redemption.code) return;
-
-        new QRCode(qrElement, {
-            text: redemption.code,
-            width: 120,
-            height: 120
-        });
-
+   
     });
 }
-
-
-    redemptions.forEach(redemption => {
-
-        const qrElement =
-            document.getElementById(
-                `qr-${redemption.id}`
-            );
-
-        if (!qrElement || !redemption.code) return;
-
-        new QRCode(qrElement, {
-            text: redemption.code,
-            width: 120,
-            height: 120
-        });
-
-    });
-}
+ 
 function renderHistory() {
 
     const container =
