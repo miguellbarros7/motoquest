@@ -4846,8 +4846,9 @@ function renderRedemptions() {
                     <div class="card-description">
                         ${date}
                     </div>
-
-                   <div class="reward-qr-area">
+<div class="points" style="margin-top:4px;">
+    ${Number(redemption.points_spent || 0)} pts
+</div>                   <div class="reward-qr-area">
 
     <div
         id="${qrId}"
@@ -4862,18 +4863,10 @@ function renderRedemptions() {
 
                     <div class="card-footer">
 
-                        <div class="points">
-                            ${Number(redemption.points_spent || 0)} pts
-                        </div>
+                 
+                  
 
-                        <strong style="
-                            color:#ff6a00;
-                            letter-spacing:1px;
-                        ">
-                            ${escapeHtml(redemption.code || "-")}
-                        </strong>
-
-                    </div>
+                    
 
                 </div>
             `;
