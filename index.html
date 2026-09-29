@@ -5212,20 +5212,20 @@ $("confirmRewardBtn").addEventListener("click", async () => {
             "success"
         );
 
-    } catch (error) {
+  } catch (error) {
 
-        console.error(
-            "Erro ao resgatar recompensa:",
-            error
-        );
+    console.error(
+        "Erro ao resgatar recompensa:",
+        error
+    );
 
-        showMessage(
-            "rewardModalMessage",
-            "Não foi possível resgatar a recompensa.",
-            "error"
-        );
+    showMessage(
+        "rewardModalMessage",
+        "Erro: " + (error.message || "Não foi possível resgatar."),
+        "error"
+    );
 
-    } finally {
+} finally {
 
         button.disabled = false;
     }
