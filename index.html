@@ -1478,6 +1478,38 @@ body.nav-ready .bottom-nav {
 .edit-name-inline .form-message {
     margin-top: 8px;
 }
+
+.history-tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 18px;
+    padding: 4px;
+    background: #111;
+    border: 1px solid #252525;
+    border-radius: 14px;
+}
+
+.history-tab {
+    flex: 1;
+    padding: 11px 14px;
+    border: 0;
+    border-radius: 10px;
+    background: transparent;
+    color: #777;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all .2s ease;
+}
+
+.history-tab:hover {
+    color: #fff;
+}
+
+.history-tab.active {
+    background: rgba(255,106,0,.12);
+    color: #ff6a00;
+}        
     </style>
 </head>
 
@@ -4688,6 +4720,40 @@ async function loadHistory() {
     history = data || [];
 
     renderHistory();
+}
+    let redemptions = [];
+
+async function loadRedemptions() {
+
+    if (!currentUser) return;
+
+    const { data, error } =
+        await supabaseClient
+            .from("redemptions")
+            .select("*")
+            .eq("user_id", currentUser.id)
+            .order("created_at", {
+                ascending: false
+            });
+
+    if (error) {
+
+        console.error(
+            "Erro ao carregar resgates:",
+            error
+        );
+
+        $("redemptionsList").innerHTML =
+            `<div class="empty">
+                Não foi possível carregar as recompensas.
+            </div>`;
+
+        return;
+    }
+
+    redemptions = data || [];
+
+    renderRedemptions();
 }
 
 
