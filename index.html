@@ -4812,66 +4812,74 @@ function renderRedemptions() {
     const container = $("redemptionsList");
 
     if (!redemptions.length) {
-
-        container.innerHTML =
-            `<div class="empty">
+        container.innerHTML = `
+            <div class="empty">
                 Ainda não resgataste nenhuma recompensa.
-            </div>`;
-
+            </div>
+        `;
         return;
     }
 
-    container.innerHTML =
-        redemptions.map(redemption => {
+    container.innerHTML = redemptions.map(redemption => {
 
-            const date =
-                redemption.created_at
-                    ? new Date(redemption.created_at)
-                        .toLocaleDateString("pt-PT")
-                    : "";
+        const date = redemption.created_at
+            ? new Date(redemption.created_at).toLocaleDateString("pt-PT")
+            : "";
 
-            const qrId = `qr-${redemption.id}`;
+        const qrId = `qr-${redemption.id}`;
 
-            return `
-                <div class="history-card">
+        return `
+            <div class="history-card">
 
-                    <div class="card-kicker">
-                        RECOMPENSA RESGATADA
+                <div class="card-kicker">
+                    RECOMPENSA RESGATADA
+                </div>
+
+                <div class="card-title">
+                    ${escapeHtml(redemption.reward_name || "Recompensa")}
+                </div>
+
+                <div class="card-description">
+                    ${date}
+                </div>
+
+                <div class="points" style="margin-top:4px;">
+                    ${Number(redemption.points_spent || 0)} pts
+                </div>
+
+                <div class="reward-qr-area">
+
+                    <div
+                        id="${qrId}"
+                        class="reward-qr"
+                    ></div>
+
+                    <div class="reward-qr-code">
+                        ${escapeHtml(redemption.code || "-")}
                     </div>
-
-                    <div class="card-title">
-                        ${escapeHtml(redemption.reward_name || "Recompensa")}
-                    </div>
-
-                    <div class="card-description">
-                        ${date}
-                    </div>
-<div class="points" style="margin-top:4px;">
-    ${Number(redemption.points_spent || 0)} pts
-</div>                   <div class="reward-qr-area">
-
-    <div
-        id="${qrId}"
-        class="reward-qr"
-    ></div>
-
-    <div class="reward-qr-code">
-        ${escapeHtml(redemption.code || "-")}
-    </div>
-
-</div>
-
-                    <div class="card-footer">
-
-                 
-                  
-
-                    
 
                 </div>
-            `;
 
-        }).join("");
+            </div>
+        `;
+
+    }).join("");
+
+    redemptions.forEach(redemption => {
+
+        const qrElement =
+            document.getElementById(`qr-${redemption.id}`);
+
+        if (!qrElement || !redemption.code) return;
+
+        new QRCode(qrElement, {
+            text: redemption.code,
+            width: 120,
+            height: 120
+        });
+
+    });
+}
 
 
     redemptions.forEach(redemption => {
