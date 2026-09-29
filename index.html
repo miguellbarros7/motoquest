@@ -5137,8 +5137,99 @@ function openRewardModal(reward) {
 
     $("rewardModal").classList.add("open");
 }
+    
+$("confirmRewardBtn").addEventListener("click", async () => {
 
-/* CLOSE MODALS */
+    const button = $("confirmRewardBtn");
+    const rewardId = button.dataset.rewardId;
+
+    const reward = rewards.find(
+        item => String(item.id) === String(rewardId)
+    );
+
+    if (!reward || !currentUser || !currentProfile) return;
+
+    const rewardCost = Number(reward.points || 0);
+    const currentPoints = Number(currentProfile.points || 0);
+
+    if (currentPoints < rewardCost) {
+        showMessage(
+            "rewardModalMessage",
+            "Não tens pontos suficientes para esta recompensa.",
+            "error"
+        );
+        return;
+    }
+
+    button.disabled = true;
+
+    try {
+
+        const code =
+            "MQ-" +
+            Math.random()
+                .toString(36)
+                .substring(2, 7)
+                .toUpperCase();
+
+        const newPoints =
+            currentPoints - rewardCost;
+
+        const { error: redemptionError } =
+            await supabaseClient
+                .from("redemptions")
+                .insert({
+                    user_id: currentUser.id,
+                    reward_id: reward.id,
+                    reward_name: reward.name,
+                    points_spent: rewardCost,
+                    code: code
+                });
+
+        if (redemptionError) {
+            throw redemptionError;
+        }
+
+        const { error: profileError } =
+            await supabaseClient
+                .from("profiles")
+                .update({
+                    points: newPoints
+                })
+                .eq("id", currentUser.id);
+
+        if (profileError) {
+            throw profileError;
+        }
+
+        currentProfile.points = newPoints;
+
+        updateProfileUI();
+
+        showMessage(
+            "rewardModalMessage",
+            `Recompensa resgatada! Código: ${code}`,
+            "success"
+        );
+
+    } catch (error) {
+
+        console.error(
+            "Erro ao resgatar recompensa:",
+            error
+        );
+
+        showMessage(
+            "rewardModalMessage",
+            "Não foi possível resgatar a recompensa.",
+            "error"
+        );
+
+    } finally {
+
+        button.disabled = false;
+    }
+});/* CLOSE MODALS */
 
 document
     .querySelectorAll("[data-close-modal]")
