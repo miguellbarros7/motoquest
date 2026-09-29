@@ -5140,15 +5140,15 @@ function openRewardModal(reward) {
         reward.description ||
         "Confirma o resgate desta recompensa.";
 
-   $("rewardModalPoints").textContent =
-    `${Number(reward.points || 0)} pts`;
+    $("rewardModalPoints").textContent =
+        `${Number(reward.points || 0)} pts`;
 
     $("rewardModalMessage").textContent = "";
 
     $("confirmRewardBtn").dataset.rewardId =
         reward.id;
 
- $("rewardModal").classList.add("open");
+    $("rewardModal").classList.add("open");
 }
 
 /* CLOSE MODALS */
