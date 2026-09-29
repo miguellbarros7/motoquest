@@ -3037,76 +3037,21 @@ body.nav-ready .bottom-nav {
      VISIT MODAL
 ========================= -->
 
-<div
-    id="visitModal"
-    class="modal"
->
+<div id="visitModal" class="modal">
     <div class="modal-card">
 
         <div class="modal-header">
-
-            <div
-                id="visitModalTitle"
-                class="modal-title"
-            >
+            <div id="visitModalTitle" class="modal-title">
                 Visitar local
             </div>
-        </div>
-<!-- MODAL DE RESGATE -->
 
-
-
-            <button
-                id="closeRewardModalBtn"
-                class="secondary-btn"
-                type="button"
-            >
-                Fechar
-            </button>
-        </div>
-
-        <div class="profile-card">
-
-            <div
-                class="home-points"
-                style="margin-bottom:0;"
-            >
-                <div class="home-points-label">
-                    Custo
-                </div>
-
-                <div
-                    id="rewardModalPoints"
-                    class="home-points-value"
-                >
-                    0 pts
-                </div>
-            </div>
-
-        </div>
-
-        <div
-            id="rewardModalMessage"
-            class="form-message"
-        ></div>
-
-        <button
-            id="confirmRewardBtn"
-            class="primary-btn full-btn"
-            type="button"
-        >
-            Confirmar resgate
-        </button>
-
-    </div>
-</div>
             <button
                 class="close-btn"
                 data-close-modal="visitModal"
+                type="button"
             >
                 ×
             </button>
-
         </div>
 
         <div
@@ -3114,8 +3059,6 @@ body.nav-ready .bottom-nav {
             class="section-subtitle"
             style="margin-bottom:20px;"
         ></div>
-
-        <!-- LOCALIZAÇÃO -->
 
         <button
             id="getVisitLocationBtn"
@@ -3129,9 +3072,6 @@ body.nav-ready .bottom-nav {
             id="visitLocationStatus"
             class="form-message"
         ></div>
-
-
-        <!-- FOTOGRAFIA -->
 
         <div
             class="field"
@@ -3147,9 +3087,6 @@ body.nav-ready .bottom-nav {
             >
         </div>
 
-
-        <!-- CONFIRMAR -->
-
         <button
             id="confirmVisitBtn"
             class="primary-btn full-btn"
@@ -3157,10 +3094,77 @@ body.nav-ready .bottom-nav {
         >
             Confirmar visita
         </button>
+
         <div
             id="visitMessage"
             class="form-message"
         ></div>
+
+    </div>
+</div>
+
+
+<!-- =========================
+     REWARD MODAL
+========================= -->
+
+<div id="rewardModal" class="modal">
+    <div class="modal-card">
+
+        <div class="modal-header">
+            <div>
+                <h3 id="rewardModalTitle">
+                    Resgatar recompensa
+                </h3>
+
+                <p
+                    id="rewardModalDescription"
+                    class="section-subtitle"
+                >
+                    Confirma o resgate desta recompensa.
+                </p>
+            </div>
+
+            <button
+                id="closeRewardModalBtn"
+                class="secondary-btn"
+                data-close-modal="rewardModal"
+                type="button"
+            >
+                Fechar
+            </button>
+        </div>
+
+        <div class="profile-card">
+            <div
+                class="home-points"
+                style="margin-bottom:0;"
+            >
+                <div class="home-points-label">
+                    Custo
+                </div>
+
+                <div
+                    id="rewardModalPoints"
+                    class="home-points-value"
+                >
+                    0 pts
+                </div>
+            </div>
+        </div>
+
+        <div
+            id="rewardModalMessage"
+            class="form-message"
+        ></div>
+
+        <button
+            id="confirmRewardBtn"
+            class="primary-btn full-btn"
+            type="button"
+        >
+            Confirmar resgate
+        </button>
 
     </div>
 </div>
