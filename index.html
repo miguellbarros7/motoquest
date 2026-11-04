@@ -6316,26 +6316,32 @@ $("confirmRewardBtn").addEventListener("click", async () => {
     
     /* HISTÓRICO - VISITAS / RECOMPENSAS */
 
+/* HISTÓRICO - VISITAS / RECOMPENSAS / ROTAS */
+
+function showHistoryTab(tab) {
+    $("historyVisitsBtn").classList.toggle("active", tab === "visits");
+    $("historyRewardsBtn").classList.toggle("active", tab === "rewards");
+    $("historyRoutesBtn").classList.toggle("active", tab === "routes");
+
+    $("historyList").classList.toggle("hidden", tab !== "visits");
+    $("redemptionsList").classList.toggle("hidden", tab !== "rewards");
+    $("historyRoutesPanel").classList.toggle("hidden", tab !== "routes");
+}
+
 $("historyVisitsBtn").addEventListener("click", () => {
-
-    $("historyVisitsBtn").classList.add("active");
-    $("historyRewardsBtn").classList.remove("active");
-
-    $("historyList").classList.remove("hidden");
-    $("redemptionsList").classList.add("hidden");
+    showHistoryTab("visits");
 });
-
 
 $("historyRewardsBtn").addEventListener("click", async () => {
-
-    $("historyRewardsBtn").classList.add("active");
-    $("historyVisitsBtn").classList.remove("active");
-
-    $("historyList").classList.add("hidden");
-    $("redemptionsList").classList.remove("hidden");
-
+    showHistoryTab("rewards");
     await loadRedemptions();
 });
+
+$("historyRoutesBtn").addEventListener("click", async () => {
+    showHistoryTab("routes");
+    await loadMyRoutes();
+});
+
     /* CLOSE MODALS */
 
 document
