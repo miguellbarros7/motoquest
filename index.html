@@ -8642,11 +8642,15 @@ if (_event === "PASSWORD_RECOVERY") {
     return;
 }
 
-            if (currentUser) {
+           if (currentUser) {
 
-                await initializeApp();
+    if (!$("resetPasswordScreen").classList.contains("hidden")) {
+        return;
+    }
 
-            } else {
+    await initializeApp();
+
+} else {
 
                 $("app")
                     .classList.add("hidden");
