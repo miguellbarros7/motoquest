@@ -3882,8 +3882,49 @@ const renderStops = () => {
             ? location.name
             : "Local não encontrado";
 
-              row.append(number, name);
-        stopsPanel.appendChild(row);
+             
+const arrows = document.createElement("div");
+arrows.style.cssText =
+    "display:flex;gap:5px;margin-left:auto;";
+
+const upBtn = document.createElement("button");
+upBtn.type = "button";
+upBtn.textContent = "↑";
+upBtn.title = "Subir paragem";
+
+const downBtn = document.createElement("button");
+downBtn.type = "button";
+downBtn.textContent = "↓";
+downBtn.title = "Descer paragem";
+
+[upBtn, downBtn].forEach(btn => {
+    btn.style.cssText =
+        "background:#333;border:1px solid #555;" +
+        "border-radius:6px;color:#ffb366;" +
+        "padding:5px 9px;cursor:pointer;font-size:14px;";
+});
+
+upBtn.disabled = index === 0;
+downBtn.disabled = index === ids.length - 1;
+
+upBtn.onclick = event => {
+    event.stopPropagation();
+    [ids[index - 1], ids[index]] =
+        [ids[index], ids[index - 1]];
+    renderStops();
+};
+
+downBtn.onclick = event => {
+    event.stopPropagation();
+    [ids[index], ids[index + 1]] =
+        [ids[index + 1], ids[index]];
+    renderStops();
+};
+
+arrows.append(upBtn, downBtn);
+row.append(number, name, arrows);
+stopsPanel.appendChild(row);
+
     });
 };
 
