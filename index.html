@@ -4455,71 +4455,143 @@ async function saveProfileName() {
    LOCATIONS
 ========================================================= */
 
-/* ROTAS PESSOAIS — ESCOLHA DAS PARAGENS */
 
-let personalRouteStops = [];
+/* GALERIA DE LOCAIS PARA CRIAR ROTAS */
 
-function renderPersonalRouteStops() {
-    const container = $("routeStopsList");
+let routeGalleryLocations = [];
+let routeGalleryIndex = 0;
 
-    if (!container) return;
+async function loadRouteLocations() {
+    const gallery = $("routeLocationsGallery");
+    if (!gallery) return;
 
-    if (personalRouteStops.length === 0) {
-        container.textContent =
-            "Ainda não adicionaste pontos.";
+    gallery.textContent = "A carregar fotografias...";
+
+    const { data, error } = await supabaseClient
+        .from("locations")
+        .select("id, name, image_url, locality, latitude, longitude")
+        .order("name", { ascending: true });
+
+    if (error) {
+        console.error(error);
+        gallery.textContent = "Não foi possível carregar os locais.";
         return;
     }
 
-    container.innerHTML = "";
+    routeGalleryLocations = data || [];
+    routeGalleryIndex = 0;
+    renderRouteGallery();
+}
 
-    personalRouteStops.forEach((stop, index) => {
-        const row = document.createElement("div");
+function renderRouteGallery() {
+    const gallery = $("routeLocationsGallery");
+    if (!gallery) return;
 
-        row.style.cssText =
-            "display:flex;align-items:center;gap:8px;" +
-            "padding:12px;margin:8px 0;background:#181818;" +
-            "border-radius:10px;";
+    gallery.innerHTML = "";
+    gallery.style.display = "block";
 
-        const name = document.createElement("span");
-        name.style.flex = "1";
-        name.textContent = `${index + 1}. ${stop.name}`;
+    if (!routeGalleryLocations.length) {
+        gallery.textContent = "Ainda não existem locais disponíveis.";
+        return;
+    }
 
-        row.appendChild(name);
+    const location = routeGalleryLocations[routeGalleryIndex];
 
-        [
-            ["↑", index > 0, () => {
-                [personalRouteStops[index - 1],
-                 personalRouteStops[index]] =
-                [personalRouteStops[index],
-                 personalRouteStops[index - 1]];
-            }],
-            ["↓", index < personalRouteStops.length - 1, () => {
-                [personalRouteStops[index + 1],
-                 personalRouteStops[index]] =
-                [personalRouteStops[index],
-                 personalRouteStops[index + 1]];
-            }],
-            ["✕", true, () => {
-                personalRouteStops.splice(index, 1);
-            }]
-        ].forEach(([label, enabled, action]) => {
-            const button = document.createElement("button");
+    const selected = personalRouteStops.some(
+        stop => stop.id === String(location.id)
+    );
 
-            button.type = "button";
-            button.textContent = label;
-            button.className = "secondary-btn";
-            button.disabled = !enabled;
+    const card = document.createElement("div");
+    card.style.cssText =
+        "background:#171717;border:1px solid #333;" +
+        "border-radius:16px;overflow:hidden;";
 
-            button.addEventListener("click", () => {
-                action();
-                renderPersonalRouteStops();
+    const photo = document.createElement("img");
+    photo.src = location.image_url || FALLBACK_IMAGE;
+    photo.alt = location.name || "Local";
+    photo.loading = "lazy";
+    photo.style.cssText =
+        "width:100%;height:220px;object-fit:cover;display:block;";
+    card.appendChild(photo);
+
+    const content = document.createElement("div");
+    content.style.padding = "15px";
+
+    const title = document.createElement("h3");
+    title.textContent = location.name;
+    content.appendChild(title);
+
+    const locality = document.createElement("p");
+    locality.textContent = location.locality || "";
+    locality.style.color = "#aaa";
+    content.appendChild(locality);
+
+    const counter = document.createElement("p");
+    counter.textContent =
+        `${routeGalleryIndex + 1} de ${routeGalleryLocations.length}`;
+    counter.style.color = "#aaa";
+    content.appendChild(counter);
+
+    const controls = document.createElement("div");
+    controls.style.cssText =
+        "display:flex;gap:8px;align-items:center;";
+
+    const previous = document.createElement("button");
+    previous.textContent = "❮";
+    previous.className = "secondary-btn";
+    previous.type = "button";
+    previous.onclick = () => {
+        routeGalleryIndex =
+            (routeGalleryIndex - 1 + routeGalleryLocations.length)
+            % routeGalleryLocations.length;
+        renderRouteGallery();
+    };
+
+    const select = document.createElement("button");
+    select.textContent = selected
+        ? "✓ Selecionado"
+        : "+ Selecionar";
+    select.className = "primary-btn";
+    select.type = "button";
+    select.style.flex = "1";
+
+    select.onclick = () => {
+        const id = String(location.id);
+
+        const index = personalRouteStops.findIndex(
+            stop => stop.id === id
+        );
+
+        if (index >= 0) {
+            personalRouteStops.splice(index, 1);
+        } else {
+            personalRouteStops.push({
+                id,
+                name: location.name,
+                latitude: location.latitude,
+                longitude: location.longitude
             });
+        }
 
-            row.appendChild(button);
-        });
+        renderPersonalRouteStops();
+        renderRouteGallery();
+    };
 
-        container.appendChild(row);
-    });
+    const next = document.createElement("button");
+    next.textContent = "❯";
+    next.className = "secondary-btn";
+    next.type = "button";
+    next.onclick = () => {
+        routeGalleryIndex =
+            (routeGalleryIndex + 1)
+            % routeGalleryLocations.length;
+        renderRouteGallery();
+    };
+
+    controls.append(previous, select, next);
+    content.appendChild(controls);
+    card.appendChild(content);
+    gallery.appendChild(card);
 }
 
 
