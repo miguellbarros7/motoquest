@@ -2082,13 +2082,7 @@ data-go="routes"
     </div>
 </div>
 
-    <button
-        id="addRouteLocationBtn"
-        class="secondary-btn"
-        type="button"
-    >
-        + Adicionar ponto à rota
-    </button>
+   
 
     <h3>Paragens da minha rota</h3>
 
@@ -4528,28 +4522,7 @@ function renderPersonalRouteStops() {
     });
 }
 
-$("addRouteLocationBtn").addEventListener("click", () => {
-    const select = $("routeLocationSelect");
-    const id = select.value;
 
-    if (!id) {
-        alert("Escolhe primeiro um ponto de interesse.");
-        return;
-    }
-
-    if (personalRouteStops.some(stop => stop.id === id)) {
-        alert("Este ponto já está na rota.");
-        return;
-    }
-
-    const name =
-        select.options[select.selectedIndex].textContent;
-
-    personalRouteStops.push({ id, name });
-
-    select.value = "";
-    renderPersonalRouteStops();
-});
     
 async function loadRouteLocations() {
     const select = $("routeLocationSelect");
