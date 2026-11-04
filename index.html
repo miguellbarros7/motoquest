@@ -2063,17 +2063,24 @@ data-go="routes"
         ></textarea>
     </div>
 
-    <div class="field">
-        <label for="routeLocationSelect">
-            Escolher ponto de interesse
-        </label>
+    
+<div class="field">
+    <label>
+        📍 Escolhe os locais da tua rota
+    </label>
 
-        <select id="routeLocationSelect">
-            <option value="">
-                Seleciona um local
-            </option>
-        </select>
+    <p style="color:#aaa;font-size:13px;">
+        Vê as fotografias e seleciona
+        os locais que queres visitar.
+    </p>
+
+    <div
+        id="routeLocationsGallery"
+        class="locations-grid"
+    >
+        A carregar fotografias...
     </div>
+</div>
 
     <button
         id="addRouteLocationBtn"
