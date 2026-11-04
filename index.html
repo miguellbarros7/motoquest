@@ -3520,8 +3520,47 @@ function setAuthMode(mode) {
         ""
     );
 }
+$("forgotPasswordBtn").addEventListener("click", async () => {
 
+    const email = $("authEmail").value.trim();
 
+    if (!email) {
+        showMessage(
+            "authMessage",
+            "Introduz primeiro o teu email.",
+            "error"
+        );
+        return;
+    }
+
+    const button = $("forgotPasswordBtn");
+    button.disabled = true;
+
+    try {
+        const { error } =
+            await supabaseClient.auth.resetPasswordForEmail(email, {
+                redirectTo: window.location.origin + window.location.pathname
+            });
+
+        if (error) throw error;
+
+        showMessage(
+            "authMessage",
+            "Se existir uma conta com este email, receberás uma mensagem de recuperação.",
+            "success"
+        );
+
+    } catch (error) {
+        showMessage(
+            "authMessage",
+            "Não foi possível enviar o email. Tenta novamente.",
+            "error"
+        );
+    } finally {
+        button.disabled = false;
+    }
+
+});
 $("loginTab").addEventListener(
     "click",
     () => setAuthMode("login")
