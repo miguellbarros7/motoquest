@@ -3915,8 +3915,22 @@ deleteBtn.onclick = async () => {
 };
 
 
-card.append(title, description, deleteBtn);
+
+const actionsRow = document.createElement("div");
+actionsRow.style.cssText =
+    "display:flex;align-items:center;gap:10px;";
+
+title.style.flex = "1";
+title.style.width = "auto";
+title.style.minWidth = "0";
+
+deleteBtn.style.margin = "0";
+deleteBtn.style.flexShrink = "0";
+
+actionsRow.append(title, deleteBtn);
+card.append(actionsRow, description);
 container.appendChild(card);
+
 
     });
 }
