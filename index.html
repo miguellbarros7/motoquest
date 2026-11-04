@@ -2074,6 +2074,27 @@ data-go="routes"
         os locais que queres visitar.
     </p>
 
+<div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:15px 0;">
+
+    <div class="field">
+        <label for="routeLocalityFilter">
+            📍 Localidade
+        </label>
+        <select id="routeLocalityFilter">
+            <option value="all">Todas as localidades</option>
+        </select>
+    </div>
+
+    <div class="field">
+        <label for="routeTypeFilter">
+            🏛️ Tipo de local
+        </label>
+        <select id="routeTypeFilter">
+            <option value="all">Todos os tipos</option>
+        </select>
+    </div>
+
+</div>
     <div
         id="routeLocationsGallery"
         class="locations-grid"
