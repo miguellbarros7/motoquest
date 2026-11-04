@@ -4018,10 +4018,17 @@ saveOrderBtn.onclick = async event => {
         return;
     }
 
-    route.location_ids = [...ids];
+   route.location_ids = [...ids];
 
-    saveOrderBtn.disabled = false;
-    saveOrderBtn.textContent = "✓ Ordem guardada!";
+saveOrderBtn.disabled = false;
+saveOrderBtn.textContent = "💾 Guardar nova ordem";
+
+stopsPanel.style.display = "none";
+stopsBtn.textContent = "⌄ Ver paragens";
+
+title.style.cursor = "pointer";
+title.style.borderColor = "#444";
+title.style.background = "#252525";
 };
 
 addStopBtn.onclick = async event => {
