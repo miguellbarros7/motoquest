@@ -3746,9 +3746,26 @@ const stopsCount = Array.isArray(route.location_ids)
     ? route.location_ids.length
     : 0;
 
-stops.textContent = stopsCount === 1
-    ? "⌖ 1 paragem"
-    : `⌖ ${stopsCount} paragens`;
+
+stops.style.display = "flex";
+stops.style.alignItems = "center";
+stops.style.gap = "5px";
+
+stops.innerHTML =
+    '<svg width="13" height="13" viewBox="0 0 24 24" ' +
+    'fill="none" stroke="#999" stroke-width="1.7" ' +
+    'stroke-linecap="round" stroke-linejoin="round">' +
+    '<path d="M20 10c0 5-8 11-8 11S4 15 4 10a8 8 0 1 1 16 0Z"/>' +
+    '<circle cx="12" cy="10" r="2.5"/>' +
+    '</svg>';
+
+const stopsText = document.createElement("span");
+stopsText.textContent = stopsCount === 1
+    ? "1 paragem"
+    : `${stopsCount} paragens`;
+
+stops.appendChild(stopsText);
+
 
 stops.style.cssText =
     "display:block;color:#999;margin-top:5px;font-size:12px;";
