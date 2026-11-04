@@ -2234,29 +2234,14 @@ data-go="routes"
         id="redemptionsList"
         class="history-list hidden"
     ></div>
-
-</section>
+<div
+    id="redemptionsList"
+    class="history-list hidden"
+></div></section>
 
         <!-- PERFIL -->
 
-       <section
-    id="profileSection"
-    class="section">
 
-           
-<div style="margin-top:25px;">
-    <h2 style="color:#ff7900;">
-        🏍️ As minhas rotas
-    </h2>
-
-    <p style="color:#aaa;font-size:13px;">
-        Consulta as tuas aventuras guardadas.
-    </p>
-
-    <div id="myRoutesList">
-        Ainda não tens rotas guardadas.
-    </div>
-</div>
 
 
     <div class="profile-box">
@@ -3829,14 +3814,15 @@ if (sectionName === "routes") {
         loadRewards();
     }
 
-    if (sectionName === "history") {
-        loadHistory();
+   if (sectionName === "history") {
+    loadHistory();
+    loadMyRoutes();
+};
     }
 
 
 if (sectionName === "profile") {
     loadProfile();
-    loadMyRoutes();
 }
 
 if (sectionName === "admin") {
