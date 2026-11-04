@@ -3999,14 +3999,6 @@ stopsPanel.style.cssText =
 
 stopsPanel.textContent = "A lista de paragens será ativada no próximo passo.";
 
-stopsBtn.onclick = () => {
-    const isOpen = stopsPanel.style.display !== "none";
-
-    stopsPanel.style.display = isOpen ? "none" : "block";
-    stopsBtn.textContent = isOpen
-        ? "⌄ Ver paragens"
-        : "⌃ Ocultar paragens";
-};
 const actionsRow = document.createElement("div");
 actionsRow.style.cssText =
     "display:flex;align-items:center;gap:10px;";
