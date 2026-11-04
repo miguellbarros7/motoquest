@@ -3928,9 +3928,51 @@ stopsPanel.appendChild(row);
     });
 };
 
+
 renderStops();
 
+const saveOrderBtn = document.createElement("button");
+saveOrderBtn.type = "button";
+saveOrderBtn.textContent = "💾 Guardar nova ordem";
+
+saveOrderBtn.style.cssText =
+    "display:block;width:100%;margin-top:12px;" +
+    "padding:10px;background:#ff7900;color:#111;" +
+    "border:none;border-radius:8px;" +
+    "font-family:inherit;font-weight:600;cursor:pointer;";
+
+saveOrderBtn.onclick = async event => {
+    event.stopPropagation();
+
+    saveOrderBtn.disabled = true;
+    saveOrderBtn.textContent = "A guardar...";
+
+    const { data, error } = await supabaseClient
+        .from("routes")
+        .update({ location_ids: ids })
+        .eq("id", route.id)
+        .eq("user_id", currentUser.id)
+        .eq("route_type", "personal")
+        .select("id");
+
+    if (error || !data || data.length === 0) {
+        console.error(error);
+        alert("Não foi possível guardar a nova ordem.");
+        saveOrderBtn.disabled = false;
+        saveOrderBtn.textContent = "💾 Guardar nova ordem";
+        return;
+    }
+
+    route.location_ids = [...ids];
+
+    saveOrderBtn.disabled = false;
+    saveOrderBtn.textContent = "✓ Ordem guardada!";
+};
+
+stopsPanel.appendChild(saveOrderBtn);
+
 stopsLoaded = true;
+
 };
 
 textBox.append(routeTitle, routeInfo, stopsBtn, stopsPanel, subtitle);
