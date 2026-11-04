@@ -4013,9 +4013,44 @@ saveOrderBtn.onclick = async event => {
     saveOrderBtn.textContent = "✓ Ordem guardada!";
 };
 
-stopsPanel.append(addStopBtn, saveOrderBtn);
+addStopBtn.onclick = async event => {
+    event.stopPropagation();
 
-stopsLoaded = true;
+    if (addStopSelect.style.display !== "none") {
+        addStopSelect.style.display = "none";
+        return;
+    }
+
+    addStopSelect.style.display = "block";
+    addStopSelect.innerHTML =
+        '<option value="">A carregar locais...</option>';
+
+    const { data: availableLocations, error } = await supabaseClient
+        .from("locations")
+        .select("id, name")
+        .order("name", { ascending: true });
+
+    if (error || !availableLocations) {
+        addStopSelect.innerHTML =
+            '<option value="">Erro ao carregar locais</option>';
+        return;
+    }
+
+    addStopSelect.innerHTML =
+        '<option value="">Escolhe um local para adicionar...</option>';
+
+    availableLocations
+        .filter(location => !ids.some(id => String(id) === String(location.id)))
+        .forEach(location => {
+            const option = document.createElement("option");
+            option.value = location.id;
+            option.textContent = location.name;
+            addStopSelect.appendChild(option);
+        });
+};
+
+stopsPanel.append(addStopBtn, addStopSelect, saveOrderBtn);
+    stopsLoaded = true;
 
 };
 
