@@ -3714,42 +3714,31 @@ routeTitle.style.cssText =
     "display:block;font-size:15px;color:white;";
 
 
+
 const date = document.createElement("small");
 
-date.textContent = route.created_at
-    ? "▢ Criada em " + new Date(route.created_at).toLocaleDateString(
-        "pt-PT",
-        { day: "numeric", month: "short", year: "numeric" }
-    )
-    : "";
-
 date.style.cssText =
-    "display:block;color:#999;margin-top:5px;font-size:12px;";
+    "display:flex;align-items:center;gap:5px;" +
+    "color:#999;margin-top:5px;font-size:12px;";
 
-const subtitle = document.createElement("small");
-subtitle.textContent = "Ver percurso no Google Maps";
-subtitle.style.cssText =
-    "display:block;color:#ff7900;margin-top:5px;font-size:12px;";
+if (route.created_at) {
+    date.innerHTML =
+        '<svg width="13" height="13" viewBox="0 0 24 24" ' +
+        'fill="none" stroke="#999" stroke-width="1.7" ' +
+        'stroke-linecap="round" stroke-linejoin="round">' +
+        '<rect x="3" y="5" width="18" height="16" rx="2"/>' +
+        '<path d="M16 3v4M8 3v4M3 10h18"/>' +
+        '</svg>';
 
+    const dateText = document.createElement("span");
+    dateText.textContent = "Criada em " +
+        new Date(route.created_at).toLocaleDateString(
+            "pt-PT",
+            { day: "numeric", month: "short", year: "numeric" }
+        );
 
-const arrow = document.createElement("span");
-arrow.textContent = "↗";
-arrow.style.cssText =
-    "color:#ff7900;font-size:24px;";
-
-textBox.append(routeTitle, date, subtitle);
-left.append(icon, textBox);
-title.append(left, arrow);
-
-title.onmouseenter = () => {
-    title.style.borderColor = "#ff7900";
-    title.style.background = "#30251d";
-};
-
-title.onmouseleave = () => {
-    title.style.borderColor = "#444";
-    title.style.background = "#252525";
-};
+    date.appendChild(dateText);
+}
 
 
 title.onclick = async () => {
