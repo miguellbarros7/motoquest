@@ -3624,6 +3624,11 @@ function showSection(sectionName) {
     if (sectionName === "locations") {
         loadLocations();
     }
+    
+if (sectionName === "routes") {
+    loadRouteLocations();
+}
+
 
     if (sectionName === "rewards") {
         loadRewards();
@@ -4449,6 +4454,40 @@ async function saveProfileName() {
    LOCATIONS
 ========================================================= */
 
+async function loadRouteLocations() {
+    const select = $("routeLocationSelect");
+
+    if (!select) return;
+
+    select.innerHTML =
+        '<option value="">A carregar locais...</option>';
+
+    const { data, error } = await supabaseClient
+        .from("locations")
+        .select("id, name")
+        .order("name", { ascending: true });
+
+    if (error) {
+        console.error("Erro ao carregar locais da rota:", error);
+
+        select.innerHTML =
+            '<option value="">Erro ao carregar locais</option>';
+
+        return;
+    }
+
+    select.innerHTML =
+        '<option value="">Seleciona um local</option>';
+
+    (data || []).forEach(location => {
+        const option = document.createElement("option");
+
+        option.value = location.id;
+        option.textContent = location.name;
+
+        select.appendChild(option);
+    });
+}
 async function loadLocations() {
 
     const {
