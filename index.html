@@ -3911,7 +3911,8 @@ upBtn.onclick = event => {
     event.stopPropagation();
     [ids[index - 1], ids[index]] =
         [ids[index], ids[index - 1]];
-    renderStops();
+       renderStops();
+    stopsPanel.appendChild(saveOrderBtn);
 };
 
 downBtn.onclick = event => {
@@ -3919,6 +3920,7 @@ downBtn.onclick = event => {
     [ids[index], ids[index + 1]] =
         [ids[index + 1], ids[index]];
     renderStops();
+    stopsPanel.appendChild(saveOrderBtn);
 };
 
 arrows.append(upBtn, downBtn);
