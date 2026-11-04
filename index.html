@@ -3857,6 +3857,9 @@ stopsBtn.onclick = async (event) => {
 
     stopsPanel.innerHTML = "";
 
+const renderStops = () => {
+    stopsPanel.innerHTML = "";
+
     ids.forEach((id, index) => {
         const location = locations.find(
             item => String(item.id) === String(id)
@@ -3879,11 +3882,14 @@ stopsBtn.onclick = async (event) => {
             ? location.name
             : "Local não encontrado";
 
-        row.append(number, name);
+              row.append(number, name);
         stopsPanel.appendChild(row);
     });
+};
 
-    stopsLoaded = true;
+renderStops();
+
+stopsLoaded = true;
 };
 
 textBox.append(routeTitle, routeInfo, stopsBtn, stopsPanel, subtitle);
