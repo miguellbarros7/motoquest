@@ -3823,11 +3823,16 @@ stopsBtn.onclick = async (event) => {
 
     const isOpen = stopsPanel.style.display !== "none";
 
-    if (isOpen) {
-        stopsPanel.style.display = "none";
-        stopsBtn.textContent = "⌄ Ver paragens";
-        return;
-    }
+   if (isOpen) {
+    stopsPanel.style.display = "none";
+    stopsBtn.textContent = "⌄ Ver paragens";
+
+    title.style.cursor = "pointer";
+    title.style.borderColor = "#444";
+    title.style.background = "#252525";
+
+    return;
+}
 
    stopsPanel.style.display = "block";
 stopsBtn.textContent = "⌃ Ocultar paragens";
