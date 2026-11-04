@@ -3832,6 +3832,10 @@ stopsBtn.onclick = async (event) => {
    stopsPanel.style.display = "block";
 stopsBtn.textContent = "⌃ Ocultar paragens";
 
+title.style.borderColor = "#444";
+title.style.background = "#252525";
+title.style.cursor = "default";
+
     if (stopsLoaded) return;
 
     stopsPanel.textContent = "A carregar paragens...";
