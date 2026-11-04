@@ -4488,72 +4488,49 @@ if (!routeGalleryLocations.length) {
     return;
 }
 
+
 gallery.innerHTML = "";
-gallery.style.display = "block";
+gallery.style.cssText =
+    "display:grid;" +
+    "grid-template-columns:repeat(auto-fit,minmax(min(100%,160px),1fr));" +
+    "gap:14px;";
 
-const card = document.createElement("div");
-card.style.cssText =
-    "background:#171717;border:1px solid #333;" +
-    "border-radius:16px;overflow:hidden;max-width:550px;";
+routeGalleryLocations.forEach(location => {
+    const card = document.createElement("div");
+    card.style.cssText =
+        "background:#171717;border:1px solid #333;" +
+        "border-radius:14px;overflow:hidden;";
 
-const photo = document.createElement("img");
-photo.style.cssText =
-    "width:100%;height:260px;object-fit:cover;display:block;";
-
-const title = document.createElement("h3");
-title.style.cssText = "padding:12px 15px;margin:0;";
-
-const controls = document.createElement("div");
-controls.style.cssText =
-    "display:flex;gap:10px;padding:15px;";
-
-const previous = document.createElement("button");
-previous.textContent = "❮";
-previous.className = "secondary-btn";
-
-const select = document.createElement("button");
-select.className = "primary-btn";
-select.style.flex = "1";
-
-const next = document.createElement("button");
-next.textContent = "❯";
-next.className = "secondary-btn";
-
-function showPhoto() {
-    const location = routeGalleryLocations[routeGalleryIndex];
-
+    const photo = document.createElement("img");
     photo.src = location.image_url || FALLBACK_IMAGE;
     photo.alt = location.name;
+    photo.loading = "lazy";
+    photo.style.cssText =
+        "width:100%;height:150px;object-fit:cover;display:block;";
+
+    const title = document.createElement("div");
     title.textContent = location.name;
+    title.style.cssText =
+        "padding:10px;font-weight:bold;min-height:50px;";
 
-    select.textContent = "🟠 Selecionar local";
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "primary-btn";
+    button.textContent = "+ Selecionar";
+    button.style.cssText =
+        "width:calc(100% - 20px);margin:0 10px 10px;";
+
+    button.onclick = () => {
+        card.style.border = "2px solid #ff7900";
+        button.textContent = "✓ Selecionado";
+        button.disabled = true;
+    };
+
+    card.append(photo, title, button);
+    gallery.appendChild(card);
+});
 }
 
-previous.onclick = () => {
-    routeGalleryIndex =
-        (routeGalleryIndex - 1 + routeGalleryLocations.length)
-        % routeGalleryLocations.length;
-    showPhoto();
-};
-
-next.onclick = () => {
-    routeGalleryIndex =
-        (routeGalleryIndex + 1) % routeGalleryLocations.length;
-    showPhoto();
-};
-
-select.onclick = () => {
-    alert("Selecionaste: " +
-        routeGalleryLocations[routeGalleryIndex].name);
-};
-
-controls.append(previous, select, next);
-card.append(photo, title, controls);
-gallery.appendChild(card);
-
-showPhoto();
-
-}
 
     
 
