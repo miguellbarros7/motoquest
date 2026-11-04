@@ -3784,11 +3784,17 @@ subtitle.textContent = "Ver percurso no Google Maps";
 subtitle.style.cssText =
     "display:block;color:#ff7900;margin-top:5px;font-size:12px;";
 
-const arrow = document.createElement("span");
-arrow.textContent = "↗";
-arrow.style.cssText =
-    "color:#ff7900;font-size:24px;";
+const arrow = document.createElement("button");
+arrow.type = "button";
+arrow.textContent = "↗ Google Maps";
 
+arrow.style.cssText =
+    "display:flex;align-items:center;gap:6px;" +
+    "flex-shrink:0;padding:8px 11px;" +
+    "background:transparent;border:1px solid #ff7900;" +
+    "border-radius:8px;color:#ff7900;" +
+    "font-family:inherit;font-size:12px;font-weight:600;" +
+    "cursor:pointer;";
 
 const routeInfo = document.createElement("div");
 routeInfo.style.cssText =
