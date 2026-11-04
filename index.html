@@ -3672,10 +3672,59 @@ async function loadMyRoutes() {
             "border-radius:12px;padding:15px;margin:12px 0;";
 
         
-const title = document.createElement("h3");
-title.textContent = "🏍️ " + route.name + " ↗";
+
+const title = document.createElement("button");
+title.type = "button";
+
 title.style.cssText =
-    "color:#ff7900;cursor:pointer;text-decoration:underline;";
+    "width:100%;display:flex;align-items:center;" +
+    "justify-content:space-between;gap:12px;" +
+    "background:#252525;border:1px solid #444;" +
+    "border-radius:12px;padding:15px;" +
+    "color:white;cursor:pointer;text-align:left;" +
+    "transition:all 0.2s ease;";
+
+const left = document.createElement("div");
+left.style.cssText =
+    "display:flex;align-items:center;gap:12px;";
+
+const icon = document.createElement("span");
+icon.textContent = "🏍️";
+icon.style.cssText =
+    "font-size:24px;background:#3d2918;" +
+    "padding:10px;border-radius:10px;";
+
+const textBox = document.createElement("div");
+
+const routeTitle = document.createElement("strong");
+routeTitle.textContent = route.name;
+routeTitle.style.cssText =
+    "display:block;font-size:15px;color:white;";
+
+const subtitle = document.createElement("small");
+subtitle.textContent = "Ver percurso no Google Maps";
+subtitle.style.cssText =
+    "display:block;color:#aaa;margin-top:4px;";
+
+const arrow = document.createElement("span");
+arrow.textContent = "↗";
+arrow.style.cssText =
+    "color:#ff7900;font-size:24px;";
+
+textBox.append(routeTitle, subtitle);
+left.append(icon, textBox);
+title.append(left, arrow);
+
+title.onmouseenter = () => {
+    title.style.borderColor = "#ff7900";
+    title.style.background = "#30251d";
+};
+
+title.onmouseleave = () => {
+    title.style.borderColor = "#444";
+    title.style.background = "#252525";
+};
+
 
 title.onclick = async () => {
     const ids = Array.isArray(route.location_ids)
