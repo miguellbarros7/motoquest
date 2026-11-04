@@ -3836,9 +3836,9 @@ stopsBtn.onclick = async (event) => {
 
     stopsPanel.textContent = "A carregar paragens...";
 
-    const ids = Array.isArray(route.location_ids)
-        ? route.location_ids
-        : [];
+   const ids = Array.isArray(route.location_ids)
+    ? [...route.location_ids]
+    : [];
 
     if (ids.length === 0) {
         stopsPanel.textContent = "Esta rota não tem paragens.";
@@ -3902,7 +3902,8 @@ title.onmouseleave = () => {
 
 
 title.onclick = async (event) => {
-    if (event.target.closest("button")) return;    const ids = Array.isArray(route.location_ids)
+    if (event.target.closest("button")) return;  
+    const ids = Array.isArray(route.location_ids)
         ? route.location_ids
         : [];
 
