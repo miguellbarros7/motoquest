@@ -4482,9 +4482,77 @@ async function loadRouteLocations() {
     routeGalleryLocations = data || [];
     routeGalleryIndex = 0;
 
-    gallery.textContent = routeGalleryLocations.length
-        ? `${routeGalleryLocations.length} locais carregados!`
-        : "Ainda não existem locais disponíveis.";
+  
+if (!routeGalleryLocations.length) {
+    gallery.textContent = "Ainda não existem locais disponíveis.";
+    return;
+}
+
+gallery.innerHTML = "";
+gallery.style.display = "block";
+
+const card = document.createElement("div");
+card.style.cssText =
+    "background:#171717;border:1px solid #333;" +
+    "border-radius:16px;overflow:hidden;max-width:550px;";
+
+const photo = document.createElement("img");
+photo.style.cssText =
+    "width:100%;height:260px;object-fit:cover;display:block;";
+
+const title = document.createElement("h3");
+title.style.cssText = "padding:12px 15px;margin:0;";
+
+const controls = document.createElement("div");
+controls.style.cssText =
+    "display:flex;gap:10px;padding:15px;";
+
+const previous = document.createElement("button");
+previous.textContent = "❮";
+previous.className = "secondary-btn";
+
+const select = document.createElement("button");
+select.className = "primary-btn";
+select.style.flex = "1";
+
+const next = document.createElement("button");
+next.textContent = "❯";
+next.className = "secondary-btn";
+
+function showPhoto() {
+    const location = routeGalleryLocations[routeGalleryIndex];
+
+    photo.src = location.image_url || FALLBACK_IMAGE;
+    photo.alt = location.name;
+    title.textContent = location.name;
+
+    select.textContent = "🟠 Selecionar local";
+}
+
+previous.onclick = () => {
+    routeGalleryIndex =
+        (routeGalleryIndex - 1 + routeGalleryLocations.length)
+        % routeGalleryLocations.length;
+    showPhoto();
+};
+
+next.onclick = () => {
+    routeGalleryIndex =
+        (routeGalleryIndex + 1) % routeGalleryLocations.length;
+    showPhoto();
+};
+
+select.onclick = () => {
+    alert("Selecionaste: " +
+        routeGalleryLocations[routeGalleryIndex].name);
+};
+
+controls.append(previous, select, next);
+card.append(photo, title, controls);
+gallery.appendChild(card);
+
+showPhoto();
+
 }
 
     
