@@ -2090,6 +2090,15 @@ data-go="routes"
         Ainda não adicionaste pontos.
     </div>
 
+<button
+    id="createGoogleMapsRouteBtn"
+    class="primary-btn"
+    type="button"
+    style="width:100%;margin:16px 0;background:#ff7900;"
+>
+    🗺️ Criar rota no Google Maps
+</button>
+
     <button
         id="savePersonalRouteBtn"
         class="primary-btn"
@@ -4463,6 +4472,44 @@ let routeGalleryIndex = 0;
 
 
 let personalRouteStops = [];
+
+$("createGoogleMapsRouteBtn").addEventListener("click", () => {
+    if (personalRouteStops.length < 2) {
+        alert("Seleciona pelo menos 2 locais para criar uma rota.");
+        return;
+    }
+
+    const places = personalRouteStops.map(stop => {
+        if (
+            stop.latitude != null &&
+            stop.longitude != null
+        ) {
+            return `${stop.latitude},${stop.longitude}`;
+        }
+
+        return `${stop.name}, Portugal`;
+    });
+
+    const params = new URLSearchParams({
+        api: "1",
+        origin: places[0],
+        destination: places[places.length - 1],
+        travelmode: "driving"
+    });
+
+    if (places.length > 2) {
+        params.set(
+            "waypoints",
+            places.slice(1, -1).join("|")
+        );
+    }
+
+    const url =
+        "https://www.google.com/maps/dir/?" +
+        params.toString();
+
+    window.open(url, "_blank", "noopener,noreferrer");
+});
 
 function renderPersonalRouteStops() {
     const container = $("routeStopsList");
