@@ -3740,6 +3740,18 @@ if (route.created_at) {
     date.appendChild(dateText);
 }
 
+const stops = document.createElement("small");
+
+const stopsCount = Array.isArray(route.location_ids)
+    ? route.location_ids.length
+    : 0;
+
+stops.textContent = stopsCount === 1
+    ? "⌖ 1 paragem"
+    : `⌖ ${stopsCount} paragens`;
+
+stops.style.cssText =
+    "display:block;color:#999;margin-top:5px;font-size:12px;";
 const subtitle = document.createElement("small");
 subtitle.textContent = "Ver percurso no Google Maps";
 subtitle.style.cssText =
@@ -3750,8 +3762,7 @@ arrow.textContent = "↗";
 arrow.style.cssText =
     "color:#ff7900;font-size:24px;";
 
-textBox.append(routeTitle, date, subtitle);
-left.append(icon, textBox);
+textBox.append(routeTitle, date, stops, subtitle);left.append(icon, textBox);
 title.append(left, arrow);
 
 title.onmouseenter = () => {
