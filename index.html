@@ -3639,6 +3639,50 @@ function isAdmin() {
    NAVIGATION
 ========================================================= */
 
+async function loadMyRoutes() {
+    const container = $("myRoutesList");
+    if (!container || !currentUser) return;
+
+    container.textContent = "A carregar as tuas rotas...";
+
+    const { data, error } = await supabaseClient
+        .from("routes")
+        .select("id, name, description, location_ids, created_at")
+        .eq("user_id", currentUser.id)
+        .eq("route_type", "personal")
+        .order("created_at", { ascending: false });
+
+    if (error) {
+        console.error(error);
+        container.textContent = "Erro ao carregar as rotas.";
+        return;
+    }
+
+    container.innerHTML = "";
+
+    if (!data || data.length === 0) {
+        container.textContent = "Ainda não tens rotas guardadas.";
+        return;
+    }
+
+    data.forEach(route => {
+        const card = document.createElement("div");
+        card.style.cssText =
+            "background:#171717;border:1px solid #333;" +
+            "border-radius:12px;padding:15px;margin:12px 0;";
+
+        const title = document.createElement("h3");
+        title.textContent = "🏍️ " + route.name;
+        title.style.color = "#ff7900";
+
+        const description = document.createElement("p");
+        description.textContent = route.description || "";
+
+        card.append(title, description);
+        container.appendChild(card);
+    });
+}
+
 function showSection(sectionName) {
 
     document
@@ -3681,7 +3725,9 @@ if (sectionName === "routes") {
     }
 
     if (sectionName === "profile") {
-        loadProfile();
+    loadProfile();
+    loadMyRoutes();
+}
     }
 
     if (sectionName === "admin") {
