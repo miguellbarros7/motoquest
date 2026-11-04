@@ -3934,9 +3934,44 @@ editBtn.style.cssText =
     "border:1px solid #444;border-radius:8px;" +
     "color:#999;cursor:pointer;flex-shrink:0;";
 
-editBtn.onclick = () => {
-    alert("Vamos ativar a edição do nome no próximo passo.");
+
+editBtn.onclick = async () => {
+    const newName = prompt(
+        "Novo nome para a rota:",
+        route.name
+    );
+
+    if (newName === null) return;
+
+    const name = newName.trim();
+
+    if (!name) {
+        alert("O nome da rota não pode ficar vazio.");
+        return;
+    }
+
+    if (name === route.name) return;
+
+    editBtn.disabled = true;
+
+    const { data, error } = await supabaseClient
+        .from("routes")
+        .update({ name })
+        .eq("id", route.id)
+        .eq("user_id", currentUser.id)
+        .eq("route_type", "personal")
+        .select("id");
+
+    if (error || !data || data.length === 0) {
+        console.error(error);
+        alert("Não foi possível alterar o nome da rota.");
+        editBtn.disabled = false;
+        return;
+    }
+
+    await loadMyRoutes();
 };
+
 
 const actionsRow = document.createElement("div");
 actionsRow.style.cssText =
