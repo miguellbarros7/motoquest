@@ -4049,6 +4049,36 @@ addStopBtn.onclick = async event => {
         });
 };
 
+addStopSelect.onchange = event => {
+    event.stopPropagation();
+
+    const selectedId = addStopSelect.value;
+    if (!selectedId) return;
+
+    if (ids.some(id => String(id) === selectedId)) {
+        alert("Este local já faz parte da rota.");
+        return;
+    }
+
+    const selectedOption =
+        addStopSelect.options[addStopSelect.selectedIndex];
+
+    locations.push({
+        id: selectedId,
+        name: selectedOption.textContent
+    });
+
+    ids.push(selectedId);
+
+    renderStops();
+    stopsPanel.append(addStopBtn, addStopSelect, saveOrderBtn);
+
+    addStopSelect.value = "";
+    addStopSelect.style.display = "none";
+
+    saveOrderBtn.textContent = "💾 Guardar nova ordem";
+};
+
 stopsPanel.append(addStopBtn, addStopSelect, saveOrderBtn);
     stopsLoaded = true;
 
