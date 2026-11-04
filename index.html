@@ -3911,16 +3911,14 @@ upBtn.onclick = event => {
     [ids[index - 1], ids[index]] =
         [ids[index], ids[index - 1]];
        renderStops();
-    stopsPanel.appendChild(saveOrderBtn);
-};
+stopsPanel.append(addStopBtn, saveOrderBtn);};
 
 downBtn.onclick = event => {
     event.stopPropagation();
     [ids[index], ids[index + 1]] =
         [ids[index + 1], ids[index]];
     renderStops();
-    stopsPanel.appendChild(saveOrderBtn);
-};
+stopsPanel.append(addStopBtn, saveOrderBtn);};
 
 
 const removeBtn = document.createElement("button");
@@ -3943,9 +3941,7 @@ removeBtn.onclick = event => {
 
     ids.splice(index, 1);
     renderStops();
-    stopsPanel.appendChild(saveOrderBtn);
-};
-
+stopsPanel.append(addStopBtn, saveOrderBtn);
 arrows.append(upBtn, downBtn, removeBtn);
 row.append(number, name, arrows);
 stopsPanel.appendChild(row);
