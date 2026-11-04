@@ -3724,13 +3724,14 @@ if (sectionName === "routes") {
         loadHistory();
     }
 
-    if (sectionName === "profile") {
+
+if (sectionName === "profile") {
     loadProfile();
     loadMyRoutes();
 }
-    }
 
-    if (sectionName === "admin") {
+if (sectionName === "admin") {
+
 
         if (!isAdmin()) {
             showSection("profile");
