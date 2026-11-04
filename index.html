@@ -3768,7 +3768,8 @@ stops.appendChild(stopsText);
 
 
 stops.style.cssText =
-    "display:block;color:#999;margin-top:5px;font-size:12px;";
+    "display:flex;align-items:center;gap:5px;" +
+    "color:#999;font-size:12px;";
 const subtitle = document.createElement("small");
 subtitle.textContent = "Ver percurso no Google Maps";
 subtitle.style.cssText =
@@ -3779,7 +3780,17 @@ arrow.textContent = "↗";
 arrow.style.cssText =
     "color:#ff7900;font-size:24px;";
 
-textBox.append(routeTitle, date, stops, subtitle);left.append(icon, textBox);
+
+const routeInfo = document.createElement("div");
+routeInfo.style.cssText =
+    "display:flex;align-items:center;flex-wrap:wrap;" +
+    "gap:6px 14px;margin-top:5px;";
+
+date.style.marginTop = "0";
+stops.style.marginTop = "0";
+
+routeInfo.append(date, stops);
+textBox.append(routeTitle, routeInfo, subtitle);
 title.append(left, arrow);
 
 title.onmouseenter = () => {
