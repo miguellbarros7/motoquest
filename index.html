@@ -3740,6 +3740,30 @@ if (route.created_at) {
     date.appendChild(dateText);
 }
 
+const subtitle = document.createElement("small");
+subtitle.textContent = "Ver percurso no Google Maps";
+subtitle.style.cssText =
+    "display:block;color:#ff7900;margin-top:5px;font-size:12px;";
+
+const arrow = document.createElement("span");
+arrow.textContent = "↗";
+arrow.style.cssText =
+    "color:#ff7900;font-size:24px;";
+
+textBox.append(routeTitle, date, subtitle);
+left.append(icon, textBox);
+title.append(left, arrow);
+
+title.onmouseenter = () => {
+    title.style.borderColor = "#ff7900";
+    title.style.background = "#30251d";
+};
+
+title.onmouseleave = () => {
+    title.style.borderColor = "#444";
+    title.style.background = "#252525";
+};
+
 
 title.onclick = async () => {
     const ids = Array.isArray(route.location_ids)
