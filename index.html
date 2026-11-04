@@ -3922,9 +3922,34 @@ downBtn.onclick = event => {
     stopsPanel.appendChild(saveOrderBtn);
 };
 
-arrows.append(upBtn, downBtn);
+
+const removeBtn = document.createElement("button");
+removeBtn.type = "button";
+removeBtn.textContent = "✕";
+removeBtn.title = "Remover paragem";
+
+removeBtn.style.cssText =
+    "background:#332222;border:1px solid #774444;" +
+    "border-radius:6px;color:#ff7777;" +
+    "padding:5px 9px;cursor:pointer;font-size:13px;";
+
+removeBtn.onclick = event => {
+    event.stopPropagation();
+
+    if (ids.length <= 2) {
+        alert("A rota deve ter pelo menos 2 paragens.");
+        return;
+    }
+
+    ids.splice(index, 1);
+    renderStops();
+    stopsPanel.appendChild(saveOrderBtn);
+};
+
+arrows.append(upBtn, downBtn, removeBtn);
 row.append(number, name, arrows);
 stopsPanel.appendChild(row);
+
 
     });
 };
