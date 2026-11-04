@@ -3957,6 +3957,17 @@ stopsPanel.appendChild(row);
 
 renderStops();
 
+const addStopBtn = document.createElement("button");
+addStopBtn.type = "button";
+addStopBtn.textContent = "+ Adicionar paragem";
+
+addStopBtn.style.cssText =
+    "display:block;width:fit-content;margin:12px auto 0;" +
+    "padding:7px 12px;background:transparent;" +
+    "border:1px solid #ff7900;border-radius:6px;" +
+    "color:#ff7900;font-family:inherit;" +
+    "font-size:11px;font-weight:600;cursor:pointer;";
+
 const saveOrderBtn = document.createElement("button");
 saveOrderBtn.type = "button";
 saveOrderBtn.textContent = "💾 Guardar nova ordem";
