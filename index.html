@@ -3847,8 +3847,11 @@ title.style.borderColor = "#444";
 title.style.background = "#252525";
 title.style.cursor = "default";
 
-    if (stopsLoaded) return;
+arrow.disabled = true;
+arrow.style.opacity = "0.35";
+arrow.style.cursor = "not-allowed";
 
+    if (stopsLoaded) return;
     stopsPanel.textContent = "A carregar paragens...";
 
    const ids = Array.isArray(route.location_ids)
