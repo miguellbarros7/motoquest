@@ -4454,6 +4454,96 @@ async function saveProfileName() {
    LOCATIONS
 ========================================================= */
 
+/* ROTAS PESSOAIS — ESCOLHA DAS PARAGENS */
+
+let personalRouteStops = [];
+
+function renderPersonalRouteStops() {
+    const container = $("routeStopsList");
+
+    if (!container) return;
+
+    if (personalRouteStops.length === 0) {
+        container.textContent =
+            "Ainda não adicionaste pontos.";
+        return;
+    }
+
+    container.innerHTML = "";
+
+    personalRouteStops.forEach((stop, index) => {
+        const row = document.createElement("div");
+
+        row.style.cssText =
+            "display:flex;align-items:center;gap:8px;" +
+            "padding:12px;margin:8px 0;background:#181818;" +
+            "border-radius:10px;";
+
+        const name = document.createElement("span");
+        name.style.flex = "1";
+        name.textContent = `${index + 1}. ${stop.name}`;
+
+        row.appendChild(name);
+
+        [
+            ["↑", index > 0, () => {
+                [personalRouteStops[index - 1],
+                 personalRouteStops[index]] =
+                [personalRouteStops[index],
+                 personalRouteStops[index - 1]];
+            }],
+            ["↓", index < personalRouteStops.length - 1, () => {
+                [personalRouteStops[index + 1],
+                 personalRouteStops[index]] =
+                [personalRouteStops[index],
+                 personalRouteStops[index + 1]];
+            }],
+            ["✕", true, () => {
+                personalRouteStops.splice(index, 1);
+            }]
+        ].forEach(([label, enabled, action]) => {
+            const button = document.createElement("button");
+
+            button.type = "button";
+            button.textContent = label;
+            button.className = "secondary-btn";
+            button.disabled = !enabled;
+
+            button.addEventListener("click", () => {
+                action();
+                renderPersonalRouteStops();
+            });
+
+            row.appendChild(button);
+        });
+
+        container.appendChild(row);
+    });
+}
+
+$("addRouteLocationBtn").addEventListener("click", () => {
+    const select = $("routeLocationSelect");
+    const id = select.value;
+
+    if (!id) {
+        alert("Escolhe primeiro um ponto de interesse.");
+        return;
+    }
+
+    if (personalRouteStops.some(stop => stop.id === id)) {
+        alert("Este ponto já está na rota.");
+        return;
+    }
+
+    const name =
+        select.options[select.selectedIndex].textContent;
+
+    personalRouteStops.push({ id, name });
+
+    select.value = "";
+    renderPersonalRouteStops();
+});
+    
 async function loadRouteLocations() {
     const select = $("routeLocationSelect");
 
