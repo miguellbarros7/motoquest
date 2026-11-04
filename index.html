@@ -1850,7 +1850,7 @@ body:has(#resetPasswordScreen:not(.hidden)) #authScreen {
 
                 <button
                     class="home-tile"
-                    data-go="routes"
+data-go="locations"
                     style="background-image:url('https://images.unsplash.com/photo-1558981806-ec527fa84c39?auto=format&fit=crop&w=1000&q=80')"
                 >
                     <div class="home-tile-content">
@@ -2022,6 +2022,89 @@ body:has(#resetPasswordScreen:not(.hidden)) #authScreen {
     ></div>
 
 </section>
+        
+<!-- ROTAS PESSOAIS -->
+
+<section id="routesSection" class="section">
+
+    <div class="section-header">
+        <div>
+            <h1 class="section-title">
+                🏍️ Explorar rotas
+            </h1>
+
+            <div class="section-subtitle">
+                Cria a tua aventura, ponto a ponto.
+            </div>
+        </div>
+    </div>
+
+    <div class="field">
+        <label for="routeName">
+            Nome da rota
+        </label>
+
+        <input
+            id="routeName"
+            type="text"
+            maxlength="100"
+            placeholder="Ex.: Passeio pelas serras"
+        >
+    </div>
+
+    <div class="field">
+        <label for="routeDescription">
+            Descrição (opcional)
+        </label>
+
+        <textarea
+            id="routeDescription"
+            placeholder="Descreve a tua aventura..."
+        ></textarea>
+    </div>
+
+    <div class="field">
+        <label for="routeLocationSelect">
+            Escolher ponto de interesse
+        </label>
+
+        <select id="routeLocationSelect">
+            <option value="">
+                Seleciona um local
+            </option>
+        </select>
+    </div>
+
+    <button
+        id="addRouteLocationBtn"
+        class="secondary-btn"
+        type="button"
+    >
+        + Adicionar ponto à rota
+    </button>
+
+    <h3>Paragens da minha rota</h3>
+
+    <div id="routeStopsList">
+        Ainda não adicionaste pontos.
+    </div>
+
+    <button
+        id="savePersonalRouteBtn"
+        class="primary-btn"
+        type="button"
+    >
+        💾 Guardar a minha rota
+    </button>
+
+    <h3>As minhas rotas</h3>
+
+    <div id="myRoutesList">
+        As tuas rotas guardadas vão aparecer aqui.
+    </div>
+
+</section>
+
      <!-- RECOMPENSAS -->
 
 <section
