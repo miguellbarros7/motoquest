@@ -3997,7 +3997,74 @@ stopsPanel.style.cssText =
     "background:#202020;border:1px solid #333;" +
     "border-radius:10px;color:#aaa;font-size:13px;";
 
-stopsPanel.textContent = "A lista de paragens será ativada no próximo passo.";
+let stopsLoaded = false;
+
+stopsBtn.onclick = async () => {
+    const isOpen = stopsPanel.style.display !== "none";
+
+    if (isOpen) {
+        stopsPanel.style.display = "none";
+        stopsBtn.textContent = "⌄ Ver paragens";
+        return;
+    }
+
+    stopsPanel.style.display = "block";
+    stopsBtn.textContent = "⌃ Ocultar paragens";
+
+    if (stopsLoaded) return;
+
+    stopsPanel.textContent = "A carregar paragens...";
+
+    const ids = Array.isArray(route.location_ids)
+        ? route.location_ids
+        : [];
+
+    if (ids.length === 0) {
+        stopsPanel.textContent = "Esta rota não tem paragens.";
+        return;
+    }
+
+    const { data: locations, error } = await supabaseClient
+        .from("locations")
+        .select("id, name")
+        .in("id", ids);
+
+    if (error || !locations) {
+        stopsPanel.textContent = "Erro ao carregar as paragens.";
+        return;
+    }
+
+    stopsPanel.innerHTML = "";
+
+    ids.forEach((id, index) => {
+        const location = locations.find(
+            item => String(item.id) === String(id)
+        );
+
+        const row = document.createElement("div");
+        row.style.cssText =
+            "display:flex;align-items:center;gap:10px;" +
+            "padding:8px 0;";
+
+        const number = document.createElement("span");
+        number.textContent = index + 1;
+        number.style.cssText =
+            "display:flex;align-items:center;justify-content:center;" +
+            "width:25px;height:25px;flex-shrink:0;" +
+            "background:#ff7900;color:#111;" +
+            "border-radius:50%;font-size:12px;font-weight:bold;";
+
+        const name = document.createElement("span");
+        name.textContent = location
+            ? location.name
+            : "Local não encontrado";
+
+        row.append(number, name);
+        stopsPanel.appendChild(row);
+    });
+
+    stopsLoaded = true;
+};
 
 const actionsRow = document.createElement("div");
 actionsRow.style.cssText =
