@@ -4095,6 +4095,8 @@ textBox.append(routeTitle, routeInfo, stopsBtn, stopsPanel, subtitle);
 left.append(icon, textBox);
 title.append(left, arrow);
 title.onmouseenter = () => {
+    if (stopsPanel.style.display !== "none") return;
+
     title.style.borderColor = "#ff7900";
     title.style.background = "#30251d";
 };
