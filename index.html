@@ -4462,6 +4462,45 @@ let routeGalleryLocations = [];
 let routeGalleryIndex = 0;
 
 
+let personalRouteStops = [];
+
+function renderPersonalRouteStops() {
+    const container = $("routeStopsList");
+    if (!container) return;
+
+    container.innerHTML = "";
+
+    if (personalRouteStops.length === 0) {
+        container.textContent = "Ainda não adicionaste pontos.";
+        return;
+    }
+
+    personalRouteStops.forEach((stop, index) => {
+        const row = document.createElement("div");
+        row.style.cssText =
+            "display:flex;align-items:center;gap:10px;" +
+            "padding:12px;margin:8px 0;background:#181818;" +
+            "border-radius:10px;";
+
+        const name = document.createElement("span");
+        name.style.flex = "1";
+        name.textContent = `${index + 1}. ${stop.name}`;
+
+        const remove = document.createElement("button");
+        remove.type = "button";
+        remove.className = "secondary-btn";
+        remove.textContent = "✕";
+
+        remove.onclick = () => {
+            personalRouteStops.splice(index, 1);
+            renderPersonalRouteStops();
+            loadRouteLocations();
+        };
+
+        row.append(name, remove);
+        container.appendChild(row);
+    });
+}
 async function loadRouteLocations() {
     const gallery = $("routeLocationsGallery");
     if (!gallery) return;
@@ -4520,11 +4559,40 @@ routeGalleryLocations.forEach(location => {
     button.style.cssText =
         "width:calc(100% - 20px);margin:0 10px 10px;";
 
-    button.onclick = () => {
+   
+const isSelected = personalRouteStops.some(
+    stop => String(stop.id) === String(location.id)
+);
+
+if (isSelected) {
+    card.style.border = "2px solid #ff7900";
+    button.textContent = "✓ Selecionado";
+}
+
+button.onclick = () => {
+    const index = personalRouteStops.findIndex(
+        stop => String(stop.id) === String(location.id)
+    );
+
+    if (index >= 0) {
+        personalRouteStops.splice(index, 1);
+        card.style.border = "1px solid #333";
+        button.textContent = "+ Selecionar";
+    } else {
+        personalRouteStops.push({
+            id: location.id,
+            name: location.name,
+            latitude: location.latitude,
+            longitude: location.longitude
+        });
+
         card.style.border = "2px solid #ff7900";
         button.textContent = "✓ Selecionado";
-        button.disabled = true;
-    };
+    }
+
+    renderPersonalRouteStops();
+};
+
 
     card.append(photo, title, button);
     gallery.appendChild(card);
