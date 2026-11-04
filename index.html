@@ -324,7 +324,57 @@
         .form-message.success {
             color: var(--green);
         }
+<!-- RECUPERAR PALAVRA-PASSE -->
 
+<div id="resetPasswordScreen" class="hidden">
+    <div class="auth-card">
+
+        <div class="auth-logo">
+            MOTO<span>QUEST</span>
+        </div>
+
+        <div class="auth-subtitle">
+            Define a tua nova palavra-passe
+        </div>
+
+        <form id="resetPasswordForm">
+
+            <div class="field">
+                <label>Nova palavra-passe</label>
+                <input
+                    id="newPassword"
+                    type="password"
+                    placeholder="Nova palavra-passe"
+                    minlength="6"
+                    required
+                >
+            </div>
+
+            <div class="field">
+                <label>Confirmar palavra-passe</label>
+                <input
+                    id="confirmNewPassword"
+                    type="password"
+                    placeholder="Repete a palavra-passe"
+                    minlength="6"
+                    required
+                >
+            </div>
+
+            <button
+                id="resetPasswordSubmit"
+                class="primary-btn full-btn"
+                type="submit"
+            >
+                Guardar nova palavra-passe
+            </button>
+
+            <div id="resetPasswordMessage" class="form-message"></div>
+
+        </form>
+    </div>
+</div>
+        
         /* =========================
            APP
         ========================= */
