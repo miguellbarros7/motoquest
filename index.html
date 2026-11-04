@@ -3671,9 +3671,69 @@ async function loadMyRoutes() {
             "background:#171717;border:1px solid #333;" +
             "border-radius:12px;padding:15px;margin:12px 0;";
 
-        const title = document.createElement("h3");
-        title.textContent = "🏍️ " + route.name;
-        title.style.color = "#ff7900";
+        
+const title = document.createElement("h3");
+title.textContent = "🏍️ " + route.name + " ↗";
+title.style.cssText =
+    "color:#ff7900;cursor:pointer;text-decoration:underline;";
+
+title.onclick = async () => {
+    const ids = Array.isArray(route.location_ids)
+        ? route.location_ids
+        : [];
+
+    if (ids.length < 2) {
+        alert("Esta rota precisa de pelo menos 2 locais.");
+        return;
+    }
+
+    const { data: locations, error } = await supabaseClient
+        .from("locations")
+        .select("id, name, latitude, longitude")
+        .in("id", ids);
+
+    if (error || !locations) {
+        alert("Não foi possível carregar os locais da rota.");
+        return;
+    }
+
+    const orderedLocations = ids
+        .map(id => locations.find(
+            location => String(location.id) === String(id)
+        ))
+        .filter(Boolean);
+
+    if (orderedLocations.length < 2) {
+        alert("Não foram encontrados locais suficientes.");
+        return;
+    }
+
+    const places = orderedLocations.map(location => {
+        if (location.latitude != null &&
+            location.longitude != null) {
+            return `${location.latitude},${location.longitude}`;
+        }
+
+        return `${location.name}, Portugal`;
+    });
+
+    const params = new URLSearchParams({
+        api: "1",
+        origin: places[0],
+        destination: places[places.length - 1],
+        travelmode: "driving"
+    });
+
+    if (places.length > 2) {
+        params.set("waypoints", places.slice(1, -1).join("|"));
+    }
+
+    const url = "https://www.google.com/maps/dir/?" +
+        params.toString();
+
+    window.open(url, "_blank", "noopener,noreferrer");
+};
+
 
         const description = document.createElement("p");
         description.textContent = route.description || "";
