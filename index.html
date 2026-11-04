@@ -2112,14 +2112,30 @@ data-go="routes"
         Ainda não adicionaste pontos.
     </div>
 
-<button
-    id="createGoogleMapsRouteBtn"
-    class="primary-btn"
-    type="button"
-    style="width:100%;margin:16px 0;background:#ff7900;"
->
-    🗺️ Criar rota no Google Maps
-</button>
+
+<div style="display:flex;flex-direction:column;gap:12px;margin-top:20px;">
+
+    <button
+        id="savePersonalRouteBtn"
+        class="primary-btn"
+        type="button"
+        style="width:100%;margin:0;background:#ff7900;color:#111;"
+    >
+        💾 Guardar rota
+    </button>
+
+    <button
+        id="createGoogleMapsRouteBtn"
+        type="button"
+        style="width:100%;padding:14px;border:1px solid #ff7900;
+               border-radius:10px;background:transparent;color:#ff7900;
+               font-weight:600;cursor:pointer;"
+    >
+        ↗ Abrir no Google Maps
+    </button>
+
+</div>
+
 
     <button
         id="savePersonalRouteBtn"
