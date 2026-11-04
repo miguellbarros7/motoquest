@@ -3981,6 +3981,32 @@ editBtn.onclick = async () => {
 };
 
 
+const stopsBtn = document.createElement("button");
+stopsBtn.type = "button";
+stopsBtn.textContent = "⌄ Ver paragens";
+
+stopsBtn.style.cssText =
+    "display:block;margin-top:12px;padding:8px 0;" +
+    "background:transparent;border:none;" +
+    "color:#ff7900;font-size:13px;font-weight:600;" +
+    "cursor:pointer;text-align:left;";
+
+const stopsPanel = document.createElement("div");
+stopsPanel.style.cssText =
+    "display:none;margin-top:8px;padding:12px;" +
+    "background:#202020;border:1px solid #333;" +
+    "border-radius:10px;color:#aaa;font-size:13px;";
+
+stopsPanel.textContent = "A lista de paragens será ativada no próximo passo.";
+
+stopsBtn.onclick = () => {
+    const isOpen = stopsPanel.style.display !== "none";
+
+    stopsPanel.style.display = isOpen ? "none" : "block";
+    stopsBtn.textContent = isOpen
+        ? "⌄ Ver paragens"
+        : "⌃ Ocultar paragens";
+};
 const actionsRow = document.createElement("div");
 actionsRow.style.cssText =
     "display:flex;align-items:center;gap:10px;";
@@ -3992,7 +4018,8 @@ title.style.minWidth = "0";
 deleteBtn.style.margin = "0";
 deleteBtn.style.flexShrink = "0";
 
-actionsRow.append(title, editBtn, deleteBtn);card.append(actionsRow, description);
+actionsRow.append(title, editBtn, deleteBtn);
+card.append(actionsRow, description, stopsBtn, stopsPanel);
 container.appendChild(card);
 
 
