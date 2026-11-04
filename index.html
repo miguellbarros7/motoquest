@@ -8567,6 +8567,15 @@ supabaseClient.auth
 
             currentUser =
                 session?.user || null;
+if (_event === "PASSWORD_RECOVERY") {
+
+    $("authScreen").classList.add("hidden");
+    $("app").classList.add("hidden");
+
+    $("resetPasswordScreen").classList.remove("hidden");
+
+    return;
+}
 
             if (currentUser) {
 
