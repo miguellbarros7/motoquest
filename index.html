@@ -3941,7 +3941,9 @@ removeBtn.onclick = event => {
 
     ids.splice(index, 1);
     renderStops();
-stopsPanel.append(addStopBtn, saveOrderBtn);
+stopsPanel.append(addStopBtn, addStopSelect, saveOrderBtn);
+};
+
 arrows.append(upBtn, downBtn, removeBtn);
 row.append(number, name, arrows);
 stopsPanel.appendChild(row);
