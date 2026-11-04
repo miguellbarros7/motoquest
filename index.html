@@ -3613,6 +3613,71 @@ $("forgotPasswordBtn").addEventListener("click", async () => {
     }
 
 });
+    $("resetPasswordForm").addEventListener("submit", async event => {
+
+    event.preventDefault();
+
+    const password = $("newPassword").value;
+    const confirmation = $("confirmNewPassword").value;
+    const button = $("resetPasswordSubmit");
+
+    if (password !== confirmation) {
+        showMessage(
+            "resetPasswordMessage",
+            "As palavras-passe não coincidem.",
+            "error"
+        );
+        return;
+    }
+
+    if (password.length < 6) {
+        showMessage(
+            "resetPasswordMessage",
+            "A palavra-passe deve ter pelo menos 6 caracteres.",
+            "error"
+        );
+        return;
+    }
+
+    button.disabled = true;
+
+    try {
+        const { error } = await supabaseClient.auth.updateUser({
+            password: password
+        });
+
+        if (error) throw error;
+
+        showMessage(
+            "resetPasswordMessage",
+            "Palavra-passe alterada com sucesso!",
+            "success"
+        );
+
+        await supabaseClient.auth.signOut();
+
+        $("resetPasswordScreen").classList.add("hidden");
+        $("authScreen").classList.remove("hidden");
+
+        setAuthMode("login");
+
+        showMessage(
+            "authMessage",
+            "Palavra-passe alterada! Já podes entrar.",
+            "success"
+        );
+
+    } catch (error) {
+        showMessage(
+            "resetPasswordMessage",
+            "Não foi possível alterar a palavra-passe. Pede um novo link de recuperação.",
+            "error"
+        );
+    } finally {
+        button.disabled = false;
+    }
+
+});
 $("loginTab").addEventListener(
     "click",
     () => setAuthMode("login")
