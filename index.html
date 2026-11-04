@@ -8674,7 +8674,21 @@ if (_event === "PASSWORD_RECOVERY") {
     $("authScreen").classList.add("hidden");
     $("app").classList.add("hidden");
 
-    $("resetPasswordScreen").classList.remove("hidden");
+    const resetScreen = $("resetPasswordScreen");
+
+    resetScreen.classList.remove("hidden");
+
+    resetScreen.style.position = "fixed";
+    resetScreen.style.inset = "0";
+    resetScreen.style.width = "100%";
+    resetScreen.style.height = "100dvh";
+    resetScreen.style.display = "flex";
+    resetScreen.style.alignItems = "center";
+    resetScreen.style.justifyContent = "center";
+    resetScreen.style.padding = "20px";
+    resetScreen.style.background = "#0b0b0b";
+    resetScreen.style.zIndex = "99999";
+    resetScreen.style.boxSizing = "border-box";
 
     return;
 }
