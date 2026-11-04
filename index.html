@@ -3858,8 +3858,7 @@ stopsBtn.onclick = async (event) => {
     stopsPanel.innerHTML = "";
 
 const renderStops = () => {
-    stopsPanel.innerHTML = "";
-
+stopsPanel.innerHTML = "";
     ids.forEach((id, index) => {
         const location = locations.find(
             item => String(item.id) === String(id)
