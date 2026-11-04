@@ -4489,6 +4489,7 @@ async function saveProfileName() {
 /* GALERIA DE LOCAIS PARA CRIAR ROTAS */
 
 let routeGalleryLocations = [];
+    
 let routeGalleryIndex = 0;
 
 
@@ -4587,6 +4588,53 @@ async function loadRouteLocations() {
     }
 
     routeGalleryLocations = data || [];
+    
+const localityFilter = $("routeLocalityFilter");
+const typeFilter = $("routeTypeFilter");
+
+function fillRouteFilter(select, field, allLabel) {
+    if (!select) return;
+
+    const previousValue = select.value;
+
+    const values = [...new Set(
+        routeGalleryLocations
+            .map(location => location[field])
+            .filter(Boolean)
+            .map(value => String(value).trim())
+    )].sort((a, b) => a.localeCompare(b, "pt"));
+
+    select.innerHTML = "";
+
+    const allOption = document.createElement("option");
+    allOption.value = "all";
+    allOption.textContent = allLabel;
+    select.appendChild(allOption);
+
+    values.forEach(value => {
+        const option = document.createElement("option");
+        option.value = value;
+        option.textContent = value;
+        select.appendChild(option);
+    });
+
+    select.value = values.includes(previousValue)
+        ? previousValue
+        : "all";
+}
+
+fillRouteFilter(
+    localityFilter,
+    "locality",
+    "Todas as localidades"
+);
+
+fillRouteFilter(
+    typeFilter,
+    "type",
+    "Todos os tipos"
+);
+
     routeGalleryIndex = 0;
 
   
