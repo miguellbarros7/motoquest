@@ -3514,6 +3514,8 @@ function setAuthMode(mode) {
         mode === "login"
             ? "Entrar"
             : "Criar conta";
+    $("forgotPasswordBtn").style.display =
+    mode === "login" ? "block" : "none";
 
     showMessage(
         "authMessage",
