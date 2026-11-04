@@ -3798,19 +3798,31 @@ $("authForm").addEventListener(
                     throw error;
                 }
 
-                currentUser = data.user;
+                if (!data.session) {
 
-                if (!currentUser) {
-                    throw new Error(
-                        "Conta criada. Confirma o email para continuar."
-                    );
-                }
+    showMessage(
+        "authMessage",
+        "Conta criada! Enviámos um email de confirmação. Abre o email e confirma a tua conta antes de entrares.",
+        "success"
+    );
 
-                await ensureProfile(
-                    currentUser,
-                    name
-                );
-            }
+    setAuthMode("login");
+
+    showMessage(
+        "authMessage",
+        "Conta criada! Confirma o teu email antes de entrares.",
+        "success"
+    );
+
+    return;
+}
+
+currentUser = data.user;
+
+await ensureProfile(
+    currentUser,
+    name
+);
 
             await initializeApp();
 
