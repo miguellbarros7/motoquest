@@ -4944,12 +4944,21 @@ function renderHistory() {
                         ${formatDate(item.created_at)}
                     </div>
 
-                    <div class="points" style="margin-top:4px;">
-                        +${Number(item.points_awarded || 0)} pts
-                    </div>
-                </div>
+               <div class="points" style="margin-top:4px;">
+    +${Number(item.points_awarded || 0)} pts
+</div>
+</div>
 
-            </div>
+${item.photo_url ? `
+    <img
+        src="${escapeHtml(item.photo_url)}"
+        alt="Fotografia da visita"
+        style="width:90px;height:90px;object-fit:cover;border-radius:12px;flex-shrink:0;"
+        loading="lazy"
+    >
+` : ""}
+
+</div>
         `;
 
     }).join("");
