@@ -3887,9 +3887,33 @@ deleteBtn.style.cssText =
     "background:transparent;border:1px solid #444;" +
     "border-radius:8px;color:#999;cursor:pointer;";
 
-deleteBtn.onclick = () => {
-    alert("A confirmação para eliminar a rota será adicionada no próximo passo.");
+
+deleteBtn.onclick = async () => {
+    const confirmed = confirm(
+        `Tens a certeza de que queres eliminar a rota "${route.name}"?\n\nEsta ação não pode ser anulada.`
+    );
+
+    if (!confirmed) return;
+
+    deleteBtn.disabled = true;
+
+    const { error } = await supabaseClient
+        .from("routes")
+        .delete()
+        .eq("id", route.id)
+        .eq("user_id", currentUser.id)
+        .eq("route_type", "personal");
+
+    if (error) {
+        console.error(error);
+        alert("Não foi possível eliminar a rota. Tenta novamente.");
+        deleteBtn.disabled = false;
+        return;
+    }
+
+    await loadMyRoutes();
 };
+
 
 card.append(title, description, deleteBtn);
 container.appendChild(card);
