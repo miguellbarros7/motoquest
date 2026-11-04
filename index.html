@@ -3982,21 +3982,8 @@ editBtn.onclick = async () => {
 
 
 
-    stopsPanel.style.display = "block";
-    stopsBtn.textContent = "⌃ Ocultar paragens";
-
-    if (stopsLoaded) return;
-
-    stopsPanel.textContent = "A carregar paragens...";
-
-    const ids = Array.isArray(route.location_ids)
-        ? route.location_ids
-        : [];
-
-    if (ids.length === 0) {
-        stopsPanel.textContent = "Esta rota não tem paragens.";
-        return;
-    }
+   
+    
 
     const { data: locations, error } = await supabaseClient
         .from("locations")
