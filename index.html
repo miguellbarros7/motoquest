@@ -1590,6 +1590,28 @@ body.nav-ready .bottom-nav {
     font-size: 13px;
     font-weight: 800;
 }
+/* CENTRAR RECUPERAÇÃO DE PASSWORD */
+
+#resetPasswordScreen:not(.hidden) {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    min-height: 100dvh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background: #0b0b0b;
+    z-index: 9999;
+    overflow-y: auto;
+    box-sizing: border-box;
+}
+
+#resetPasswordScreen .auth-card {
+    width: 100%;
+    max-width: 430px;
+    margin: auto;
+}
         
     </style>
 </head>
