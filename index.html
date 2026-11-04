@@ -4462,6 +4462,31 @@ let routeGalleryLocations = [];
 let routeGalleryIndex = 0;
 
 
+async function loadRouteLocations() {
+    const gallery = $("routeLocationsGallery");
+    if (!gallery) return;
+
+    gallery.textContent = "A carregar fotografias...";
+
+    const { data, error } = await supabaseClient
+        .from("locations")
+        .select("*")
+        .order("name", { ascending: true });
+
+    if (error) {
+        console.error(error);
+        gallery.textContent = "Erro ao carregar locais.";
+        return;
+    }
+
+    routeGalleryLocations = data || [];
+    routeGalleryIndex = 0;
+
+    gallery.textContent = routeGalleryLocations.length
+        ? `${routeGalleryLocations.length} locais carregados!`
+        : "Ainda não existem locais disponíveis.";
+}
+
     
 
 async function loadLocations() {
