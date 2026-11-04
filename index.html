@@ -4915,26 +4915,15 @@ function renderRedemptions() {
 
 
 function renderHistory() {
-    <div class="history-date">
-    ${formatDate(item.created_at)}
-</div>
 
     const container = $("historyList");
 
     if (!history.length) {
-
         container.innerHTML = `
             <div class="empty">
                 Ainda não visitaste nenhum local.
             </div>
-            <div class="history-date">
-    ${formatDate(item.created_at)}
-</div>
-<div class="points" style="margin-top:4px;">
-    +${Number(item.points_awarded || 0)} pts
-</div>
         `;
-
         return;
     }
 
@@ -4954,9 +4943,11 @@ function renderHistory() {
                     <div class="history-date">
                         ${formatDate(item.created_at)}
                     </div>
-                </div>
 
-                
+                    <div class="points" style="margin-top:4px;">
+                        +${Number(item.points_awarded || 0)} pts
+                    </div>
+                </div>
 
             </div>
         `;
