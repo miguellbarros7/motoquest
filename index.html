@@ -4650,7 +4650,33 @@ gallery.style.cssText =
     "grid-template-columns:repeat(auto-fit,minmax(min(100%,160px),1fr));" +
     "gap:14px;";
 
-routeGalleryLocations.forEach(location => {
+
+const selectedLocality = localityFilter
+    ? localityFilter.value
+    : "all";
+
+const selectedType = typeFilter
+    ? typeFilter.value
+    : "all";
+
+const filteredLocations = routeGalleryLocations.filter(location => {
+    const localityMatch =
+        selectedLocality === "all" ||
+        String(location.locality || "").trim() === selectedLocality;
+
+    const typeMatch =
+        selectedType === "all" ||
+        String(location.type || "").trim() === selectedType;
+
+    return localityMatch && typeMatch;
+});
+
+if (filteredLocations.length === 0) {
+    gallery.textContent =
+        "Não existem locais para os filtros selecionados.";
+}
+
+filteredLocations.forEach(location => {
     const card = document.createElement("div");
     card.style.cssText =
         "background:#171717;border:1px solid #333;" +
@@ -4713,6 +4739,15 @@ button.onclick = () => {
     card.append(photo, title, button);
     gallery.appendChild(card);
 });
+
+if (localityFilter) {
+    localityFilter.onchange = loadRouteLocations;
+}
+
+if (typeFilter) {
+    typeFilter.onchange = loadRouteLocations;
+}
+
 }
 
 
