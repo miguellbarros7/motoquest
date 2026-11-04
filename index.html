@@ -3713,17 +3713,31 @@ routeTitle.textContent = route.name;
 routeTitle.style.cssText =
     "display:block;font-size:15px;color:white;";
 
+
+const date = document.createElement("small");
+
+date.textContent = route.created_at
+    ? "📅 Criada em " + new Date(route.created_at).toLocaleDateString(
+        "pt-PT",
+        { day: "numeric", month: "short", year: "numeric" }
+    )
+    : "";
+
+date.style.cssText =
+    "display:block;color:#999;margin-top:5px;font-size:12px;";
+
 const subtitle = document.createElement("small");
 subtitle.textContent = "Ver percurso no Google Maps";
 subtitle.style.cssText =
-    "display:block;color:#aaa;margin-top:4px;";
+    "display:block;color:#ff7900;margin-top:5px;font-size:12px;";
+
 
 const arrow = document.createElement("span");
 arrow.textContent = "↗";
 arrow.style.cssText =
     "color:#ff7900;font-size:24px;";
 
-textBox.append(routeTitle, subtitle);
+textBox.append(routeTitle, date, subtitle);
 left.append(icon, textBox);
 title.append(left, arrow);
 
