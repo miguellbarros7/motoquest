@@ -4553,6 +4553,60 @@ let routeGalleryIndex = 0;
 
 let personalRouteStops = [];
 
+$("savePersonalRouteBtn").addEventListener("click", async () => {
+    const name = $("routeName").value.trim();
+    const description = $("routeDescription").value.trim();
+
+    if (!name) {
+        alert("Dá um nome à tua rota.");
+        return;
+    }
+
+    if (personalRouteStops.length < 2) {
+        alert("Seleciona pelo menos 2 locais.");
+        return;
+    }
+
+    if (!currentUser) {
+        alert("Tens de iniciar sessão para guardar a rota.");
+        return;
+    }
+
+    const button = $("savePersonalRouteBtn");
+    button.disabled = true;
+    button.textContent = "A guardar...";
+
+    try {
+        const { error } = await supabaseClient
+            .from("routes")
+            .insert({
+                user_id: currentUser.id,
+                name: name,
+                description: description,
+                route_type: "personal",
+                location_ids: personalRouteStops.map(stop => stop.id)
+            });
+
+        if (error) throw error;
+
+        alert("🏍️ Rota guardada com sucesso!");
+
+        $("routeName").value = "";
+        $("routeDescription").value = "";
+        personalRouteStops = [];
+
+        renderPersonalRouteStops();
+        showSection("profile");
+
+    } catch (error) {
+        console.error(error);
+        alert("Erro ao guardar a rota: " + error.message);
+    } finally {
+        button.disabled = false;
+        button.textContent = "💾 Guardar a minha rota";
+    }
+});
+
 $("createGoogleMapsRouteBtn").addEventListener("click", () => {
     if (personalRouteStops.length < 2) {
         alert("Seleciona pelo menos 2 locais para criar uma rota.");
