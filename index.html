@@ -4127,9 +4127,10 @@ title.onmouseleave = () => {
 };
 
 
-title.onclick = async (event) => {
-    if (event.target.closest("button, select")) return;
-    if (stopsPanel.style.display !== "none") return;  
+arrow.onclick = async (event) => {
+    event.stopPropagation();
+
+    if (stopsPanel.style.display !== "none") return; 
     const ids = Array.isArray(route.location_ids)
         ? route.location_ids
         : [];
