@@ -1556,7 +1556,38 @@ body.nav-ready .bottom-nav {
     letter-spacing: 1px;
 }
 
+/* HISTÓRICO DE VISITAS */
 
+#historyList .history-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 18px;
+    margin-bottom: 12px;
+    background: #151515;
+    border: 1px solid #2a2a2a;
+    border-radius: 16px;
+}
+
+#historyList .history-name {
+    color: #fff;
+    font-size: 16px;
+    font-weight: 800;
+    margin-bottom: 6px;
+}
+
+#historyList .history-date {
+    color: #888;
+    font-size: 12px;
+    margin-bottom: 6px;
+}
+
+#historyList .points {
+    color: #ff6a00;
+    font-size: 13px;
+    font-weight: 800;
+}
         
     </style>
 </head>
@@ -4917,7 +4948,7 @@ function renderHistory() {
                 </div>
 
                 <div class="points">
-                    +${Number(item.points || 0)} pts
+                  +${Number(item.points_awarded || 0)} pts
                 </div>
 
             </div>
