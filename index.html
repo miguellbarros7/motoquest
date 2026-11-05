@@ -7460,6 +7460,17 @@ stampCard.style.cssText =
 stampModal.appendChild(stampCard);
 
                 
+const stampTitle = document.createElement("h2");
+
+stampTitle.textContent = "🏅 " + location.name;
+
+stampTitle.style.cssText =
+    "color:#ff7900;" +
+    "font-size:20px;" +
+    "margin:0 0 16px;" +
+    "font-weight:700;";
+
+stampCard.appendChild(stampTitle);                
 
 stampModal.addEventListener("click", (event) => {
     if (event.target === stampModal) {
