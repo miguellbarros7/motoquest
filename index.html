@@ -7422,6 +7422,10 @@ const visited = uniqueLocations.has(location.id);
     item.style.borderColor = "#ff7900";
     item.style.background = "#3a2a1c";
     item.style.cursor = "pointer";
+
+            const stampVisit = history.find(visit =>
+    String(visit.location_id) === String(location.id)
+);
             
 } else {
     item.style.borderColor = "#555";
