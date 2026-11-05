@@ -7228,9 +7228,33 @@ features.forEach(feature => {
     path.setAttribute("fill", "#353535");
     path.setAttribute("stroke", "#ff7900");
     path.setAttribute("stroke-width", "0.8");
-    path.setAttribute("fill-rule", "evenodd");
+   path.setAttribute("fill-rule", "evenodd");
 
-    svg.appendChild(path);
+// Permitir clicar no distrito
+path.style.cursor = "pointer";
+
+path.addEventListener("click", () => {
+    const districtName =
+        feature.properties?.Distrito ||
+        feature.properties?.DISTRITO ||
+        "Distrito";
+
+    const panel = $("passportDistrictLocations");
+    const title = $("passportSelectedDistrict");
+    const list = $("passportDistrictLocationsList");
+
+    // Mostrar o painel ao lado do mapa
+    panel.style.display = "block";
+
+    // Mostrar o distrito selecionado
+    title.textContent = "📍 " + districtName;
+
+    // Conteúdo temporário até ligarmos os locais reais
+    list.textContent =
+        "A carregar os locais de " + districtName + "...";
+});
+
+svg.appendChild(path);
 });
 
 mapCanvas.replaceChildren(svg);
