@@ -7181,7 +7181,11 @@ $("historyPassportBtn").addEventListener("click", async () => {
 
   $("passportLocationsCount").textContent = uniqueLocations.size;
 $("passportStampsCount").textContent = uniqueLocations.size;
-    const mapCanvas = $("passportMapCanvas");
+
+    const { data: passportAllLocations, error: passportLocationsError } =
+    await supabaseClient
+        .from("locations")
+        .select("id, district");    const mapCanvas = $("passportMapCanvas");
 
 mapCanvas.textContent = "🗺️ A carregar mapa de Portugal...";
 
