@@ -7697,8 +7697,8 @@ stampsGrid.style.cssText = `
 const { data: albumLocations, error: albumError } =
     await supabaseClient
         .from("locations")
-        .select("id,name,district")
-        .order("name", { ascending: true });
+.select("id,name,district,image_url")
+    .order("name", { ascending: true });
 
 // Guardar a primeira visita de cada local.
 const visitedLocations = new Map();
@@ -7885,9 +7885,9 @@ function createVintageStamp(location, visit) {
         font-size:32px;
     `;
 
-    if (unlocked && visit.photo) {
+    if (location.image_url) {
         const photo = document.createElement("img");
-        photo.src = visit.photo;
+photo.src = location.image_url;
         photo.alt = "";
         photo.loading = "lazy";
         photo.style.cssText = `
@@ -7898,8 +7898,25 @@ function createVintageStamp(location, visit) {
         photo.onerror = () => {
             imageBox.textContent = "🏍️";
         };
-        imageBox.appendChild(photo);
-    } else {
+if (!unlocked) {
+    photo.style.filter = "grayscale(1)";
+    photo.style.opacity = "0.45";
+}
+
+imageBox.appendChild(photo);
+
+if (!unlocked) {
+    const lock = document.createElement("span");
+    lock.textContent = "🔒";
+    lock.style.cssText = `
+        position:absolute;
+        font-size:25px;
+        text-shadow:0 1px 4px white;
+    `;
+
+    imageBox.style.position = "relative";
+    imageBox.appendChild(lock);
+}    } else {
         imageBox.textContent = unlocked ? "🏍️" : "🔒";
         if (!unlocked) {
             imageBox.style.filter = "grayscale(1)";
