@@ -7411,8 +7411,11 @@ if (error) {
             "border-bottom:1px solid #444;" +
             "color:#fff;font-size:13px;";
 
-        item.textContent = "📍 " + location.name;
+const visited = uniqueLocations.has(location.id);
 
+item.textContent = visited
+    ? "🏅 " + location.name + " · Conquistado"
+    : "🔒 " + location.name + " · Por conquistar";
         list.appendChild(item);
     });
 }
