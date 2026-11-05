@@ -7351,6 +7351,8 @@ passportProgressLabel.style.display = "block";
 
 // Retirar o rato: volta à cor anterior
 path.addEventListener("mouseleave", () => {
+    passportProgressLabel.style.display = "none";
+
     if (svg.selectedDistrict !== path) {
         path.setAttribute("fill", "#353535");
     }
