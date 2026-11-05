@@ -7087,6 +7087,36 @@ $("historyPassportBtn").addEventListener("click", async () => {
 
   $("passportLocationsCount").textContent = uniqueLocations.size;
 $("passportStampsCount").textContent = uniqueLocations.size;
+    const mapCanvas = $("passportMapCanvas");
+
+mapCanvas.textContent = "🗺️ A carregar mapa de Portugal...";
+
+try {
+    const mapResponse = await fetch(
+        "https://sig.lneg.pt/server/rest/services/geoPortal/CAOP/MapServer/1/query" +
+        "?where=1%3D1" +
+        "&outFields=Distrito" +
+        "&returnGeometry=true" +
+        "&outSR=4326" +
+        "&f=geojson"
+    );
+
+    if (!mapResponse.ok) {
+        throw new Error("Não foi possível obter os distritos.");
+    }
+
+    const portugalMapData = await mapResponse.json();
+
+    mapCanvas.textContent =
+        "🇵🇹 Dados carregados: " +
+        portugalMapData.features.length +
+        " distritos.";
+
+} catch (error) {
+    console.error("Erro no mapa:", error);
+    mapCanvas.textContent =
+        "⚠️ Não foi possível carregar o mapa.";
+}
   const districtsGrid = $("passportDistrictsGrid");
 
 const portugalDistricts = [
