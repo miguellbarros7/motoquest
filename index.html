@@ -7042,12 +7042,16 @@ if (visitedLocations.size === 0) {
     visitedLocations.forEach(name => {
         const stamp = document.createElement("div");
 
-        stamp.style.cssText =
-            "background:#252525;" +
-            "border:2px dashed #ff7900;" +
-            "border-radius:14px;" +
-            "padding:18px 10px;" +
-            "text-align:center;";
+      stamp.style.cssText =
+    "background:radial-gradient(circle at center,#30241b,#171717 75%);" +
+    "border:2px dashed #ff7900;" +
+    "border-radius:18px;" +
+    "padding:22px 12px;" +
+    "text-align:center;" +
+    "position:relative;" +
+    "box-shadow:inset 0 0 0 5px #171717," +
+    "0 4px 16px rgba(0,0,0,0.3);" +
+    "transition:transform 0.2s ease;";
 
         const symbol = document.createElement("div");
         symbol.textContent = "🏍️";
