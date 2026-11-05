@@ -7205,7 +7205,9 @@ $("passportStampsCount").textContent = uniqueLocations.size;
     if (uniqueLocations.has(location.id)) {
         passportDistrictProgress[district].visited++;
     }
-});const mapCanvas = $("passportMapCanvas");
+});
+
+const mapCanvas = $("passportMapCanvas");
 
 mapCanvas.textContent = "🗺️ A carregar mapa de Portugal...";
 
