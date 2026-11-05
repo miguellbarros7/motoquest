@@ -10515,35 +10515,9 @@ if (_event === "PASSWORD_RECOVERY") {
         }
     );
 
-const passportDistrictsTab = document.getElementById("passportDistrictsTab");
-const passportLocationsTab = document.getElementById("passportLocationsTab");
 
-const passportDistrictsSection = document.getElementById("passportDistrictsSection");
-const passportLocationsSection = document.getElementById("passportLocationsSection");
 
-passportLocationsSection.style.display = "none";
 
-passportDistrictsTab.addEventListener("click", () => {
-    passportDistrictsSection.style.display = "block";
-    passportLocationsSection.style.display = "none";
-
-    passportDistrictsTab.style.background = "#ff7900";
-    passportDistrictsTab.style.color = "#111";
-
-    passportLocationsTab.style.background = "#252525";
-    passportLocationsTab.style.color = "#fff";
-});
-
-passportLocationsTab.addEventListener("click", () => {
-    passportDistrictsSection.style.display = "none";
-    passportLocationsSection.style.display = "block";
-
-    passportLocationsTab.style.background = "#ff7900";
-    passportLocationsTab.style.color = "#111";
-
-    passportDistrictsTab.style.background = "#252525";
-    passportDistrictsTab.style.color = "#fff";
-});
     
 </script>    
 <!-- ALTERAR NOME -->
