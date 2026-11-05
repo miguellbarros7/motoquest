@@ -7428,10 +7428,19 @@ const visited = uniqueLocations.has(location.id);
 );item.addEventListener("click", () => {
     if (!stampVisit) return;
 
-    alert(
-        "🏅 " + location.name +
-        "\n📅 Visita: " + formatDate(stampVisit.created_at)
-    );
+   const stampModal = document.createElement("div");
+
+stampModal.style.cssText =
+    "position:fixed;" +
+    "inset:0;" +
+    "background:rgba(0,0,0,0.85);" +
+    "display:flex;" +
+    "align-items:center;" +
+    "justify-content:center;" +
+    "z-index:99999;" +
+    "padding:20px;";
+
+document.body.appendChild(stampModal);
 });            
             
 } else {
