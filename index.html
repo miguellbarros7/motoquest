@@ -7023,11 +7023,15 @@ stampsGrid.innerHTML = "";
 const visitedLocations = new Map();
 
 history.forEach(visit => {
-    if (visit.location_id && !visitedLocations.has(visit.location_id)) {
-        visitedLocations.set(
-            visit.location_id,
-            visit.locations?.name || "Local conquistado"
-        );
+    if (visit.location_id) {
+        const previous = visitedLocations.get(visit.location_id);
+
+        if (!previous || new Date(visit.created_at) < new Date(previous.date)) {
+            visitedLocations.set(visit.location_id, {
+                name: visit.locations?.name || "Local conquistado",
+                date: visit.created_at
+            });
+        }
     }
 });
 
