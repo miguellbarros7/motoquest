@@ -7499,6 +7499,26 @@ stampDate.style.cssText =
     "margin-bottom:16px;";
 
 stampCard.appendChild(stampDate);
+
+const stampCloseBtn = document.createElement("button");
+
+stampCloseBtn.textContent = "✕ Fechar";
+
+stampCloseBtn.style.cssText =
+    "background:#ff7900;" +
+    "color:#111;" +
+    "border:none;" +
+    "border-radius:10px;" +
+    "padding:12px 24px;" +
+    "font-size:14px;" +
+    "font-weight:700;" +
+    "cursor:pointer;";
+
+stampCloseBtn.addEventListener("click", () => {
+    stampModal.remove();
+});
+
+stampCard.appendChild(stampCloseBtn);                
                 
 
 stampModal.addEventListener("click", (event) => {
