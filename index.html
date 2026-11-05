@@ -6965,8 +6965,19 @@ $("historyRoutesBtn").addEventListener("click", async () => {
     await loadMyRoutes();
 });
     
-$("historyPassportBtn").addEventListener("click", () => {
+$("historyPassportBtn").addEventListener("click", async () => {
     showHistoryTab("passport");
+
+    await loadHistory();
+
+    const uniqueLocations = new Set(
+        history
+            .map(visit => visit.location_id)
+            .filter(Boolean)
+    );
+
+    $("passportLocationsCount").textContent = uniqueLocations.size;
+    $("passportStampsCount").textContent = uniqueLocations.size;
 });
     /* CLOSE MODALS */
 
