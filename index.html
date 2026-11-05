@@ -7187,7 +7187,25 @@ $("passportStampsCount").textContent = uniqueLocations.size;
         .from("locations")
       .select("id, district");
 
-const mapCanvas = $("passportMapCanvas");
+    const passportDistrictProgress = {};
+
+(passportAllLocations || []).forEach(location => {
+    const district = location.district?.trim();
+    if (!district) return;
+
+    if (!passportDistrictProgress[district]) {
+        passportDistrictProgress[district] = {
+            total: 0,
+            visited: 0
+        };
+    }
+
+    passportDistrictProgress[district].total++;
+
+    if (uniqueLocations.has(location.id)) {
+        passportDistrictProgress[district].visited++;
+    }
+});const mapCanvas = $("passportMapCanvas");
 
 mapCanvas.textContent = "🗺️ A carregar mapa de Portugal...";
 
