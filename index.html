@@ -7441,6 +7441,13 @@ stampModal.style.cssText =
     "padding:20px;";
 
 document.body.appendChild(stampModal);
+
+stampModal.addEventListener("click", (event) => {
+    if (event.target === stampModal) {
+        stampModal.remove();
+    }
+});
+                
 });            
             
 } else {
