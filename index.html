@@ -7317,9 +7317,19 @@ features.forEach(feature => {
 path.style.cursor = "pointer";
 path.style.transition = "fill 0.2s ease";
 
-// Passar o rato: fica laranja
+// Passar o rato: fica laranja e mostra o progresso
 path.addEventListener("mouseenter", () => {
     path.setAttribute("fill", "#ff7900");
+
+    const districtName = feature.properties?.Distrito ||
+        feature.properties?.DISTRITO || "";
+
+    const progress = passportDistrictProgress[districtName];
+    const percentage = progress?.total
+        ? Math.round(progress.visited / progress.total * 100)
+        : 0;
+
+    path.setAttribute("data-progress", percentage + "%");
 });
 
 // Retirar o rato: volta à cor anterior
