@@ -7487,6 +7487,18 @@ if (stampVisit.photo_url) {
 
     stampCard.appendChild(stampPhoto);
 }
+
+                const stampDate = document.createElement("div");
+
+stampDate.textContent =
+    "📅 Conquistado em " + formatDate(stampVisit.created_at);
+
+stampDate.style.cssText =
+    "color:#ccc;" +
+    "font-size:13px;" +
+    "margin-bottom:16px;";
+
+stampCard.appendChild(stampDate);
                 
 
 stampModal.addEventListener("click", (event) => {
