@@ -7339,6 +7339,14 @@ path.addEventListener("mouseenter", () => {
         : 0;
 
     path.setAttribute("data-progress", percentage + "%");
+
+const bounds = path.getBBox();
+
+passportProgressLabel.setAttribute("x", bounds.x + bounds.width / 2);
+passportProgressLabel.setAttribute("y", bounds.y + bounds.height / 2);
+passportProgressLabel.textContent = percentage + "%";
+passportProgressLabel.style.display = "block";
+    
 });
 
 // Retirar o rato: volta à cor anterior
