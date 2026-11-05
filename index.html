@@ -7014,8 +7014,60 @@ $("historyPassportBtn").addEventListener("click", async () => {
             .filter(Boolean)
     );
 
-    $("passportLocationsCount").textContent = uniqueLocations.size;
-    $("passportStampsCount").textContent = uniqueLocations.size;
+  $("passportLocationsCount").textContent = uniqueLocations.size;
+$("passportStampsCount").textContent = uniqueLocations.size;
+
+const stampsGrid = $("passportStampsGrid");
+stampsGrid.innerHTML = "";
+
+const visitedLocations = new Map();
+
+history.forEach(visit => {
+    if (visit.location_id && !visitedLocations.has(visit.location_id)) {
+        visitedLocations.set(
+            visit.location_id,
+            visit.locations?.name || "Local conquistado"
+        );
+    }
+});
+
+if (visitedLocations.size === 0) {
+    stampsGrid.innerHTML = `
+        <div style="grid-column:1/-1;color:#aaa;font-size:13px;text-align:center;padding:20px;">
+            🏍️ Ainda não tens carimbos.
+            Visita o teu primeiro local para começares a coleção!
+        </div>
+    `;
+} else {
+    visitedLocations.forEach(name => {
+        const stamp = document.createElement("div");
+
+        stamp.style.cssText =
+            "background:#252525;" +
+            "border:2px dashed #ff7900;" +
+            "border-radius:14px;" +
+            "padding:18px 10px;" +
+            "text-align:center;";
+
+        const symbol = document.createElement("div");
+        symbol.textContent = "🏍️";
+        symbol.style.cssText = "font-size:32px;margin-bottom:10px;";
+
+        const label = document.createElement("div");
+        label.textContent = name;
+        label.style.cssText =
+            "color:#ff7900;font-size:13px;font-weight:bold;" +
+            "overflow-wrap:anywhere;";
+
+        const status = document.createElement("div");
+        status.textContent = "✓ CONQUISTADO";
+        status.style.cssText =
+            "color:#aaa;font-size:10px;letter-spacing:1px;margin-top:8px;";
+
+        stamp.append(symbol, label, status);
+        stampsGrid.appendChild(stamp);
+    });
+}
 });
     /* CLOSE MODALS */
 
