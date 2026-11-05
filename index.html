@@ -7425,7 +7425,14 @@ const visited = uniqueLocations.has(location.id);
 
             const stampVisit = history.find(visit =>
     String(visit.location_id) === String(location.id)
-);
+);item.addEventListener("click", () => {
+    if (!stampVisit) return;
+
+    alert(
+        "🏅 " + location.name +
+        "\n📅 Visita: " + formatDate(stampVisit.created_at)
+    );
+});            
             
 } else {
     item.style.borderColor = "#555";
