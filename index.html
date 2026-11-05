@@ -7062,18 +7062,24 @@ if (visitedLocations.size === 0) {
         symbol.style.cssText = "font-size:32px;margin-bottom:10px;";
 
         const label = document.createElement("div");
-        label.textContent = name;
-        label.style.cssText =
-            "color:#ff7900;font-size:13px;font-weight:bold;" +
-            "overflow-wrap:anywhere;";
+label.textContent = name.name;
+label.style.cssText =
+    "color:#ff7900;font-size:13px;font-weight:bold;" +
+    "overflow-wrap:anywhere;";
+
+const dateLabel = document.createElement("div");
+dateLabel.textContent = name.date
+    ? new Date(name.date).toLocaleDateString("pt-PT")
+    : "";
+dateLabel.style.cssText =
+    "color:#bbb;font-size:11px;margin-top:8px;";
 
         const status = document.createElement("div");
         status.textContent = "✓ CONQUISTADO";
         status.style.cssText =
             "color:#aaa;font-size:10px;letter-spacing:1px;margin-top:8px;";
 
-        stamp.append(symbol, label, status);
-        stampsGrid.appendChild(stamp);
+stamp.append(symbol, label, dateLabel, status);        stampsGrid.appendChild(stamp);
     });
 }
 });
