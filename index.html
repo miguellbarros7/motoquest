@@ -7251,8 +7251,7 @@ features.forEach(feature => {
 // Permitir clicar no distrito
 path.style.cursor = "pointer";
 
-path.addEventListener("click", () => {
-    const districtName =
+path.addEventListener("click", async () => {    const districtName =
         feature.properties?.Distrito ||
         feature.properties?.DISTRITO ||
         "Distrito";
@@ -7267,9 +7266,37 @@ path.addEventListener("click", () => {
     // Mostrar o distrito selecionado
     title.textContent = "📍 " + districtName;
 
-    // Conteúdo temporário até ligarmos os locais reais
-    list.textContent =
-        "A carregar os locais de " + districtName + "...";
+  // Carregar os locais reais do distrito
+list.textContent = "⏳ A carregar locais...";
+
+const { data: districtLocations, error } =
+    await supabaseClient
+        .from("locations")
+        .select("id, name, district")
+        .eq("district", districtName)
+        .order("name");
+
+if (error) {
+    console.error("Erro ao carregar locais:", error);
+    list.textContent = "⚠️ Não foi possível carregar os locais.";
+} else if (!districtLocations || districtLocations.length === 0) {
+    list.textContent = "📍 Ainda não existem locais neste distrito.";
+} else {
+    list.replaceChildren();
+
+    districtLocations.forEach(location => {
+        const item = document.createElement("div");
+
+        item.style.cssText =
+            "padding:12px 8px;" +
+            "border-bottom:1px solid #444;" +
+            "color:#fff;font-size:13px;";
+
+        item.textContent = "📍 " + location.name;
+
+        list.appendChild(item);
+    });
+}
 });
 
 svg.appendChild(path);
