@@ -7107,10 +7107,86 @@ try {
 
     const portugalMapData = await mapResponse.json();
 
-    mapCanvas.textContent =
-        "🇵🇹 Dados carregados: " +
-        portugalMapData.features.length +
-        " distritos.";
+   const features = portugalMapData.features;
+
+const allPoints = [];
+
+function getPolygons(geometry) {
+    if (geometry.type === "Polygon") {
+        return [geometry.coordinates];
+    }
+
+    if (geometry.type === "MultiPolygon") {
+        return geometry.coordinates;
+    }
+
+    return [];
+}
+
+features.forEach(feature => {
+    getPolygons(feature.geometry).forEach(polygon => {
+        polygon.forEach(ring => {
+            ring.forEach(point => allPoints.push(point));
+        });
+    });
+});
+
+const minX = Math.min(...allPoints.map(p => p[0]));
+const maxX = Math.max(...allPoints.map(p => p[0]));
+const minY = Math.min(...allPoints.map(p => p[1]));
+const maxY = Math.max(...allPoints.map(p => p[1]));
+
+const width = 300;
+const height = 460;
+const padding = 15;
+
+const scale = Math.min(
+    (width - padding * 2) / (maxX - minX),
+    (height - padding * 2) / (maxY - minY)
+);
+
+function project(point) {
+    return [
+        padding + (point[0] - minX) * scale,
+        height - padding - (point[1] - minY) * scale
+    ];
+}
+
+const svgNS = "http://www.w3.org/2000/svg";
+
+const svg = document.createElementNS(svgNS, "svg");
+svg.setAttribute("viewBox", "0 0 300 460");
+svg.style.cssText =
+    "width:100%;max-width:300px;height:auto;";
+
+features.forEach(feature => {
+    const path = document.createElementNS(svgNS, "path");
+
+    let d = "";
+
+    getPolygons(feature.geometry).forEach(polygon => {
+        polygon.forEach(ring => {
+            ring.forEach((point, index) => {
+                const [x, y] = project(point);
+
+                d += (index === 0 ? "M" : "L") +
+                    x.toFixed(2) + "," + y.toFixed(2) + " ";
+            });
+
+            d += "Z ";
+        });
+    });
+
+    path.setAttribute("d", d);
+    path.setAttribute("fill", "#353535");
+    path.setAttribute("stroke", "#ff7900");
+    path.setAttribute("stroke-width", "0.8");
+    path.setAttribute("fill-rule", "evenodd");
+
+    svg.appendChild(path);
+});
+
+mapCanvas.replaceChildren(svg);
 
 } catch (error) {
     console.error("Erro no mapa:", error);
