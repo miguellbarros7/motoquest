@@ -7416,7 +7416,9 @@ if (error) {
     "font-size:13px;" +
     "font-weight:600;";
 
-const visited = uniqueLocations.has(location.id);
+const visited = history.some(visit =>
+    String(visit.location_id) === String(location.id)
+);
 
         if (visited) {
     item.style.borderColor = "#ff7900";
