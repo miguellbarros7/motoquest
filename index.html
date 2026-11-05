@@ -7202,9 +7202,11 @@ $("passportStampsCount").textContent = uniqueLocations.size;
 
     passportDistrictProgress[district].total++;
 
-    if (uniqueLocations.has(location.id)) {
-        passportDistrictProgress[district].visited++;
-    }
+   if (history.some(visit =>
+    String(visit.location_id) === String(location.id)
+)) {
+    passportDistrictProgress[district].visited++;
+}
 });
 
 const mapCanvas = $("passportMapCanvas");
