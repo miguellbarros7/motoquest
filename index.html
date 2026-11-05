@@ -7677,8 +7677,9 @@ medals.forEach(medal => {
 });
 
 
+
 const stampsGrid = $("passportStampsGrid");
-stampsGrid.innerHTML = "";
+stampsGrid.replaceChildren();
 
 // ÁLBUM VINTAGE MOTOQUEST
 stampsGrid.style.cssText = `
@@ -7692,215 +7693,306 @@ stampsGrid.style.cssText = `
     box-shadow:inset 0 0 18px rgba(90,60,30,.15);
 `;
 
+// Carregar todos os locais reais do MotoQuest.
+const { data: albumLocations, error: albumError } =
+    await supabaseClient
+        .from("locations")
+        .select("id,name,district")
+        .order("name", { ascending: true });
+
+// Guardar a primeira visita de cada local.
 const visitedLocations = new Map();
 
 history.forEach(visit => {
-    if (!visit.location_id) return;
+    if (visit.location_id == null) return;
 
-    const previous = visitedLocations.get(visit.location_id);
+    const key = String(visit.location_id);
+    const previous = visitedLocations.get(key);
 
     if (!previous ||
         new Date(visit.created_at) < new Date(previous.date)) {
-
-        visitedLocations.set(visit.location_id, {
+        visitedLocations.set(key, {
             name: visit.locations?.name || "Local conquistado",
             date: visit.created_at,
-            photo: visit.locations?.photo_url || null
+            photo: visit.photo_url || null
         });
+    } else if (!previous.photo && visit.photo_url) {
+        previous.photo = visit.photo_url;
     }
 });
 
-function createVintageStamp(location) {
-    const stamp = document.createElement("div");
+// Criar janela de detalhes.
+function openVintageDetail(location, visit) {
+    const overlay = document.createElement("div");
 
+    overlay.style.cssText = `
+        position:fixed;
+        inset:0;
+        z-index:99999;
+        background:rgba(0,0,0,.85);
+        display:flex;
+        justify-content:center;
+        align-items:center;
+        padding:18px;
+        box-sizing:border-box;
+    `;
+
+    const card = document.createElement("div");
+
+    card.style.cssText = `
+        width:100%;
+        max-width:380px;
+        max-height:85vh;
+        overflow-y:auto;
+        background:#f1e5ce;
+        color:#4b3826;
+        padding:24px;
+        box-sizing:border-box;
+        border:3px double #9a7449;
+        border-radius:8px;
+        text-align:center;
+        box-shadow:0 12px 35px rgba(0,0,0,.5);
+    `;
+
+    const title = document.createElement("h3");
+    title.textContent = "🏍️ " + location.name;
+    title.style.cssText =
+        "color:#4b3826;margin:0 0 16px;font-size:20px;";
+    card.appendChild(title);
+
+    if (visit && visit.photo) {
+        const image = document.createElement("img");
+        image.src = visit.photo;
+        image.alt = "Fotografia da visita a " + location.name;
+        image.loading = "lazy";
+        image.style.cssText = `
+            width:100%;
+            max-height:250px;
+            object-fit:cover;
+            border:3px solid #c8b18a;
+            border-radius:4px;
+            box-sizing:border-box;
+        `;
+        card.appendChild(image);
+    }
+
+    const status = document.createElement("p");
+    status.textContent = visit
+        ? "✓ LOCAL CONQUISTADO"
+        : "🔒 LOCAL POR CONQUISTAR";
+    status.style.cssText =
+        "color:#78542d;font-size:13px;font-weight:bold;";
+    card.appendChild(status);
+
+    if (visit && visit.date) {
+        const date = document.createElement("p");
+        date.textContent = "📅 " +
+            new Date(visit.date).toLocaleDateString("pt-PT");
+        date.style.cssText = "font-size:13px;";
+        card.appendChild(date);
+    }
+
+    if (location.district) {
+        const district = document.createElement("p");
+        district.textContent = "📍 " + location.district;
+        district.style.cssText =
+            "font-size:12px;color:#755b3c;";
+        card.appendChild(district);
+    }
+
+    const close = document.createElement("button");
+    close.textContent = "FECHAR";
+    close.style.cssText = `
+        background:#a56c38;
+        color:white;
+        border:0;
+        border-radius:5px;
+        padding:12px 28px;
+        font-weight:bold;
+        cursor:pointer;
+        margin-top:12px;
+    `;
+
+    function closeDetail() {
+        overlay.remove();
+        document.removeEventListener("keydown", onEscape);
+    }
+
+    function onEscape(event) {
+        if (event.key === "Escape") closeDetail();
+    }
+
+    close.addEventListener("click", closeDetail);
+
+    overlay.addEventListener("click", event => {
+        if (event.target === overlay) closeDetail();
+    });
+
+    document.addEventListener("keydown", onEscape);
+
+    card.appendChild(close);
+    overlay.appendChild(card);
+    document.body.appendChild(overlay);
+}
+
+// Criar carimbo vintage.
+function createVintageStamp(location, visit) {
+    const unlocked = Boolean(visit);
+    const stamp = document.createElement("button");
+
+    stamp.type = "button";
     stamp.style.cssText = `
+        width:100%;
+        min-width:0;
+        min-height:185px;
+        padding:16px 10px;
+        box-sizing:border-box;
         background:radial-gradient(
             circle at center,
             #fff8e8 0%,
             #dfcba7 100%
         );
-        border:2px dashed #b47739;
+        border:2px dashed ${unlocked ? "#b47739" : "#a8a096"};
         border-radius:4px;
-        padding:14px 10px;
-        min-width:0;
-        min-height:175px;
-        box-sizing:border-box;
-        text-align:center;
-        position:relative;
         display:flex;
         flex-direction:column;
-        align-items:center;
         justify-content:center;
+        align-items:center;
         gap:7px;
+        text-align:center;
+        font-family:inherit;
+        cursor:pointer;
         box-shadow:
             inset 0 0 0 4px #c8b18a,
             2px 3px 8px rgba(70,45,20,.22);
-        cursor:pointer;
         transition:transform .2s ease;
+        opacity:${unlocked ? "1" : ".72"};
     `;
 
-    const symbol = document.createElement("div");
-    symbol.textContent = "🏍️";
-    symbol.style.cssText = `
-        width:65px;
-        height:65px;
+    const imageBox = document.createElement("div");
+    imageBox.style.cssText = `
+        width:72px;
+        height:72px;
+        flex-shrink:0;
         border:2px solid #a56c38;
         border-radius:50%;
         display:flex;
-        align-items:center;
         justify-content:center;
+        align-items:center;
+        overflow:hidden;
+        background:#e7d4b4;
+        color:#704a2b;
         font-size:32px;
-        background:rgba(255,248,232,.6);
     `;
 
-    const label = document.createElement("div");
-    label.textContent = location.name;
-    label.style.cssText = `
+    if (unlocked && visit.photo) {
+        const photo = document.createElement("img");
+        photo.src = visit.photo;
+        photo.alt = "";
+        photo.loading = "lazy";
+        photo.style.cssText = `
+            width:100%;
+            height:100%;
+            object-fit:cover;
+        `;
+        photo.onerror = () => {
+            imageBox.textContent = "🏍️";
+        };
+        imageBox.appendChild(photo);
+    } else {
+        imageBox.textContent = unlocked ? "🏍️" : "🔒";
+        if (!unlocked) {
+            imageBox.style.filter = "grayscale(1)";
+        }
+    }
+
+    const name = document.createElement("div");
+    name.textContent = location.name;
+    name.style.cssText = `
         color:#4b3826;
         font-size:13px;
         font-weight:bold;
-        overflow-wrap:anywhere;
         line-height:1.3;
+        overflow-wrap:anywhere;
+        width:100%;
     `;
 
-    const dateLabel = document.createElement("div");
-    dateLabel.textContent = location.date
-        ? new Date(location.date).toLocaleDateString("pt-PT")
-        : "";
-    dateLabel.style.cssText = `
+    const date = document.createElement("div");
+    date.textContent = unlocked && visit.date
+        ? new Date(visit.date).toLocaleDateString("pt-PT")
+        : "Por descobrir";
+    date.style.cssText = `
         color:#755b3c;
         font-size:11px;
     `;
 
     const status = document.createElement("div");
-    status.textContent = "✓ CONQUISTADO";
+    status.textContent = unlocked
+        ? "✓ CONQUISTADO"
+        : "🔒 BLOQUEADO";
     status.style.cssText = `
-        color:#78542d;
-        font-size:10px;
-        font-weight:bold;
-        letter-spacing:1px;
+        width:100%;
         border-top:1px solid #c8b18a;
         padding-top:7px;
-        width:100%;
+        margin-top:4px;
+        color:${unlocked ? "#78542d" : "#777"};
+        font-size:10px;
+        font-weight:bold;
+        letter-spacing:.6px;
     `;
 
-    stamp.append(symbol, label, dateLabel, status);
-
-    stamp.addEventListener("mouseenter", () => {
-        stamp.style.transform = "translateY(-3px)";
-    });
-
-    stamp.addEventListener("mouseleave", () => {
-        stamp.style.transform = "translateY(0)";
-    });
+    stamp.append(imageBox, name, date, status);
 
     stamp.addEventListener("click", () => {
-        const overlay = document.createElement("div");
-        overlay.style.cssText = `
-            position:fixed;
-            inset:0;
-            background:rgba(0,0,0,.82);
-            display:flex;
-            align-items:center;
-            justify-content:center;
-            z-index:99999;
-            padding:20px;
-            box-sizing:border-box;
-        `;
-
-        const detail = document.createElement("div");
-        detail.style.cssText = `
-            background:#f1e5ce;
-            border:3px double #9a7449;
-            border-radius:8px;
-            padding:24px;
-            width:100%;
-            max-width:360px;
-            max-height:85vh;
-            overflow-y:auto;
-            box-sizing:border-box;
-            text-align:center;
-            color:#4b3826;
-            box-shadow:0 12px 35px rgba(0,0,0,.5);
-        `;
-
-        const heading = document.createElement("h3");
-        heading.textContent = "🏍️ " + location.name;
-        heading.style.cssText =
-            "color:#4b3826;margin:0 0 15px;";
-
-        detail.appendChild(heading);
-
-        if (location.photo) {
-            const img = document.createElement("img");
-            img.src = location.photo;
-            img.alt = location.name;
-            img.style.cssText = `
-                width:100%;
-                max-height:220px;
-                object-fit:cover;
-                border:3px solid #c8b18a;
-                border-radius:4px;
-                margin-bottom:12px;
-                box-sizing:border-box;
-            `;
-            detail.appendChild(img);
-        }
-
-        const conquered = document.createElement("p");
-        conquered.textContent = "✓ LOCAL CONQUISTADO";
-        conquered.style.cssText =
-            "font-weight:bold;color:#78542d;";
-
-        const date = document.createElement("p");
-        date.textContent = "📅 " + dateLabel.textContent;
-        date.style.cssText = "font-size:13px;";
-
-        const close = document.createElement("button");
-        close.textContent = "FECHAR";
-        close.style.cssText = `
-            background:#a56c38;
-            color:white;
-            border:0;
-            border-radius:5px;
-            padding:12px 28px;
-            font-weight:bold;
-            cursor:pointer;
-            margin-top:12px;
-        `;
-
-        close.addEventListener("click", () => overlay.remove());
-
-        overlay.addEventListener("click", event => {
-            if (event.target === overlay) overlay.remove();
-        });
-
-        detail.append(conquered, date, close);
-        overlay.appendChild(detail);
-        document.body.appendChild(overlay);
+        openVintageDetail(location, visit);
     });
 
     return stamp;
 }
 
-if (visitedLocations.size === 0) {
-    const empty = document.createElement("div");
-    empty.style.cssText = `
-        grid-column:1/-1;
-        color:#634c32;
-        font-size:13px;
-        text-align:center;
-        padding:28px 14px;
-        line-height:1.6;
-    `;
-    empty.textContent =
-        "🏍️ Ainda não tens carimbos. Visita o teu primeiro local para começares a coleção!";
-    stampsGrid.appendChild(empty);
+// Construir o álbum.
+if (albumError) {
+    console.error("Erro ao carregar álbum:", albumError);
+
+    const errorMessage = document.createElement("div");
+    errorMessage.style.cssText =
+        "grid-column:1/-1;color:#634c32;padding:20px;text-align:center;";
+    errorMessage.textContent =
+        "Não foi possível carregar os locais do álbum.";
+    stampsGrid.appendChild(errorMessage);
 } else {
-    visitedLocations.forEach(location => {
-        stampsGrid.appendChild(createVintageStamp(location));
+    const allAlbumLocations = albumLocations || [];
+
+    // Mostrar conquistados primeiro, depois bloqueados.
+    const sortedLocations = [...allAlbumLocations].sort((a, b) => {
+        const aUnlocked = visitedLocations.has(String(a.id));
+        const bUnlocked = visitedLocations.has(String(b.id));
+
+        if (aUnlocked !== bUnlocked) {
+            return aUnlocked ? -1 : 1;
+        }
+
+        return (a.name || "").localeCompare(
+            b.name || "", "pt-PT"
+        );
     });
+
+    sortedLocations.forEach(location => {
+        const visit = visitedLocations.get(String(location.id));
+        stampsGrid.appendChild(
+            createVintageStamp(location, visit)
+        );
+    });
+
+    if (sortedLocations.length === 0) {
+        const empty = document.createElement("div");
+        empty.style.cssText =
+            "grid-column:1/-1;color:#634c32;text-align:center;padding:24px;";
+        empty.textContent = "Ainda não existem locais no álbum.";
+        stampsGrid.appendChild(empty);
+    }
 }
+
 });
 
     /* CLOSE MODALS */
