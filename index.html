@@ -7248,10 +7248,34 @@ features.forEach(feature => {
     path.setAttribute("stroke-width", "0.8");
    path.setAttribute("fill-rule", "evenodd");
 
-// Permitir clicar no distrito
+// Permitir interagir com o distrito
 path.style.cursor = "pointer";
+path.style.transition = "fill 0.2s ease";
 
-path.addEventListener("click", async () => {    const districtName =
+// Passar o rato: fica laranja
+path.addEventListener("mouseenter", () => {
+    path.setAttribute("fill", "#ff7900");
+});
+
+// Retirar o rato: volta à cor anterior
+path.addEventListener("mouseleave", () => {
+    if (svg.selectedDistrict !== path) {
+        path.setAttribute("fill", "#353535");
+    }
+});
+
+// Clicar: fica laranja fixo
+path.addEventListener("click", async () => {
+
+    // Desmarcar o distrito anteriormente selecionado
+    if (svg.selectedDistrict && svg.selectedDistrict !== path) {
+        svg.selectedDistrict.setAttribute("fill", "#353535");
+    }
+
+    // Guardar o novo distrito selecionado
+    svg.selectedDistrict = path;
+    path.setAttribute("fill", "#ff7900");
+    const districtName =
         feature.properties?.Distrito ||
         feature.properties?.DISTRITO ||
         "Distrito";
