@@ -7442,6 +7442,25 @@ stampModal.style.cssText =
 
 document.body.appendChild(stampModal);
 
+const stampCard = document.createElement("div");
+
+stampCard.style.cssText =
+    "background:#252525;" +
+    "border:2px solid #ff7900;" +
+    "border-radius:18px;" +
+    "padding:24px;" +
+    "width:100%;" +
+    "max-width:360px;" +
+    "max-height:85vh;" +
+    "overflow-y:auto;" +
+    "color:#fff;" +
+    "text-align:center;" +
+    "box-shadow:0 12px 40px rgba(0,0,0,0.5);";
+
+stampModal.appendChild(stampCard);
+
+                
+
 stampModal.addEventListener("click", (event) => {
     if (event.target === stampModal) {
         stampModal.remove();
