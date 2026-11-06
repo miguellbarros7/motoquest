@@ -2028,6 +2028,38 @@ data-go="routes"
 
 <section id="routesSection" class="section">
 
+    
+<div id="routesDashboard" style="margin-bottom:24px;">
+    <h2 style="color:#ff7900;">🏍️ Rotas MotoQuest</h2>
+    <p style="color:#aaa;font-size:13px;">
+        Planeia, guarda e volta a explorar as tuas aventuras.
+    </p>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:18px 0;">
+        <button id="routesCreateTab" type="button"
+            class="primary-btn" style="padding:15px 8px;">
+            ➕ Criar rota
+        </button>
+        <button id="routesSavedTab" type="button"
+            class="secondary-btn" style="padding:15px 8px;">
+            📁 As minhas rotas
+        </button>
+    </div>
+</div>
+
+<div id="routesSavedPanel" class="hidden" style="margin-bottom:24px;">
+    <h3 style="color:#ff7900;">📁 As minhas rotas</h3>
+    <p style="color:#aaa;font-size:13px;">
+        Consulta, edita e gere os teus percursos guardados.
+    </p>
+    <div id="routesSavedList">
+        A carregar as tuas rotas...
+    </div>
+</div>
+
+<div id="routesCreatePanel">
+
+
     <div class="section-header">
         <div>
             <h1 class="section-title">
@@ -2140,8 +2172,7 @@ data-go="routes"
 
 </div>
 
-  
-
+  </div>
 </section>
 
      <!-- RECOMPENSAS -->
@@ -3973,8 +4004,7 @@ function isAdmin() {
 ========================================================= */
 
 async function loadMyRoutes() {
-    const container = $("myRoutesList");
-    if (!container || !currentUser) return;
+const container = $("routesSavedList") || $("myRoutesList");    if (!container || !currentUser) return;
 
     container.textContent = "A carregar as tuas rotas...";
 
@@ -4665,6 +4695,7 @@ function showSection(sectionName) {
     
 if (sectionName === "routes") {
     loadRouteLocations();
+    loadMyRoutes();
 }
 
 
@@ -5505,6 +5536,36 @@ let routeGalleryIndex = 0;
 
 
 let personalRouteStops = [];
+
+function showRoutesTab(tab) {
+    const creating = tab === "create";
+
+    $("routesCreatePanel").classList.toggle(
+        "hidden", !creating
+    );
+
+    $("routesSavedPanel").classList.toggle(
+        "hidden", creating
+    );
+
+    $("routesCreateTab").style.opacity =
+        creating ? "1" : ".65";
+
+    $("routesSavedTab").style.opacity =
+        creating ? ".65" : "1";
+
+    if (!creating) {
+        loadMyRoutes();
+    }
+}
+
+$("routesCreateTab").addEventListener("click", () => {
+    showRoutesTab("create");
+});
+
+$("routesSavedTab").addEventListener("click", () => {
+    showRoutesTab("saved");
+});
 
 $("savePersonalRouteBtn").addEventListener("click", async () => {
     const name = $("routeName").value.trim();
