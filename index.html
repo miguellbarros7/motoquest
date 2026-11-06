@@ -5237,8 +5237,32 @@ $("rewardsPoints").textContent = points;
             .join("")
             .toUpperCase() || "M";
 
-    $("profileAvatar").textContent =
-        initials;
+const avatar = $("profileAvatar");
+
+avatar.textContent = initials;
+avatar.style.backgroundImage = "none";
+
+const avatarPath =
+    currentUser?.user_metadata?.avatar_path;
+
+if (avatarPath) {
+    supabaseClient.storage
+        .from("avatars")
+        .createSignedUrl(avatarPath, 3600)
+        .then(({ data, error }) => {
+
+            if (error || !data?.signedUrl) {
+                console.error("Erro ao carregar avatar:", error);
+                return;
+            }
+
+            avatar.style.backgroundImage =
+                `url("${data.signedUrl}")`;
+
+            avatar.textContent = "";
+        });
+}
+
 
     $("adminProfileButton")
         .classList.toggle(
