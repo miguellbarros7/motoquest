@@ -7927,8 +7927,7 @@ font-size:11px;
         : "🔒 BLOQUEADO";
     status.style.cssText = `
         width:100%;
-        border-top:1px solid #c8b18a;
-        padding-top:7px;
+border-top:1px solid ${unlocked ? "#ff7900" : "#444"};        padding-top:7px;
         margin-top:4px;
         color:${unlocked ? "#78542d" : "#777"};
         font-size:10px;
