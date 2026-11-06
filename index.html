@@ -7936,6 +7936,35 @@ color:${unlocked ? "#ff7900" : "#777"};        font-size:10px;
 
     stamp.append(imageBox, name, date, status);
 
+    // TESTE BLACK EDITION — apenas o primeiro carimbo conquistado
+if (unlocked && !stampsGrid.querySelector(".mq-stamp-test")) {
+    stamp.classList.add("mq-stamp-test");
+
+    const brand = document.createElement("div");
+    brand.textContent = "★ MOTOQUEST ★";
+    brand.style.cssText = `
+        color:#ff7900;
+        font-size:15px;
+        font-weight:900;
+        letter-spacing:1px;
+        text-shadow:0 0 8px rgba(255,121,0,.3);
+    `;
+
+    stamp.insertBefore(brand, imageBox);
+
+    imageBox.style.width = "82px";
+    imageBox.style.height = "82px";
+
+    stamp.style.border = "4px double #ff7900";
+    stamp.style.boxShadow = `
+        inset 0 0 0 5px #111,
+        inset 0 0 0 8px #ff7900,
+        inset 0 0 0 12px #111,
+        inset 0 0 0 14px rgba(255,121,0,.65),
+        0 8px 22px rgba(0,0,0,.5)
+    `;
+}
+
     stamp.addEventListener("click", () => {
         openVintageDetail(location, visit);
     });
