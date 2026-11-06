@@ -5144,6 +5144,67 @@ async function loadProfile() {
 }
 
 
+/* =========================
+   FOTOGRAFIA DO PERFIL
+========================= */
+
+document.getElementById("profilePhotoInput")
+    .addEventListener("change", async function () {
+
+        const file = this.files?.[0];
+
+        if (!file || !currentUser) return;
+
+        if (!file.type.startsWith("image/")) {
+            alert("Escolhe uma imagem válida.");
+            return;
+        }
+
+        if (file.size > 5 * 1024 * 1024) {
+            alert("A fotografia deve ter menos de 5 MB.");
+            return;
+        }
+
+        const filePath =
+            currentUser.id + "/avatar-" + Date.now() + ".jpg";
+
+        const { error } = await supabaseClient.storage
+            .from("avatars")
+            .upload(filePath, file, {
+                contentType: file.type
+            });
+
+        if (error) {
+            console.error(error);
+            alert("Erro ao carregar a fotografia.");
+            return;
+        }
+
+        const { error: saveError } =
+            await supabaseClient.auth.updateUser({
+                data: { avatar_path: filePath }
+            });
+
+        if (saveError) {
+            console.error(saveError);
+            alert("Erro ao guardar a fotografia no perfil.");
+            return;
+        }
+
+        const avatar = document.getElementById("profileAvatar");
+
+        const { data } = await supabaseClient.storage
+            .from("avatars")
+            .createSignedUrl(filePath, 3600);
+
+        if (data?.signedUrl) {
+            avatar.style.backgroundImage =
+                `url("${data.signedUrl}")`;
+            avatar.textContent = "";
+        }
+
+        alert("Fotografia atualizada! 🏍️");
+    });
 function updateProfileUI() {
 
     const name =
