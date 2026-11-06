@@ -4004,7 +4004,14 @@ function isAdmin() {
 ========================================================= */
 
 async function loadMyRoutes() {
-const container = $("routesSavedList") || $("myRoutesList");    if (!container || !currentUser) return;
+
+const container =
+    !$("historyRoutesPanel").classList.contains("hidden") &&
+    $("historySection").classList.contains("active")
+        ? $("myRoutesList")
+        : $("routesSavedList");
+   
+    if (!container || !currentUser) return;
 
     container.textContent = "A carregar as tuas rotas...";
 
