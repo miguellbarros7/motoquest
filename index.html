@@ -2134,15 +2134,7 @@ data-go="routes"
         💾 Guardar rota
     </button>
 
-    <button
-        id="createGoogleMapsRouteBtn"
-        type="button"
-        style="width:100%;padding:14px;border:1px solid #ff7900;
-               border-radius:10px;background:transparent;color:#ff7900;
-               font-weight:600;cursor:pointer;"
-    >
-        ↗ Abrir no Google Maps
-    </button>
+
 
 </div>
 
@@ -5572,43 +5564,7 @@ loadMyRoutes();
     }
 });
 
-$("createGoogleMapsRouteBtn").addEventListener("click", () => {
-    if (personalRouteStops.length < 2) {
-        alert("Seleciona pelo menos 2 locais para criar uma rota.");
-        return;
-    }
 
-    const places = personalRouteStops.map(stop => {
-        if (
-            stop.latitude != null &&
-            stop.longitude != null
-        ) {
-            return `${stop.latitude},${stop.longitude}`;
-        }
-
-        return `${stop.name}, Portugal`;
-    });
-
-    const params = new URLSearchParams({
-        api: "1",
-        origin: places[0],
-        destination: places[places.length - 1],
-        travelmode: "driving"
-    });
-
-    if (places.length > 2) {
-        params.set(
-            "waypoints",
-            places.slice(1, -1).join("|")
-        );
-    }
-
-    const url =
-        "https://www.google.com/maps/dir/?" +
-        params.toString();
-
-    window.open(url, "_blank", "noopener,noreferrer");
-});
 
 function renderPersonalRouteStops() {
     const container = $("routeStopsList");
