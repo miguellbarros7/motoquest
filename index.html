@@ -7506,11 +7506,14 @@ function showHistoryTab(tab) {
     $("historyRewardsBtn").classList.toggle("active", tab === "rewards");
     $("historyRoutesBtn").classList.toggle("active", tab === "routes");
     $("historyPassportBtn").classList.toggle("active", tab === "passport");
+        $("historyAssistantBtn").classList.toggle("active", tab === "assistant");
+
 
     $("historyList").classList.toggle("hidden", tab !== "visits");
     $("redemptionsList").classList.toggle("hidden", tab !== "rewards");
     $("historyRoutesPanel").classList.toggle("hidden", tab !== "routes");
     $("historyPassportPanel").classList.toggle("hidden", tab !== "passport");
+    $("historyAssistantPanel").classList.toggle("hidden", tab !== "assistant");
 }
 
 $("historyVisitsBtn").addEventListener("click", () => {
