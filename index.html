@@ -2669,8 +2669,12 @@ Viseu
 
           <div
     id="profileAvatar"
-    class="profile-avatar"
-    style="
+class="profile-avatar"
+onclick="document.getElementById('profilePhotoInput').click()"
+title="Alterar fotografia"
+role="button"
+tabindex="0"
+onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}"    style="
         overflow:hidden;
         border:2px solid #ff7900;
         background-size:cover;
