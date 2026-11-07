@@ -5318,7 +5318,8 @@ async function loadProfile() {
         currentProfile = data;
     }
 
-    updateProfileUI();
+   updateProfileUI();
+await loadProfileConquests();
 }
 
 
@@ -5383,6 +5384,41 @@ document.getElementById("profilePhotoInput")
 
         alert("Fotografia atualizada! 🏍️");
     });
+
+
+
+/* CONQUISTAS REAIS NO PERFIL BLACK EDITION */
+
+async function loadProfileConquests() {
+
+    if (!currentUser) return;
+
+    const locationsCounter =
+        document.getElementById("profileLocationsCount");
+
+    const stampsCounter =
+        document.getElementById("profileStampsCount");
+
+    const { data, error } = await supabaseClient
+        .from("visits")
+        .select("location_id")
+        .eq("user_id", currentUser.id);
+
+    if (error) {
+        console.error("Erro nas conquistas:", error);
+        return;
+    }
+
+    const uniqueLocations = new Set(
+        (data || [])
+            .map(visit => visit.location_id)
+            .filter(Boolean)
+    );
+
+    locationsCounter.textContent = uniqueLocations.size;
+    stampsCounter.textContent = uniqueLocations.size;
+}
+            
 function updateProfileUI() {
 
     const name =
