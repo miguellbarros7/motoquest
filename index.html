@@ -7516,6 +7516,11 @@ function showHistoryTab(tab) {
     $("historyAssistantPanel").classList.toggle("hidden", tab !== "assistant");
 }
 
+
+$("historyAssistantBtn").addEventListener("click", () => {
+    showHistoryTab("assistant");
+});
+    
 $("historyVisitsBtn").addEventListener("click", () => {
     showHistoryTab("visits");
 });
