@@ -7720,15 +7720,66 @@ timezone: "auto"
 
         const condicao = descricoes[tempo.weather_code] || "🌦️ Condições variáveis";
 
-        resultado.textContent =
-            `📍 ${local.name}, ${local.country || ""}\n` +
-            `${condicao}\n` +
-            `🌡️ Temperatura: ${tempo.temperature_2m} °C\n` +
-            `💧 Humidade: ${tempo.relative_humidity_2m}%\n` +
-            `🌧️ Precipitação atual: ${tempo.precipitation} mm\n` +
-            `💨 Vento: ${tempo.wind_speed_10m} km/h`;
+        
+/* MOTOQUEST WEATHER — CONDIÇÕES ATUAIS */
 
-        resultado.style.whiteSpace = "pre-line";
+resultado.replaceChildren();
+
+const painelAtual = document.createElement("div");
+painelAtual.style.cssText = `
+    background:linear-gradient(135deg,#243140,#111820);
+    border:1px solid #364657;
+    border-radius:18px;
+    padding:22px;
+    color:#fff;
+`;
+
+const cabecalho = document.createElement("div");
+cabecalho.style.cssText = "color:#ff8900;font-size:13px;font-weight:800;letter-spacing:2px;margin-bottom:8px;";
+cabecalho.textContent = "MOTOQUEST WEATHER";
+
+const localidade = document.createElement("div");
+localidade.style.cssText = "font-size:20px;font-weight:800;margin-bottom:18px;";
+localidade.textContent = `📍 ${local.name}, ${local.country || ""}`;
+
+const temperatura = document.createElement("div");
+temperatura.style.cssText = "font-size:54px;font-weight:900;line-height:1.1;";
+temperatura.textContent = `${tempo.temperature_2m}°C`;
+
+const estado = document.createElement("div");
+estado.style.cssText = "font-size:17px;color:#d5e0eb;margin:10px 0 22px;";
+estado.textContent = condicao;
+
+const detalhes = document.createElement("div");
+detalhes.style.cssText = `
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(130px,1fr));
+    gap:12px;
+`;
+
+[
+    ["💧 Humidade", `${tempo.relative_humidity_2m}%`],
+    ["🌧️ Precipitação", `${tempo.precipitation} mm`],
+    ["💨 Vento", `${tempo.wind_speed_10m} km/h`]
+].forEach(([nome, valor]) => {
+    const item = document.createElement("div");
+    item.style.cssText = "background:#202b37;border-radius:12px;padding:13px;";
+
+    const etiqueta = document.createElement("div");
+    etiqueta.style.cssText = "color:#aab7c6;font-size:12px;margin-bottom:5px;";
+    etiqueta.textContent = nome;
+
+    const numero = document.createElement("div");
+    numero.style.cssText = "font-size:18px;font-weight:800;";
+    numero.textContent = valor;
+
+    item.append(etiqueta, numero);
+    detalhes.appendChild(item);
+});
+
+painelAtual.append(cabecalho, localidade, temperatura, estado, detalhes);
+resultado.appendChild(painelAtual);
+
         
 /* PREVISÃO METEOROLÓGICA — 5 DIAS */
 
