@@ -2806,10 +2806,12 @@ Viseu
         📍 A minha localização
     </h4>
 
-    <button id="sosLocationBtn" type="button" class="primary-btn"
-        style="width:100%;">
-        📍 Obter localização GPS
-    </button>
+
+<button id="sosLocationBtn" type="button" class="primary-btn"
+    style="width:100%;">
+    📤 Partilhar localização
+</button>
+
 
     <div id="sosLocationResult" style="
         margin-top:12px;
@@ -8082,15 +8084,9 @@ botaoPartilhar.onclick = async () => {
 };
 
 
-            resultado.innerHTML = `
-                <div>✅ Localização obtida!</div>
-                <div>📍 Latitude: ${latitude.toFixed(6)}</div>
-                <div>📍 Longitude: ${longitude.toFixed(6)}</div>
-                <a href="${mapa}" target="_blank" rel="noopener noreferrer"
-                   style="color:#ff8900;font-weight:bold;">
-                    🗺️ Abrir localização no Google Maps
-                </a>
-            `;
+           
+resultado.innerHTML = "";
+
         },
         (erro) => {
             resultado.textContent =
