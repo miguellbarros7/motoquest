@@ -2670,6 +2670,36 @@ Viseu
             💡<strong>Dicas de Condução</strong>
         </div>
 
+<div id="assistantFuelPanel" class="hidden" style="
+    margin-top:20px;
+    padding:18px;
+    background:#1a1a1a;
+    border:1px solid #ff7900;
+    border-radius:14px;
+">
+    <h3 style="color:#ff7900;">
+        ⛽ Calculadora de Combustível
+    </h3>
+
+    <label>Distância da viagem (km)</label>
+    <input id="fuelDistance" type="number" min="0" placeholder="Ex.: 250">
+
+    <label>Consumo da mota (L/100 km)</label>
+    <input id="fuelConsumption" type="number" min="0" step="0.1" placeholder="Ex.: 4.5">
+
+    <label>Preço do combustível (€/L)</label>
+    <input id="fuelPrice" type="number" min="0" step="0.01" placeholder="Ex.: 1.75">
+
+    <button id="fuelCalculateBtn" type="button" class="primary-btn">
+        Calcular custo
+    </button>
+
+    <div id="fuelResult" style="
+        margin-top:15px;
+        color:#ff7900;
+        font-weight:bold;
+    "></div>
+</div>
     </div>
 </div>
 </section>          
