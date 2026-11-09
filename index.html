@@ -8053,6 +8053,35 @@ $("sosLocationBtn").addEventListener("click", () => {
 
             const mapa = `https://www.google.com/maps?q=${latitude},${longitude}`;
 
+            
+const botaoPartilhar = $("sosShareBtn");
+
+botaoPartilhar.classList.remove("hidden");
+botaoPartilhar.onclick = async () => {
+    const mensagem = `📍 A minha localização MotoQuest:\n${mapa}`;
+
+    if (navigator.share) {
+        try {
+            await navigator.share({
+                title: "SOS Motard — Localização",
+                text: mensagem
+            });
+        } catch (erro) {
+            if (erro.name !== "AbortError") {
+                console.warn("Erro ao partilhar:", erro);
+            }
+        }
+    } else {
+        try {
+            await navigator.clipboard.writeText(mensagem);
+            alert("📋 Localização copiada! Já podes colá-la numa mensagem.");
+        } catch (erro) {
+            window.prompt("Copia este link para partilhar:", mapa);
+        }
+    }
+};
+
+
             resultado.innerHTML = `
                 <div>✅ Localização obtida!</div>
                 <div>📍 Latitude: ${latitude.toFixed(6)}</div>
