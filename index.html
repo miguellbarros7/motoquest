@@ -9654,6 +9654,11 @@ $("locationUploadPreview")
     );
 }
 
+let distritoIdentificado = null;
+
+
+
+    
 /* IDENTIFICAR CONCELHO E DISTRITO PELO GPS */
 
 $("identifyDistrictBtn").addEventListener("click", async () => {
@@ -9707,6 +9712,11 @@ const distrito =
     address.state_district ||
     address.county ||
     "Não identificado";
+
+        
+distritoIdentificado =
+    distrito === "Não identificado" ? null : distrito;
+
 
 
         message.textContent =
