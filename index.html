@@ -8886,10 +8886,18 @@ function extractCoordinatesFromGoogleMaps(url) {
        .../@40.123,-7.123,...
     */
 
-    let match =
-        text.match(
-            /@(-?\d+(?:\.\d+)?),(-?\d+(?:\.\d+)?)/
-        );
+   
+let match =
+    text.match(
+        /!3d(-?\d+(?:\.\d+)?)!4d(-?\d+(?:\.\d+)?)/
+    );
+
+if (!match) {
+    match = text.match(
+        /@(-?\d+(?:\.\d+)?),(-?\d+(?:\.\d+)?)/
+    );
+}
+
 
     if (match) {
 
