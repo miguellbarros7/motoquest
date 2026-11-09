@@ -7797,21 +7797,50 @@ if (diario?.time?.length) {
         const estado = descricoes[diario.weather_code[i]]
             || "🌦️ Condições variáveis";
 
-        return `
-            <div style="
-                background:#222;
-                border:1px solid #ff7900;
-                border-radius:12px;
-                padding:14px;
-                min-width:0;
-            ">
-                <strong style="color:#ff7900;">${dia}</strong>
-                <div>${estado}</div>
-                <div>🌡️ ${diario.temperature_2m_min[i]}° / ${diario.temperature_2m_max[i]}°</div>
-                <div>🌧️ Chuva: ${diario.precipitation_probability_max[i] ?? "—"}%</div>
-                <div>💨 Vento: ${diario.wind_speed_10m_max[i]} km/h</div>
-            </div>
-        `;
+     
+return `
+    <div style="
+        background:linear-gradient(160deg,#263442,#19232e);
+        border:1px solid #364657;
+        border-radius:16px;
+        padding:16px 12px;
+        min-width:0;
+        text-align:center;
+        color:#fff;
+    ">
+        <div style="
+            color:#ff8900;
+            font-size:14px;
+            font-weight:800;
+            margin-bottom:12px;
+            text-transform:capitalize;
+        ">${dia}</div>
+
+        <div style="font-size:14px;min-height:48px;">
+            ${estado}
+        </div>
+
+        <div style="
+            font-size:21px;
+            font-weight:900;
+            margin:12px 0;
+        ">
+            ${diario.temperature_2m_max[i]}°
+            <span style="color:#aab7c6;font-size:15px;">
+                / ${diario.temperature_2m_min[i]}°
+            </span>
+        </div>
+
+        <div style="color:#82c9ff;font-size:13px;">
+            🌧️ ${diario.precipitation_probability_max[i] ?? "—"}%
+        </div>
+
+        <div style="color:#b9c7d4;font-size:12px;margin-top:6px;">
+            💨 ${diario.wind_speed_10m_max[i]} km/h
+        </div>
+    </div>
+`;
+
     }).join("");
 
     const titulo = document.createElement("h4");
