@@ -7579,6 +7579,40 @@ $("confirmRewardBtn").addEventListener("click", async () => {
 $("assistantFuelBtn").addEventListener("click", () => {
     $("assistantFuelPanel").classList.toggle("hidden");
 });
+
+
+/* ASSISTENTE — CALCULAR COMBUSTÍVEL */
+
+$("fuelCalculateBtn").addEventListener("click", () => {
+    const distancia = Number($("fuelDistance").value);
+    const consumo = Number($("fuelConsumption").value);
+    const preco = Number($("fuelPrice").value);
+    const resultado = $("fuelResult");
+
+    if (
+        !$("fuelDistance").value ||
+        !$("fuelConsumption").value ||
+        !$("fuelPrice").value ||
+        !Number.isFinite(distancia) ||
+        !Number.isFinite(consumo) ||
+        !Number.isFinite(preco) ||
+        distancia <= 0 ||
+        consumo <= 0 ||
+        preco <= 0
+    ) {
+        resultado.textContent =
+            "⚠️ Preenche todos os campos com valores superiores a zero.";
+        return;
+    }
+
+    const litros = (distancia * consumo) / 100;
+    const custo = litros * preco;
+
+    resultado.textContent =
+        `⛽ ${litros.toFixed(2)} litros | 💶 ${custo.toFixed(2)} €`;
+});
+
+    
 /* HISTÓRICO - VISITAS / RECOMPENSAS / ROTAS */
 
 /* ABRIR PASSAPORTE A PARTIR DO PERFIL */
