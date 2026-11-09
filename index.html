@@ -9695,16 +9695,19 @@ $("identifyDistrictBtn").addEventListener("click", async () => {
         const data = await response.json();
         const address = data.address || {};
 
-        const concelho =
-            address.municipality ||
-            address.county ||
-            address.city ||
-            "Não identificado";
+     
+const concelho =
+    address.municipality ||
+    address.city ||
+    address.town ||
+    address.village ||
+    "Não identificado";
 
-        const distrito =
-            address.state_district ||
-            address.state ||
-            "Não identificado";
+const distrito =
+    address.state_district ||
+    address.county ||
+    "Não identificado";
+
 
         message.textContent =
             "📍 Concelho: " + concelho +
