@@ -9720,6 +9720,12 @@ const distrito =
     "Não identificado";
 
         
+if (concelho !== "Não identificado") {
+    $("locationLocality").value = concelho;
+}
+
+
+        
 distritoIdentificado =
     distrito === "Não identificado" ? null : distrito;
 
