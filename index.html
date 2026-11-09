@@ -7865,6 +7865,42 @@ grelha.innerHTML = previsao;
 
 
     resultado.append(titulo, grelha);
+
+    
+/* ASSISTENTE — PAINEL DE ALERTAS PARA MOTARDS */
+
+const painelAlertas = document.createElement("div");
+painelAlertas.id = "weatherRiderAlerts";
+painelAlertas.style.cssText = `
+    margin-top:18px;
+    padding:16px;
+    background:#202b37;
+    border:1px solid #ff8900;
+    border-radius:14px;
+    color:#fff;
+`;
+
+const tituloAlertas = document.createElement("div");
+tituloAlertas.style.cssText = `
+    color:#ff8900;
+    font-size:15px;
+    font-weight:800;
+    margin-bottom:8px;
+`;
+tituloAlertas.textContent = "🏍️ Conselhos para Motards";
+
+const conteudoAlertas = document.createElement("div");
+conteudoAlertas.id = "weatherRiderAlertsContent";
+conteudoAlertas.style.cssText = `
+    font-size:13px;
+    line-height:1.6;
+    color:#d5e0eb;
+`;
+conteudoAlertas.textContent = "A analisar as condições da viagem...";
+
+painelAlertas.append(tituloAlertas, conteudoAlertas);
+resultado.appendChild(painelAlertas);
+
 }
 
 
