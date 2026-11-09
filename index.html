@@ -9731,6 +9731,18 @@ distritoIdentificado =
 });
 
 
+/* LIMPAR DISTRITO QUANDO O GPS MUDA */
+
+["locationLat", "locationLng"].forEach(id => {
+    $(id).addEventListener("input", () => {
+        distritoIdentificado = null;
+        $("districtMessage").textContent =
+            "⚠️ GPS alterado. Identifica novamente o distrito.";
+    });
+});
+
+
+    
 /* SAVE LOCATION */
 
 $("locationForm").addEventListener(
