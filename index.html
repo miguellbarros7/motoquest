@@ -7729,6 +7729,53 @@ timezone: "auto"
             `💨 Vento: ${tempo.wind_speed_10m} km/h`;
 
         resultado.style.whiteSpace = "pre-line";
+        
+/* PREVISÃO METEOROLÓGICA — 5 DIAS */
+
+const diario = weatherData.daily;
+
+if (diario?.time?.length) {
+    const previsao = diario.time.map((data, i) => {
+        const dia = new Date(data + "T12:00:00")
+            .toLocaleDateString("pt-PT", {
+                weekday: "short",
+                day: "numeric",
+                month: "short"
+            });
+
+        const estado = descricoes[diario.weather_code[i]]
+            || "🌦️ Condições variáveis";
+
+        return `
+            <div style="
+                background:#222;
+                border:1px solid #ff7900;
+                border-radius:12px;
+                padding:14px;
+                min-width:0;
+            ">
+                <strong style="color:#ff7900;">${dia}</strong>
+                <div>${estado}</div>
+                <div>🌡️ ${diario.temperature_2m_min[i]}° / ${diario.temperature_2m_max[i]}°</div>
+                <div>🌧️ Chuva: ${diario.precipitation_probability_max[i] ?? "—"}%</div>
+                <div>💨 Vento: ${diario.wind_speed_10m_max[i]} km/h</div>
+            </div>
+        `;
+    }).join("");
+
+    const titulo = document.createElement("h4");
+    titulo.textContent = "📅 Previsão para 5 dias";
+    titulo.style.color = "#ff7900";
+    titulo.style.marginTop = "22px";
+
+    const grelha = document.createElement("div");
+    grelha.style.cssText =
+        "display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;margin-top:12px;";
+    grelha.innerHTML = previsao;
+
+    resultado.append(titulo, grelha);
+}
+
 
     } catch (erro) {
         console.error("Erro na meteorologia:", erro);
