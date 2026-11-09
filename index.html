@@ -7896,7 +7896,40 @@ conteudoAlertas.style.cssText = `
     line-height:1.6;
     color:#d5e0eb;
 `;
-conteudoAlertas.textContent = "A analisar as condições da viagem...";
+
+const avisos = [];
+
+const chuvaMax = Math.max(
+    ...diario.precipitation_probability_max.filter(v => v != null)
+);
+
+const ventoMax = Math.max(
+    ...diario.wind_speed_10m_max.filter(v => v != null)
+);
+
+const tempMin = Math.min(
+    ...diario.temperature_2m_min.filter(v => v != null)
+);
+
+if (chuvaMax >= 70) {
+    avisos.push("🌧️ Probabilidade elevada de chuva: reduz a velocidade e aumenta a distância de segurança.");
+}
+
+if (ventoMax >= 40) {
+    avisos.push("💨 Vento forte previsto: atenção às rajadas, sobretudo em pontes e zonas expostas.");
+}
+
+if (tempMin <= 3) {
+    avisos.push("❄️ Temperaturas muito baixas: atenção ao possível gelo, especialmente de manhã.");
+}
+
+if (avisos.length === 0) {
+    avisos.push("☀️ Sem condições adversas detetadas pelos critérios MotoQuest. Boa viagem e conduz com prudência!");
+}
+
+conteudoAlertas.innerHTML = avisos
+    .map(aviso => `<div style="margin-bottom:8px;">${aviso}</div>`)
+    .join("");
 
 painelAlertas.append(tituloAlertas, conteudoAlertas);
 resultado.appendChild(painelAlertas);
