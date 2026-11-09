@@ -8047,10 +8047,9 @@ $("sosLocationBtn").addEventListener("click", () => {
             const mapa = `https://www.google.com/maps?q=${latitude},${longitude}`;
 
             
-const botaoPartilhar = $("sosShareBtn");
 
-botaoPartilhar.classList.remove("hidden");
-botaoPartilhar.onclick = async () => {
+const partilharLocalizacao = async () => {
+
     const mensagem = `📍 A minha localização MotoQuest:\n${mapa}`;
 
     if (navigator.share) {
