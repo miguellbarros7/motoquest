@@ -9756,6 +9756,17 @@ $("locationForm").addEventListener(
 
         if (!isAdmin()) return;
 
+        
+if (!distritoIdentificado) {
+    showMessage(
+        "locationAdminMessage",
+        "⚠️ Primeiro clica em Identificar concelho e distrito.",
+        "error"
+    );
+    return;
+}
+
+
         const id =
             $("locationId").value.trim();
 
