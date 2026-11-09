@@ -7639,6 +7639,99 @@ $("assistantWeatherBtn").addEventListener("click", () => {
     $("assistantWeatherPanel").classList.toggle("hidden");
 });
 
+/* ASSISTENTE — CONSULTAR METEOROLOGIA */
+
+$("weatherSearchBtn").addEventListener("click", async () => {
+    const cidade = $("weatherCity").value.trim();
+    const resultado = $("weatherResult");
+
+    if (!cidade) {
+        resultado.textContent = "⚠️ Escreve uma localidade.";
+        return;
+    }
+
+    resultado.textContent = "🌦️ A consultar meteorologia...";
+
+    try {
+        const geoResponse = await fetch(
+            "https://geocoding-api.open-meteo.com/v1/search?" +
+            new URLSearchParams({
+                name: cidade,
+                count: "1",
+                language: "pt",
+                format: "json"
+            })
+        );
+
+        if (!geoResponse.ok) throw new Error("Erro na pesquisa da localidade.");
+
+        const geoData = await geoResponse.json();
+        const local = geoData.results?.[0];
+
+        if (!local) {
+            resultado.textContent = "⚠️ Localidade não encontrada.";
+            return;
+        }
+
+        const weatherResponse = await fetch(
+            "https://api.open-meteo.com/v1/forecast?" +
+            new URLSearchParams({
+                latitude: local.latitude,
+                longitude: local.longitude,
+                current: "temperature_2m,relative_humidity_2m,precipitation,weather_code,wind_speed_10m",
+                timezone: "auto"
+            })
+        );
+
+        if (!weatherResponse.ok) throw new Error("Erro na previsão meteorológica.");
+
+        const weatherData = await weatherResponse.json();
+        const tempo = weatherData.current;
+
+        if (!tempo) throw new Error("Dados meteorológicos indisponíveis.");
+
+        const descricoes = {
+            0: "☀️ Céu limpo",
+            1: "🌤️ Principalmente limpo",
+            2: "⛅ Parcialmente nublado",
+            3: "☁️ Nublado",
+            45: "🌫️ Nevoeiro",
+            48: "🌫️ Nevoeiro com gelo",
+            51: "🌦️ Chuvisco ligeiro",
+            53: "🌦️ Chuvisco moderado",
+            55: "🌧️ Chuvisco intenso",
+            61: "🌧️ Chuva ligeira",
+            63: "🌧️ Chuva moderada",
+            65: "🌧️ Chuva forte",
+            71: "🌨️ Neve ligeira",
+            73: "🌨️ Neve moderada",
+            75: "❄️ Neve forte",
+            80: "🌦️ Aguaceiros ligeiros",
+            81: "🌧️ Aguaceiros moderados",
+            82: "⛈️ Aguaceiros fortes",
+            95: "⛈️ Trovoada",
+            96: "⛈️ Trovoada com granizo",
+            99: "⛈️ Trovoada com granizo forte"
+        };
+
+        const condicao = descricoes[tempo.weather_code] || "🌦️ Condições variáveis";
+
+        resultado.textContent =
+            `📍 ${local.name}, ${local.country || ""}\n` +
+            `${condicao}\n` +
+            `🌡️ Temperatura: ${tempo.temperature_2m} °C\n` +
+            `💧 Humidade: ${tempo.relative_humidity_2m}%\n` +
+            `🌧️ Precipitação atual: ${tempo.precipitation} mm\n` +
+            `💨 Vento: ${tempo.wind_speed_10m} km/h`;
+
+        resultado.style.whiteSpace = "pre-line";
+
+    } catch (erro) {
+        console.error("Erro na meteorologia:", erro);
+        resultado.textContent =
+            "⚠️ Não foi possível consultar a meteorologia. Tenta novamente.";
+    }
+});
 /* ASSISTENTE — ABRIR CALCULADORA DE COMBUSTÍVEL */
 
 $("assistantFuelBtn").addEventListener("click", () => {
