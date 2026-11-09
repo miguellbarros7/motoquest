@@ -9654,6 +9654,69 @@ $("locationUploadPreview")
     );
 }
 
+/* IDENTIFICAR CONCELHO E DISTRITO PELO GPS */
+
+$("identifyDistrictBtn").addEventListener("click", async () => {
+    const lat = Number($("locationLat").value);
+    const lng = Number($("locationLng").value);
+    const message = $("districtMessage");
+
+    if (
+        $("locationLat").value.trim() === "" ||
+        $("locationLng").value.trim() === "" ||
+        !Number.isFinite(lat) ||
+        !Number.isFinite(lng) ||
+        Math.abs(lat) > 90 ||
+        Math.abs(lng) > 180
+    ) {
+        message.textContent = "⚠️ Primeiro obtém as coordenadas GPS.";
+        return;
+    }
+
+    message.textContent = "⏳ A identificar localização...";
+
+    try {
+        const url = new URL(
+            "https://nominatim.openstreetmap.org/reverse"
+        );
+
+        url.searchParams.set("lat", lat);
+        url.searchParams.set("lon", lng);
+        url.searchParams.set("format", "json");
+        url.searchParams.set("addressdetails", "1");
+        url.searchParams.set("accept-language", "pt");
+
+        const response = await fetch(url.toString());
+
+        if (!response.ok) {
+            throw new Error("Serviço indisponível");
+        }
+
+        const data = await response.json();
+        const address = data.address || {};
+
+        const concelho =
+            address.municipality ||
+            address.county ||
+            address.city ||
+            "Não identificado";
+
+        const distrito =
+            address.state_district ||
+            address.state ||
+            "Não identificado";
+
+        message.textContent =
+            "📍 Concelho: " + concelho +
+            " | Distrito: " + distrito;
+
+    } catch (error) {
+        console.error(error);
+        message.textContent =
+            "⚠️ Não foi possível identificar a localização.";
+    }
+});
+
 
 /* SAVE LOCATION */
 
