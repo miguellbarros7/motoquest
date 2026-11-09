@@ -7678,8 +7678,12 @@ $("weatherSearchBtn").addEventListener("click", async () => {
             new URLSearchParams({
                 latitude: local.latitude,
                 longitude: local.longitude,
-                current: "temperature_2m,relative_humidity_2m,precipitation,weather_code,wind_speed_10m",
-                timezone: "auto"
+               
+current: "temperature_2m,relative_humidity_2m,precipitation,weather_code,wind_speed_10m",
+daily: "weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max,wind_speed_10m_max",
+forecast_days: "5",
+timezone: "auto"
+
             })
         );
 
