@@ -2673,6 +2673,46 @@ Viseu
             💡<strong>Dicas de Condução</strong>
         </div>
 
+<!-- ASSISTENTE — METEOROLOGIA -->
+<div id="assistantWeatherPanel" class="hidden" style="
+    grid-column:1/-1;
+    margin-top:20px;
+    padding:18px;
+    background:#1a1a1a;
+    border:1px solid #ff7900;
+    border-radius:14px;
+">
+
+    <h3 style="color:#ff7900; margin-bottom:8px;">
+        🌦️ Meteorologia da Viagem
+    </h3>
+
+    <p style="color:#aaa; font-size:13px; margin-bottom:18px;">
+        Consulta as condições meteorológicas antes de arrancar.
+    </p>
+
+    <div style="display:flex; flex-direction:column; gap:8px; margin-bottom:16px;">
+        <label for="weatherCity">Localidade</label>
+        <input
+            id="weatherCity"
+            type="text"
+            placeholder="Ex.: Porto, Braga, Guimarães..."
+            style="width:100%; box-sizing:border-box;"
+        >
+    </div>
+
+    <button id="weatherSearchBtn" type="button" class="primary-btn">
+        🌤️ Consultar meteorologia
+    </button>
+
+    <div id="weatherResult" style="
+        margin-top:18px;
+        color:#fff;
+        line-height:1.7;
+    "></div>
+
+</div>
+
 <div id="assistantFuelPanel" class="hidden" style="
     margin-top:20px;
     grid-column:1/-1;
