@@ -8020,6 +8020,50 @@ $("assistantFuelBtn").addEventListener("click", () => {
     $("assistantFuelPanel").classList.toggle("hidden");
 });
 
+
+/* SOS MOTARD — LOCALIZAÇÃO GPS */
+
+$("sosLocationBtn").addEventListener("click", () => {
+    const resultado = $("sosLocationResult");
+
+    if (!navigator.geolocation) {
+        resultado.textContent = "⚠️ Este dispositivo não suporta localização GPS.";
+        return;
+    }
+
+    resultado.textContent = "📍 A obter a tua localização...";
+
+    navigator.geolocation.getCurrentPosition(
+        (posicao) => {
+            const latitude = posicao.coords.latitude;
+            const longitude = posicao.coords.longitude;
+
+            const mapa = `https://www.google.com/maps?q=${latitude},${longitude}`;
+
+            resultado.innerHTML = `
+                <div>✅ Localização obtida!</div>
+                <div>📍 Latitude: ${latitude.toFixed(6)}</div>
+                <div>📍 Longitude: ${longitude.toFixed(6)}</div>
+                <a href="${mapa}" target="_blank" rel="noopener noreferrer"
+                   style="color:#ff8900;font-weight:bold;">
+                    🗺️ Abrir localização no Google Maps
+                </a>
+            `;
+        },
+        (erro) => {
+            resultado.textContent =
+                "⚠️ Não foi possível obter a localização. Verifica as permissões de GPS.";
+            console.warn("SOS GPS:", erro.message);
+        },
+        {
+            enableHighAccuracy: true,
+            timeout: 15000,
+            maximumAge: 0
+        }
+    );
+});
+    
+
     
 /* ASSISTENTE — ABRIR SOS MOTARD */
 
