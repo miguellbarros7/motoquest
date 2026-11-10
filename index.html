@@ -5411,8 +5411,64 @@ try {
     durationLine.textContent =
         `⏱️ Duração estimada: ${hours} h ${String(remainingMinutes).padStart(2, "0")} min`;
 
-    routeInfo.append(distanceLine, durationLine);
 
+routeInfo.append(distanceLine, durationLine);
+
+// CONSUMO E AUTONOMIA DA MOTA
+if (bike) {
+    const consumption = Number(bike.consumption);
+    const tank = Number(bike.tank);
+
+    if (
+        Number.isFinite(consumption) &&
+        Number.isFinite(tank) &&
+        consumption > 0 &&
+        tank > 0
+    ) {
+        const litresNeeded = (km * consumption) / 100;
+        const estimatedRange = (tank / consumption) * 100;
+        const refuelsNeeded = Math.max(
+            0,
+            Math.ceil(litresNeeded / tank) - 1
+        );
+
+        const formatNumber = (value, digits = 1) =>
+            value.toLocaleString("pt-PT", {
+                minimumFractionDigits: digits,
+                maximumFractionDigits: digits
+            });
+
+        const fuelLine = document.createElement("p");
+        fuelLine.textContent =
+            `⛽ Combustível estimado: ${formatNumber(litresNeeded, 2)} L`;
+
+        const rangeLine = document.createElement("p");
+        rangeLine.textContent =
+            `🏍️ Autonomia estimada: ${formatNumber(estimatedRange, 0)} km`;
+
+        const warningLine = document.createElement("p");
+
+        if (km > estimatedRange) {
+            warningLine.textContent =
+                `⚠️ A rota ultrapassa a autonomia de um depósito cheio. ` +
+                `Prevê pelo menos ${refuelsNeeded} abastecimento(s).`;
+            warningLine.style.color = "#ffb347";
+        } else {
+            warningLine.textContent =
+                "✅ A autonomia estimada chega para esta rota, " +
+                "partindo com o depósito cheio.";
+            warningLine.style.color = "#70d99b";
+        }
+
+        routeInfo.append(fuelLine, rangeLine, warningLine);
+    } else {
+        const warning = document.createElement("p");
+        warning.textContent =
+            "⚠️ Confirma o consumo e a capacidade do depósito no Perfil.";
+        routeInfo.appendChild(warning);
+    }
+}
+    
 } catch (err) {
     console.error("Erro no resumo da rota:", err);
     routeInfo.textContent = `⚠️ ${err.message}`;
