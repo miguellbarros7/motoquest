@@ -4517,54 +4517,10 @@ function loadMyBike() {
 
 const bikePhotoCache = new Map();
 
+
 async function getBikePhoto(bike) {
-    if (!bike?.brand || !bike?.model) return null;
-
-    const key = `${bike.brand}|${bike.model}`.toLowerCase();
-
-    if (bikePhotoCache.has(key)) {
-        return bikePhotoCache.get(key);
-    }
-
-    try {
-      
-
-const response = await fetch(
-    `https://router.project-osrm.org/route/v1/driving/${coordinates}` +
-    "?overview=full&geometries=geojson&steps=false"
-);
-
-
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    apikey: SUPABASE_KEY
-                },
-                body: JSON.stringify({
-                    brand: bike.brand,
-                    model: bike.model
-                })
-            }
-        );
-
-        if (!response.ok) throw new Error("Pesquisa indisponível");
-
-        const data = await response.json();
-
-        if (!data.imageUrl ||
-            !data.imageUrl.startsWith("https://images.pexels.com/")) {
-            throw new Error("Imagem inválida");
-        }
-
-        bikePhotoCache.set(key, data);
-        return data;
-
-    } catch (error) {
-        console.warn("Imagem da mota:", error);
-        return null;
-    }
+    return null;
 }
-
 
 
 function showMyBikePhoto(bike) {
