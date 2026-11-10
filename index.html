@@ -8591,9 +8591,16 @@ if (location.image_url) {
 const stampLabel = document.createElement("span");
 stampLabel.textContent = (visited ? "🏅 " : "🔒 ") + location.name;
 stampLabel.style.cssText =
-    "font-size:11px;" +
-    "line-height:1.2;" +
-    "overflow-wrap:anywhere;";
+    "font-size:10px;" +
+    "line-height:1.1;" +
+    "font-weight:700;" +
+    "max-width:90%;" +
+    "text-align:center;" +
+    "overflow-wrap:break-word;" +
+    "display:-webkit-box;" +
+    "-webkit-line-clamp:3;" +
+    "-webkit-box-orient:vertical;" +
+    "overflow:hidden;";
 
 item.appendChild(stampLabel);
 list.appendChild(item);
