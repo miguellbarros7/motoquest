@@ -2152,6 +2152,27 @@ data-go="routes"
     </button>
 
 
+<!-- RESUMO DA ROTA BLACK EDITION -->
+<div id="routeSummaryPanel"
+     style="margin-top:22px;padding:20px;background:#151515;
+            border:1px solid #ff7900;border-radius:18px;">
+
+    <h3 style="color:#ff7900;margin:0 0 16px;">
+        🏍️ Resumo da Rota
+    </h3>
+
+    <div id="routeSummaryBike"
+         style="background:#222;border-radius:12px;
+                padding:15px;line-height:1.8;">
+        A carregar dados da mota...
+    </div>
+
+    <div style="margin-top:16px;color:#aaa;font-size:13px;">
+        📍 Distância, consumo e custo da viagem serão
+        apresentados aqui quando ligarmos o cálculo da rota.
+    </div>
+</div>
+
 
 </div>
 
@@ -4416,6 +4437,34 @@ function myBikeStorageKey() {
     return userId ? `motoquest_my_bike_${userId}` : null;
 }
 
+function updateRouteSummaryBike() {
+    const panel = document.getElementById("routeSummaryBike");
+    if (!panel) return;
+
+    const bike = loadMyBike();
+
+    if (!bike) {
+        panel.textContent =
+            "🏍️ Ainda não registaste a tua mota no Perfil.";
+        return;
+    }
+
+    const fuelName = bike.fuelType === "gasolina98"
+        ? "Gasolina 98"
+        : "Gasolina 95";
+
+    panel.replaceChildren();
+
+    const title = document.createElement("strong");
+    title.textContent = `🏍️ ${bike.brand} ${bike.model}`;
+
+    const details = document.createElement("div");
+    details.textContent =
+        `⛽ ${fuelName} · ${bike.consumption} L/100 km · ` +
+        `Depósito: ${bike.tank} L`;
+
+    panel.append(title, details);
+}
 function loadMyBike() {
     const key = myBikeStorageKey();
     if (!key) return null;
