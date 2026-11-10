@@ -4527,10 +4527,12 @@ async function getBikePhoto(bike) {
 
     try {
       
+
 const response = await fetch(
     `https://router.project-osrm.org/route/v1/driving/${coordinates}` +
     "?overview=full&geometries=geojson&steps=false"
 );
+
 
                 method: "POST",
                 headers: {
