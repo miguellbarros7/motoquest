@@ -5293,8 +5293,14 @@ const summaryBtn = document.createElement("button");
 summaryBtn.type = "button";
 summaryBtn.className = "primary-btn";
 summaryBtn.textContent = "📊 RESUMO DA ROTA";
+
 summaryBtn.style.cssText =
-    "width:100%;margin-top:14px;background:#ff7900;color:#111;";
+    "width:auto;margin:0;padding:8px 11px;" +
+    "background:#ff7900;color:#111;border:none;" +
+    "border-radius:8px;font-size:10px;font-weight:800;" +
+    "letter-spacing:.3px;white-space:nowrap;" +
+    "cursor:pointer;flex-shrink:0;";
+
 
 const summaryPanel = document.createElement("div");
 summaryPanel.className = "hidden mq-trip-summary";
@@ -5404,6 +5410,45 @@ if (!document.getElementById("mq-trip-design")) {
                 font-size:16px !important;
             }
         }
+        
+.mq-trip-summary h3 {
+    font-size:17px !important;
+    letter-spacing:1px;
+}
+
+.mq-trip-summary .mq-bike-info {
+    font-size:12px;
+    padding:10px 12px;
+}
+
+.mq-trip-summary .mq-trip-stats > p {
+    font-size:12px;
+    padding:12px 10px;
+}
+
+.mq-trip-summary .mq-trip-stats > .mq-trip-cost {
+    font-size:15px !important;
+}
+
+.mq-trip-summary .mq-trip-stats > .mq-trip-warning {
+    font-size:12px;
+}
+
+@media (max-width:600px) {
+    .mq-trip-summary {
+        padding:12px !important;
+    }
+
+    .mq-trip-summary .mq-trip-stats {
+        gap:8px;
+    }
+
+    .mq-trip-summary .mq-trip-stats > p {
+        font-size:11px;
+        padding:10px 8px;
+    }
+}
+
     `;
     document.head.appendChild(style);
 }
@@ -5675,7 +5720,9 @@ try {
 
 };
 
-card.append(actionsRow, description, summaryBtn, summaryPanel);
+
+actionsRow.insertBefore(summaryBtn, editBtn);
+card.append(actionsRow, description, summaryPanel);
 
         container.appendChild(card);
 
