@@ -8394,8 +8394,8 @@ list.textContent = "⏳ A carregar locais...";
 const { data: districtLocations, error } =
     await supabaseClient
         .from("locations")
-        .select("id, name, district")
-        .eq("district", districtName)
+.select("id, name, district, image_url")
+    .eq("district", districtName)
         .order("name");
 
 if (error) {
