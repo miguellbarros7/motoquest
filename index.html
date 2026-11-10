@@ -5721,8 +5721,12 @@ try {
 };
 
 
-actionsRow.insertBefore(summaryBtn, editBtn);
+title.insertBefore(summaryBtn, arrow);
+
+actionsRow.append(title, editBtn, deleteBtn);
+
 card.append(actionsRow, description, summaryPanel);
+
 
         container.appendChild(card);
 
