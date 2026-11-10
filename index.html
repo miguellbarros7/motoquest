@@ -2466,11 +2466,11 @@ Viseu
 ">
 
     <div style="
-        display:flex;
-        flex-wrap:wrap;
-        gap:15px;
-        align-items:flex-start;
-        justify-content:center;
+       display:flex;
+flex-direction:column;
+gap:15px;
+align-items:stretch;
+justify-content:center;
     ">
 
         <div style="
@@ -8406,7 +8406,7 @@ if (error) {
 } else {
     list.replaceChildren();
 list.style.display = "grid";
-list.style.gridTemplateColumns = "repeat(4, minmax(75px, 1fr))";
+list.style.gridTemplateColumns = "repeat(4, minmax(0, 1fr))";
     list.style.gap = "12px";
 list.style.alignItems = "start";
     list.style.background = "#151515";
