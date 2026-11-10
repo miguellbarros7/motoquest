@@ -5802,77 +5802,82 @@ summaryBtn.onclick = async () => {
 bikeInfo.className = "mq-bike-info";
     summaryPanel.appendChild(bikeInfo);
 
-/* LOGÓTIPO DA MARCA NO RESUMO DA ROTA */
-if (bike?.brand) {
-    const logoBox = document.createElement("div");
 
-    logoBox.style.cssText = `
+/* MOTA COMPACTA NO RESUMO DA ROTA */
+if (bike?.brand) {
+    const bikeCard = document.createElement("div");
+
+    bikeCard.style.cssText = `
         display:flex;
         align-items:center;
-        justify-content:center;
-        min-height:95px;
+        gap:14px;
         margin:12px 0;
-        padding:16px;
-        background:#101010;
-        border:1px solid #444;
+        padding:14px;
+        background:#141414;
+        border:1px solid #ff7900;
         border-radius:12px;
     `;
 
-    const brandLogos = {
-        honda: "honda",
-        yamaha: "yamaha",
-        bmw: "bmw",
-        suzuki: "suzuki",
-        kawasaki: "kawasaki",
-        ducati: "ducati",
-        ktm: "ktm",
-        triumph: "triumph",
-        aprilia: "aprilia",
-        "harley-davidson": "harleydavidson",
-        "harley davidson": "harleydavidson",
-        husqvarna: "husqvarna",
-        "royal enfield": "royalenfield"
-    };
+    const symbol = document.createElement("div");
+    symbol.textContent = "🏍️";
+    symbol.style.cssText = `
+        width:56px;
+        height:56px;
+        flex-shrink:0;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        background:#242424;
+        border-radius:10px;
+        font-size:28px;
+    `;
 
-    const brand = bike.brand.trim().toLowerCase();
-    const logoName = brandLogos[brand];
+    const info = document.createElement("div");
+    info.style.cssText = "flex:1;min-width:0;";
 
-    const fallback = () => {
-        logoBox.replaceChildren();
+    const label = document.createElement("div");
+    label.textContent = "A MINHA MOTA";
+    label.style.cssText = `
+        color:#ff7900;
+        font-size:10px;
+        font-weight:800;
+        letter-spacing:1px;
+        margin-bottom:5px;
+    `;
 
-        const label = document.createElement("strong");
-        label.textContent = "🏍️ " + bike.brand;
-        label.style.cssText =
-            "color:#fff;font-size:18px;text-align:center;";
+    const name = document.createElement("div");
+    name.textContent = [bike.brand, bike.model]
+        .filter(Boolean).join(" ");
+    name.style.cssText = `
+        color:#fff;
+        font-size:17px;
+        font-weight:800;
+        overflow-wrap:anywhere;
+    `;
 
-        logoBox.appendChild(label);
-    };
+    const details = document.createElement("div");
+    const fuel = bike.fuelType === "gasolina98"
+        ? "Gasolina 98"
+        : "Gasolina 95";
 
-    if (logoName) {
-        const logoImg = document.createElement("img");
+    details.textContent = [
+        bike.consumption ? bike.consumption + " L/100 km" : "",
+        bike.tank ? "Depósito: " + bike.tank + " L" : "",
+        fuel
+    ].filter(Boolean).join(" · ");
 
-        logoImg.alt = "Símbolo " + bike.brand;
-        logoImg.style.cssText = `
-            display:block;
-            width:100%;
-            max-width:180px;
-            height:65px;
-            object-fit:contain;
-        `;
+    details.style.cssText = `
+        color:#aaa;
+        font-size:11px;
+        margin-top:5px;
+        line-height:1.5;
+    `;
 
-        logoImg.onerror = fallback;
-
-        logoImg.src =
-            "https://cdn.simpleicons.org/" +
-            logoName + "/FFFFFF";
-
-        logoBox.appendChild(logoImg);
-    } else {
-        fallback();
-    }
-
-    summaryPanel.appendChild(logoBox);
+    info.append(label, name, details);
+    bikeCard.append(symbol, info);
+    summaryPanel.appendChild(bikeCard);
 }
+
     
     const routeInfo = document.createElement("div");
     routeInfo.style.color = "#aaa";
