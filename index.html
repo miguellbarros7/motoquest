@@ -5568,6 +5568,60 @@ if (!document.getElementById("mq-adventure-design")) {
                 font-size:12px !important;
             }
         }
+
+
+.mq-trip-summary .mq-trip-stats > p:not(.mq-trip-warning) {
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:6px;
+    min-height:105px;
+}
+
+.mq-trip-summary .mq-stat-icon {
+    display:block;
+    font-size:22px;
+    line-height:1;
+}
+
+.mq-trip-summary .mq-stat-label {
+    display:block;
+    color:#bbb;
+    font-size:10px;
+    font-weight:700;
+    letter-spacing:.6px;
+}
+
+.mq-trip-summary .mq-stat-value {
+    display:block;
+    color:#fff;
+    font-size:clamp(14px,1.5vw,20px);
+    font-weight:900;
+    line-height:1.25;
+    white-space:normal;
+    text-align:center;
+}
+
+.mq-trip-summary .mq-trip-cost .mq-stat-value {
+    color:#ff941c;
+}
+
+@media(max-width:520px) {
+    .mq-trip-summary .mq-trip-stats > p:not(.mq-trip-warning) {
+        min-height:90px;
+    }
+
+    .mq-trip-summary .mq-stat-icon {
+        font-size:19px;
+    }
+
+    .mq-trip-summary .mq-stat-value {
+        font-size:15px;
+    }
+}
+
+        
     `;
 
     document.head.appendChild(adventureStyle);
@@ -5687,6 +5741,38 @@ try {
         `⏱️ Duração estimada: ${hours} h ${String(remainingMinutes).padStart(2, "0")} min`;
 
 
+const makeAdventureTile = (element, icon, label, value) => {
+    element.replaceChildren();
+
+    const symbol = document.createElement("span");
+    symbol.className = "mq-stat-icon";
+    symbol.textContent = icon;
+
+    const caption = document.createElement("span");
+    caption.className = "mq-stat-label";
+    caption.textContent = label;
+
+    const number = document.createElement("strong");
+    number.className = "mq-stat-value";
+    number.textContent = value;
+
+    element.append(symbol, caption, number);
+};
+
+makeAdventureTile(
+    distanceLine, "🛣️", "DISTÂNCIA",
+    `${km.toLocaleString("pt-PT", {
+        minimumFractionDigits: 1,
+        maximumFractionDigits: 1
+    })} km`
+);
+
+makeAdventureTile(
+    durationLine, "⏱️", "DURAÇÃO",
+    `${hours} h ${String(remainingMinutes).padStart(2, "0")} min`
+);
+
+    
 routeInfo.append(distanceLine, durationLine);
 
 // CONSUMO E AUTONOMIA DA MOTA
@@ -5741,9 +5827,19 @@ warningLine.className = "mq-trip-warning";
 if (km > estimatedRange) {
     warningLine.classList.add("mq-alert");
 }
-        
-        routeInfo.append(fuelLine, rangeLine, warningLine);
 
+
+makeAdventureTile(
+    fuelLine, "⛽", "CONSUMO",
+    `${formatNumber(litresNeeded, 2)} L`
+);
+
+makeAdventureTile(
+    rangeLine, "🏍️", "AUTONOMIA",
+    `${formatNumber(estimatedRange, 0)} km`
+);
+        
+        routeInfo.append(fuelLine, rangeLine);
 
 /* PREÇO AUTOMÁTICO DO COMBUSTÍVEL */
 
@@ -5759,8 +5855,7 @@ priceSource.style.cssText =
 
         costLine.className = "mq-trip-cost";
 
-routeInfo.append(costLine, priceSource);
-
+routeInfo.append(costLine, warningLine, priceSource);
 try {
     const fuel = bike.fuelType === "gasolina98" ? "98" : "95";
 
@@ -5792,8 +5887,12 @@ try {
 
     const totalCost = litresNeeded * price;
 
-    costLine.textContent =
-        `💶 Custo estimado: ${euro(totalCost)}`;
+
+makeAdventureTile(
+    costLine, "💶", "CUSTO ESTIMADO",
+    euro(totalCost)
+);
+
 
     const consultedAt = data.consultedAt
         ? new Date(data.consultedAt)
