@@ -3145,6 +3145,37 @@ transform:translateX(38px);
 
 <div id="myBikeInline" class="edit-name-inline hidden">
 
+    
+<div id="myBikePhotoBox" style="
+    display:none;
+    margin-bottom:18px;
+    overflow:hidden;
+    border:1px solid #ff7900;
+    border-radius:14px;
+    background:#141414;
+">
+    <img
+        id="myBikePhoto"
+        alt="Fotografia ilustrativa de uma mota"
+        style="
+            display:block;
+            width:100%;
+            height:190px;
+            object-fit:cover;
+        "
+    >
+
+    <div style="
+        padding:9px 12px;
+        font-size:11px;
+        color:#aaa;
+    ">
+        🏍️ Imagem ilustrativa
+        <span id="myBikePhotoCredit"></span>
+    </div>
+</div>
+
+
     <div class="field">
         <label for="bikeBrand">🏍️ Marca</label>
         <input id="bikeBrand" type="text"
@@ -4458,6 +4489,85 @@ function loadMyBike() {
     }
 }
 
+
+const bikePhotoCache = new Map();
+
+async function getBikePhoto(bike) {
+    if (!bike?.brand || !bike?.model) return null;
+
+    const key = `${bike.brand}|${bike.model}`.toLowerCase();
+
+    if (bikePhotoCache.has(key)) {
+        return bikePhotoCache.get(key);
+    }
+
+    try {
+        const response = await fetch(
+            SUPABASE_URL + "/functions/v1/bike-photo",
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    apikey: SUPABASE_KEY
+                },
+                body: JSON.stringify({
+                    brand: bike.brand,
+                    model: bike.model
+                })
+            }
+        );
+
+        if (!response.ok) throw new Error("Pesquisa indisponível");
+
+        const data = await response.json();
+
+        if (!data.imageUrl ||
+            !data.imageUrl.startsWith("https://images.pexels.com/")) {
+            throw new Error("Imagem inválida");
+        }
+
+        bikePhotoCache.set(key, data);
+        return data;
+
+    } catch (error) {
+        console.warn("Imagem da mota:", error);
+        return null;
+    }
+}
+
+async function showMyBikePhoto(bike) {
+    const box = document.getElementById("myBikePhotoBox");
+    const img = document.getElementById("myBikePhoto");
+    const credit = document.getElementById("myBikePhotoCredit");
+
+    if (!box || !img || !credit) return;
+
+    box.style.display = "none";
+    img.removeAttribute("src");
+    credit.textContent = "";
+
+    if (!bike?.brand || !bike?.model) return;
+
+    const photo = await getBikePhoto(bike);
+
+    if (!photo) return;
+
+    img.onload = () => {
+        box.style.display = "block";
+    };
+
+    img.onerror = () => {
+        box.style.display = "none";
+    };
+
+    img.src = photo.imageUrl;
+
+    if (photo.photographer) {
+        credit.textContent = " · Foto: " + photo.photographer;
+    }
+}
+
+
 function fillMyBikeForm() {
     const bike = loadMyBike() || {};
 
@@ -4470,6 +4580,7 @@ function fillMyBikeForm() {
         bike.fuelType === "gasolina98" ? "gasolina98" : "gasolina95";
 
     document.getElementById("myBikeMessage").textContent = "";
+showMyBikePhoto(bike);    
 }
 
 document.addEventListener("click", event => {
@@ -4533,6 +4644,7 @@ document.addEventListener("click", event => {
         try {
             localStorage.setItem(key, JSON.stringify(bike));
             message.textContent = "✅ Mota guardada com sucesso!";
+            showMyBikePhoto(bike);
             
 updateRouteSummaryBike();
 
