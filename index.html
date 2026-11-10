@@ -6142,7 +6142,7 @@ plannerNote.style.cssText = `
 `;
 
 fuelPlanner.appendChild(plannerNote);
-routeInfo.appendChild(fuelPlanner);
+
 
 
         const formatNumber = (value, digits = 1) =>
@@ -6207,8 +6207,12 @@ priceSource.style.cssText =
 
         costLine.className = "mq-trip-cost";
 
-routeInfo.append(costLine, warningLine, priceSource);
-try {
+routeInfo.append(
+    costLine,
+    warningLine,
+    priceSource,
+    fuelPlanner
+);try {
     const fuel = bike.fuelType === "gasolina98" ? "98" : "95";
 
     const response = await fetch(
