@@ -7689,12 +7689,33 @@ $("confirmRewardBtn").addEventListener("click", async () => {
     }
 });
     
-    /* HISTÓRICO - VISITAS / RECOMPENSAS */
+    
+/* ASSISTENTE — MOSTRAR APENAS UM PAINEL */
+
+function abrirPainelAssistente(painelSelecionado) {
+    const paineis = [
+        "assistantWeatherPanel",
+        "assistantFuelPanel",
+        "assistantSOSPanel"
+    ];
+
+    const painel = document.getElementById(painelSelecionado);
+    const estavaAberto = !painel.classList.contains("hidden");
+
+    paineis.forEach(id => {
+        document.getElementById(id).classList.add("hidden");
+    });
+
+    if (!estavaAberto) {
+        painel.classList.remove("hidden");
+    }
+}
+
 
 /* ASSISTENTE — ABRIR METEOROLOGIA */
 
 $("assistantWeatherBtn").addEventListener("click", () => {
-    $("assistantWeatherPanel").classList.toggle("hidden");
+abrirPainelAssistente("assistantWeatherPanel");
 });
 
 /* ASSISTENTE — CONSULTAR METEOROLOGIA */
@@ -8009,7 +8030,7 @@ resultado.appendChild(painelAlertas);
 /* ASSISTENTE — ABRIR CALCULADORA DE COMBUSTÍVEL */
 
 $("assistantFuelBtn").addEventListener("click", () => {
-    $("assistantFuelPanel").classList.toggle("hidden");
+abrirPainelAssistente("assistantFuelPanel");
 });
 
 
@@ -8087,7 +8108,7 @@ resultado.innerHTML = "";
 /* ASSISTENTE — ABRIR SOS MOTARD */
 
 $("assistantSOSBtn").addEventListener("click", () => {
-    $("assistantSOSPanel").classList.toggle("hidden");
+abrirPainelAssistente("assistantSOSPanel");
 });
 
 
