@@ -2152,26 +2152,7 @@ data-go="routes"
     </button>
 
 
-<!-- RESUMO DA ROTA BLACK EDITION -->
-<div id="routeSummaryPanel"
-     style="margin-top:22px;padding:20px;background:#151515;
-            border:1px solid #ff7900;border-radius:18px;">
 
-    <h3 style="color:#ff7900;margin:0 0 16px;">
-        🏍️ Resumo da Rota
-    </h3>
-
-    <div id="routeSummaryBike"
-         style="background:#222;border-radius:12px;
-                padding:15px;line-height:1.8;">
-        A carregar dados da mota...
-    </div>
-
-    <div style="margin-top:16px;color:#aaa;font-size:13px;">
-        📍 Distância, consumo e custo da viagem serão
-        apresentados aqui quando ligarmos o cálculo da rota.
-    </div>
-</div>
 
 
 </div>
@@ -5301,8 +5282,67 @@ deleteBtn.style.margin = "0";
 deleteBtn.style.flexShrink = "0";
 
 actionsRow.append(title, editBtn, deleteBtn);
-card.append(actionsRow, description);
-container.appendChild(card);
+
+/* RESUMO DA ROTA GUARDADA */
+
+const summaryBtn = document.createElement("button");
+summaryBtn.type = "button";
+summaryBtn.className = "primary-btn";
+summaryBtn.textContent = "📊 Resumo da Rota";
+summaryBtn.style.cssText =
+    "width:100%;margin-top:14px;background:#ff7900;color:#111;";
+
+const summaryPanel = document.createElement("div");
+summaryPanel.className = "hidden";
+summaryPanel.style.cssText =
+    "margin-top:12px;padding:18px;background:#111;" +
+    "border:1px solid #ff7900;border-radius:14px;";
+
+summaryBtn.onclick = () => {
+    const isHidden = summaryPanel.classList.contains("hidden");
+
+    summaryPanel.classList.toggle("hidden");
+
+    if (!isHidden) return;
+
+    const bike = loadMyBike();
+    summaryPanel.replaceChildren();
+
+    const heading = document.createElement("h3");
+    heading.textContent = "🏍️ Resumo da Rota";
+    heading.style.color = "#ff7900";
+    summaryPanel.appendChild(heading);
+
+    const bikeInfo = document.createElement("p");
+
+    if (bike) {
+        const fuel = bike.fuelType === "gasolina98"
+            ? "Gasolina 98"
+            : "Gasolina 95";
+
+        bikeInfo.textContent =
+            `🏍️ ${bike.brand} ${bike.model} | ` +
+            `⛽ ${fuel} | ${bike.consumption} L/100 km | ` +
+            `Depósito: ${bike.tank} L`;
+    } else {
+        bikeInfo.textContent =
+            "Regista a tua mota no Perfil para veres os cálculos.";
+    }
+
+    summaryPanel.appendChild(bikeInfo);
+
+    const routeInfo = document.createElement("p");
+    routeInfo.style.color = "#aaa";
+    routeInfo.textContent =
+        "📍 Distância, duração, consumo e custo: " +
+        "a aguardar ligação ao cálculo do percurso.";
+
+    summaryPanel.appendChild(routeInfo);
+};
+
+card.append(actionsRow, description, summaryBtn, summaryPanel);
+
+        container.appendChild(card);
 
     });
 }
