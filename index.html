@@ -2645,68 +2645,99 @@ max-width:100%;
 
 </div>
 
+
 <div id="assistantFuelPanel" class="hidden" style="
     margin-top:20px;
     grid-column:1/-1;
-    padding:18px;
-    background:#1a1a1a;
-    border:1px solid #ff7900;
-    border-radius:14px;
-">
-
-<h3 style="
-    color:#ff7900;
-    font-size:24px;
-    font-weight:900;
-    margin:0 0 8px;
-">
-    ⛽ Calculadora de Combustível
-</h3>
-
-<p style="
-    color:#aaa;
-    font-size:13px;
-    margin:0 0 22px;
-">
-    🏍️ Planeia a tua viagem e descobre quanto vais gastar.
-</p>
-
-
-    <div style="display:flex; flex-direction:column; gap:7px;">
-        <label for="fuelDistance">Distância da viagem (km)</label>
-        <input id="fuelDistance" type="number" min="0" placeholder="Ex.: 250"
-               style="width:100%; box-sizing:border-box;">
-    </div>
-
-    <div style="display:flex; flex-direction:column; gap:7px;">
-        <label for="fuelConsumption">Consumo da mota (L/100 km)</label>
-        <input id="fuelConsumption" type="number" min="0" step="0.1" placeholder="Ex.: 4.5"
-               style="width:100%; box-sizing:border-box;">
-    </div>
-
-    <div style="display:flex; flex-direction:column; gap:7px;">
-        <label for="fuelPrice">Preço do combustível (€/L)</label>
-        <input id="fuelPrice" type="number" min="0" step="0.01" placeholder="Ex.: 1.75"
-               style="width:100%; box-sizing:border-box;">
-      </div>
-
-    <button id="fuelCalculateBtn" type="button" class="primary-btn">
-        Calcular custo
-    </button>
-
-  <div id="fuelResult" style="
-    margin-top:20px;
     padding:22px;
-    background:linear-gradient(145deg,#30200f,#111);
+    background:linear-gradient(145deg,#1c1c1c,#090909);
     border:1px solid #ff7900;
-    border-radius:16px;
-    color:#ff7900;
-    font-size:22px;
-    font-weight:900;
-    text-align:center;
-    box-shadow:0 0 20px rgba(255,121,0,0.12);
-"></div>
+    border-radius:18px;
+    box-shadow:0 10px 30px rgba(0,0,0,.3);
+    color:#fff;
+">
+    <h3 style="color:#ff7900;font-size:24px;font-weight:900;margin:0 0 8px;">
+        ⛽ Calculadora de Combustível
+    </h3>
+    <p style="color:#aaa;font-size:13px;margin:0 0 22px;">
+        🏍️ Planeia a tua viagem e descobre quanto vais gastar.
+    </p>
+
+    <div style="
+        display:grid;
+        grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));
+        gap:22px;
+        align-items:start;
+    ">
+        <div style="display:flex;flex-direction:column;gap:12px;">
+            <label for="fuelDistance">Distância da viagem (km)</label>
+            <input id="fuelDistance" type="number" min="0" placeholder="Ex.: 250"
+                style="width:100%;box-sizing:border-box;background:#101010;
+                color:#fff;border:1px solid #666;border-radius:12px;
+                padding:14px;font-size:16px;">
+
+            <label for="fuelConsumption">Consumo da mota (L/100 km)</label>
+            <input id="fuelConsumption" type="number" min="0" step="0.1"
+                placeholder="Ex.: 4.5"
+                style="width:100%;box-sizing:border-box;background:#101010;
+                color:#fff;border:1px solid #666;border-radius:12px;
+                padding:14px;font-size:16px;">
+
+            <label for="fuelPrice">Preço do combustível (€/L)</label>
+            <input id="fuelPrice" type="number" min="0" step="0.01"
+                placeholder="Ex.: 1.75"
+                style="width:100%;box-sizing:border-box;background:#101010;
+                color:#fff;border:1px solid #666;border-radius:12px;
+                padding:14px;font-size:16px;">
+
+            <button id="fuelCalculateBtn" type="button" class="primary-btn"
+                style="padding:16px;border-radius:12px;font-size:16px;font-weight:800;">
+                ⛽ Calcular custo
+            </button>
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:15px;">
+            <div style="
+                background:#151515;border:1px solid #666;
+                border-radius:16px;padding:24px;text-align:center;">
+                <div style="font-size:15px;color:#ddd;">
+                    💧 Combustível necessário
+                </div>
+                <div id="fuelLitersResult" style="
+                    color:#ff7900;font-size:36px;font-weight:900;margin-top:10px;">
+                    -- L
+                </div>
+            </div>
+
+            <div style="
+                background:linear-gradient(145deg,#39220f,#111);
+                border:1px solid #ff7900;border-radius:16px;
+                padding:24px;text-align:center;
+                box-shadow:0 0 18px rgba(255,121,0,.15);">
+                <div style="font-size:15px;color:#ddd;">
+                    💶 Custo estimado da viagem
+                </div>
+                <div id="fuelCostResult" style="
+                    color:#ff7900;font-size:36px;font-weight:900;margin-top:10px;">
+                    -- €
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="fuelResult" role="status" style="
+        margin-top:20px;padding:22px;
+        background:linear-gradient(145deg,#30200f,#111);
+        border:1px solid #ff7900;border-radius:16px;
+        color:#ff7900;font-size:22px;font-weight:900;
+        text-align:center;
+        box-shadow:0 0 20px rgba(255,121,0,.12);
+    ">
+        ⛽ -- L | 💶 -- €
+    </div>
 </div>
+
+<!-- ASSISTENTE — SOS MOTARD -->
 
 <!-- ASSISTENTE — SOS MOTARD -->
 <div id="assistantSOSPanel" class="hidden" style="
