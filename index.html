@@ -8559,10 +8559,38 @@ stampModal.addEventListener("click", (event) => {
     item.style.opacity = "0.65";
 }
 
-item.textContent = visited
-    ? "🏅 " + location.name + " · Conquistado"
-    : "🔒 " + location.name + " · Por conquistar";
-        list.appendChild(item);
+item.textContent = "";
+
+if (location.image_url) {
+    const photo = document.createElement("img");
+    photo.src = location.image_url;
+    photo.alt = location.name;
+
+    photo.style.cssText =
+        "width:55px;" +
+        "height:55px;" +
+        "border-radius:50%;" +
+        "object-fit:cover;" +
+        "border:2px solid currentColor;" +
+        "margin-bottom:6px;" +
+        "flex-shrink:0;";
+
+    if (!visited) {
+        photo.style.filter = "grayscale(1)";
+    }
+
+    item.appendChild(photo);
+}
+
+const stampLabel = document.createElement("span");
+stampLabel.textContent = (visited ? "🏅 " : "🔒 ") + location.name;
+stampLabel.style.cssText =
+    "font-size:11px;" +
+    "line-height:1.2;" +
+    "overflow-wrap:anywhere;";
+
+item.appendChild(stampLabel);
+list.appendChild(item);
     });
 }
 });
