@@ -5462,6 +5462,7 @@ if (bike) {
 
         routeInfo.append(fuelLine, rangeLine, warningLine);
 
+
 /* PREÇO AUTOMÁTICO DO COMBUSTÍVEL */
 
 const costLine = document.createElement("p");
@@ -5476,84 +5477,27 @@ priceSource.style.cssText =
 routeInfo.append(costLine, priceSource);
 
 try {
-    // Consultar o catálogo de combustíveis
-    const catalogResponse = await fetch(
-        "https://poupalitro.com/api/lookups?scope=fuels"
+    const fuel = bike.fuelType === "gasolina98" ? "98" : "95";
+
+    const response = await fetch(
+        "https://gqimkzovrabptxqheedq.supabase.co/functions/v1/fuel-prices" +
+        "?fuel=" + fuel
     );
 
-    if (!catalogResponse.ok) {
-        throw new Error("Catálogo indisponível");
+    if (!response.ok) {
+        throw new Error("Serviço de preços indisponível");
     }
 
-    const catalog = await catalogResponse.json();
+    const data = await response.json();
+    const price = Number(data.price);
 
-    // A estrutura pode variar; aceitar as formas comuns
-    const fuels = Array.isArray(catalog)
-        ? catalog
-        : Array.isArray(catalog.fuels)
-            ? catalog.fuels
-            : Array.isArray(catalog.data?.fuels)
-                ? catalog.data.fuels
-                : [];
-
-    const is98 = bike.fuelType === "gasolina98";
-
-    const selectedFuel = fuels.find(item => {
-        const name = String(
-            item.name ?? item.nome ?? item.label ?? ""
-        ).toLowerCase();
-
-        return is98
-            ? name.includes("gasolina") &&
-              name.includes("98") &&
-              !name.includes("especial")
-            : name.includes("gasolina") &&
-              name.includes("95") &&
-              (name.includes("simples") ||
-               name.trim() === "gasolina 95");
-    });
-
-    const fuelId = selectedFuel?.id ??
-        selectedFuel?.fuelId ??
-        (is98 ? null : 3201);
-
-    if (!fuelId) {
-        throw new Error("Combustível não encontrado");
+    if (
+        data.fuel !== fuel ||
+        !Number.isFinite(price) ||
+        price <= 0
+    ) {
+        throw new Error("Preço inválido");
     }
-
-    // Pedir apenas a média do combustível escolhido
-    const statsResponse = await fetch(
-        "https://poupalitro.com/api/lookups?statsFor=" +
-        encodeURIComponent(fuelId)
-    );
-
-    if (!statsResponse.ok) {
-        throw new Error("Preços indisponíveis");
-    }
-
-    const statsData = await statsResponse.json();
-
-    const statsFuels = Array.isArray(statsData.fuels)
-        ? statsData.fuels
-        : Array.isArray(statsData.data?.fuels)
-            ? statsData.data.fuels
-            : [];
-
-    const statsFuel = statsFuels.find(item =>
-        String(item.id ?? item.fuelId) === String(fuelId)
-    );
-
-    const price = Number(
-        statsFuel?.stats?.average ??
-        statsFuel?.average ??
-        statsFuel?.averagePrice
-    );
-
-    if (!Number.isFinite(price) || price <= 0) {
-        throw new Error("Média não disponível");
-    }
-
-    const totalCost = litresNeeded * price;
 
     const euro = value =>
         value.toLocaleString("pt-PT", {
@@ -5561,16 +5505,37 @@ try {
             currency: "EUR"
         });
 
+    const totalCost = litresNeeded * price;
+
     costLine.textContent =
         `💶 Custo estimado: ${euro(totalCost)}`;
 
+    const consultedAt = data.consultedAt
+        ? new Date(data.consultedAt)
+        : null;
+
+    const dateText =
+        consultedAt && !Number.isNaN(consultedAt.getTime())
+            ? consultedAt.toLocaleString("pt-PT")
+            : "Data não disponível";
+
     priceSource.textContent =
-        `${is98 ? "Gasolina 98" : "Gasolina 95"}: ` +
-        `${euro(price)}/L · Média nacional · ` +
-        `Dados DGEG via PoupaLitro · ` +
-        `Consultado em ${new Date().toLocaleDateString("pt-PT")}`;
+        `Gasolina ${fuel}: ${euro(price)}/L · ` +
+        `Média dos postos consultados · ` +
+        `Fonte: PoupaLitro (dados DGEG) · ` +
+        `Consulta: ${dateText}`;
 
 } catch (error) {
+    console.warn("Preço da gasolina:", error);
+
+    costLine.textContent =
+        "💶 Custo: preço temporariamente indisponível";
+
+    priceSource.textContent =
+        "Não foi possível consultar o preço. " +
+        "Os restantes cálculos continuam disponíveis.";
+}
+
     console.warn("Preço da gasolina:", error);
 
     costLine.textContent =
