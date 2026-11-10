@@ -3141,6 +3141,54 @@ transform:translateX(38px);
     <span>›</span>
 </button>
 
+<div id="myBikeInline" class="edit-name-inline hidden">
+
+    <div class="field">
+        <label for="bikeBrand">🏍️ Marca</label>
+        <input id="bikeBrand" type="text"
+               maxlength="60" placeholder="Ex.: Honda">
+    </div>
+
+    <div class="field">
+        <label for="bikeModel">🔧 Modelo</label>
+        <input id="bikeModel" type="text"
+               maxlength="60" placeholder="Ex.: CB500X">
+    </div>
+
+    <div class="field">
+        <label for="bikeConsumption">⛽ Consumo médio (L/100 km)</label>
+        <input id="bikeConsumption" type="number"
+               min="0.1" step="0.1" placeholder="Ex.: 3.7">
+    </div>
+
+    <div class="field">
+        <label for="bikeTank">🛢️ Capacidade do depósito (litros)</label>
+        <input id="bikeTank" type="number"
+               min="0.1" step="0.1" placeholder="Ex.: 17.5">
+    </div>
+
+    <div class="field">
+        <label for="bikeFuelType">⛽ Combustível</label>
+        <select id="bikeFuelType">
+            <option value="gasolina95">Gasolina 95</option>
+            <option value="gasolina98">Gasolina 98</option>
+        </select>
+    </div>
+
+    <div style="display:flex;gap:10px;margin-top:14px;">
+        <button id="saveMyBikeBtn" class="primary-btn"
+                type="button">
+            💾 Guardar mota
+        </button>
+        <button id="cancelMyBikeBtn" class="secondary-btn"
+                type="button">
+            Cancelar
+        </button>
+    </div>
+
+    <div id="myBikeMessage" class="form-message"
+         role="status"></div>
+</div>
   <button
     id="changePasswordBtn"
     class="profile-setting-btn"
