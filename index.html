@@ -6018,16 +6018,33 @@ if (bike) {
         
 /* PLANEADOR DE ABASTECIMENTOS ADVENTURE */
 
+
 const safeRange = estimatedRange * 0.80;
 const plannedStops = [];
+const destinationMargin = 30;
 
-for (
-    let distance = safeRange;
-    distance < km - 0.001;
-    distance += safeRange
-) {
-    plannedStops.push(distance);
+// Só planear abastecimentos quando um depósito
+// não chega para completar a rota.
+if (km > estimatedRange) {
+    let lastRefuelKm = 0;
+
+    while (km - lastRefuelKm > estimatedRange) {
+        const nextStopKm = lastRefuelKm + safeRange;
+
+        // Evitar paragens demasiado próximas do destino
+        // quando ainda é possível terminar a rota.
+        if (
+            km - nextStopKm < destinationMargin &&
+            km - lastRefuelKm <= estimatedRange
+        ) {
+            break;
+        }
+
+        plannedStops.push(nextStopKm);
+        lastRefuelKm = nextStopKm;
+    }
 }
+
 
 const fuelPlanner = document.createElement("div");
 
