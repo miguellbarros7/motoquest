@@ -5461,6 +5461,127 @@ if (bike) {
         }
 
         routeInfo.append(fuelLine, rangeLine, warningLine);
+
+/* PREÇO AUTOMÁTICO DO COMBUSTÍVEL */
+
+const costLine = document.createElement("p");
+costLine.textContent = "💶 A consultar o preço da gasolina...";
+costLine.style.cssText =
+    "font-size:17px;font-weight:bold;color:#ff7900;";
+
+const priceSource = document.createElement("small");
+priceSource.style.cssText =
+    "display:block;color:#999;margin-top:5px;";
+
+routeInfo.append(costLine, priceSource);
+
+try {
+    // Consultar o catálogo de combustíveis
+    const catalogResponse = await fetch(
+        "https://poupalitro.com/api/lookups?scope=fuels"
+    );
+
+    if (!catalogResponse.ok) {
+        throw new Error("Catálogo indisponível");
+    }
+
+    const catalog = await catalogResponse.json();
+
+    // A estrutura pode variar; aceitar as formas comuns
+    const fuels = Array.isArray(catalog)
+        ? catalog
+        : Array.isArray(catalog.fuels)
+            ? catalog.fuels
+            : Array.isArray(catalog.data?.fuels)
+                ? catalog.data.fuels
+                : [];
+
+    const is98 = bike.fuelType === "gasolina98";
+
+    const selectedFuel = fuels.find(item => {
+        const name = String(
+            item.name ?? item.nome ?? item.label ?? ""
+        ).toLowerCase();
+
+        return is98
+            ? name.includes("gasolina") &&
+              name.includes("98") &&
+              !name.includes("especial")
+            : name.includes("gasolina") &&
+              name.includes("95") &&
+              (name.includes("simples") ||
+               name.trim() === "gasolina 95");
+    });
+
+    const fuelId = selectedFuel?.id ??
+        selectedFuel?.fuelId ??
+        (is98 ? null : 3201);
+
+    if (!fuelId) {
+        throw new Error("Combustível não encontrado");
+    }
+
+    // Pedir apenas a média do combustível escolhido
+    const statsResponse = await fetch(
+        "https://poupalitro.com/api/lookups?statsFor=" +
+        encodeURIComponent(fuelId)
+    );
+
+    if (!statsResponse.ok) {
+        throw new Error("Preços indisponíveis");
+    }
+
+    const statsData = await statsResponse.json();
+
+    const statsFuels = Array.isArray(statsData.fuels)
+        ? statsData.fuels
+        : Array.isArray(statsData.data?.fuels)
+            ? statsData.data.fuels
+            : [];
+
+    const statsFuel = statsFuels.find(item =>
+        String(item.id ?? item.fuelId) === String(fuelId)
+    );
+
+    const price = Number(
+        statsFuel?.stats?.average ??
+        statsFuel?.average ??
+        statsFuel?.averagePrice
+    );
+
+    if (!Number.isFinite(price) || price <= 0) {
+        throw new Error("Média não disponível");
+    }
+
+    const totalCost = litresNeeded * price;
+
+    const euro = value =>
+        value.toLocaleString("pt-PT", {
+            style: "currency",
+            currency: "EUR"
+        });
+
+    costLine.textContent =
+        `💶 Custo estimado: ${euro(totalCost)}`;
+
+    priceSource.textContent =
+        `${is98 ? "Gasolina 98" : "Gasolina 95"}: ` +
+        `${euro(price)}/L · Média nacional · ` +
+        `Dados DGEG via PoupaLitro · ` +
+        `Consultado em ${new Date().toLocaleDateString("pt-PT")}`;
+
+} catch (error) {
+    console.warn("Preço da gasolina:", error);
+
+    costLine.textContent =
+        "💶 Custo: preço temporariamente indisponível";
+
+    priceSource.textContent =
+        "Não foi possível consultar a média nacional. " +
+        "A distância e o consumo continuam disponíveis.";
+}
+
+        
     } else {
         const warning = document.createElement("p");
         warning.textContent =
