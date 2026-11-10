@@ -8439,10 +8439,10 @@ const visited = history.some(visit =>
     String(visit.location_id) === String(location.id)
 );
 
-       if (visited) {
+if (visited) {
     item.style.borderColor = "#ff7900";
-    item.style.background = "#f1e5ce";
-    item.style.color = "#a64b00";
+    item.style.background = "radial-gradient(circle,#252525 0%,#101010 75%,#080808 100%)";
+    item.style.color = "#ff7900";
     item.style.cursor = "pointer";
 
             const stampVisit = history.find(visit =>
