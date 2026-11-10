@@ -5800,7 +5800,10 @@ summaryBtn.onclick = async () => {
             "Regista a tua mota no Perfil para veres os cálculos.";
     }
 bikeInfo.className = "mq-bike-info";
+
+if (!bike?.brand) {
     summaryPanel.appendChild(bikeInfo);
+}
 
 
 /* MOTA COMPACTA NO RESUMO DA ROTA */
