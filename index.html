@@ -8408,8 +8408,8 @@ if (error) {
 list.style.display = "grid";
 list.style.gridTemplateColumns = "repeat(4, minmax(0, 1fr))";
 list.style.gap = "12px";
-list.style.alignItems = "stretch";
-list.style.background = "#151515";
+list.style.alignItems = "start";
+    list.style.background = "#151515";
     list.style.padding = "14px";
 list.style.borderRadius = "12px";
 list.style.boxShadow = "inset 0 0 18px rgba(95, 65, 30, 0.18)";
@@ -8423,8 +8423,12 @@ list.style.boxShadow = "inset 0 0 18px rgba(95, 65, 30, 0.18)";
        item.style.cssText =
 "padding:8px;" +
 "width:100%;" +
-"box-sizing:border-box;" +           
+"box-sizing:border-box;" +
 "aspect-ratio:1/1;" +
+"height:auto;" +
+"min-height:0;" +
+"min-width:0;" +
+"overflow:hidden;" +
 "display:flex;" +
 "align-items:center;" +
 "justify-content:center;" +
