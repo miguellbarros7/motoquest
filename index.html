@@ -5938,8 +5938,7 @@ try {
 
     const response = await fetch(
         `https://router.project-osrm.org/route/v1/driving/${coordinates}` +
-        "?overview=false&steps=false"
-    );
+"?overview=full&geometries=geojson&steps=false"    );
 
     if (!response.ok) {
         throw new Error("O serviço de percursos não respondeu.");
