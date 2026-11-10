@@ -3170,7 +3170,7 @@ transform:translateX(38px);
         font-size:11px;
         color:#aaa;
     ">
-        🏍️ Imagem ilustrativa
+🏍️ A Minha Mota
         <span id="myBikePhotoCredit"></span>
     </div>
 </div>
@@ -4535,6 +4535,7 @@ async function getBikePhoto(bike) {
     }
 }
 
+
 async function showMyBikePhoto(bike) {
     const box = document.getElementById("myBikePhotoBox");
     const img = document.getElementById("myBikePhoto");
@@ -4544,28 +4545,66 @@ async function showMyBikePhoto(bike) {
 
     box.style.display = "none";
     img.removeAttribute("src");
-    credit.textContent = "";
 
-    if (!bike?.brand || !bike?.model) return;
+    if (!bike?.brand) return;
 
-    const photo = await getBikePhoto(bike);
+    const brands = {
+        honda: "honda",
+        yamaha: "yamaha",
+        bmw: "bmw",
+        suzuki: "suzuki",
+        kawasaki: "kawasaki",
+        ducati: "ducati",
+        ktm: "ktm",
+        triumph: "triumph",
+        aprilia: "aprilia",
+        "harley-davidson": "harleydavidson",
+        "harley davidson": "harleydavidson",
+        husqvarna: "husqvarna",
+        "royal enfield": "royalenfield"
+    };
 
-    if (!photo) return;
+    const brand = bike.brand.trim().toLowerCase();
+    const logo = brands[brand];
+
+    box.style.background = "#101010";
+    box.style.textAlign = "center";
+
+    img.style.width = "100%";
+    img.style.height = "150px";
+    img.style.objectFit = "contain";
+    img.style.padding = "28px";
+    img.style.boxSizing = "border-box";
+
+    credit.textContent = " · " + bike.brand +
+        (bike.model ? " " + bike.model : "");
+
+    if (!logo) {
+        img.style.display = "none";
+        credit.textContent = "🏍️ " + bike.brand +
+            (bike.model ? " " + bike.model : "");
+        box.style.display = "block";
+        return;
+    }
+
+    img.style.display = "block";
+    img.alt = "Símbolo da marca " + bike.brand;
 
     img.onload = () => {
         box.style.display = "block";
     };
 
     img.onerror = () => {
-        box.style.display = "none";
+        img.style.display = "none";
+        credit.textContent = "🏍️ " + bike.brand +
+            (bike.model ? " " + bike.model : "");
+        box.style.display = "block";
     };
 
-    img.src = photo.imageUrl;
-
-    if (photo.photographer) {
-        credit.textContent = " · Foto: " + photo.photographer;
-    }
+    img.src = "https://cdn.simpleicons.org/" +
+        logo + "/FFFFFF";
 }
+
 
 
 function fillMyBikeForm() {
