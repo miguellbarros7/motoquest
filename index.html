@@ -5453,6 +5453,125 @@ if (!document.getElementById("mq-trip-design")) {
     document.head.appendChild(style);
 }
         
+/* MOTOQUEST ADVENTURE — VISUAL DO RESUMO */
+if (!document.getElementById("mq-adventure-design")) {
+    const adventureStyle = document.createElement("style");
+    adventureStyle.id = "mq-adventure-design";
+
+    adventureStyle.textContent = `
+        .mq-trip-summary {
+            background:linear-gradient(145deg,#191919,#080808) !important;
+            border:1px solid #ff7900 !important;
+            border-radius:16px !important;
+            padding:16px !important;
+        }
+
+        .mq-trip-summary h3 {
+            color:#ff7900 !important;
+            font-size:16px !important;
+            font-weight:900;
+            font-style:italic;
+            letter-spacing:1.2px;
+            text-transform:uppercase;
+            padding-bottom:12px;
+            border-bottom:2px solid #ff7900;
+        }
+
+        .mq-trip-summary .mq-bike-info {
+            background:linear-gradient(135deg,#242424,#111);
+            border:1px solid #444;
+            border-left:3px solid #ff7900;
+            border-radius:10px;
+            padding:12px;
+            font-size:12px;
+            line-height:1.8;
+        }
+
+        .mq-trip-summary .mq-trip-stats {
+            display:grid !important;
+            grid-template-columns:repeat(5,minmax(0,1fr));
+            gap:9px;
+            align-items:stretch;
+        }
+
+        .mq-trip-summary .mq-trip-stats > p {
+            margin:0;
+            min-width:0;
+            padding:14px 7px;
+            background:linear-gradient(160deg,#292929,#101010);
+            border:1px solid #ff7900;
+            border-top:3px solid #ff7900;
+            border-radius:11px;
+            color:#fff;
+            text-align:center;
+            font-size:12px;
+            font-weight:800;
+            line-height:1.5;
+            overflow-wrap:anywhere;
+            box-shadow:0 4px 12px rgba(0,0,0,.25);
+        }
+
+        .mq-trip-summary .mq-trip-stats > .mq-trip-cost {
+            background:linear-gradient(145deg,#3b230e,#1b1109);
+            border:2px solid #ff7900;
+            color:#ff931e !important;
+            font-size:14px !important;
+            box-shadow:0 0 12px rgba(255,121,0,.16);
+        }
+
+        .mq-trip-summary .mq-trip-stats > .mq-trip-warning {
+            grid-column:1/-1;
+            padding:12px 14px;
+            background:#102619;
+            border:1px solid #38854a;
+            border-radius:9px;
+            color:#75ed91 !important;
+            text-align:left;
+            font-size:12px;
+        }
+
+        .mq-trip-summary .mq-trip-stats > .mq-trip-warning.mq-alert {
+            background:#32220e;
+            border-color:#b47b27;
+            color:#ffbd64 !important;
+        }
+
+        .mq-trip-summary .mq-trip-stats > small {
+            grid-column:1/-1;
+            color:#aaa;
+            font-size:10px;
+            line-height:1.6;
+        }
+
+        @media(max-width:850px) {
+            .mq-trip-summary .mq-trip-stats {
+                grid-template-columns:repeat(3,minmax(0,1fr));
+            }
+        }
+
+        @media(max-width:520px) {
+            .mq-trip-summary {
+                padding:11px !important;
+            }
+
+            .mq-trip-summary .mq-trip-stats {
+                grid-template-columns:repeat(2,minmax(0,1fr));
+                gap:7px;
+            }
+
+            .mq-trip-summary .mq-trip-stats > p {
+                padding:11px 7px;
+                font-size:11px;
+            }
+
+            .mq-trip-summary .mq-trip-stats > .mq-trip-cost {
+                font-size:12px !important;
+            }
+        }
+    `;
+
+    document.head.appendChild(adventureStyle);
+}
 
 summaryBtn.onclick = async () => {
     const isHidden = summaryPanel.classList.contains("hidden");
