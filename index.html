@@ -4552,6 +4552,9 @@ document.addEventListener("click", event => {
         try {
             localStorage.setItem(key, JSON.stringify(bike));
             message.textContent = "✅ Mota guardada com sucesso!";
+            
+updateRouteSummaryBike();
+
         } catch {
             message.textContent =
                 "Não foi possível guardar a mota neste navegador.";
@@ -5332,9 +5335,12 @@ function showSection(sectionName) {
         loadLocations();
     }
     
+
 if (sectionName === "routes") {
     loadRouteLocations();
+    updateRouteSummaryBike();
 }
+
 
 
     if (sectionName === "rewards") {
