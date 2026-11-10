@@ -6015,6 +6015,136 @@ if (bike) {
             Math.ceil(litresNeeded / tank) - 1
         );
 
+        
+/* PLANEADOR DE ABASTECIMENTOS ADVENTURE */
+
+const safeRange = estimatedRange * 0.80;
+const plannedStops = [];
+
+for (
+    let distance = safeRange;
+    distance < km - 0.001;
+    distance += safeRange
+) {
+    plannedStops.push(distance);
+}
+
+const fuelPlanner = document.createElement("div");
+
+fuelPlanner.style.cssText = `
+    grid-column:1/-1;
+    background:linear-gradient(145deg,#1b1b1b,#101010);
+    border:1px solid #444;
+    border-radius:12px;
+    padding:16px;
+    margin-top:10px;
+    color:#fff;
+`;
+
+const plannerTitle = document.createElement("div");
+plannerTitle.textContent = "⛽ PLANEADOR DE ABASTECIMENTOS";
+plannerTitle.style.cssText = `
+    color:#ff7900;
+    font-size:14px;
+    font-weight:900;
+    margin-bottom:12px;
+`;
+
+fuelPlanner.appendChild(plannerTitle);
+
+const plannerInfo = document.createElement("div");
+plannerInfo.style.cssText = `
+    color:#bbb;
+    font-size:12px;
+    line-height:1.7;
+    margin-bottom:14px;
+`;
+
+plannerInfo.textContent =
+    "Autonomia estimada: " +
+    estimatedRange.toFixed(0) + " km · " +
+    "Margem de segurança: 20% · " +
+    "Abastecer aproximadamente a cada " +
+    safeRange.toFixed(0) + " km.";
+
+fuelPlanner.appendChild(plannerInfo);
+
+if (plannedStops.length === 0) {
+    const success = document.createElement("div");
+    success.textContent =
+        "✅ Não são necessárias paragens planeadas " +
+        "para abastecer nesta rota.";
+
+    success.style.cssText = `
+        background:#102619;
+        border:1px solid #38854a;
+        border-radius:9px;
+        padding:12px;
+        color:#75ed91;
+        font-size:12px;
+        font-weight:700;
+    `;
+
+    fuelPlanner.appendChild(success);
+} else {
+    plannedStops.forEach((distance, index) => {
+        const stop = document.createElement("div");
+
+        stop.style.cssText = `
+            display:flex;
+            align-items:center;
+            gap:12px;
+            background:#242424;
+            border:1px solid #444;
+            border-radius:9px;
+            padding:12px;
+            margin-bottom:8px;
+        `;
+
+        const icon = document.createElement("span");
+        icon.textContent = "⛽";
+        icon.style.fontSize = "22px";
+
+        const text = document.createElement("div");
+        text.style.cssText = `
+            font-size:12px;
+            line-height:1.6;
+        `;
+
+        const distanceText = distance.toLocaleString(
+            "pt-PT",
+            { maximumFractionDigits:0 }
+        );
+
+        text.textContent =
+            "Paragem " + (index + 1) +
+            " · Abastecer por volta do km " +
+            distanceText;
+
+        stop.append(icon, text);
+        fuelPlanner.appendChild(stop);
+    });
+}
+
+const plannerNote = document.createElement("small");
+plannerNote.textContent =
+    "Estimativa com partida de depósito cheio e " +
+    "abastecimento completo em cada paragem. " +
+    "Ainda não identifica postos reais. " +
+    "Adapta as paragens às condições da estrada.";
+
+plannerNote.style.cssText = `
+    display:block;
+    color:#999;
+    font-size:10px;
+    line-height:1.6;
+    margin-top:12px;
+`;
+
+fuelPlanner.appendChild(plannerNote);
+routeInfo.appendChild(fuelPlanner);
+
+
         const formatNumber = (value, digits = 1) =>
             value.toLocaleString("pt-PT", {
                 minimumFractionDigits: digits,
