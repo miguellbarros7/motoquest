@@ -2369,18 +2369,7 @@ data-go="routes"
 
 
 
-       <div style="
-    border-top:1px solid #444;
-    margin-top:24px;
-    padding-top:20px;
-">
-  
-   <div id="passportMedalsGrid" style="
-        display:grid;
-        grid-template-columns:repeat(2,minmax(0,1fr));
-        gap:12px;
-    "></div>
-</div>
+   
 <div id="passportDistrictsSection" style="
     border-top:1px solid #444;
     margin-top:24px;
@@ -8648,50 +8637,7 @@ portugalDistricts.forEach(district => {
     districtsGrid.appendChild(card);
 });
     
-    const medalsGrid = $("passportMedalsGrid");
-
-const medals = [
-    { icon: "🥉", name: "Explorador Bronze", required: 1 },
-    { icon: "🥈", name: "Explorador Prata", required: 5 },
-    { icon: "🥇", name: "Explorador Ouro", required: 15 },
-    { icon: "💎", name: "Lenda MotoQuest", required: 30 }
-];
-
-medalsGrid.innerHTML = "";
-
-medals.forEach(medal => {
-    const unlocked = uniqueLocations.size >= medal.required;
-
-    const card = document.createElement("div");
-    card.style.cssText =
-        "background:#252525;" +
-        "border:1px solid " + (unlocked ? "#ff7900" : "#444") + ";" +
-        "border-radius:14px;" +
-        "padding:16px 10px;" +
-        "text-align:center;" +
-        "opacity:" + (unlocked ? "1" : "0.45") + ";";
-
-    const icon = document.createElement("div");
-    icon.textContent = medal.icon;
-    icon.style.cssText = "font-size:32px;margin-bottom:8px;";
-
-    const name = document.createElement("div");
-    name.textContent = medal.name;
-    name.style.cssText =
-        "color:" + (unlocked ? "#ff7900" : "#ddd") + ";" +
-        "font-size:12px;font-weight:bold;";
-
-    const status = document.createElement("div");
-    status.textContent = unlocked
-        ? "✓ DESBLOQUEADA"
-        : "🔒 " + medal.required + " locais";
-    status.style.cssText =
-        "color:#aaa;font-size:10px;margin-top:8px;";
-
-    card.append(icon, name, status);
-    medalsGrid.appendChild(card);
-});
-
+ 
 
 
 const stampsGrid = document.createElement("div");
