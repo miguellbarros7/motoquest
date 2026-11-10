@@ -8128,8 +8128,14 @@ $("fuelCalculateBtn").addEventListener("click", () => {
     const litros = (distancia * consumo) / 100;
     const custo = litros * preco;
 
-    resultado.textContent =
-        `⛽ ${litros.toFixed(2)} litros | 💶 ${custo.toFixed(2)} €`;
+    $("fuelLitersResult").textContent =
+    litros.toFixed(2) + " L";
+
+$("fuelCostResult").textContent =
+    custo.toFixed(2) + " €";
+
+resultado.textContent =
+    `⛽ ${litros.toFixed(2)} L | 💶 ${custo.toFixed(2)} €`;
 });
 
     
