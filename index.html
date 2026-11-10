@@ -4406,6 +4406,109 @@ const FALLBACK_IMAGE =
 
 let currentUser = null;
 let currentProfile = null;
+    
+/* ==========================================
+   A MINHA MOTA — PERFIL
+========================================== */
+
+function myBikeStorageKey() {
+    const userId = currentUser?.id;
+    return userId ? `motoquest_my_bike_${userId}` : null;
+}
+
+function loadMyBike() {
+    const key = myBikeStorageKey();
+    if (!key) return null;
+
+    try {
+        const data = JSON.parse(localStorage.getItem(key));
+        return data && typeof data === "object" ? data : null;
+    } catch {
+        return null;
+    }
+}
+
+function fillMyBikeForm() {
+    const bike = loadMyBike() || {};
+
+    document.getElementById("bikeBrand").value = bike.brand || "";
+    document.getElementById("bikeModel").value = bike.model || "";
+    document.getElementById("bikeConsumption").value =
+        bike.consumption ?? "";
+    document.getElementById("bikeTank").value = bike.tank ?? "";
+    document.getElementById("bikeFuelType").value =
+        bike.fuelType === "gasolina98" ? "gasolina98" : "gasolina95";
+
+    document.getElementById("myBikeMessage").textContent = "";
+}
+
+document.addEventListener("click", event => {
+    const panel = document.getElementById("myBikeInline");
+    const message = document.getElementById("myBikeMessage");
+
+    if (event.target.closest("#openMyBikeBtn")) {
+        if (!currentUser?.id) return;
+
+        if (panel.classList.contains("hidden")) {
+            fillMyBikeForm();
+            panel.classList.remove("hidden");
+        } else {
+            panel.classList.add("hidden");
+        }
+        return;
+    }
+
+    if (event.target.closest("#cancelMyBikeBtn")) {
+        panel.classList.add("hidden");
+        return;
+    }
+
+    if (event.target.closest("#saveMyBikeBtn")) {
+        const key = myBikeStorageKey();
+
+        if (!key) {
+            message.textContent = "Inicia sessão para guardar a mota.";
+            return;
+        }
+
+        const brand = document.getElementById("bikeBrand").value.trim();
+        const model = document.getElementById("bikeModel").value.trim();
+
+        const consumption = Number(
+            document.getElementById("bikeConsumption").value
+        );
+        const tank = Number(
+            document.getElementById("bikeTank").value
+        );
+        const fuelType =
+            document.getElementById("bikeFuelType").value;
+
+        if (!brand || !model ||
+            !Number.isFinite(consumption) || consumption <= 0 ||
+            !Number.isFinite(tank) || tank <= 0 ||
+            !["gasolina95", "gasolina98"].includes(fuelType)) {
+            message.textContent =
+                "Preenche todos os campos com valores válidos.";
+            return;
+        }
+
+        const bike = {
+            brand,
+            model,
+            consumption,
+            tank,
+            fuelType
+        };
+
+        try {
+            localStorage.setItem(key, JSON.stringify(bike));
+            message.textContent = "✅ Mota guardada com sucesso!";
+        } catch {
+            message.textContent =
+                "Não foi possível guardar a mota neste navegador.";
+        }
+    }
+});
 
 let authMode = "login";
 
