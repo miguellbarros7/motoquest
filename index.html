@@ -3146,34 +3146,58 @@ transform:translateX(38px);
 <div id="myBikeInline" class="edit-name-inline hidden">
 
     
+
 <div id="myBikePhotoBox" style="
     display:none;
     margin-bottom:18px;
-    overflow:hidden;
+    padding:14px;
     border:1px solid #ff7900;
-    border-radius:14px;
+    border-radius:12px;
     background:#141414;
 ">
-    <img
-        id="myBikePhoto"
-        alt="Fotografia ilustrativa de uma mota"
-        style="
-            display:block;
-            width:100%;
-            height:190px;
-            object-fit:cover;
-        "
-    >
-
     <div style="
-        padding:9px 12px;
-        font-size:11px;
-        color:#aaa;
+        display:flex;
+        align-items:center;
+        gap:14px;
     ">
-🏍️ A Minha Mota
-        <span id="myBikePhotoCredit"></span>
+        <div style="
+            width:56px;
+            height:56px;
+            flex-shrink:0;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            background:#242424;
+            border-radius:10px;
+            font-size:28px;
+        ">🏍️</div>
+
+        <div style="flex:1;min-width:0;">
+            <div style="
+                color:#ff7900;
+                font-size:10px;
+                font-weight:800;
+                letter-spacing:1px;
+                margin-bottom:5px;
+            ">A MINHA MOTA</div>
+
+            <div id="myBikeCompactName" style="
+                color:#fff;
+                font-size:17px;
+                font-weight:800;
+                overflow-wrap:anywhere;
+            "></div>
+
+            <div id="myBikeCompactDetails" style="
+                color:#aaa;
+                font-size:11px;
+                margin-top:5px;
+                line-height:1.5;
+            "></div>
+        </div>
     </div>
 </div>
+
 
 
     <div class="field">
@@ -4536,75 +4560,42 @@ async function getBikePhoto(bike) {
 }
 
 
-async function showMyBikePhoto(bike) {
-    const box = document.getElementById("myBikePhotoBox");
-    const img = document.getElementById("myBikePhoto");
-    const credit = document.getElementById("myBikePhotoCredit");
 
-    if (!box || !img || !credit) return;
+function showMyBikePhoto(bike) {
+    const box = document.getElementById("myBikePhotoBox");
+    const name = document.getElementById("myBikeCompactName");
+    const details = document.getElementById("myBikeCompactDetails");
+
+    if (!box || !name || !details) return;
 
     box.style.display = "none";
-    img.removeAttribute("src");
 
     if (!bike?.brand) return;
 
-    const brands = {
-        honda: "honda",
-        yamaha: "yamaha",
-        bmw: "bmw",
-        suzuki: "suzuki",
-        kawasaki: "kawasaki",
-        ducati: "ducati",
-        ktm: "ktm",
-        triumph: "triumph",
-        aprilia: "aprilia",
-        "harley-davidson": "harleydavidson",
-        "harley davidson": "harleydavidson",
-        husqvarna: "husqvarna",
-        "royal enfield": "royalenfield"
-    };
+    name.textContent = [
+        bike.brand,
+        bike.model
+    ].filter(Boolean).join(" ");
 
-    const brand = bike.brand.trim().toLowerCase();
-    const logo = brands[brand];
+    const fuel = bike.fuelType === "gasolina98"
+        ? "Gasolina 98"
+        : "Gasolina 95";
 
-    box.style.background = "#101010";
-    box.style.textAlign = "center";
+    const info = [];
 
-    img.style.width = "100%";
-    img.style.height = "150px";
-    img.style.objectFit = "contain";
-    img.style.padding = "28px";
-    img.style.boxSizing = "border-box";
-
-    credit.textContent = " · " + bike.brand +
-        (bike.model ? " " + bike.model : "");
-
-    if (!logo) {
-        img.style.display = "none";
-        credit.textContent = "🏍️ " + bike.brand +
-            (bike.model ? " " + bike.model : "");
-        box.style.display = "block";
-        return;
+    if (bike.consumption) {
+        info.push(bike.consumption + " L/100 km");
     }
 
-    img.style.display = "block";
-    img.alt = "Símbolo da marca " + bike.brand;
+    if (bike.tank) {
+        info.push("Depósito: " + bike.tank + " L");
+    }
 
-    img.onload = () => {
-        box.style.display = "block";
-    };
+    info.push(fuel);
 
-    img.onerror = () => {
-        img.style.display = "none";
-        credit.textContent = "🏍️ " + bike.brand +
-            (bike.model ? " " + bike.model : "");
-        box.style.display = "block";
-    };
-
-    img.src = "https://cdn.simpleicons.org/" +
-        logo + "/FFFFFF";
+    details.textContent = info.join(" · ");
+    box.style.display = "block";
 }
-
 
 
 function fillMyBikeForm() {
