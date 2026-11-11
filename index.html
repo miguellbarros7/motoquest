@@ -6419,7 +6419,7 @@ addToRouteButton.style.cssText = `
     font-weight:900;
     cursor:pointer;
 `;
-addToRouteButton.onclick = () => {
+addToRouteButton.onclick = async () => {
     const placeName = station.locality
         ? station.name + " — " + station.locality
         : station.name;
@@ -6433,11 +6433,78 @@ addToRouteButton.onclick = () => {
 
     if (!confirmed) return;
 
-    window.alert(
-        "Posto selecionado: " + placeName +
-        "\n\nAinda não foi adicionado à rota. " +
-        "Estamos a preparar o recálculo do percurso."
+  
+const originalLegs = calculatedRoute.legs || [];
+
+let accumulatedDistance = 0;
+let insertionIndex = 1;
+
+for (let i = 0; i < originalLegs.length; i++) {
+    accumulatedDistance += originalLegs[i].distance / 1000;
+
+    if (distance <= accumulatedDistance) {
+        insertionIndex = i + 1;
+        break;
+    }
+}
+
+const newStops = [...ordered];
+
+newStops.splice(insertionIndex, 0, {
+    name: station.name,
+    latitude: station.latitude,
+    longitude: station.longitude
+});
+
+const newCoordinates = newStops.map(loc =>
+    `${Number(loc.longitude)},${Number(loc.latitude)}`
+).join(";");
+
+addToRouteButton.disabled = true;
+addToRouteButton.textContent = "⏳ A CALCULAR...";
+
+try {
+    const response = await fetch(
+        `https://router.project-osrm.org/route/v1/driving/${newCoordinates}` +
+        "?overview=full&geometries=geojson&steps=false"
     );
+
+    if (!response.ok) {
+        throw new Error("O serviço de percursos não respondeu.");
+    }
+
+    const result = await response.json();
+    const newRoute = result.routes?.[0];
+
+    if (result.code !== "Ok" || !newRoute) {
+        throw new Error("Não foi possível calcular o desvio.");
+    }
+
+    const originalKm = calculatedRoute.distance / 1000;
+    const newKm = newRoute.distance / 1000;
+    const differenceKm = newKm - originalKm;
+
+    window.alert(
+        "⛽ " + placeName + "\n\n" +
+        "Rota original: " + originalKm.toFixed(1) + " km\n" +
+        "Rota pela bomba: " + newKm.toFixed(1) + " km\n" +
+        "Diferença: " +
+        (differenceKm >= 0 ? "+" : "") +
+        differenceKm.toFixed(1) + " km\n\n" +
+        "Pré-visualização concluída.\n" +
+        "A rota guardada ainda não foi alterada."
+    );
+
+} catch (error) {
+    console.error("MotoQuest — desvio pela bomba:", error);
+    window.alert(
+        "⚠️ Não foi possível calcular o percurso pela bomba."
+    );
+} finally {
+    addToRouteButton.disabled = false;
+    addToRouteButton.textContent = "➕ ADICIONAR À ROTA";
+}
+
 };
 const buttonRow = document.createElement("div");
 buttonRow.style.cssText = `
