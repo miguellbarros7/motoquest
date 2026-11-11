@@ -6333,13 +6333,19 @@ stations.slice(0, 5).forEach(station => {
         font-weight:900;
     `;
 
-    const subtitle = document.createElement("div");
-    subtitle.textContent = "Posto de combustível";
-    subtitle.style.cssText = `
-        color:#aaa;
-        font-size:11px;
-        margin-top:3px;
-    `;
+
+const subtitle = document.createElement("div");
+
+subtitle.textContent = station.locality
+    ? "📍 " + station.locality
+    : "Posto de combustível";
+
+subtitle.style.cssText = `
+    color:#aaa;
+    font-size:11px;
+    margin-top:3px;
+`;
+
 
     info.append(name, subtitle);
 
