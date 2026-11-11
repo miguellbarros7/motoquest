@@ -6316,7 +6316,14 @@ if (needsTripDeparture) {
             tripDepartureAddress
         );
 
-        if (!tripDeparturePoint) {
+              if (tripDeparturePoint) {
+            console.log(
+                "🏁 MotoQuest — partida encontrada:",
+                tripDeparturePoint.name,
+                "Latitude:", tripDeparturePoint.latitude,
+                "Longitude:", tripDeparturePoint.longitude
+            );
+        } else {
             console.warn(
                 "MotoQuest: localização de partida não encontrada:",
                 tripDepartureAddress
