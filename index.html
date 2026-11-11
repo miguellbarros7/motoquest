@@ -5944,9 +5944,47 @@ tripPlannerDescription.style.cssText = `
     line-height:1.6;
 `;
 
+const departureLabel = document.createElement("label");
+departureLabel.textContent = "🏁 PONTO DE PARTIDA";
+departureLabel.style.cssText = `
+    display:block;
+    color:#ff7900;
+    font-size:12px;
+    font-weight:800;
+    margin-top:16px;
+    margin-bottom:8px;
+`;
+
+const departureSelect = document.createElement("select");
+
+departureSelect.style.cssText = `
+    width:100%;
+    box-sizing:border-box;
+    background:#292929;
+    color:#fff;
+    border:1px solid #555;
+    border-radius:9px;
+    padding:12px;
+    font-size:13px;
+    cursor:pointer;
+`;
+
+[
+    ["first", "📍 Primeiro local da rota"],
+    ["home", "🏠 A minha casa"],
+    ["other", "🔎 Outra localização"]
+].forEach(([value, label]) => {
+    const option = document.createElement("option");
+    option.value = value;
+    option.textContent = label;
+    departureSelect.appendChild(option);
+});
+
 tripPlannerCard.append(
     tripPlannerTitle,
-    tripPlannerDescription
+    tripPlannerDescription,
+    departureLabel,
+    departureSelect
 );
 
 summaryPanel.insertBefore(tripPlannerCard, routeInfo);
