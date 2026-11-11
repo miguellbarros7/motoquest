@@ -5048,6 +5048,34 @@ arrows.append(upBtn, downBtn, removeBtn);
 row.append(number, name, arrows);
 stopsPanel.appendChild(row);
 
+        // Mostrar abastecimentos depois desta paragem
+const fuelStopsHere = Array.isArray(route.fuel_stops)
+    ? route.fuel_stops.filter(fuel =>
+        Number(fuel.insertion_index) === index + 1
+    )
+    : [];
+
+fuelStopsHere.forEach(fuel => {
+    const fuelRow = document.createElement("div");
+
+    fuelRow.style.cssText =
+        "display:flex;align-items:center;gap:9px;" +
+        "padding:7px 8px;margin:4px 0 4px 18px;" +
+        "background:#302417;border:1px solid #805020;" +
+        "border-radius:8px;color:#ffb366;font-size:12px;";
+
+    const fuelIcon = document.createElement("span");
+    fuelIcon.textContent = "⛽";
+
+    const fuelName = document.createElement("span");
+    fuelName.textContent = fuel.locality
+        ? fuel.name + " — " + fuel.locality
+        : fuel.name;
+
+    fuelRow.append(fuelIcon, fuelName);
+    stopsPanel.appendChild(fuelRow);
+});
+
 
     });
 };
