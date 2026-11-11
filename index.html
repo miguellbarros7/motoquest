@@ -6234,7 +6234,45 @@ const tripDepartureType = route.trip_plan?.departure_type || "first";
 const tripDepartureAddress =
     (route.trip_plan?.departure_location || "").trim();
 
-const savedFuelStops = Array.isArray(route.fuel_stops)
+// Converter uma localização escrita em coordenadas
+async function geocodeTripLocation(address) {
+    if (!address) return null;
+
+    const url = new URL(
+        "https://nominatim.openstreetmap.org/search"
+    );
+
+    url.searchParams.set("q", address);
+    url.searchParams.set("format", "json");
+    url.searchParams.set("limit", "1");
+    url.searchParams.set("countrycodes", "pt");
+
+    const response = await fetch(url.toString());
+
+    if (!response.ok) {
+        throw new Error("Não foi possível pesquisar a localização.");
+    }
+
+    const results = await response.json();
+    const result = results[0];
+
+    if (!result) return null;
+
+    const latitude = Number(result.lat);
+    const longitude = Number(result.lon);
+
+    if (!Number.isFinite(latitude) || !Number.isFinite(longitude)) {
+        return null;
+    }
+
+    return {
+        name: result.display_name || address,
+        latitude,
+        longitude
+    };
+}
+
+const savedFuelStops = Array.isArray(route.fuel_stops)    
     ? route.fuel_stops
     : [];
 
