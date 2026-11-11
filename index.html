@@ -6340,10 +6340,11 @@ searchButton.onclick = () => {
     const lat = stopLocation.latitude;
     const lon = stopLocation.longitude;
 
-    const url =
-        "https://www.google.com/maps/search/?api=1&query=" +
-        encodeURIComponent("postos de combustível") +
-        "&center=" + lat + "," + lon;
+   
+const url =
+    "https://www.google.com/maps/search/?api=1&query=" +
+    encodeURIComponent(`postos de combustível perto de ${lat},${lon}`);
+
 
     window.open(url, "_blank", "noopener,noreferrer");
 };
