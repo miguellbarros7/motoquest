@@ -6901,6 +6901,10 @@ if (saveError) {
 
 route.fuel_stops = updatedFuelStops;
 
+// Reabrir o resumo para atualizar os dados apresentados
+summaryPanel.classList.add("hidden");
+summaryBtn.click();
+
 window.alert(
     "✅ Abastecimento guardado na rota!\n\n" +
     "⛽ " + placeName + "\n\n" +
