@@ -5196,6 +5196,27 @@ arrow.style.cursor = "not-allowed";
 
 const renderStops = () => {
 stopsPanel.innerHTML = "";
+
+// Mostrar a partida personalizada antes das paragens originais
+const tripPlan = route.trip_plan || {};
+
+if (
+    tripPlan.departure_type !== "first" &&
+    (tripPlan.departure_location || "").trim()
+) {
+    const departureRow = document.createElement("div");
+
+    departureRow.style.cssText =
+        "padding:9px 10px;margin-bottom:8px;" +
+        "background:#252015;border:1px solid #ff7900;" +
+        "border-radius:8px;color:#ffb366;font-weight:600;";
+
+    departureRow.textContent =
+        "🏁 PARTIDA — " + tripPlan.departure_location.trim();
+
+    stopsPanel.appendChild(departureRow);
+}
+
     ids.forEach((id, index) => {
         const location = locations.find(
             item => String(item.id) === String(id)
