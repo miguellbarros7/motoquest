@@ -6901,7 +6901,7 @@ try {
     document.body.appendChild(overlay);
 });
 
-   const saveConfirmed = window.confirm(
+   const saveConfirmed = await confirmFuelSave(
     "⛽ " + placeName + "\n\n" +
     "Rota original: " + originalKm.toFixed(1) + " km\n" +
     "Rota pela bomba: " + newKm.toFixed(1) + " km\n" +
