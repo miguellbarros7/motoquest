@@ -6491,6 +6491,58 @@ try {
     const newKm = newRoute.distance / 1000;
     const differenceKm = newKm - originalKm;
 
+    
+const previewCoordinates = newRoute.geometry?.coordinates;
+
+if (!Array.isArray(previewCoordinates) ||
+    previewCoordinates.length < 2) {
+    throw new Error("O percurso não tem coordenadas válidas.");
+}
+
+routePreview.style.display = "block";
+routePreview.replaceChildren();
+
+const previewMap = L.map(routePreview, {
+    scrollWheelZoom: false
+});
+
+L.tileLayer(
+    "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+    {
+        attribution: "&copy; OpenStreetMap contributors",
+        maxZoom: 19
+    }
+).addTo(previewMap);
+
+const routePoints = previewCoordinates.map(
+    ([longitude, latitude]) => [latitude, longitude]
+);
+
+const routeLine = L.polyline(routePoints, {
+    color: "#ff7900",
+    weight: 5
+}).addTo(previewMap);
+
+L.circleMarker(
+    [station.latitude, station.longitude],
+    {
+        radius: 8,
+        color: "#fff",
+        fillColor: "#ff7900",
+        fillOpacity: 1,
+        weight: 2
+    }
+).addTo(previewMap).bindPopup(
+    "⛽ " + placeName
+);
+
+previewMap.fitBounds(routeLine.getBounds(), {
+    padding: [20, 20]
+});
+
+setTimeout(() => previewMap.invalidateSize(), 150);
+
+
     window.alert(
         "⛽ " + placeName + "\n\n" +
         "Rota original: " + originalKm.toFixed(1) + " km\n" +
