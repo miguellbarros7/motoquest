@@ -9640,8 +9640,10 @@ if (
     // Planeamento independente dos locais originais da rota
     const tripPlan = {
         departure_type: $("routeDepartureType").value,
-        departure_location: $("routeDepartureLocation").value.trim(),
-        meeting_enabled: $("routeMeetingEnabled").checked,
+        
+departure_location: departureResolved
+    ? departureResolved.location
+    : $("routeDepartureLocation").value.trim(),        meeting_enabled: $("routeMeetingEnabled").checked,
         meeting_location: $("routeMeetingLocation").value.trim(),
                       trip_date: $("routeTripDate").value || null,
         departure_time: $("routeTripTime").value || "09:00",
