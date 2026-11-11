@@ -6301,11 +6301,16 @@ sortedFuelStops.forEach(fuel => {
     });
 });
 
-// Preparar a lista de pontos para o percurso completo
 const tripRouteStops = [...routeStops];
 
-// A partida adicional será inserida nesta lista
-// depois de confirmarmos as suas coordenadas.
+// Preparar a pesquisa da localização de partida
+const needsTripDeparture =
+    tripDepartureType !== "first" && tripDepartureAddress !== "";
+
+let tripDeparturePoint = null;
+
+// Nesta fase, ainda não alteramos o percurso.
+// Primeiro será necessário confirmar a localização encontrada.
 const coordinates = tripRouteStops.map(loc =>
     `${Number(loc.longitude)},${Number(loc.latitude)}`
 ).join(";");
