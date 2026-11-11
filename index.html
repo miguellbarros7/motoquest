@@ -6242,6 +6242,87 @@ if (stopLocation) {
     stop.appendChild(mapButton);
 }
 
+if (stopLocation) {
+    const searchButton = document.createElement("button");
+
+    searchButton.type = "button";
+    searchButton.textContent = "⛽ PROCURAR POSTOS";
+
+    searchButton.style.cssText = `
+        background:#242424;
+        color:#ff7900;
+        border:1px solid #ff7900;
+        border-radius:7px;
+        padding:9px 11px;
+        font-size:10px;
+        font-weight:900;
+        cursor:pointer;
+        flex-shrink:0;
+    `;
+
+    const stationResults = document.createElement("div");
+    stationResults.style.cssText = `
+        grid-column:1/-1;
+        color:#ddd;
+        font-size:12px;
+        line-height:1.7;
+        padding:8px 0;
+    `;
+
+    searchButton.onclick = async () => {
+        searchButton.disabled = true;
+        stationResults.textContent = "🔎 A procurar postos próximos...";
+
+        try {
+            const stations = await findFuelStations(
+                stopLocation.latitude,
+                stopLocation.longitude
+            );
+
+            stationResults.replaceChildren();
+
+            if (stations.length === 0) {
+                stationResults.textContent =
+                    "Não foram encontrados postos num raio de 5 km.";
+            } else {
+                stations.slice(0, 5).forEach(station => {
+                    const item = document.createElement("div");
+                    item.style.cssText = `
+                        padding:9px;
+                        margin-top:6px;
+                        background:#1b1b1b;
+                        border:1px solid #444;
+                        border-radius:7px;
+                    `;
+
+                    const link = document.createElement("a");
+                    link.textContent = "⛽ " + station.name + " · VER NO MAPA";
+                    link.href =
+                        "https://www.google.com/maps/search/?api=1&query=" +
+                        encodeURIComponent(
+                            `${station.latitude},${station.longitude}`
+                        );
+                    link.target = "_blank";
+                    link.rel = "noopener noreferrer";
+                    link.style.cssText =
+                        "color:#ff7900;text-decoration:none;font-weight:700;";
+
+                    item.appendChild(link);
+                    stationResults.appendChild(item);
+                });
+            }
+        } catch (error) {
+            stationResults.textContent =
+                "⚠️ Não foi possível pesquisar postos neste momento.";
+            console.error("MotoQuest — pesquisa de postos:", error);
+        } finally {
+            searchButton.disabled = false;
+        }
+    };
+
+    stop.appendChild(searchButton);
+    fuelPlanner.appendChild(stationResults);
+}
 fuelPlanner.appendChild(stop);
 
     });
