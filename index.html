@@ -9497,6 +9497,23 @@ $("savePersonalRouteBtn").addEventListener("click", async () => {
     const name = $("routeName").value.trim();
     const description = $("routeDescription").value.trim();
 
+    const departureInput = $("routeDepartureLocation").value.trim();
+const meetingInput = $("routeMeetingLocation").value.trim();
+
+const isGoogleMapsLink = value =>
+    /^https?:\/\/(?:www\.)?(?:maps\.app\.goo\.gl|goo\.gl\/maps|google\.[a-z.]+\/maps|maps\.google\.[a-z.]+)/i.test(value);
+
+if (
+    isGoogleMapsLink(departureInput) ||
+    isGoogleMapsLink(meetingInput)
+) {
+    alert(
+        "A leitura de links Google Maps ainda está a ser preparada. " +
+        "Por enquanto, introduz a localização por escrito."
+    );
+    return;
+}
+
     // Planeamento independente dos locais originais da rota
     const tripPlan = {
         departure_type: $("routeDepartureType").value,
