@@ -6263,57 +6263,115 @@ if (stopLocation) {
                 stationResults.textContent =
                     "Não foram encontrados postos num raio de 5 km.";
             } else {
-                stations.slice(0, 5).forEach(station => {
-                    const item = document.createElement("div");
-                    item.style.cssText = `
-                        padding:9px;
-                        margin-top:6px;
-                        background:#1b1b1b;
-                        border:1px solid #444;
-                        border-radius:7px;
-                    `;
+        
+stations.slice(0, 5).forEach(station => {
+    const item = document.createElement("div");
 
-                    const link = document.createElement("a");
-                    link.textContent = "⛽ " + station.name + " · VER NO MAPA";
-                    link.href =
-                        "https://www.google.com/maps/search/?api=1&query=" +
-                        encodeURIComponent(
-                            `${station.latitude},${station.longitude}`
-                        );
-                    link.target = "_blank";
-                    link.rel = "noopener noreferrer";
-                    link.style.cssText =
-                        "color:#ff7900;text-decoration:none;font-weight:700;";
+    item.style.cssText = `
+        background:#242424;
+        border:1px solid #444;
+        border-radius:12px;
+        padding:14px;
+        margin-top:10px;
+        display:flex;
+        flex-direction:column;
+        gap:12px;
+    `;
 
-                    item.appendChild(link);
-                    stationResults.appendChild(item);
-                });
-            }
-        } catch (error) {
-            stationResults.textContent =
-                "⚠️ Não foi possível pesquisar postos neste momento.";
-            console.error("MotoQuest — pesquisa de postos:", error);
-        } finally {
-            searchButton.disabled = false;
-        }
-    };
+    // Distância em linha reta desde a paragem prevista
+    const distanceKm = haversineKm(
+        stopLocation.latitude,
+        stopLocation.longitude,
+        station.latitude,
+        station.longitude
+    );
 
-    
-searchButton.textContent = "⛽ POSTOS PRÓXIMOS";
+    const top = document.createElement("div");
+    top.style.cssText = `
+        display:flex;
+        align-items:center;
+        gap:12px;
+    `;
 
+    const fuelIcon = document.createElement("div");
+    fuelIcon.textContent = "⛽";
+    fuelIcon.style.cssText = `
+        background:#352515;
+        border-radius:10px;
+        padding:12px;
+        font-size:22px;
+    `;
 
+    const info = document.createElement("div");
+    info.style.flex = "1";
 
+    const name = document.createElement("div");
+    name.textContent = station.name;
+    name.style.cssText = `
+        color:#fff;
+        font-size:14px;
+        font-weight:900;
+    `;
 
+    const subtitle = document.createElement("div");
+    subtitle.textContent = "Posto de combustível";
+    subtitle.style.cssText = `
+        color:#aaa;
+        font-size:11px;
+        margin-top:3px;
+    `;
 
-   
+    info.append(name, subtitle);
 
+    const distanceBadge = document.createElement("div");
+    distanceBadge.style.cssText = `
+        color:#ff7900;
+        font-size:13px;
+        font-weight:900;
+        text-align:right;
+        white-space:nowrap;
+    `;
+    distanceBadge.textContent =
+        distanceKm.toFixed(1).replace(".", ",") + " km";
 
-    stop.appendChild(searchButton);
-    fuelPlanner.appendChild(stop);
-    fuelPlanner.appendChild(stationResults);
-}
+    const distanceLabel = document.createElement("small");
+    distanceLabel.textContent = "linha reta";
+    distanceLabel.style.cssText = `
+        display:block;
+        color:#999;
+        font-size:9px;
+        font-weight:400;
+    `;
+    distanceBadge.appendChild(distanceLabel);
 
-    });
+    top.append(fuelIcon, info, distanceBadge);
+
+    const mapButton = document.createElement("a");
+    mapButton.textContent = "📍 VER NO MAPA";
+    mapButton.href =
+        "https://www.google.com/maps/search/?api=1&query=" +
+        encodeURIComponent(
+            `${station.latitude},${station.longitude}`
+        );
+    mapButton.target = "_blank";
+    mapButton.rel = "noopener noreferrer";
+    mapButton.style.cssText = `
+        display:block;
+        background:#333;
+        color:#fff;
+        border:1px solid #555;
+        border-radius:8px;
+        padding:10px;
+        text-align:center;
+        text-decoration:none;
+        font-size:11px;
+        font-weight:800;
+    `;
+
+    item.append(top, mapButton);
+    stationResults.appendChild(item);
+});
+
 }
 
 const plannerNote = document.createElement("small");
