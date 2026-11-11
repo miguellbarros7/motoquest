@@ -7657,9 +7657,19 @@ weatherGroups.forEach(group => {
         ? group.district.toUpperCase()
         : group.stop.name;
 
-    const subtitle = group.count > 1
-        ? `${group.count} spots · ${group.stop.name}`
-        : group.stop.name;
+const formatHour = date =>
+    date.toLocaleTimeString("pt-PT", {
+        hour: "2-digit",
+        minute: "2-digit"
+    });
+
+const spotNames = group.stops
+    .map(stop => stop.name)
+    .join(" · ");
+
+const subtitle = group.count > 1
+    ? `${group.count} spots · ${spotNames} · ${formatHour(group.stop.arrivalTime)}–${formatHour(group.lastStop.arrivalTime)}`
+    : group.stop.name;
 
     tripWeatherCards.appendChild(
         createCard(
