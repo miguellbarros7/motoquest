@@ -9658,8 +9658,15 @@ if (
             ? departureResolved.name
             : $("routeDepartureLocation").value.trim(),
 
-        meeting_enabled: $("routeMeetingEnabled").checked,
-        meeting_location: $("routeMeetingLocation").value.trim(),
+       meeting_enabled: $("routeMeetingEnabled").checked,
+
+meeting_location: meetingResolved
+    ? meetingResolved.location
+    : $("routeMeetingLocation").value.trim(),
+
+meeting_name: meetingResolved
+    ? meetingResolved.name
+    : $("routeMeetingLocation").value.trim(),
                       trip_date: $("routeTripDate").value || null,
         departure_time: $("routeTripTime").value || "09:00",
                end_type: $("routeTripEnd").value,
