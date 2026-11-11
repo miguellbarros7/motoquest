@@ -7634,20 +7634,22 @@ forecasts.forEach(item => {
         rainDifference < 30 &&
         windDifference < 20;
 
-    if (sameGroup) {
-        previous.count++;
-        previous.lastStop = item.stop;
-        return;
-    }
+  if (sameGroup) {
+    previous.count++;
+    previous.lastStop = item.stop;
+    previous.stops.push(item.stop);
+    return;
+}
 
-    weatherGroups.push({
-        district,
-        stop: item.stop,
-        lastStop: item.stop,
-        forecast: item.forecast,
-        message: item.message,
-        count: 1
-    });
+  weatherGroups.push({
+    district,
+    stop: item.stop,
+    lastStop: item.stop,
+    stops: [item.stop],
+    forecast: item.forecast,
+    message: item.message,
+    count: 1
+});
 });
 
 weatherGroups.forEach(group => {
