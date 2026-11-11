@@ -5125,11 +5125,14 @@ subtitle.style.cssText =
 const googleRouteOptions = document.createElement("div");
 
 googleRouteOptions.style.cssText =
-    "display:flex;flex-direction:column;gap:7px;" +
-    "margin:8px 0;padding:4px 0;width:100%;" +
-    "box-sizing:border-box;background:transparent;" +
-    "border:none;box-shadow:none;" +
-    "font-size:12px;font-weight:400;color:#aaa;";
+    "display:flex;flex-direction:row;" +
+    "align-items:center;justify-content:center;" +
+    "flex-wrap:wrap;gap:12px;" +
+    "margin:8px auto;padding:4px 0;" +
+    "width:fit-content;max-width:100%;" +
+    "background:transparent;border:none;" +
+    "box-shadow:none;font-size:12px;" +
+    "font-weight:400;color:#aaa;";
 // Opção para evitar autoestradas
 const avoidHighwaysLabel = document.createElement("label");
 
