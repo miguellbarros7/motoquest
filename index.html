@@ -6458,9 +6458,13 @@ for (let i = 0; i < originalLegs.length; i++) {
 const newStops = [...ordered];
 
 newStops.splice(insertionIndex, 0, {
+   
     name: station.name,
+    locality: station.locality,
     latitude: station.latitude,
-    longitude: station.longitude
+    longitude: station.longitude,
+    insertion_index: insertionIndex
+
 });
 
 const newCoordinates = newStops.map(loc =>
