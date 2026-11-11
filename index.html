@@ -5176,6 +5176,8 @@ avoidTollsLabel.style.cssText =
 
 const avoidTollsCheckbox = document.createElement("input");
 avoidTollsCheckbox.type = "checkbox";
+        avoidTollsCheckbox.checked =
+    route.trip_plan?.avoid_tolls === true;
 avoidTollsCheckbox.style.cssText =
     "appearance:none;-webkit-appearance:none;" +
     "width:11px;height:11px;min-width:11px;" +
