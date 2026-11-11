@@ -7503,8 +7503,31 @@ tripWeatherButton.addEventListener("click", async () => {
         return card;
     };
 
+   
+    // Remover pontos repetidos na mesma hora
+    const uniqueWeatherStops = tripWeatherSchedule.filter(
+        (stop, index, all) =>
+            !all.slice(0, index).some(previous =>
+                Math.abs(previous.latitude - stop.latitude) < 0.00001 &&
+                Math.abs(previous.longitude - stop.longitude) < 0.00001 &&
+                Math.abs(
+                    previous.arrivalTime.getTime() -
+                    stop.arrivalTime.getTime()
+                ) < 60000
+            )
+    );
+
+    // Simplificar nomes longos sem alterar os dados da rota
+    const weatherStops = uniqueWeatherStops.map(stop => ({
+        ...stop,
+        name: String(stop.name || "Local sem nome")
+            .split(",")[0]
+            .trim()
+    }));
+
     const forecasts = await Promise.all(
-        tripWeatherSchedule.map(async stop => {
+        weatherStops.map(async stop => {
+
             const date = stop.arrivalTime;
 
             if (date < today || date >= lastDay) {
