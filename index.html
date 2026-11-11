@@ -6234,6 +6234,13 @@ const tripDepartureType = route.trip_plan?.departure_type || "first";
 const tripDepartureAddress =
     (route.trip_plan?.departure_location || "").trim();
 
+// Dados do ponto de encontro guardado
+const tripMeetingEnabled =
+    route.trip_plan?.meeting_enabled === true;
+
+const tripMeetingAddress =
+    (route.trip_plan?.meeting_location || "").trim();
+
 // Converter uma localização escrita em coordenadas
 async function geocodeTripLocation(address) {
     if (!address) return null;
