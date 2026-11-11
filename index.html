@@ -6512,9 +6512,32 @@ for (let i = 0; i < originalLegs.length; i++) {
     accumulatedDistance += originalLegs[i].distance / 1000;
 
     if (distance <= accumulatedDistance) {
-        insertionIndex = i + 1;
+        const originalStopsBefore = routeStops
+            .slice(0, i + 1)
+            .filter(stop =>
+                ordered.some(loc => loc.id === stop.id)
+            ).length;
+
+        insertionIndex = Math.max(
+            1,
+            Math.min(ordered.length - 1, originalStopsBefore)
+        );
         break;
     }
+}
+
+// Se substituir uma bomba próxima, mantém a posição dela
+const nearbySavedFuel = (route.fuel_stops || []).find(fuel =>
+    haversineKm(
+        Number(fuel.latitude),
+        Number(fuel.longitude),
+        Number(station.latitude),
+        Number(station.longitude)
+    ) <= FUEL_REPLACEMENT_RADIUS_KM
+);
+
+if (nearbySavedFuel) {
+    insertionIndex = Number(nearbySavedFuel.insertion_index);
 }
 
 // Abastecimentos já guardados nesta rota
