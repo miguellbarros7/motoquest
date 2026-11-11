@@ -7302,6 +7302,80 @@ if (tripStartDate && tripRouteStops.length > 0) {
     }
 }
 /* FIM HORÁRIOS AUTOMÁTICOS DA ROTA */
+
+    
+/* MOTOQUEST — PAINEL METEOROLOGIA DA ROTA */
+
+const tripWeatherButton = document.createElement("button");
+tripWeatherButton.type = "button";
+tripWeatherButton.textContent = "🌦️ VER METEOROLOGIA DA ROTA";
+
+tripWeatherButton.style.cssText = `
+    width:100%;
+    padding:14px;
+    margin-top:14px;
+    background:#ff7900;
+    color:#ffffff;
+    border:none;
+    border-radius:12px;
+    font-size:14px;
+    font-weight:800;
+    cursor:pointer;
+`;
+
+const tripWeatherPanel = document.createElement("div");
+
+tripWeatherPanel.style.cssText = `
+    display:none;
+    margin-top:14px;
+    padding:16px;
+    background:#1a1a1a;
+    border:1px solid #ff7900;
+    border-radius:14px;
+`;
+
+const tripWeatherTitle = document.createElement("h3");
+tripWeatherTitle.textContent = "🌦️ Meteorologia da Viagem";
+tripWeatherTitle.style.cssText = `
+    color:#ff7900;
+    margin:0 0 14px;
+    font-size:18px;
+`;
+
+const tripWeatherCards = document.createElement("div");
+
+tripWeatherCards.style.cssText = `
+    display:grid;
+    grid-template-columns:repeat(
+        auto-fit,minmax(min(100%,150px),1fr)
+    );
+    gap:10px;
+`;
+
+tripWeatherPanel.append(
+    tripWeatherTitle,
+    tripWeatherCards
+);
+
+tripWeatherButton.addEventListener("click", () => {
+    const isHidden =
+        tripWeatherPanel.style.display === "none";
+
+    tripWeatherPanel.style.display =
+        isHidden ? "block" : "none";
+
+    tripWeatherButton.textContent = isHidden
+        ? "🌦️ FECHAR METEOROLOGIA"
+        : "🌦️ VER METEOROLOGIA DA ROTA";
+});
+
+tripPlannerCard.append(
+    tripWeatherButton,
+    tripWeatherPanel
+);
+
+/* FIM PAINEL METEOROLOGIA DA ROTA */
+
 savedFuelStops.forEach(fuel => {
     const fuelIndex = tripRouteStops.findIndex(stop =>
         Math.abs(Number(stop.latitude) - Number(fuel.latitude)) < 0.000001 &&
