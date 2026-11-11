@@ -6464,6 +6464,28 @@ if (tripDeparturePoint) {
     tripRouteStops.unshift(tripDeparturePoint);
 }
 
+// Mostrar a localização encontrada para o destino final
+if (tripEndType === "other") {
+    const destinationInfo = document.createElement("div");
+
+    destinationInfo.style.cssText = `
+        margin-top:10px;
+        padding:10px;
+        border:1px solid #ff8c00;
+        border-radius:8px;
+        color:#ddd;
+        font-size:12px;
+        line-height:1.6;
+        overflow-wrap:anywhere;
+    `;
+
+    destinationInfo.textContent = tripEndPoint
+        ? "📍 Localização encontrada: " + tripEndPoint.name
+        : "⚠️ Não foi possível localizar o destino final.";
+
+    tripPlannerCard.appendChild(destinationInfo);
+}
+
 // Acrescentar o destino personalizado depois da última paragem
 if (tripEndPoint) {
     tripRouteStops.push(tripEndPoint);
