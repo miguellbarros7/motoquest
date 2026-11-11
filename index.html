@@ -2309,10 +2309,30 @@ data-go="routes"
             meetingInput.disabled = !enabled;
         }
 
-        meetingEnabled.addEventListener("change", updateMeetingLocation);
+            meetingEnabled.addEventListener("change", updateMeetingLocation);
         updateMeetingLocation();
     }
+
+    // Mostrar o campo quando o destino final for personalizado
+    const tripEndSelect = document.getElementById("routeTripEnd");
+    const tripEndField = document.getElementById("routeTripEndLocationField");
+    const tripEndInput = document.getElementById("routeTripEndLocation");
+
+    if (tripEndSelect && tripEndField && tripEndInput) {
+        function updateTripEndLocation() {
+            const isOtherDestination = tripEndSelect.value === "other";
+
+            tripEndField.style.display =
+                isOtherDestination ? "block" : "none";
+
+            tripEndInput.disabled = !isOtherDestination;
+        }
+
+        tripEndSelect.addEventListener("change", updateTripEndLocation);
+        updateTripEndLocation();
+    }
 })();
+</script>
 </script>
     
 <div class="field">
