@@ -6337,7 +6337,11 @@ if (needsTripDeparture) {
     }
 }
 
-// Ainda não alteramos o percurso com esta localização.
+// Acrescentar a partida ao início do percurso, quando encontrada
+if (tripDeparturePoint) {
+    tripRouteStops.unshift(tripDeparturePoint);
+}
+
 const coordinates = tripRouteStops.map(loc =>
     `${Number(loc.longitude)},${Number(loc.latitude)}`
 ).join(";");
