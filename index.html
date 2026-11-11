@@ -9595,22 +9595,7 @@ async function resolveGoogleMapsShortLink(shortUrl) {
     }
 }
 
-window.testGoogleMapsLink = async function () {
-    const link = "https://maps.app.goo.gl/vPWW8hXdNMf2jgQ98";
 
-    const result = await resolveGoogleMapsShortLink(link);
-
-    if (!result) {
-        alert("❌ Não foi possível resolver o link. Verifica a consola.");
-        return;
-    }
-
-    alert(
-        "✅ Google Maps reconhecido!\n\n" +
-        "Nome: " + result.name + "\n" +
-        "Localização: " + result.location
-    );
-};
 
 $("savePersonalRouteBtn").addEventListener("click", async () => {
     const name = $("routeName").value.trim();
