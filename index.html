@@ -6495,10 +6495,18 @@ searchButton.textContent = matchingFuelStop
         stationResults.textContent = "🔎 A procurar postos próximos...";
 
         try {
-            const stations = await findFuelStations(
-                stopLocation.latitude,
-                stopLocation.longitude
-            );
+            const searchLatitude = matchingFuelStop
+    ? Number(matchingFuelStop.latitude)
+    : stopLocation.latitude;
+
+const searchLongitude = matchingFuelStop
+    ? Number(matchingFuelStop.longitude)
+    : stopLocation.longitude;
+
+const stations = await findFuelStations(
+    searchLatitude,
+    searchLongitude
+);
 
             stationResults.replaceChildren();
 
