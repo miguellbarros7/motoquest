@@ -6442,9 +6442,13 @@ addToRouteButton.onclick = () => {
 const buttonRow = document.createElement("div");
 buttonRow.style.cssText = `
     display:flex;
+    align-items:center;
     gap:8px;
     width:100%;
 `;
+
+mapButton.style.flex = "0 0 auto";
+addToRouteButton.style.flex = "0 0 auto";
 
 buttonRow.append(mapButton, addToRouteButton);
 
