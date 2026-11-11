@@ -6186,8 +6186,13 @@ if (routeFuelStops.length > 0) {
             ? fuel.name + " — " + fuel.locality
             : fuel.name;
 
-        const fuelStatus = document.createElement("div");
-        fuelStatus.textContent = "Paragem guardada na rota";
+        const fuelKm = fuelKmByStop.get(fuel);
+
+fuelStatus.textContent = Number.isFinite(fuelKm)
+    ? `📍 Km ${fuelKm.toLocaleString("pt-PT", {
+        maximumFractionDigits: 0
+    })} · Paragem guardada na rota`
+    : "Paragem guardada na rota";
         fuelStatus.style.cssText =
             "color:#aaa;font-size:11px;margin-top:4px;";
 
