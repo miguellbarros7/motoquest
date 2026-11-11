@@ -6200,12 +6200,27 @@ fuelStatus.textContent = Number.isFinite(fuelKm)
 
         fuelInfo.append(fuelName, fuelStatus);
 
-        const check = document.createElement("span");
-        check.textContent = "✅";
-        check.style.fontSize = "20px";
+     const check = document.createElement("span");
+check.textContent = "✅";
+check.style.fontSize = "20px";
 
-        fuelRow.append(fuelIcon, fuelInfo, check);
-        savedFuelCard.appendChild(fuelRow);
+const removeFuelButton = document.createElement("button");
+removeFuelButton.type = "button";
+removeFuelButton.textContent = "🗑️ REMOVER";
+
+removeFuelButton.style.cssText = `
+    background:#352020;
+    color:#ff9999;
+    border:1px solid #b45353;
+    border-radius:8px;
+    padding:9px 12px;
+    font-size:11px;
+    font-weight:900;
+    cursor:pointer;
+`;
+
+fuelRow.append(fuelIcon, fuelInfo, check, removeFuelButton);
+savedFuelCard.appendChild(fuelRow);
     });
 } else {
     const emptyFuel = document.createElement("div");
