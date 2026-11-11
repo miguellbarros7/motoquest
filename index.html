@@ -2163,7 +2163,29 @@ data-go="routes"
     </div>
 </div>
     </details>  
+<script>
+(function () {
+    const departureType = document.getElementById("routeDepartureType");
+    const locationField = document.getElementById("routeDepartureLocationField");
+    const locationInput = document.getElementById("routeDepartureLocation");
 
+    if (!departureType || !locationField || !locationInput) return;
+
+    function updateDepartureLocation() {
+        const needsLocation = departureType.value !== "first";
+
+        locationField.style.display = needsLocation ? "block" : "none";
+        locationInput.disabled = !needsLocation;
+
+        locationInput.placeholder = departureType.value === "home"
+            ? "🏠 Introduz a tua morada de casa"
+            : "📍 Introduz a localização de partida";
+    }
+
+    departureType.addEventListener("change", updateDepartureLocation);
+    updateDepartureLocation();
+})();
+</script>
     
 <div class="field">
     <label>
