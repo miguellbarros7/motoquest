@@ -5793,14 +5793,13 @@ googleFuelStops
     // Ler as opções selecionadas diretamente no cartão da rota
     const avoidOptions = [];
 
-    if (avoidHighwaysCheckbox.checked) {
-        avoidOptions.push("highways");
-    }
+if (route.trip_plan?.avoid_highways === true) {
+    avoidOptions.push("highways");
+}
 
-    if (avoidTollsCheckbox.checked) {
-        avoidOptions.push("tolls");
-    }
-
+if (route.trip_plan?.avoid_tolls === true) {
+    avoidOptions.push("tolls");
+}
     const params = new URLSearchParams({
         api: "1",
         origin: places[0],
