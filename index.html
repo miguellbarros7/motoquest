@@ -6540,8 +6540,22 @@ destinationInfo.textContent = tripEndPoint
         // Botão para confirmar a localização encontrada
         const destinationConfirmButton = document.createElement("button");
 
-        destinationConfirmButton.type = "button";
-        destinationConfirmButton.textContent = "✅ Confirmar este destino";
+             destinationConfirmButton.type = "button";
+
+        const destinationAlreadyConfirmed =
+            confirmedTripEnd !== null &&
+            Number.isFinite(Number(confirmedTripEnd.latitude)) &&
+            Number.isFinite(Number(confirmedTripEnd.longitude)) &&
+            Number(confirmedTripEnd.latitude) >= -90 &&
+            Number(confirmedTripEnd.latitude) <= 90 &&
+            Number(confirmedTripEnd.longitude) >= -180 &&
+            Number(confirmedTripEnd.longitude) <= 180;
+
+        destinationConfirmButton.textContent = destinationAlreadyConfirmed
+            ? "✅ Destino já confirmado"
+            : "✅ Confirmar este destino";
+
+        destinationConfirmButton.disabled = destinationAlreadyConfirmed;
 
         destinationConfirmButton.style.cssText = `
             margin-top:10px;
