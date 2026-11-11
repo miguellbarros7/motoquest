@@ -5457,21 +5457,7 @@ routeInfo.style.cssText =
 date.style.marginTop = "0";
 stops.style.marginTop = "0";
 
-
-routeInfo.append(
-    costLine,
-    warningLine,
-    priceSource,
-    savedFuelCard,
-    fuelPlanner
-);
-
-routeInfo.insertBefore(tripWeatherButton, savedFuelCard);
-routeInfo.insertBefore(tripWeatherPanel, savedFuelCard);
-// Colocar a meteorologia depois dos indicadores
-// e antes dos abastecimentos.
-routeInfo.insertBefore(tripWeatherButton, savedFuelCard);
-routeInfo.insertBefore(tripWeatherPanel, savedFuelCard);
+routeInfo.append(date, stops);
 
 // Mostrar as opções no cartão da rota
 
