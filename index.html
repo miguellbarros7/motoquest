@@ -6219,6 +6219,47 @@ removeFuelButton.style.cssText = `
     cursor:pointer;
 `;
 
+removeFuelButton.onclick = async () => {
+    const confirmed = window.confirm(
+        "Remover este abastecimento da rota?\n\n" +
+        "⛽ " + fuelName.textContent + "\n\n" +
+        "Os locais originais da rota serão mantidos."
+    );
+
+    if (!confirmed) return;
+
+    removeFuelButton.disabled = true;
+    removeFuelButton.textContent = "⏳ A REMOVER...";
+
+    try {
+        const updatedFuelStops = routeFuelStops.filter(
+            savedFuel => savedFuel !== fuel
+        );
+
+        const { error } = await supabaseClient
+            .from("routes")
+            .update({ fuel_stops: updatedFuelStops })
+            .eq("id", route.id)
+            .eq("user_id", currentUser.id)
+            .eq("route_type", "personal");
+
+        if (error) throw error;
+
+        route.fuel_stops = updatedFuelStops;
+
+        summaryPanel.classList.add("hidden");
+        summaryBtn.click();
+
+    } catch (error) {
+        console.error("MotoQuest — erro ao remover bomba:", error);
+        window.alert(
+            "Não foi possível remover a bomba. Tenta novamente."
+        );
+    } finally {
+        removeFuelButton.disabled = false;
+        removeFuelButton.textContent = "🗑️ REMOVER";
+    }
+};        
 fuelRow.append(fuelIcon, fuelInfo, check, removeFuelButton);
 savedFuelCard.appendChild(fuelRow);
     });
