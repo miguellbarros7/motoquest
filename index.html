@@ -2154,15 +2154,55 @@ data-go="routes"
             📍 LOCALIZAÇÃO DE PARTIDA
         </label>
 
-        <input
+               <input
             id="routeDepartureLocation"
             type="text"
             placeholder="Ex.: Chaves, Portugal"
             autocomplete="street-address"
         >
     </div>
+
+    <!-- PONTO DE ENCONTRO -->
+    <div class="field" style="margin-top:18px;">
+        <label for="routeMeetingEnabled">
+            🏍️ PONTO DE ENCONTRO
+        </label>
+
+        <label style="
+            display:flex;
+            align-items:center;
+            gap:10px;
+            color:#ddd;
+            font-size:13px;
+            cursor:pointer;
+        ">
+            <input
+                id="routeMeetingEnabled"
+                type="checkbox"
+                style="width:auto;accent-color:#ff7900;"
+            >
+            Vou passar por um ponto de encontro
+        </label>
+    </div>
+
+    <div
+        id="routeMeetingLocationField"
+        class="field"
+        style="display:none;margin-top:10px;"
+    >
+        <label for="routeMeetingLocation">
+            📍 LOCAL DO ENCONTRO
+        </label>
+
+        <input
+            id="routeMeetingLocation"
+            type="text"
+            placeholder="Ex.: Café Central, Chaves"
+            disabled
+        >
+    </div>
 </div>
-    </details>  
+    </details>
 <script>
 (function () {
     const departureType = document.getElementById("routeDepartureType");
