@@ -6149,8 +6149,17 @@ const savedDepartureLocation =
         ? " — " + savedTripPlan.departure_location
         : "";
 
+const savedMeetingText =
+    savedTripPlan.meeting_enabled
+        ? "\n🏍️ Ponto de encontro: " +
+          (savedTripPlan.meeting_location || "Não definido")
+        : "";
+
 tripPlannerDescription.textContent =
-    "🏁 Partida: " + savedDepartureLabel + savedDepartureLocation;
+    "🏁 Partida: " + savedDepartureLabel + savedDepartureLocation +
+    savedMeetingText;
+
+tripPlannerDescription.style.whiteSpace = "pre-line";
 tripPlannerDescription.style.cssText = `
     color:#bbb;
     font-size:12px;
