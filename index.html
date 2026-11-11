@@ -5546,6 +5546,9 @@ const destinationName =
     tripPlan.end_confirmed?.name ||
     tripPlan.end_location.trim();
 
+const destinationDisplayName =
+    destinationName.split(",").slice(0, 2).join(",").trim();
+
 destinationRow.innerHTML = `
     <div style="
         width:38px;height:38px;flex-shrink:0;
@@ -5574,7 +5577,7 @@ destinationRow.innerHTML = `
 `;
 
 destinationRow.querySelector(".destination-location").textContent =
-    destinationName;
+    destinationDisplayName;
 
     stopsPanel.appendChild(destinationRow);
 }
