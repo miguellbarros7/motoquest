@@ -6479,10 +6479,11 @@ if (tripEndType === "other") {
         overflow-wrap:anywhere;
     `;
 
-    destinationInfo.textContent = tripEndPoint
-        ? "📍 Localização encontrada: " + tripEndPoint.name
-        : "⚠️ Não foi possível localizar o destino final.";
-
+destinationInfo.textContent = tripEndPoint
+    ? "📍 Localização encontrada (ainda não confirmada): " +
+      tripEndPoint.name +
+      " — Confirma se este é o destino pretendido."
+    : "⚠️ Não foi possível localizar o destino final.";
     tripPlannerCard.appendChild(destinationInfo);
 }
 
