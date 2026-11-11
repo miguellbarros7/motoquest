@@ -6344,35 +6344,7 @@ if (needsTripDeparture) {
     }
 }
 
-// Pesquisar as coordenadas do ponto de encontro
-let tripMeetingPoint = null;
 
-if (tripMeetingEnabled && tripMeetingAddress) {
-    try {
-        tripMeetingPoint = await geocodeTripLocation(
-            tripMeetingAddress
-        );
-
-        if (tripMeetingPoint) {
-            console.log(
-                "🏍️ MotoQuest — encontro encontrado:",
-                tripMeetingPoint.name,
-                "Latitude:", tripMeetingPoint.latitude,
-                "Longitude:", tripMeetingPoint.longitude
-            );
-        } else {
-            console.warn(
-                "MotoQuest: ponto de encontro não encontrado:",
-                tripMeetingAddress
-            );
-        }
-    } catch (meetingError) {
-        console.warn(
-            "MotoQuest: não foi possível pesquisar o encontro:",
-            meetingError
-        );
-    }
-}
 
 // Pesquisar as coordenadas do ponto de encontro
 let tripMeetingPoint = null;
