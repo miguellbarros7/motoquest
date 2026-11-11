@@ -16191,5 +16191,264 @@ height:48px;
     </div>
 
 </div>
+
+<!-- MOTOQUEST — DESIGN CRIAR VIAGEM -->
+<style>
+#routeTripPlanner {
+  background:#141414!important;
+  border:1px solid #ff7900!important;
+  border-radius:18px!important;
+}
+#routeTripPlanner > summary {
+  color:#ff7900!important;
+  font-size:17px!important;
+  font-weight:900!important;
+}
+.mq-viagem-estrada {
+  position:relative;
+  display:flex;
+  flex-direction:column;
+  gap:18px;
+  margin:24px 0;
+}
+.mq-viagem-estrada::before {
+  content:"";
+  position:absolute;
+  top:30px;
+  bottom:30px;
+  left:18px;
+  width:3px;
+  background:linear-gradient(#ff7900,#ffb05c,#ff7900);
+  border-radius:5px;
+}
+.mq-viagem-etapa {
+  position:relative;
+  padding-left:52px;
+  min-width:0;
+}
+.mq-viagem-etapa::before {
+  content:attr(data-numero);
+  position:absolute;
+  top:12px;
+  left:0;
+  width:38px;
+  height:38px;
+  box-sizing:border-box;
+  border:2px solid #ff7900;
+  border-radius:50%;
+  background:#ff7900;
+  color:#111;
+  display:grid;
+  place-items:center;
+  font-size:13px;
+  font-weight:900;
+  z-index:1;
+  box-shadow:0 0 0 5px #141414;
+}
+.mq-viagem-etapa[data-numero="02"]::before {
+  background:#1c1c1c;
+  color:#ff7900;
+}
+.mq-viagem-cartao {
+  padding:16px;
+  background:#1d1d1d;
+  border:1px solid #383838;
+  border-radius:14px;
+}
+.mq-viagem-cartao .field {
+  min-width:0;
+}
+.mq-viagem-cartao .field:first-child {
+  margin-top:0!important;
+}
+.mq-viagem-cartao select,
+.mq-viagem-cartao input {
+  max-width:100%;
+  box-sizing:border-box;
+}
+.mq-viagem-cartao label[for="routeDepartureType"],
+.mq-viagem-cartao label[for="routeMeetingEnabled"],
+.mq-viagem-cartao label[for="routeTripEnd"] {
+  display:flex;
+  flex-direction:column;
+  gap:5px;
+  margin-bottom:12px;
+  color:white!important;
+  font-size:14px!important;
+  font-weight:800!important;
+}
+.mq-viagem-subtitulo {
+  color:#ff7900;
+  font-size:10px;
+  font-weight:900;
+  letter-spacing:1.2px;
+}
+.mq-viagem-data {
+  background:#211a14;
+  border:1px solid #68401f;
+  border-radius:14px;
+  padding:16px;
+  margin-top:22px;
+}
+.mq-viagem-data::before {
+  content:"📅 QUANDO COMEÇA A AVENTURA?";
+  display:block;
+  color:#ff9a3c;
+  font-size:13px;
+  font-weight:900;
+  margin-bottom:14px;
+}
+.mq-viagem-data .field,
+.mq-viagem-data input {
+  min-width:0;
+}
+@media(max-width:420px) {
+  #routeTripPlanner {
+    padding:14px!important;
+  }
+  .mq-viagem-etapa {
+    padding-left:43px;
+  }
+  .mq-viagem-etapa::before {
+    width:32px;
+    height:32px;
+    top:15px;
+  }
+  .mq-viagem-estrada::before {
+    left:15px;
+  }
+  .mq-viagem-cartao,
+  .mq-viagem-data {
+    padding:12px;
+  }
+  .mq-viagem-data input {
+    width:100%!important;
+    padding:12px 5px!important;
+    font-size:12px!important;
+  }
+}
+</style>
+
+<script>
+(function () {
+  function montarViagem() {
+    const area = document.getElementById(
+      "routeTripPlannerFields"
+    );
+
+    if (!area || area.querySelector(".mq-viagem-estrada")) {
+      return;
+    }
+
+    const partida = document.getElementById(
+      "routeDepartureType"
+    )?.closest(".field");
+
+    const partidaExtra = document.getElementById(
+      "routeDepartureLocationField"
+    );
+
+    const encontro = document.getElementById(
+      "routeMeetingEnabled"
+    )?.closest(".field");
+
+    const encontroExtra = document.getElementById(
+      "routeMeetingLocationField"
+    );
+
+    const destino = document.getElementById(
+      "routeTripEnd"
+    )?.closest(".field");
+
+    const destinoExtra = document.getElementById(
+      "routeTripEndLocationField"
+    );
+
+    const data = document.getElementById("routeTripDate");
+    const grelhaData = data?.parentElement?.parentElement;
+
+    if (
+      !partida || !partidaExtra ||
+      !encontro || !encontroExtra ||
+      !destino || !destinoExtra || !grelhaData
+    ) {
+      return;
+    }
+
+    const estrada = document.createElement("div");
+    estrada.className = "mq-viagem-estrada";
+    partida.before(estrada);
+
+    function criarEtapa(numero, subtitulo, titulo, campo, extra, id) {
+      const etapa = document.createElement("div");
+      etapa.className = "mq-viagem-etapa";
+      etapa.dataset.numero = numero;
+
+      const cartao = document.createElement("div");
+      cartao.className = "mq-viagem-cartao";
+
+      const etiqueta = campo.querySelector(
+        'label[for="' + id + '"]'
+      );
+
+      if (etiqueta) {
+        etiqueta.textContent = "";
+
+        const pequeno = document.createElement("span");
+        pequeno.className = "mq-viagem-subtitulo";
+        pequeno.textContent = subtitulo;
+
+        const principal = document.createElement("span");
+        principal.textContent = titulo;
+
+        etiqueta.append(pequeno, principal);
+      }
+
+      cartao.append(campo, extra);
+      etapa.append(cartao);
+      estrada.append(etapa);
+    }
+
+    criarEtapa(
+      "01", "O INÍCIO", "📍 PONTO DE PARTIDA",
+      partida, partidaExtra, "routeDepartureType"
+    );
+
+    criarEtapa(
+      "02", "A COMPANHIA", "🏍️ PONTO DE ENCONTRO",
+      encontro, encontroExtra, "routeMeetingEnabled"
+    );
+
+    criarEtapa(
+      "03", "A CONQUISTA", "🏁 DESTINO FINAL",
+      destino, destinoExtra, "routeTripEnd"
+    );
+
+    const caixaData = document.createElement("div");
+    caixaData.className = "mq-viagem-data";
+    estrada.after(caixaData);
+    caixaData.append(grelhaData);
+
+    Array.from(area.children).forEach(function (elemento) {
+      if (
+        elemento.tagName === "DIV" &&
+        elemento.style.height === "1px" &&
+        elemento.style.background
+      ) {
+        elemento.remove();
+      }
+    });
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", montarViagem);
+  } else {
+    montarViagem();
+  }
+})();
+</script>
+<!-- FIM DESIGN CRIAR VIAGEM -->
+
+    
 </body>
 </html>
