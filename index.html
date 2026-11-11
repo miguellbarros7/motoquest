@@ -5346,7 +5346,7 @@ departureRow.innerHTML = `
 `;
 
 departureRow.querySelector(".departure-location").textContent =
-    tripPlan.departure_location.trim();
+    (tripPlan.departure_name || tripPlan.departure_location || "").trim();
 
       stopsPanel.appendChild(departureRow);
 }
