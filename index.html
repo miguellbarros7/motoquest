@@ -6012,6 +6012,28 @@ if (!Array.isArray(routePath) || routePath.length < 2) {
         throw new Error("Não foi possível calcular esta rota.");
     }
 
+    // Quilómetros reais dos abastecimentos guardados
+const fuelKmByStop = new Map();
+
+const routeLegs = calculatedRoute.legs || [];
+
+savedFuelStops.forEach(fuel => {
+    const fuelIndex = routeStops.findIndex(stop =>
+        Math.abs(Number(stop.latitude) - Number(fuel.latitude)) < 0.000001 &&
+        Math.abs(Number(stop.longitude) - Number(fuel.longitude)) < 0.000001
+    );
+
+    if (fuelIndex < 1) return;
+
+    const distanceMetres = routeLegs
+        .slice(0, fuelIndex)
+        .reduce((total, leg) => total + leg.distance, 0);
+
+    if (routeLegs.length < fuelIndex) return;
+
+    fuelKmByStop.set(fuel, distanceMetres / 1000);
+});
+
     
 const getPointAtKm = (targetKm) => {
     if (!Array.isArray(routePath) || routePath.length < 2) {
