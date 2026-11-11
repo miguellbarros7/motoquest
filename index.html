@@ -5616,6 +5616,25 @@ googleFuelStops
             longitude
         });
     });
+      // Dados do planeamento para o percurso no Google Maps
+    const googleTripPlan = route.trip_plan || {};
+
+    const googleDepartureAddress =
+        (googleTripPlan.departure_location || "").trim();
+
+    const googleMeetingAddress =
+        googleTripPlan.meeting_enabled === true
+            ? (googleTripPlan.meeting_location || "").trim()
+            : "";
+
+    const googleEndAddress =
+        googleTripPlan.end_type === "other"
+            ? (googleTripPlan.end_location || "").trim()
+            : "";
+
+    const googleConfirmedEnd =
+        googleTripPlan.end_confirmed || null;
+
     const places = orderedLocations.map(location => {
         if (location.latitude != null &&
             location.longitude != null) {
