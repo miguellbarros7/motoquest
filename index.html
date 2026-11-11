@@ -6336,20 +6336,69 @@ if (stopLocation) {
 searchButton.textContent = "⛽ POSTOS PRÓXIMOS";
 
 
-searchButton.onclick = () => {
+
+searchButton.onclick = async () => {
     const lat = stopLocation.latitude;
     const lon = stopLocation.longitude;
 
-   
+    // Abrir logo o separador para evitar bloqueios de pop-ups.
+    const mapsTab = window.open("about:blank", "_blank");
 
-const url =
-    "https://www.google.com/maps/search/?api=1&query=" +
-    encodeURIComponent("postos de combustível em Guimarães, Portugal");
+    const cacheKey = `motoquest-localidade-${lat.toFixed(3)}-${lon.toFixed(3)}`;
+    let localidade = localStorage.getItem(cacheKey);
 
+    if (!localidade) {
+        try {
+            const params = new URLSearchParams({
+                lat: String(lat),
+                lon: String(lon),
+                format: "json",
+                zoom: "10",
+                addressdetails: "1"
+            });
 
+            const response = await fetch(
+                "https://nominatim.openstreetmap.org/reverse?" + params
+            );
 
-    window.open(url, "_blank", "noopener,noreferrer");
+            if (!response.ok) {
+                throw new Error(`Geocodificação HTTP ${response.status}`);
+            }
+
+            const data = await response.json();
+            const address = data.address || {};
+
+            localidade =
+                address.city ||
+                address.town ||
+                address.village ||
+                address.municipality ||
+                address.county ||
+                null;
+
+            if (localidade) {
+                localStorage.setItem(cacheKey, localidade);
+            }
+        } catch (error) {
+            console.warn("MotoQuest — localidade indisponível:", error);
+        }
+    }
+
+    const pesquisa = localidade
+        ? `postos de combustível em ${localidade}, Portugal`
+        : `postos de combustível perto de ${lat},${lon}`;
+
+    const url =
+        "https://www.google.com/maps/search/?api=1&query=" +
+        encodeURIComponent(pesquisa);
+
+    if (mapsTab) {
+        mapsTab.location.href = url;
+    } else {
+        window.location.href = url;
+    }
 };
+
 
 
     stop.appendChild(searchButton);
