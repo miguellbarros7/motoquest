@@ -5214,7 +5214,26 @@ if (
     departureRow.textContent =
         "🏁 PARTIDA — " + tripPlan.departure_location.trim();
 
-    stopsPanel.appendChild(departureRow);
+      stopsPanel.appendChild(departureRow);
+}
+
+// Mostrar o ponto de encontro antes das paragens originais
+if (
+    tripPlan.meeting_enabled === true &&
+    (tripPlan.meeting_location || "").trim()
+) {
+    const meetingRow = document.createElement("div");
+
+    meetingRow.style.cssText =
+        "padding:9px 10px;margin-bottom:8px;" +
+        "background:#1b2520;border:1px solid #22c55e;" +
+        "border-radius:8px;color:#86efac;font-weight:600;";
+
+    meetingRow.textContent =
+        "🤝 PONTO DE ENCONTRO — " +
+        tripPlan.meeting_location.trim();
+
+    stopsPanel.appendChild(meetingRow);
 }
 
     ids.forEach((id, index) => {
