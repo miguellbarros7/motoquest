@@ -5681,6 +5681,14 @@ googleFuelStops
         places.push(googleDestination);
     }
 
+    // Perguntar a preferência de portagens antes de abrir o Google Maps
+    const avoidTolls = confirm(
+        "🏍️ MOTOQUEST BLACK EDITION\n\n" +
+        "Queres evitar estradas com portagens nesta viagem?\n\n" +
+        "OK = Evitar portagens\n" +
+        "Cancelar = Permitir portagens"
+    );
+
     const params = new URLSearchParams({
         api: "1",
         origin: places[0],
@@ -5688,6 +5696,9 @@ googleFuelStops
         travelmode: "driving"
     });
 
+    if (avoidTolls) {
+        params.set("avoid", "tolls");
+    }
     if (places.length > 2) {
         params.set("waypoints", places.slice(1, -1).join("|"));
     }
