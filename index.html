@@ -5666,6 +5666,15 @@ title.append(left, arrow);
 
 arrow.onclick = async (event) => {
     event.stopPropagation();
+    if (
+    avoidHighwaysCheckbox.checked !==
+        (route.trip_plan?.avoid_highways === true) ||
+    avoidTollsCheckbox.checked !==
+        (route.trip_plan?.avoid_tolls === true)
+) {
+    alert("Guarda primeiro as opções da rota antes de abrir o Google Maps.");
+    return;
+}
 
     
     const ids = Array.isArray(route.location_ids)
