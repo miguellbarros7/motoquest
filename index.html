@@ -6855,7 +6855,7 @@ try {
 
     const { data: locations, error } = await supabaseClient
         .from("locations")
-        .select("id, name, latitude, longitude")
+.select("id, name, latitude, longitude, district")
         .in("id", ids);
 
     if (error || !locations) {
