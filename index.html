@@ -9609,13 +9609,30 @@ const meetingInput = $("routeMeetingLocation").value.trim();
 const isGoogleMapsLink = value =>
     /^https?:\/\/(?:www\.)?(?:maps\.app\.goo\.gl|goo\.gl\/maps|google\.[a-z.]+\/maps|maps\.google\.[a-z.]+)/i.test(value);
 
+
+let departureResolved = null;
+
 if (
-    isGoogleMapsLink(departureInput) ||
+    $("routeDepartureType").value !== "first" &&
+    isGoogleMapsLink(departureInput)
+) {
+    departureResolved = await resolveGoogleMapsShortLink(departureInput);
+
+    if (
+        !departureResolved ||
+        departureResolved.location === departureInput
+    ) {
+        alert("Não foi possível identificar a localização de partida.");
+        return;
+    }
+}
+
+if (
+    $("routeMeetingEnabled").checked &&
     isGoogleMapsLink(meetingInput)
 ) {
     alert(
-        "A leitura de links Google Maps ainda está a ser preparada. " +
-        "Por enquanto, introduz a localização por escrito."
+        "O link do Ponto de Encontro será ativado no próximo passo."
     );
     return;
 }
