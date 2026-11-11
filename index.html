@@ -5917,6 +5917,51 @@ if (!Array.isArray(routePath) || routePath.length < 2) {
         throw new Error("Não foi possível calcular esta rota.");
     }
 
+    
+const getPointAtKm = (targetKm) => {
+    if (!Array.isArray(routePath) || routePath.length < 2) {
+        return null;
+    }
+
+    const earthRadius = 6371;
+    let accumulatedKm = 0;
+
+    for (let i = 1; i < routePath.length; i++) {
+        const [lon1, lat1] = routePath[i - 1];
+        const [lon2, lat2] = routePath[i];
+
+        const dLat = (lat2 - lat1) * Math.PI / 180;
+        const dLon = (lon2 - lon1) * Math.PI / 180;
+
+        const a =
+            Math.sin(dLat / 2) ** 2 +
+            Math.cos(lat1 * Math.PI / 180) *
+            Math.cos(lat2 * Math.PI / 180) *
+            Math.sin(dLon / 2) ** 2;
+
+        const segmentKm =
+            2 * earthRadius *
+            Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+        if (accumulatedKm + segmentKm >= targetKm) {
+            const fraction = segmentKm > 0
+                ? (targetKm - accumulatedKm) / segmentKm
+                : 0;
+
+            return {
+                latitude: lat1 + (lat2 - lat1) * fraction,
+                longitude: lon1 + (lon2 - lon1) * fraction
+            };
+        }
+
+        accumulatedKm += segmentKm;
+    }
+
+    const [longitude, latitude] = routePath[routePath.length - 1];
+    return { latitude, longitude };
+};
+
+
     const km = calculatedRoute.distance / 1000;
     const minutes = Math.round(calculatedRoute.duration / 60);
     const hours = Math.floor(minutes / 60);
