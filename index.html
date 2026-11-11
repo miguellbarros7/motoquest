@@ -9544,14 +9544,14 @@ let personalRouteStops = [];
         location = `${coordinates[1]},${coordinates[2]}`;
     }
 
-    return {
+        return {
         type: "google_maps",
+        name: placeName || queryLocation || location,
         location,
         isShortLink:
             host === "maps.app.goo.gl" ||
             host === "goo.gl"
     };
-}
 
 async function resolveGoogleMapsShortLink(shortUrl) {
     try {
