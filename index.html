@@ -7264,7 +7264,44 @@ if (!Array.isArray(routePath) || routePath.length < 2) {
 const fuelKmByStop = new Map();
 
 const routeLegs = calculatedRoute.legs || [];
+    
 
+/* MOTOQUEST — HORÁRIOS AUTOMÁTICOS DA ROTA */
+const tripWeatherSchedule = [];
+
+const tripStartDate = route.trip_plan?.trip_date;
+const tripStartTime =
+    route.trip_plan?.departure_time || "09:00";
+
+if (tripStartDate && tripRouteStops.length > 0) {
+    const departureDate = new Date(
+        `${tripStartDate}T${tripStartTime}:00`
+    );
+
+    if (!Number.isNaN(departureDate.getTime())) {
+        let elapsedSeconds = 0;
+
+        tripRouteStops.forEach((stop, index) => {
+            if (index > 0) {
+                elapsedSeconds +=
+                    Number(routeLegs[index - 1]?.duration) || 0;
+            }
+
+            const arrival = new Date(
+                departureDate.getTime() +
+                elapsedSeconds * 1000
+            );
+
+            tripWeatherSchedule.push({
+                name: stop.name || `Paragem ${index + 1}`,
+                latitude: Number(stop.latitude),
+                longitude: Number(stop.longitude),
+                arrivalTime: arrival
+            });
+        });
+    }
+}
+/* FIM HORÁRIOS AUTOMÁTICOS DA ROTA */
 savedFuelStops.forEach(fuel => {
     const fuelIndex = tripRouteStops.findIndex(stop =>
         Math.abs(Number(stop.latitude) - Number(fuel.latitude)) < 0.000001 &&
