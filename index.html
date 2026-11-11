@@ -5585,8 +5585,14 @@ addStopSelect.onchange = event => {
     saveOrderBtn.textContent = "💾 Guardar nova ordem";
 };
 
-stopsPanel.append(addStopBtn, addStopSelect, saveOrderBtn);
-    stopsLoaded = true;
+stopsPanel.append(
+    addStopBtn,
+    addStopSelect,
+    googleRouteOptions,
+    saveOrderBtn
+);
+
+stopsLoaded = true;
 
 };
 
