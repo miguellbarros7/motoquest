@@ -6372,7 +6372,7 @@ const fuelKmByStop = new Map();
 const routeLegs = calculatedRoute.legs || [];
 
 savedFuelStops.forEach(fuel => {
-    const fuelIndex = routeStops.findIndex(stop =>
+    const fuelIndex = tripRouteStops.findIndex(stop =>
         Math.abs(Number(stop.latitude) - Number(fuel.latitude)) < 0.000001 &&
         Math.abs(Number(stop.longitude) - Number(fuel.longitude)) < 0.000001
     );
@@ -6387,7 +6387,6 @@ savedFuelStops.forEach(fuel => {
 
     fuelKmByStop.set(fuel, distanceMetres / 1000);
 });
-
     
 const getPointAtKm = (targetKm) => {
     if (!Array.isArray(routePath) || routePath.length < 2) {
