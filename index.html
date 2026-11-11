@@ -6186,6 +6186,8 @@ if (routeFuelStops.length > 0) {
             ? fuel.name + " — " + fuel.locality
             : fuel.name;
 
+        const fuelStatus = document.createElement("div");
+
         const fuelKm = fuelKmByStop.get(fuel);
 
 fuelStatus.textContent = Number.isFinite(fuelKm)
