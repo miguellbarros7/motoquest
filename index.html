@@ -6523,8 +6523,9 @@ addToRouteButton.onclick = async () => {
     const confirmed = window.confirm(
         "Adicionar este posto à rota?\n\n" +
         "⛽ " + placeName + "\n\n" +
-        "A rota será recalculada depois de " +
-        "integrarmos esta funcionalidade."
+       "Vamos calcular o percurso pela bomba.\n\n" +
+"Depois poderás confirmar se queres guardar " +
+"este abastecimento na rota."
     );
 
     if (!confirmed) return;
