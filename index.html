@@ -6161,11 +6161,17 @@ const savedTripDate = savedTripPlan.trip_date
 
 const savedTripTime = savedTripPlan.departure_time || "Não definida";
 
+const savedTripEnd =
+    savedTripPlan.end_type === "home"
+        ? "🏠 Regresso a casa"
+        : "🏁 Último local da rota";
+
 tripPlannerDescription.textContent =
     "🏁 Partida: " + savedDepartureLabel + savedDepartureLocation +
     savedMeetingText +
     "\n📅 Data da viagem: " + savedTripDate +
-    "\n🕘 Hora de partida: " + savedTripTime;
+    "\n🕘 Hora de partida: " + savedTripTime +
+    "\n🏁 Final da viagem: " + savedTripEnd;
 
 tripPlannerDescription.style.cssText = `
     color:#bbb;
