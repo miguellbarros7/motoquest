@@ -6335,18 +6335,17 @@ if (stopLocation) {
     
 searchButton.textContent = "⛽ POSTOS PRÓXIMOS";
 
+
 searchButton.onclick = () => {
     const lat = stopLocation.latitude;
     const lon = stopLocation.longitude;
 
-    const search = `postos de combustível perto de ${lat},${lon}`;
-
-    window.open(
+    const url =
         "https://www.google.com/maps/search/?api=1&query=" +
-        encodeURIComponent(search),
-        "_blank",
-        "noopener,noreferrer"
-    );
+        encodeURIComponent("postos de combustível") +
+        "&center=" + lat + "," + lon;
+
+    window.open(url, "_blank", "noopener,noreferrer");
 };
 
 
