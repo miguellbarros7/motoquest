@@ -5144,6 +5144,8 @@ avoidHighwaysLabel.style.cssText =
 
 const avoidHighwaysCheckbox = document.createElement("input");
 avoidHighwaysCheckbox.type = "checkbox";
+        avoidHighwaysCheckbox.checked =
+    route.trip_plan?.avoid_highways === true;
 
         avoidHighwaysCheckbox.style.cssText =
     "appearance:none;-webkit-appearance:none;" +
