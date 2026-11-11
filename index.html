@@ -6700,15 +6700,7 @@ addToRouteButton.onclick = async () => {
         ? station.name + " — " + station.locality
         : station.name;
 
-    const confirmed = window.confirm(
-        "Adicionar este posto à rota?\n\n" +
-        "⛽ " + placeName + "\n\n" +
-       "Vamos calcular o percurso pela bomba.\n\n" +
-"Depois poderás confirmar se queres guardar " +
-"este abastecimento na rota."
-    );
-
-    if (!confirmed) return;
+ 
 
   
 const originalLegs = calculatedRoute.legs || [];
