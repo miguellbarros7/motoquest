@@ -2222,8 +2222,25 @@ data-go="routes"
             : "📍 Introduz a localização de partida";
     }
 
-    departureType.addEventListener("change", updateDepartureLocation);
+       departureType.addEventListener("change", updateDepartureLocation);
     updateDepartureLocation();
+
+    // Mostrar ou esconder o ponto de encontro
+    const meetingEnabled = document.getElementById("routeMeetingEnabled");
+    const meetingField = document.getElementById("routeMeetingLocationField");
+    const meetingInput = document.getElementById("routeMeetingLocation");
+
+    if (meetingEnabled && meetingField && meetingInput) {
+        function updateMeetingLocation() {
+            const enabled = meetingEnabled.checked;
+
+            meetingField.style.display = enabled ? "block" : "none";
+            meetingInput.disabled = !enabled;
+        }
+
+        meetingEnabled.addEventListener("change", updateMeetingLocation);
+        updateMeetingLocation();
+    }
 })();
 </script>
     
