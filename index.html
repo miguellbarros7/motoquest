@@ -6551,8 +6551,18 @@ const uniqueStations = stations.filter((station, index, all) => {
     });
 });
 
-uniqueStations.slice(0, 5).forEach(station => { 
-    const item = document.createElement("div");
+const availableStations = uniqueStations.filter(station => {
+    if (!matchingFuelStop) return true;
+
+    return haversineKm(
+        Number(matchingFuelStop.latitude),
+        Number(matchingFuelStop.longitude),
+        Number(station.latitude),
+        Number(station.longitude)
+    ) >= 0.1;
+});
+
+availableStations.slice(0, 5).forEach(station => {    const item = document.createElement("div");
 
     item.style.cssText = `
         background:#242424;
