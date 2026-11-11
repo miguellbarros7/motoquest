@@ -6582,16 +6582,36 @@ previewMap.fitBounds(routeLine.getBounds(), {
 setTimeout(() => previewMap.invalidateSize(), 150);
 
 
-    window.alert(
-        "⛽ " + placeName + "\n\n" +
-        "Rota original: " + originalKm.toFixed(1) + " km\n" +
-        "Rota pela bomba: " + newKm.toFixed(1) + " km\n" +
-        "Diferença: " +
-        (differenceKm >= 0 ? "+" : "") +
-        differenceKm.toFixed(1) + " km\n\n" +
-        "Pré-visualização concluída.\n" +
-        "A rota guardada ainda não foi alterada."
-    );
+   const saveConfirmed = window.confirm(
+    "⛽ " + placeName + "\n\n" +
+    "Rota original: " + originalKm.toFixed(1) + " km\n" +
+    "Rota pela bomba: " + newKm.toFixed(1) + " km\n" +
+    "Diferença: " +
+    (differenceKm >= 0 ? "+" : "") +
+    differenceKm.toFixed(1) + " km\n\n" +
+    "💾 Guardar este abastecimento na rota?"
+);
+
+if (!saveConfirmed) return;
+
+const { error: saveError } = await supabaseClient
+    .from("routes")
+    .update({ fuel_stops: updatedFuelStops })
+    .eq("id", route.id)
+    .eq("user_id", currentUser.id)
+    .eq("route_type", "personal");
+
+if (saveError) {
+    throw saveError;
+}
+
+route.fuel_stops = updatedFuelStops;
+
+window.alert(
+    "✅ Abastecimento guardado na rota!\n\n" +
+    "⛽ " + placeName + "\n\n" +
+    "A tua lista de Locais não foi alterada."
+);
 
 } catch (error) {
     console.error("MotoQuest — desvio pela bomba:", error);
