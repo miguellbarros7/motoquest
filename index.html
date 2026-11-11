@@ -9523,9 +9523,9 @@ let personalRouteStops = [];
         return null;
     }
 
-      const coordinates =
-        url.pathname.match(/@(-?\d+(?:\.\d+)?),(-?\d+(?:\.\d+)?)/) ||
-        url.pathname.match(/!3d(-?\d+(?:\.\d+)?).*?!4d(-?\d+(?:\.\d+)?)/);
+     const coordinates =
+    url.pathname.match(/!3d(-?\d+(?:\.\d+)?).*?!4d(-?\d+(?:\.\d+)?)/) ||
+    url.pathname.match(/@(-?\d+(?:\.\d+)?),(-?\d+(?:\.\d+)?)/);
 
     const queryLocation =
         url.searchParams.get("query") ||
