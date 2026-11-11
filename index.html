@@ -6484,7 +6484,38 @@ destinationInfo.textContent = tripEndPoint
       tripEndPoint.name +
       " — Confirma se este é o destino pretendido."
     : "⚠️ Não foi possível localizar o destino final.";
-    tripPlannerCard.appendChild(destinationInfo);
+       tripPlannerCard.appendChild(destinationInfo);
+
+    if (tripEndPoint) {
+        const destinationMapButton = document.createElement("button");
+
+        destinationMapButton.type = "button";
+        destinationMapButton.textContent = "🗺️ Ver destino no mapa";
+
+        destinationMapButton.style.cssText = `
+            margin-top:10px;
+            padding:10px 14px;
+            border:1px solid #ff8c00;
+            border-radius:8px;
+            background:#171717;
+            color:#ff8c00;
+            font-weight:bold;
+            cursor:pointer;
+        `;
+
+        destinationMapButton.addEventListener("click", () => {
+            const latitude = tripEndPoint.latitude;
+            const longitude = tripEndPoint.longitude;
+
+            const mapsUrl =
+                "https://www.google.com/maps/search/?api=1&query=" +
+                encodeURIComponent(latitude + "," + longitude);
+
+            window.open(mapsUrl, "_blank", "noopener,noreferrer");
+        });
+
+        tripPlannerCard.appendChild(destinationMapButton);
+    }
 }
 
 // Acrescentar o destino personalizado depois da última paragem
