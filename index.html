@@ -8939,6 +8939,17 @@ $("savePersonalRouteBtn").addEventListener("click", async () => {
     const name = $("routeName").value.trim();
     const description = $("routeDescription").value.trim();
 
+    // Planeamento independente dos locais originais da rota
+    const tripPlan = {
+        departure_type: $("routeDepartureType").value,
+        departure_location: $("routeDepartureLocation").value.trim(),
+        meeting_enabled: $("routeMeetingEnabled").checked,
+        meeting_location: $("routeMeetingLocation").value.trim(),
+        trip_date: $("routeTripDate").value || null,
+        departure_time: $("routeTripTime").value || "09:00",
+        end_type: $("routeTripEnd").value
+    };
+
     if (!name) {
         alert("Dá um nome à tua rota.");
         return;
