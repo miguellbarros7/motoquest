@@ -5654,7 +5654,31 @@ googleFuelStops
         googleTripPlan.departure_type !== "first" &&
         googleDepartureAddress
     ) {
-        places.unshift(googleDepartureAddress + ", Portugal");
+               places.unshift(googleDepartureAddress + ", Portugal");
+    }
+
+    // Acrescentar o destino final depois de todas as paragens
+    if (googleEndAddress) {
+        const confirmedLatitude =
+            Number(googleConfirmedEnd?.latitude);
+
+        const confirmedLongitude =
+            Number(googleConfirmedEnd?.longitude);
+
+        const hasConfirmedDestination =
+            googleConfirmedEnd !== null &&
+            Number.isFinite(confirmedLatitude) &&
+            Number.isFinite(confirmedLongitude) &&
+            confirmedLatitude >= -90 &&
+            confirmedLatitude <= 90 &&
+            confirmedLongitude >= -180 &&
+            confirmedLongitude <= 180;
+
+        const googleDestination = hasConfirmedDestination
+            ? `${confirmedLatitude},${confirmedLongitude}`
+            : googleEndAddress + ", Portugal";
+
+        places.push(googleDestination);
     }
 
     const params = new URLSearchParams({
