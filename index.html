@@ -7463,8 +7463,7 @@ tripWeatherButton.addEventListener("click", async () => {
 
         makeText(
             card,
-            `${formatDate(stop.arrivalTime).split("-").reverse().join("/")} · ${time}`,
-            "color:#aab7c6;font-size:12px;margin:7px 0 12px;"
+`${formatDate(stop.arrivalTime).split("-").reverse().join("/")} · ${stop.endTime ? `${time}–${stop.endTime}` : time}`,            "color:#aab7c6;font-size:12px;margin:7px 0 12px;"
         );
 
         if (message) {
