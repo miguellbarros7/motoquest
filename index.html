@@ -6332,6 +6332,24 @@ if (stopLocation) {
         }
     };
 
+    
+searchButton.textContent = "⛽ POSTOS PRÓXIMOS";
+
+searchButton.onclick = () => {
+    const lat = stopLocation.latitude;
+    const lon = stopLocation.longitude;
+
+    const search = `postos de combustível perto de ${lat},${lon}`;
+
+    window.open(
+        "https://www.google.com/maps/search/?api=1&query=" +
+        encodeURIComponent(search),
+        "_blank",
+        "noopener,noreferrer"
+    );
+};
+
+
     stop.appendChild(searchButton);
     fuelPlanner.appendChild(stationResults);
 }
