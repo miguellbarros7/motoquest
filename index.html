@@ -6283,6 +6283,14 @@ const tripMeetingEnabled =
 const tripMeetingAddress =
     (route.trip_plan?.meeting_location || "").trim();
 
+// Dados do destino final personalizado
+const tripEndType = route.trip_plan?.end_type || "last";
+
+const tripEndAddress =
+    tripEndType === "other"
+        ? (route.trip_plan?.end_location || "").trim()
+        : "";
+
 // Converter uma localização escrita em coordenadas
 async function geocodeTripLocation(address) {
     if (!address) return null;
