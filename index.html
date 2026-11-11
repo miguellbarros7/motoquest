@@ -5187,6 +5187,9 @@ stops.style.marginTop = "0";
 
 routeInfo.append(date, stops);
 
+// Mostrar as opções do Google Maps no cartão da rota
+routeInfo.appendChild(googleRouteOptions);
+
 const stopsBtn = document.createElement("button");
 stopsBtn.type = "button";
 stopsBtn.textContent = "⌄ Ver paragens";
