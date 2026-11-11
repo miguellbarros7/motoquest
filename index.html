@@ -5870,12 +5870,18 @@ googleFuelStops
 
     // Acrescentar a partida personalizada no início do percurso
     if (
-        googleTripPlan.departure_type !== "first" &&
-        googleDepartureAddress
-    ) {
-               places.unshift(googleDepartureAddress + ", Portugal");
-    }
+    googleTripPlan.departure_type !== "first" &&
+    googleDepartureAddress
+) {
+    const isCoordinates =
+        /^-?\d+(?:\.\d+)?,-?\d+(?:\.\d+)?$/.test(googleDepartureAddress);
 
+    places.unshift(
+        isCoordinates
+            ? googleDepartureAddress
+            : googleDepartureAddress + ", Portugal"
+    );
+}
     // Acrescentar o destino final depois de todas as paragens
     if (googleEndAddress) {
         const confirmedLatitude =
