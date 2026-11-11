@@ -6841,11 +6841,70 @@ route.fuel_stops = updatedFuelStops;
 summaryPanel.classList.add("hidden");
 summaryBtn.click();
 
-window.alert(
-    "✅ Abastecimento guardado na rota!\n\n" +
-    "⛽ " + placeName + "\n\n" +
-    "A tua lista de Locais não foi alterada."
-);
+const successOverlay = document.createElement("div");
+
+successOverlay.style.cssText = `
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.82);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    z-index:99999;
+    padding:20px;
+`;
+
+const successCard = document.createElement("div");
+
+successCard.style.cssText = `
+    width:100%;
+    max-width:390px;
+    background:#1c1c1c;
+    border:1px solid #ff7900;
+    border-radius:18px;
+    padding:28px 22px;
+    text-align:center;
+    box-shadow:0 20px 60px rgba(0,0,0,.6);
+    color:#fff;
+`;
+
+successCard.innerHTML = `
+    <div style="font-size:46px;margin-bottom:12px;">✅</div>
+    <h3 style="color:#ff7900;margin:0 0 12px;">
+        ABASTECIMENTO GUARDADO
+    </h3>
+    <p style="color:#bbb;margin:0 0 8px;">
+        A tua rota foi atualizada com sucesso!
+    </p>
+`;
+
+const stationNameText = document.createElement("p");
+stationNameText.textContent = "⛽ " + placeName;
+stationNameText.style.cssText = `
+    font-size:17px;
+    font-weight:800;
+    margin:18px 0;
+`;
+
+const continueButton = document.createElement("button");
+continueButton.type = "button";
+continueButton.textContent = "🏍️ CONTINUAR";
+continueButton.style.cssText = `
+    width:100%;
+    padding:14px;
+    background:#ff7900;
+    color:#111;
+    border:none;
+    border-radius:10px;
+    font-weight:900;
+    cursor:pointer;
+`;
+
+continueButton.onclick = () => successOverlay.remove();
+
+successCard.append(stationNameText, continueButton);
+successOverlay.appendChild(successCard);
+document.body.appendChild(successOverlay);
 
 } catch (error) {
     console.error("MotoQuest — desvio pela bomba:", error);
