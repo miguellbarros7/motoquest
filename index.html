@@ -2194,12 +2194,45 @@ data-go="routes"
             📍 LOCAL DO ENCONTRO
         </label>
 
-        <input
+                <input
             id="routeMeetingLocation"
             type="text"
             placeholder="Ex.: Café Central, Chaves"
             disabled
         >
+    </div>
+
+    <!-- DATA E HORA DA VIAGEM -->
+    <div style="
+        display:grid;
+        grid-template-columns:repeat(2,minmax(0,1fr));
+        gap:12px;
+        margin-top:18px;
+    ">
+        <div class="field">
+            <label for="routeTripDate">
+                📅 DATA DA VIAGEM
+            </label>
+
+            <input
+                id="routeTripDate"
+                type="date"
+                style="width:100%;box-sizing:border-box;color-scheme:dark;"
+            >
+        </div>
+
+        <div class="field">
+            <label for="routeTripTime">
+                🕘 HORA DE PARTIDA
+            </label>
+
+            <input
+                id="routeTripTime"
+                type="time"
+                value="09:00"
+                style="width:100%;box-sizing:border-box;color-scheme:dark;"
+            >
+        </div>
     </div>
 </div>
     </details>
