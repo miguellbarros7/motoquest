@@ -6122,6 +6122,16 @@ if (plannedStops.length === 0) {
     plannedStops.forEach((distance, index) => {
         const stop = document.createElement("div");
 
+        
+const stopLocation = getPointAtKm(distance);
+
+if (stopLocation) {
+    stop.dataset.latitude = String(stopLocation.latitude);
+    stop.dataset.longitude = String(stopLocation.longitude);
+}
+
+
+
         stop.style.cssText = `
             display:flex;
             align-items:center;
