@@ -6426,6 +6426,34 @@ if (tripMeetingEnabled && tripMeetingAddress) {
     }
 }
 
+    // Pesquisar as coordenadas do destino final personalizado
+let tripEndPoint = null;
+
+if (tripEndType === "other" && tripEndAddress) {
+    try {
+        tripEndPoint = await geocodeTripLocation(tripEndAddress);
+
+        if (tripEndPoint) {
+            console.log(
+                "🏨 MotoQuest — destino final encontrado:",
+                tripEndPoint.name,
+                "Latitude:", tripEndPoint.latitude,
+                "Longitude:", tripEndPoint.longitude
+            );
+        } else {
+            console.warn(
+                "MotoQuest: destino final não encontrado:",
+                tripEndAddress
+            );
+        }
+    } catch (endError) {
+        console.warn(
+            "MotoQuest: não foi possível pesquisar o destino final:",
+            endError
+        );
+    }
+}
+
 // Acrescentar o ponto de encontro antes da primeira paragem original
 if (tripMeetingPoint) {
     tripRouteStops.unshift(tripMeetingPoint);
