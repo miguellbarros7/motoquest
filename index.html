@@ -6338,19 +6338,6 @@ searchButton.textContent = "⛽ POSTOS PRÓXIMOS";
 
 
 
-searchButton.onclick = () => {
-    const lat = stopLocation.latitude;
-    const lon = stopLocation.longitude;
-
-    const pesquisa = `gas stations near ${lat},${lon}`;
-
-    const url =
-        "https://www.google.com/maps/search/?api=1&query=" +
-        encodeURIComponent(pesquisa);
-
-    window.open(url, "_blank", "noopener,noreferrer");
-};
-
 
    
 
