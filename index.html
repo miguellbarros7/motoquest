@@ -6229,6 +6229,11 @@ try {
 // Juntar as bombas guardadas às paragens originais
 const routeStops = [...ordered];
 
+// Preparar a localização de partida para o futuro cálculo
+const tripDepartureType = route.trip_plan?.departure_type || "first";
+const tripDepartureAddress =
+    (route.trip_plan?.departure_location || "").trim();
+
 const savedFuelStops = Array.isArray(route.fuel_stops)
     ? route.fuel_stops
     : [];
