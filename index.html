@@ -9549,7 +9549,32 @@ let personalRouteStops = [];
     };
 }
 
+async function resolveGoogleMapsShortLink(shortUrl) {
+    try {
+        const response = await fetch(shortUrl, {
+            method: "GET",
+            redirect: "follow"
+        });
 
+        if (!response.ok) {
+            return null;
+        }
+
+        const resolvedUrl = response.url;
+
+        if (!resolvedUrl || resolvedUrl === shortUrl) {
+            return null;
+        }
+
+        return getGoogleMapsLocation(resolvedUrl);
+    } catch (error) {
+        console.warn(
+            "Não foi possível resolver o link curto do Google Maps:",
+            error
+        );
+        return null;
+    }
+}
 
 $("savePersonalRouteBtn").addEventListener("click", async () => {
     const name = $("routeName").value.trim();
