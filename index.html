@@ -5151,6 +5151,12 @@ avoidHighwaysCheckbox.type = "checkbox";
     "margin:0;border:1px solid #ff7900;" +
     "border-radius:3px;background:transparent;" +
     "cursor:pointer;";
+
+// Mostrar visualmente quando a opção está selecionada
+avoidHighwaysCheckbox.addEventListener("change", () => {
+    avoidHighwaysCheckbox.style.background =
+        avoidHighwaysCheckbox.checked ? "#ff7900" : "transparent";
+});        
 avoidHighwaysLabel.append(
     avoidHighwaysCheckbox,
     document.createTextNode("Evitar AE")
