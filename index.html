@@ -6059,61 +6059,27 @@ if (km > estimatedRange) {
         lastRefuelKm = nextStopKm;
     }
 }
-
 async function findFuelStations(latitude, longitude) {
-    const radius = 5000;
+    const { data, error } = await supabaseClient.rpc(
+        "find_nearby_fuel_stations",
+        {
+            p_latitude: latitude,
+            p_longitude: longitude,
+            p_radius_km: 5
+        }
+    );
 
-    const query = `
-        [out:json][timeout:20];
-        (
-            node["amenity"="fuel"](around:${radius},${latitude},${longitude});
-            way["amenity"="fuel"](around:${radius},${latitude},${longitude});
-        );
-        out center;
-    `;
-
-
-const controller = new AbortController();
-const timeoutId = setTimeout(() => controller.abort(), 12000);
-
-let response;
-
-try {
-   response = await fetch(
-    "https://overpass-api.de/api/interpreter",
-    {
-        method: "POST",
-        body: new URLSearchParams({ data: query }),
-        signal: controller.signal
-    }
-);
-} finally {
-    clearTimeout(timeoutId);
-}
-
-
-    if (!response.ok) {
-        throw new Error("Não foi possível consultar os postos.");
+    if (error) {
+        console.error("MotoQuest — erro Supabase:", error);
+        throw error;
     }
 
-    const data = await response.json();
-
-    return (data.elements || [])
-        .map(station => ({
-            name:
-                station.tags?.name ||
-                station.tags?.brand ||
-                "Posto de combustível",
-            latitude: station.lat ?? station.center?.lat,
-            longitude: station.lon ?? station.center?.lon
-        }))
-        .filter(station =>
-            Number.isFinite(station.latitude) &&
-            Number.isFinite(station.longitude)
-        );
+    return (data || []).map(station => ({
+        name: station.name || station.brand || "Posto de combustível",
+        latitude: Number(station.latitude),
+        longitude: Number(station.longitude)
+    }));
 }
-
-
 const fuelPlanner = document.createElement("div");
 
 fuelPlanner.style.cssText = `
