@@ -6907,12 +6907,37 @@ distances.append(
 const detour = document.createElement("div");
 const detourSign = differenceKm > 0 ? "+" : "";
 
-detour.textContent =
+let detourRating = "";
+
+if (differenceKm > 5) {
+    detourRating = "🔴 DESVIO ELEVADO";
+} else if (differenceKm > 2) {
+    detourRating = "🟠 DESVIO MODERADO";
+} else if (differenceKm > 0) {
+    detourRating = "🟢 DESVIO MÍNIMO";
+} else if (differenceKm < 0) {
+    detourRating = "🟢 ROTA MAIS CURTA";
+} else {
+    detourRating = "🟢 SEM DESVIO";
+}
+
+const detourDistance = document.createElement("div");
+detourDistance.textContent =
     (differenceKm > 0 ? "↗ DESVIO ADICIONAL: " :
      differenceKm < 0 ? "↘ ROTA MAIS CURTA: " :
      "✓ SEM DESVIO: ") +
     detourSign + formatKm(differenceKm) + " km";
 
+const detourStatus = document.createElement("div");
+detourStatus.textContent = detourRating;
+detourStatus.style.cssText = `
+    font-size:11px;
+    font-weight:900;
+    margin-top:6px;
+    letter-spacing:.5px;
+`;
+
+detour.append(detourDistance, detourStatus);
 detour.style.cssText = `
     background:#302014;
     border:1px solid #ff7900;
