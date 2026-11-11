@@ -5268,7 +5268,34 @@ arrow.onclick = async (event) => {
         alert("Não foram encontrados locais suficientes.");
         return;
     }
+// Incluir os abastecimentos guardados no Google Maps
+const googleFuelStops = Array.isArray(route.fuel_stops)
+    ? [...route.fuel_stops]
+    : [];
 
+googleFuelStops
+    .sort((a, b) =>
+        Number(b.insertion_index) - Number(a.insertion_index)
+    )
+    .forEach(fuel => {
+        const index = Number(fuel.insertion_index);
+        const latitude = Number(fuel.latitude);
+        const longitude = Number(fuel.longitude);
+
+        if (
+            !Number.isInteger(index) ||
+            index < 1 ||
+            index >= ids.length ||
+            !Number.isFinite(latitude) ||
+            !Number.isFinite(longitude)
+        ) return;
+
+        orderedLocations.splice(index, 0, {
+            name: fuel.name,
+            latitude,
+            longitude
+        });
+    });
     const places = orderedLocations.map(location => {
         if (location.latitude != null &&
             location.longitude != null) {
