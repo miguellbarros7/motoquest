@@ -6193,18 +6193,18 @@ if (stopLocation) {
     mapButton.type = "button";
     mapButton.textContent = "📍 VER NO MAPA";
 
-    mapButton.style.cssText = `
-        margin-left:auto;
-        background:#ff7900;
-        color:#111;
-        border:none;
-        border-radius:7px;
-        padding:9px 11px;
-        font-size:10px;
-        font-weight:900;
-        cursor:pointer;
-        flex-shrink:0;
-    `;
+mapButton.style.cssText = `
+    display:block;
+    background:#333;
+    color:#fff;
+    border:1px solid #555;
+    border-radius:8px;
+    padding:10px;
+    text-align:center;
+    text-decoration:none;
+    font-size:11px;
+    font-weight:800;
+`;
 
     mapButton.onclick = () => {
         const lat = stopLocation.latitude;
@@ -6401,13 +6401,14 @@ addToRouteButton.type = "button";
 addToRouteButton.textContent = "➕ ADICIONAR À ROTA";
 
 addToRouteButton.style.cssText = `
-    width:100%;
+    flex:1;
+    min-width:0;
     background:#ff7900;
     color:#111;
     border:none;
     border-radius:8px;
-    padding:11px;
-    font-size:11px;
+    padding:9px 4px;
+    font-size:10px;
     font-weight:900;
     cursor:pointer;
 `;
@@ -6432,8 +6433,16 @@ addToRouteButton.onclick = () => {
         "Estamos a preparar o recálculo do percurso."
     );
 };
+const buttonRow = document.createElement("div");
+buttonRow.style.cssText = `
+    display:flex;
+    gap:8px;
+    width:100%;
+`;
 
-item.append(top, mapButton, addToRouteButton);
+buttonRow.append(mapButton, addToRouteButton);
+
+item.append(top, buttonRow);
 stationResults.appendChild(item);
 
 });
