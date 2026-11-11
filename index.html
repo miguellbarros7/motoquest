@@ -7667,7 +7667,7 @@ const spotNames = group.stops
     .join(" · ");
 
 const subtitle = group.count > 1
-    ? `${group.count} spots · ${spotNames} · ${formatHour(group.stop.arrivalTime)}–${formatHour(group.lastStop.arrivalTime)}`
+    ? `${group.count} spots · ${spotNames}`
     : group.stop.name;
 
     tripWeatherCards.appendChild(
