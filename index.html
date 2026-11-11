@@ -6955,8 +6955,10 @@ routeInfo.append(
     costLine,
     warningLine,
     priceSource,
+    savedFuelCard,
     fuelPlanner
-);try {
+);
+        try {
     const fuel = bike.fuelType === "gasolina98" ? "98" : "95";
 
     const response = await fetch(
