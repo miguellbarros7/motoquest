@@ -9641,8 +9641,12 @@ if (
     const tripPlan = {
         departure_type: $("routeDepartureType").value,
         
-        departure_location: departureResolved
+                departure_location: departureResolved
             ? departureResolved.location
+            : $("routeDepartureLocation").value.trim(),
+
+        departure_name: departureResolved
+            ? departureResolved.name
             : $("routeDepartureLocation").value.trim(),
 
         meeting_enabled: $("routeMeetingEnabled").checked,
