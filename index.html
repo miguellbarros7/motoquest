@@ -17010,6 +17010,42 @@ padding:12px 44px 12px 15px !important;
 </style>
 <!-- FIM EXPLORAR TUDO NUMA CAIXA -->
 
+    
+<!-- MOTOQUEST - UNIFORMIZAR CAIXAS E ETIQUETAS -->
+<style>
+/* DATA E HORA: caixas iguais aos filtros */
+.field:has(> #routeTripDate),
+.field:has(> #routeTripTime) {
+  box-sizing:border-box !important;
+  min-width:0 !important;
+  padding:16px !important;
+  background:#211b17 !important;
+  border:1px solid #493224 !important;
+  border-radius:14px !important;
+  margin:0 !important;
+}
+
+/* LOCALIDADE E TIPO: letras como data e hora */
+label[for="routeLocalityFilter"],
+label[for="routeTypeFilter"] {
+  color:#aaa !important;
+  font-size:12px !important;
+  font-weight:400 !important;
+  text-transform:uppercase !important;
+  letter-spacing:0 !important;
+}
+
+/* Ajustar as caixas em ecrãs pequenos */
+@media(max-width:480px) {
+  .field:has(> #routeTripDate),
+  .field:has(> #routeTripTime) {
+    padding:10px !important;
+  }
+}
+</style>
+<!-- FIM UNIFORMIZAR CAIXAS E ETIQUETAS -->
+
+
 <!-- MOTOQUEST - FILTROS COM ESTILO DA VIAGEM -->
 <style>
 /* Cartões exteriores iguais aos da viagem */
