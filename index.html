@@ -5641,8 +5641,21 @@ googleFuelStops
             return `${location.latitude},${location.longitude}`;
         }
 
-        return `${location.name}, Portugal`;
+                return `${location.name}, Portugal`;
     });
+
+    // Acrescentar o ponto de encontro antes das paragens originais
+    if (googleMeetingAddress) {
+        places.unshift(googleMeetingAddress + ", Portugal");
+    }
+
+    // Acrescentar a partida personalizada no início do percurso
+    if (
+        googleTripPlan.departure_type !== "first" &&
+        googleDepartureAddress
+    ) {
+        places.unshift(googleDepartureAddress + ", Portugal");
+    }
 
     const params = new URLSearchParams({
         api: "1",
