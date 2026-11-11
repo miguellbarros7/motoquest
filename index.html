@@ -9554,32 +9554,34 @@ let personalRouteStops = [];
     };
 }
 
+
 async function resolveGoogleMapsShortLink(shortUrl) {
     try {
-        const response = await fetch(shortUrl, {
-            method: "GET",
-            redirect: "follow"
-        });
+        const { data, error } = await supabaseClient.functions.invoke(
+            "resolve-google-maps",
+            {
+                body: { url: shortUrl }
+            }
+        );
 
-        if (!response.ok) {
+        if (error || !data?.resolvedUrl) {
+            console.warn(
+                "Não foi possível resolver o link Google Maps:",
+                error || data
+            );
             return null;
         }
 
-        const resolvedUrl = response.url;
-
-        if (!resolvedUrl || resolvedUrl === shortUrl) {
-            return null;
-        }
-
-        return getGoogleMapsLocation(resolvedUrl);
+        return getGoogleMapsLocation(data.resolvedUrl);
     } catch (error) {
         console.warn(
-            "Não foi possível resolver o link curto do Google Maps:",
+            "Erro ao resolver o link Google Maps:",
             error
         );
         return null;
     }
 }
+
 
 $("savePersonalRouteBtn").addEventListener("click", async () => {
     const name = $("routeName").value.trim();
