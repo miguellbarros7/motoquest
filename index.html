@@ -6081,6 +6081,40 @@ tripTimeInput.value = "09:00";
     `;
 });
 
+const tripEndLabel = document.createElement("label");
+tripEndLabel.textContent = "🏁 FINAL DA VIAGEM";
+tripEndLabel.style.cssText = `
+    display:block;
+    color:#ff7900;
+    font-size:12px;
+    font-weight:800;
+    margin-top:18px;
+    margin-bottom:8px;
+`;
+
+const tripEndSelect = document.createElement("select");
+tripEndSelect.style.cssText = `
+    width:100%;
+    box-sizing:border-box;
+    background:#292929;
+    color:#fff;
+    border:1px solid #555;
+    border-radius:9px;
+    padding:12px;
+    font-size:13px;
+    cursor:pointer;
+`;
+
+[
+    ["last", "🏁 Último local da rota"],
+    ["home", "🏠 Regresso a casa"]
+].forEach(([value, label]) => {
+    const option = document.createElement("option");
+    option.value = value;
+    option.textContent = label;
+    tripEndSelect.appendChild(option);
+});
+
 tripPlannerCard.append(
     tripPlannerTitle,
     tripPlannerDescription,
@@ -6092,7 +6126,9 @@ tripPlannerCard.append(
     tripDateLabel,
     tripDateInput,
     tripTimeLabel,
-    tripTimeInput
+    tripTimeInput,
+    tripEndLabel,
+    tripEndSelect
 );
 
 summaryPanel.insertBefore(tripPlannerCard, routeInfo);
