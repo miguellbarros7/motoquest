@@ -6466,8 +6466,9 @@ if (stopLocation) {
     const searchButton = document.createElement("button");
 
     searchButton.type = "button";
-    searchButton.textContent = "⛽ PROCURAR POSTOS";
-
+searchButton.textContent = matchingFuelStop
+    ? "🔄 TROCAR BOMBA"
+    : "⛽ POSTOS PRÓXIMOS";
     searchButton.style.cssText = `
         background:#242424;
         color:#ff7900;
