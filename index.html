@@ -6534,7 +6534,24 @@ const haversineKm = (lat1, lon1, lat2, lon2) => {
     );
 };
         
-stations.slice(0, 5).forEach(station => {
+// Evitar postos repetidos ou praticamente no mesmo local
+const uniqueStations = stations.filter((station, index, all) => {
+    const stationName = (station.name || "").trim().toLowerCase();
+
+    return !all.slice(0, index).some(other => {
+        const otherName = (other.name || "").trim().toLowerCase();
+
+        return stationName === otherName &&
+            haversineKm(
+                Number(station.latitude),
+                Number(station.longitude),
+                Number(other.latitude),
+                Number(other.longitude)
+            ) < 0.1;
+    });
+});
+
+uniqueStations.slice(0, 5).forEach(station => { 
     const item = document.createElement("div");
 
     item.style.cssText = `
