@@ -6014,8 +6014,7 @@ arrow.onclick = async (event) => {
 
     const { data: locations, error } = await supabaseClient
         .from("locations")
-        .select("id, name, latitude, longitude")
-        .in("id", ids);
+.select("id, name, latitude, longitude, district")        .in("id", ids);
 
     if (error || !locations) {
         alert("Não foi possível carregar os locais da rota.");
