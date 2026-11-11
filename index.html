@@ -7673,10 +7673,13 @@ const subtitle = group.count > 1
     tripWeatherCards.appendChild(
         createCard(
             {
-                ...group.stop,
-                name: group.district
-                    ? `${label} · ${subtitle}`
-                    : label
+              ...group.stop,
+endTime: group.count > 1
+    ? formatHour(group.lastStop.arrivalTime)
+    : null,
+name: group.district
+    ? `${label} · ${subtitle}`
+    : label
             },
             group.forecast,
             group.message
