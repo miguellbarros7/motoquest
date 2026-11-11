@@ -6550,11 +6550,11 @@ stations.slice(0, 5).forEach(station => {
 
     // Distância em linha reta desde a paragem prevista
     const distanceKm = haversineKm(
-        stopLocation.latitude,
-        stopLocation.longitude,
-        station.latitude,
-        station.longitude
-    );
+    searchLatitude,
+    searchLongitude,
+    station.latitude,
+    station.longitude
+);
 // Limite para substituir uma bomba por outra na mesma rota
 const FUEL_REPLACEMENT_RADIUS_KM = 5;    
 
