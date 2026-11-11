@@ -8945,10 +8945,7 @@ $("savePersonalRouteBtn").addEventListener("click", async () => {
         meeting_location: $("routeMeetingLocation").value.trim(),
                       trip_date: $("routeTripDate").value || null,
         departure_time: $("routeTripTime").value || "09:00",
-        end_type: $("routeTripEnd").value,
-        end_location: $("routeTripEnd").value === "other"
-            ? $("routeTripEndLocation").value.trim()
-            : ""
+               end_type: $("routeTripEnd").value,
         end_location: $("routeTripEnd").value === "other"
             ? $("routeTripEndLocation").value.trim()
             : ""
