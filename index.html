@@ -6499,12 +6499,19 @@ if (!Array.isArray(previewCoordinates) ||
     throw new Error("O percurso não tem coordenadas válidas.");
 }
 
+if (routePreview._leafletMap) {
+    routePreview._leafletMap.remove();
+    routePreview._leafletMap = null;
+}
+
 routePreview.style.display = "block";
 routePreview.replaceChildren();
 
 const previewMap = L.map(routePreview, {
     scrollWheelZoom: false
 });
+
+routePreview._leafletMap = previewMap;
 
 L.tileLayer(
     "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
