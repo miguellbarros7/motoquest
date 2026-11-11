@@ -6220,11 +6220,115 @@ removeFuelButton.style.cssText = `
 `;
 
 removeFuelButton.onclick = async () => {
-    const confirmed = window.confirm(
-        "Remover este abastecimento da rota?\n\n" +
-        "⛽ " + fuelName.textContent + "\n\n" +
-        "Os locais originais da rota serão mantidos."
-    );
+const confirmed = await new Promise(resolve => {
+    const overlay = document.createElement("div");
+    overlay.style.cssText = `
+        position:fixed;
+        inset:0;
+        background:rgba(0,0,0,.82);
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        z-index:99999;
+        padding:20px;
+    `;
+
+    const card = document.createElement("div");
+    card.style.cssText = `
+        width:100%;
+        max-width:390px;
+        background:#1c1c1c;
+        border:1px solid #b45353;
+        border-radius:18px;
+        padding:28px 22px;
+        color:#fff;
+        text-align:center;
+        box-shadow:0 20px 60px rgba(0,0,0,.6);
+    `;
+
+    const icon = document.createElement("div");
+    icon.textContent = "🗑️";
+    icon.style.cssText = `
+        font-size:42px;
+        margin-bottom:12px;
+    `;
+
+    const title = document.createElement("h3");
+    title.textContent = "REMOVER ABASTECIMENTO";
+    title.style.cssText = `
+        color:#ff9999;
+        font-size:18px;
+        margin:0 0 16px;
+    `;
+
+    const station = document.createElement("div");
+    station.textContent = "⛽ " + fuelName.textContent;
+    station.style.cssText = `
+        font-size:17px;
+        font-weight:900;
+        margin-bottom:18px;
+    `;
+
+    const message = document.createElement("p");
+    message.textContent =
+        "Queres remover esta bomba da rota? " +
+        "Os locais originais serão mantidos.";
+    message.style.cssText = `
+        color:#bbb;
+        font-size:13px;
+        line-height:1.6;
+        margin:0 0 24px;
+    `;
+
+    const buttons = document.createElement("div");
+    buttons.style.cssText = `
+        display:flex;
+        gap:10px;
+    `;
+
+    const cancelButton = document.createElement("button");
+    cancelButton.type = "button";
+    cancelButton.textContent = "CANCELAR";
+    cancelButton.style.cssText = `
+        flex:1;
+        padding:13px 8px;
+        background:#333;
+        color:#fff;
+        border:1px solid #555;
+        border-radius:10px;
+        font-weight:800;
+        cursor:pointer;
+    `;
+
+    const confirmButton = document.createElement("button");
+    confirmButton.type = "button";
+    confirmButton.textContent = "🗑️ REMOVER";
+    confirmButton.style.cssText = `
+        flex:1;
+        padding:13px 8px;
+        background:#b45353;
+        color:#fff;
+        border:none;
+        border-radius:10px;
+        font-weight:900;
+        cursor:pointer;
+    `;
+
+    const finish = result => {
+        overlay.remove();
+        resolve(result);
+    };
+
+    cancelButton.onclick = () => finish(false);
+    confirmButton.onclick = () => finish(true);
+
+    buttons.append(cancelButton, confirmButton);
+    card.append(icon, title, station, message, buttons);
+    overlay.appendChild(card);
+    document.body.appendChild(overlay);
+});
+
+if (!confirmed) return;
 
     if (!confirmed) return;
 
