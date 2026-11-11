@@ -4743,9 +4743,9 @@ const container = $("myRoutesList");
 
     container.textContent = "A carregar as tuas rotas...";
 
-    const { data, error } = await supabaseClient
-        .from("routes")
-        .select("id, name, description, location_ids, created_at")
+   const { data, error } = await supabaseClient
+    .from("routes")
+    .select("id, name, description, location_ids, fuel_stops, created_at")
         .eq("user_id", currentUser.id)
         .eq("route_type", "personal")
         .order("created_at", { ascending: false });
