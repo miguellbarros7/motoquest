@@ -5980,11 +5980,71 @@ departureSelect.style.cssText = `
     departureSelect.appendChild(option);
 });
 
+const meetingLabel = document.createElement("label");
+meetingLabel.textContent = "🏍️ PONTO DE ENCONTRO";
+meetingLabel.style.cssText = `
+    display:block;
+    color:#ff7900;
+    font-size:12px;
+    font-weight:800;
+    margin-top:18px;
+    margin-bottom:8px;
+`;
+
+const meetingCheckboxLabel = document.createElement("label");
+meetingCheckboxLabel.style.cssText = `
+    display:flex;
+    align-items:center;
+    gap:10px;
+    color:#ddd;
+    font-size:13px;
+    cursor:pointer;
+`;
+
+const meetingCheckbox = document.createElement("input");
+meetingCheckbox.type = "checkbox";
+meetingCheckbox.style.accentColor = "#ff7900";
+
+const meetingText = document.createElement("span");
+meetingText.textContent = "Vou passar por um ponto de encontro";
+
+meetingCheckboxLabel.append(meetingCheckbox, meetingText);
+
+const meetingInput = document.createElement("input");
+meetingInput.type = "text";
+meetingInput.placeholder = "Ex.: Café, praça ou localidade";
+meetingInput.disabled = true;
+meetingInput.style.cssText = `
+    width:100%;
+    box-sizing:border-box;
+    background:#292929;
+    color:#fff;
+    border:1px solid #555;
+    border-radius:9px;
+    padding:12px;
+    font-size:13px;
+    margin-top:10px;
+    opacity:0.5;
+`;
+
+meetingCheckbox.onchange = () => {
+    meetingInput.disabled = !meetingCheckbox.checked;
+    meetingInput.style.opacity =
+        meetingCheckbox.checked ? "1" : "0.5";
+
+    if (!meetingCheckbox.checked) {
+        meetingInput.value = "";
+    }
+};
+
 tripPlannerCard.append(
     tripPlannerTitle,
     tripPlannerDescription,
     departureLabel,
-    departureSelect
+    departureSelect,
+    meetingLabel,
+    meetingCheckboxLabel,
+    meetingInput
 );
 
 summaryPanel.insertBefore(tripPlannerCard, routeInfo);
