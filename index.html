@@ -5334,7 +5334,7 @@ departureRow.innerHTML = `
     </div>
     <div style="min-width:0;flex:1;">
         <div style="
-            color:#b5a596;font-size:10px;
+            color:#ff7900;font-size:10px;
             font-weight:600;letter-spacing:.5px;
         ">PARTIDA</div>
         <div class="departure-location" style="
@@ -5357,15 +5357,41 @@ if (
 ) {
     const meetingRow = document.createElement("div");
 
-   meetingRow.style.cssText =
-    "padding:7px 9px;margin-bottom:8px;" +
-    "background:#202020;border:1px solid #5a3a25;" +
-    "border-radius:6px;color:#ccc;font-size:11px;" +
-    "font-weight:400;line-height:1.5;";
+  meetingRow.style.cssText =
+    "display:flex;align-items:center;gap:12px;" +
+    "padding:11px 12px;margin-bottom:8px;" +
+    "background:#242424;border:1px solid #59402c;" +
+    "border-radius:9px;";
 
-    meetingRow.textContent =
-        "🤝 PONTO DE ENCONTRO — " +
-        tripPlan.meeting_location.trim();
+meetingRow.innerHTML = `
+    <div style="
+        width:38px;height:38px;flex-shrink:0;
+        display:flex;align-items:center;justify-content:center;
+        background:#3c2a1c;border-radius:8px;
+        color:#ff7900;
+    ">
+        <svg width="21" height="21" viewBox="0 0 24 24"
+             fill="none" stroke="currentColor"
+             stroke-width="1.8" stroke-linecap="round"
+             stroke-linejoin="round">
+            <path d="M20 10c0 5-8 11-8 11S4 15 4 10a8 8 0 1 1 16 0Z"/>
+            <circle cx="12" cy="10" r="2.5"/>
+        </svg>
+    </div>
+    <div style="min-width:0;flex:1;">
+        <div style="
+            color:#ff7900;font-size:10px;
+            font-weight:600;letter-spacing:.5px;
+        ">PONTO DE ENCONTRO</div>
+        <div class="meeting-location" style="
+            color:#f5f5f5;font-size:13px;
+            font-weight:600;overflow-wrap:anywhere;
+        "></div>
+    </div>
+`;
+
+meetingRow.querySelector(".meeting-location").textContent =
+    tripPlan.meeting_location.trim();
 
     stopsPanel.appendChild(meetingRow);
 }
@@ -5510,18 +5536,45 @@ if (
 ) {
     const destinationRow = document.createElement("div");
 
-  destinationRow.style.cssText =
-    "padding:7px 9px;margin-top:10px;" +
-    "background:#202020;border:1px solid #5a3a25;" +
-    "border-radius:6px;color:#ccc;font-size:11px;" +
-    "font-weight:400;line-height:1.5;";
+destinationRow.style.cssText =
+    "display:flex;align-items:center;gap:12px;" +
+    "padding:11px 12px;margin-top:10px;" +
+    "background:#242424;border:1px solid #59402c;" +
+    "border-radius:9px;";
 
-    const destinationName =
-        tripPlan.end_confirmed?.name ||
-        tripPlan.end_location.trim();
+const destinationName =
+    tripPlan.end_confirmed?.name ||
+    tripPlan.end_location.trim();
 
-    destinationRow.textContent =
-        "🏨 DESTINO FINAL — " + destinationName;
+destinationRow.innerHTML = `
+    <div style="
+        width:38px;height:38px;flex-shrink:0;
+        display:flex;align-items:center;justify-content:center;
+        background:#3c2a1c;border-radius:8px;
+        color:#ff7900;
+    ">
+        <svg width="21" height="21" viewBox="0 0 24 24"
+             fill="none" stroke="currentColor"
+             stroke-width="1.8" stroke-linecap="round"
+             stroke-linejoin="round">
+            <path d="M4 22V4"/>
+            <path d="M4 4h14l-3 5 3 5H4"/>
+        </svg>
+    </div>
+    <div style="min-width:0;flex:1;">
+        <div style="
+            color:#ff7900;font-size:10px;
+            font-weight:600;letter-spacing:.5px;
+        ">DESTINO FINAL</div>
+        <div class="destination-location" style="
+            color:#f5f5f5;font-size:13px;
+            font-weight:600;overflow-wrap:anywhere;
+        "></div>
+    </div>
+`;
+
+destinationRow.querySelector(".destination-location").textContent =
+    destinationName;
 
     stopsPanel.appendChild(destinationRow);
 }
