@@ -6464,10 +6464,14 @@ if (tripDeparturePoint) {
     tripRouteStops.unshift(tripDeparturePoint);
 }
 
+// Acrescentar o destino personalizado depois da última paragem
+if (tripEndPoint) {
+    tripRouteStops.push(tripEndPoint);
+}
+
 const coordinates = tripRouteStops.map(loc =>
     `${Number(loc.longitude)},${Number(loc.latitude)}`
 ).join(";");
-
     const response = await fetch(
         `https://router.project-osrm.org/route/v1/driving/${coordinates}` +
 "?overview=full&geometries=geojson&steps=false"    );
