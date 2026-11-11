@@ -7321,15 +7321,20 @@ tripWeatherButton.style.cssText = `
 
 const tripWeatherPanel = document.createElement("div");
 
-tripWeatherPanel.style.cssText = `
-    display:none;
+tripWeatherButton.style.cssText = `
+    width:100%;
+    padding:11px 16px;
     margin-top:14px;
-    padding:16px;
-    background:#1a1a1a;
+    background:#202020;
+    color:#ff7900;
     border:1px solid #ff7900;
-    border-radius:14px;
+    border-radius:10px;
+    font-size:12px;
+    font-weight:800;
+    letter-spacing:0.5px;
+    cursor:pointer;
+    transition:background 0.2s ease;
 `;
-
 const tripWeatherTitle = document.createElement("h3");
 tripWeatherTitle.textContent = "🌦️ Meteorologia da Viagem";
 tripWeatherTitle.style.cssText = `
