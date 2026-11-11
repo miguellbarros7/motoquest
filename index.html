@@ -5121,6 +5121,49 @@ subtitle.textContent = "Ver percurso no Google Maps";
 subtitle.style.cssText =
     "display:block;color:#ff7900;margin-top:5px;font-size:12px;";
 
+// Opções do percurso para o Google Maps
+const googleRouteOptions = document.createElement("div");
+
+googleRouteOptions.style.cssText =
+    "display:flex;flex-direction:column;gap:7px;" +
+    "margin-top:10px;font-size:12px;color:#ffb366;";
+
+// Opção para evitar autoestradas
+const avoidHighwaysLabel = document.createElement("label");
+
+avoidHighwaysLabel.style.cssText =
+    "display:flex;align-items:center;gap:7px;cursor:pointer;";
+
+const avoidHighwaysCheckbox = document.createElement("input");
+avoidHighwaysCheckbox.type = "checkbox";
+avoidHighwaysCheckbox.style.accentColor = "#ff7900";
+
+avoidHighwaysLabel.append(
+    avoidHighwaysCheckbox,
+    document.createTextNode("🚫 Evitar autoestradas (AE)")
+);
+
+// Opção para evitar portagens
+const avoidTollsLabel = document.createElement("label");
+
+avoidTollsLabel.style.cssText =
+    "display:flex;align-items:center;gap:7px;cursor:pointer;";
+
+const avoidTollsCheckbox = document.createElement("input");
+avoidTollsCheckbox.type = "checkbox";
+avoidTollsCheckbox.style.accentColor = "#ff7900";
+
+avoidTollsLabel.append(
+    avoidTollsCheckbox,
+    document.createTextNode("💶 Evitar portagens")
+);
+
+googleRouteOptions.append(
+    avoidHighwaysLabel,
+    avoidTollsLabel
+);
+
+// Botão Google Maps existente
 const arrow = document.createElement("button");
 arrow.type = "button";
 arrow.textContent = "↗ Google Maps";
