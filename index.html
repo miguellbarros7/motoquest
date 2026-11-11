@@ -6832,11 +6832,8 @@ tripPlannerDescription.style.cssText = `
 `;
 
 
-tripPlannerCard.append(
-    tripPlannerTitle,
-    tripPlannerDescription
-);
-
+// Ocultar o resumo visual do planeamento.
+// Os dados da viagem continuam disponíveis.
 summaryPanel.appendChild(tripPlannerCard);
 routeInfo.className = "mq-trip-stats";
 summaryPanel.appendChild(routeInfo);
