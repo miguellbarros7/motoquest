@@ -6263,6 +6263,25 @@ if (stopLocation) {
                 stationResults.textContent =
                     "Não foram encontrados postos num raio de 5 km.";
             } else {
+                
+const haversineKm = (lat1, lon1, lat2, lon2) => {
+    const R = 6371;
+    const toRad = degrees => degrees * Math.PI / 180;
+
+    const dLat = toRad(lat2 - lat1);
+    const dLon = toRad(lon2 - lon1);
+
+    const a =
+        Math.sin(dLat / 2) ** 2 +
+        Math.cos(toRad(lat1)) *
+        Math.cos(toRad(lat2)) *
+        Math.sin(dLon / 2) ** 2;
+
+    return 2 * R * Math.atan2(
+        Math.sqrt(a),
+        Math.sqrt(1 - a)
+    );
+};
         
 stations.slice(0, 5).forEach(station => {
     const item = document.createElement("div");
