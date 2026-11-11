@@ -2118,15 +2118,33 @@ data-go="routes"
             🏁 PLANEAR A VIAGEM
         </summary>
 
-        <div
-            id="routeTripPlannerFields"
-            style="margin-top:16px;"
-        >
-            <p style="color:#aaa;font-size:13px;">
-                Define o ponto de partida, a data,
-                a hora e o final da tua viagem.
-            </p>
-        </div>
+       <div
+    id="routeTripPlannerFields"
+    style="margin-top:16px;"
+>
+    <p style="color:#aaa;font-size:13px;">
+        Define o ponto de partida, a data,
+        a hora e o final da tua viagem.
+    </p>
+
+    <div class="field" style="margin-top:16px;">
+        <label for="routeDepartureType">
+            🏁 PONTO DE PARTIDA
+        </label>
+
+        <select id="routeDepartureType">
+            <option value="first">
+                📍 Primeiro local da rota
+            </option>
+            <option value="home">
+                🏠 A minha casa
+            </option>
+            <option value="other">
+                🔎 Outra localização
+            </option>
+        </select>
+    </div>
+</div>
     </details>    
 
     
