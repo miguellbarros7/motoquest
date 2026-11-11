@@ -6074,11 +6074,12 @@ async function findFuelStations(latitude, longitude) {
         throw error;
     }
 
-    return (data || []).map(station => ({
-        name: station.name || station.brand || "Posto de combustível",
-        latitude: Number(station.latitude),
-        longitude: Number(station.longitude)
-    }));
+   return (data || []).map(station => ({
+    name: station.name || station.brand || "Posto de combustível",
+    locality: station.locality || "",
+    latitude: Number(station.latitude),
+    longitude: Number(station.longitude)
+}));
 }
 const fuelPlanner = document.createElement("div");
 
