@@ -5355,6 +5355,28 @@ fuelStopsHere.forEach(fuel => {
 
 
     });
+
+// Mostrar o destino personalizado depois de todas as paragens
+if (
+    tripPlan.end_type === "other" &&
+    (tripPlan.end_location || "").trim()
+) {
+    const destinationRow = document.createElement("div");
+
+    destinationRow.style.cssText =
+        "padding:9px 10px;margin-top:10px;" +
+        "background:#1b2520;border:1px solid #22c55e;" +
+        "border-radius:8px;color:#86efac;font-weight:600;";
+
+    const destinationName =
+        tripPlan.end_confirmed?.name ||
+        tripPlan.end_location.trim();
+
+    destinationRow.textContent =
+        "🏨 DESTINO FINAL — " + destinationName;
+
+    stopsPanel.appendChild(destinationRow);
+}
 };
 
 
