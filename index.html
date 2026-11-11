@@ -6368,13 +6368,32 @@ stations.slice(0, 5).forEach(station => {
         font-weight:800;
     `;
 
+
     item.append(top, mapButton);
     stationResults.appendChild(item);
 });
+            }
+        } catch (error) {
+            stationResults.textContent =
+                "⚠️ Não foi possível pesquisar postos neste momento.";
+            console.error("MotoQuest — pesquisa de postos:", error);
+        } finally {
+            searchButton.disabled = false;
+        }
+    };
 
+    searchButton.textContent = "⛽ POSTOS PRÓXIMOS";
+
+    stop.appendChild(searchButton);
+    fuelPlanner.appendChild(stop);
+    fuelPlanner.appendChild(stationResults);
+}
+
+    });
 }
 
 const plannerNote = document.createElement("small");
+
 plannerNote.textContent =
     "Estimativa com partida de depósito cheio e " +
     "abastecimento completo em cada paragem. " +
