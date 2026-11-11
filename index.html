@@ -7450,11 +7450,14 @@ tripWeatherButton.addEventListener("click", async () => {
             {hour:"2-digit",minute:"2-digit"}
         );
 
-        makeText(
-            card,
-            stop.name,
-            "color:#ff8900;font-size:14px;font-weight:800;overflow-wrap:anywhere;"
-        );
+      makeText(
+    card,
+    stop.name,
+    "color:#ff8900;font-size:12px;font-weight:800;" +
+    "line-height:1.4;min-height:50px;" +
+    "display:flex;align-items:center;justify-content:center;" +
+    "overflow-wrap:anywhere;"
+);
 
         makeText(
             card,
