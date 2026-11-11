@@ -9090,6 +9090,8 @@ routeInfo.append(
     savedFuelCard,
     fuelPlanner
 );
+routeInfo.insertBefore(tripWeatherButton, savedFuelCard);
+routeInfo.insertBefore(tripWeatherPanel, savedFuelCard);
         try {
     const fuel = bike.fuelType === "gasolina98" ? "98" : "95";
 
