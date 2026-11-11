@@ -6155,9 +6155,17 @@ const savedMeetingText =
           (savedTripPlan.meeting_location || "Não definido")
         : "";
 
+const savedTripDate = savedTripPlan.trip_date
+    ? savedTripPlan.trip_date.split("-").reverse().join("/")
+    : "Não definida";
+
+const savedTripTime = savedTripPlan.departure_time || "Não definida";
+
 tripPlannerDescription.textContent =
     "🏁 Partida: " + savedDepartureLabel + savedDepartureLocation +
-    savedMeetingText;
+    savedMeetingText +
+    "\n📅 Data da viagem: " + savedTripDate +
+    "\n🕘 Hora de partida: " + savedTripTime;
 
 tripPlannerDescription.style.cssText = `
     color:#bbb;
