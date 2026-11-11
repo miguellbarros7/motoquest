@@ -6569,6 +6569,51 @@ destinationInfo.textContent = tripEndPoint
             cursor:pointer;
         `;
 
+               destinationConfirmButton.addEventListener("click", async () => {
+            if (destinationConfirmButton.disabled || !currentUser) return;
+
+            const confirmedPoint = {
+                name: tripEndPoint.name,
+                latitude: Number(tripEndPoint.latitude),
+                longitude: Number(tripEndPoint.longitude)
+            };
+
+            destinationConfirmButton.disabled = true;
+            destinationConfirmButton.textContent = "⏳ A guardar confirmação...";
+
+            try {
+                const updatedTripPlan = {
+                    ...(route.trip_plan || {}),
+                    end_confirmed: confirmedPoint
+                };
+
+                const { error } = await supabaseClient
+                    .from("routes")
+                    .update({ trip_plan: updatedTripPlan })
+                    .eq("id", route.id)
+                    .eq("user_id", currentUser.id);
+
+                if (error) throw error;
+
+                route.trip_plan = updatedTripPlan;
+
+                destinationConfirmButton.textContent =
+                    "✅ Destino já confirmado";
+
+                destinationInfo.textContent =
+                    "✅ Localização confirmada: " + confirmedPoint.name;
+
+            } catch (error) {
+                console.error("MotoQuest: erro ao confirmar destino:", error);
+
+                destinationConfirmButton.disabled = false;
+                destinationConfirmButton.textContent =
+                    "✅ Confirmar este destino";
+
+                alert("Não foi possível guardar a confirmação. Tenta novamente.");
+            }
+        });
+
         tripPlannerCard.appendChild(destinationConfirmButton);
     }
 }
