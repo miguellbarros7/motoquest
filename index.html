@@ -6124,6 +6124,7 @@ if (plannedStops.length === 0) {
 
         
 const stopLocation = getPointAtKm(distance);
+console.log("MotoQuest — localização do abastecimento:", distance, stopLocation);        
 
 if (stopLocation) {
     stop.dataset.latitude = String(stopLocation.latitude);
