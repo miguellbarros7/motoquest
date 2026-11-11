@@ -6457,6 +6457,32 @@ for (let i = 0; i < originalLegs.length; i++) {
     }
 }
 
+// Abastecimentos já guardados nesta rota
+const existingFuelStops = Array.isArray(route.fuel_stops)
+    ? route.fuel_stops
+    : [];
+
+// Mantém as bombas que estejam a mais de 5 km da nova
+const updatedFuelStops = existingFuelStops.filter(savedStation => {
+    const distanceBetweenStations = haversineKm(
+        Number(savedStation.latitude),
+        Number(savedStation.longitude),
+        Number(station.latitude),
+        Number(station.longitude)
+    );
+
+    return distanceBetweenStations > FUEL_REPLACEMENT_RADIUS_KM;
+});
+
+// Acrescenta a nova bomba à rota
+updatedFuelStops.push({
+    name: station.name,
+    locality: station.locality || "",
+    latitude: Number(station.latitude),
+    longitude: Number(station.longitude),
+    insertion_index: insertionIndex
+});
+
 const newStops = [...ordered];
 
 newStops.splice(insertionIndex, 0, {
