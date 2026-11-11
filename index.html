@@ -6843,15 +6843,96 @@ try {
         font-size:17px;
     `;
 
-    const details = document.createElement("p");
-    details.textContent = message;
-    details.style.cssText = `
-        white-space:pre-line;
-        line-height:1.7;
-        color:#ddd;
-        font-size:14px;
-        margin:0 0 22px;
+    const details = document.createElement("div");
+
+const formatKm = value =>
+    value.toLocaleString("pt-PT", {
+        minimumFractionDigits: 1,
+        maximumFractionDigits: 1
+    });
+
+const stationTitle = document.createElement("div");
+stationTitle.textContent = "⛽ " + placeName;
+stationTitle.style.cssText = `
+    font-size:19px;
+    font-weight:900;
+    margin:8px 0 22px;
+    color:#fff;
+`;
+
+const distances = document.createElement("div");
+distances.style.cssText = `
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+    margin-bottom:14px;
+`;
+
+const createDistanceCard = (label, value, highlighted) => {
+    const tile = document.createElement("div");
+
+    tile.style.cssText = `
+        background:${highlighted ? "#302014" : "#252525"};
+        border:1px solid ${highlighted ? "#ff7900" : "#444"};
+        border-radius:12px;
+        padding:16px 8px;
     `;
+
+    const caption = document.createElement("div");
+    caption.textContent = label;
+    caption.style.cssText = `
+        color:#bbb;
+        font-size:11px;
+        font-weight:800;
+        margin-bottom:10px;
+    `;
+
+    const valueText = document.createElement("div");
+    valueText.textContent = formatKm(value) + " km";
+    valueText.style.cssText = `
+        color:#fff;
+        font-size:21px;
+        font-weight:900;
+    `;
+
+    tile.append(caption, valueText);
+    return tile;
+};
+
+distances.append(
+    createDistanceCard("🛣️ ROTA ATUAL", originalKm, false),
+    createDistanceCard("⛽ PELA BOMBA", newKm, true)
+);
+
+const detour = document.createElement("div");
+const detourSign = differenceKm > 0 ? "+" : "";
+
+detour.textContent =
+    (differenceKm > 0 ? "↗ DESVIO ADICIONAL: " :
+     differenceKm < 0 ? "↘ ROTA MAIS CURTA: " :
+     "✓ SEM DESVIO: ") +
+    detourSign + formatKm(differenceKm) + " km";
+
+detour.style.cssText = `
+    background:#302014;
+    border:1px solid #ff7900;
+    border-radius:12px;
+    padding:15px 10px;
+    color:#ff941c;
+    font-size:15px;
+    font-weight:900;
+    margin-bottom:22px;
+`;
+
+const question = document.createElement("p");
+question.textContent = "💾 Guardar este abastecimento na rota?";
+question.style.cssText = `
+    color:#ddd;
+    font-size:13px;
+    margin:0 0 22px;
+`;
+
+details.append(stationTitle, distances, detour, question);
 
     const buttons = document.createElement("div");
     buttons.style.cssText = `
