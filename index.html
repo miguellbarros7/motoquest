@@ -16515,6 +16515,242 @@ padding:12px 44px 12px 15px !important;
 
 <!-- FIM DESIGN CRIAR VIAGEM -->
 
+<!-- MOTOQUEST - CATALOGO COMPACTO PREMIUM -->
+<style>
+#routeLocationsGallery {
+  display:grid !important;
+  grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+  gap:10px !important;
+  align-items:stretch;
+}
+
+#routeLocationsGallery > div:has(img) {
+  min-width:0;
+  background:#171717 !important;
+  border-radius:12px !important;
+  overflow:hidden;
+  box-shadow:0 3px 12px rgba(0,0,0,.2);
+}
+
+#routeLocationsGallery > div > img {
+  width:100% !important;
+  height:auto !important;
+  aspect-ratio:16/9;
+  object-fit:cover !important;
+  display:block;
+}
+
+#routeLocationsGallery > div > div {
+  min-height:40px !important;
+  padding:9px 9px 5px !important;
+  font-family:system-ui,-apple-system,
+    "Segoe UI",sans-serif;
+  font-size:12px !important;
+  line-height:1.35;
+  font-weight:650 !important;
+  color:#f5f5f5;
+  overflow-wrap:anywhere;
+}
+
+#routeLocationsGallery > div > button {
+  width:calc(100% - 18px) !important;
+  margin:5px 9px 9px !important;
+  min-height:34px !important;
+  padding:7px 5px !important;
+  border-radius:8px !important;
+  font-size:12px !important;
+  font-weight:750 !important;
+  letter-spacing:0 !important;
+}
+
+#routeLocalityFilter,
+#routeTypeFilter {
+  min-width:0;
+  width:100%;
+  font-size:12px !important;
+  border-radius:10px !important;
+}
+
+#mqCatalogTools {
+  margin:12px 0 14px;
+}
+
+#mqCatalogSearch {
+  width:100%;
+  box-sizing:border-box;
+  min-height:44px;
+  padding:11px 14px;
+  border:1px solid #383838;
+  border-radius:11px;
+  background:#171717;
+  color:#fff;
+  font:500 13px system-ui,sans-serif;
+  outline:none;
+}
+
+#mqCatalogSearch:focus {
+  border-color:#ff7900;
+  box-shadow:0 0 0 2px rgba(255,121,0,.12);
+}
+
+#mqCatalogCount {
+  margin-top:8px;
+  color:#999;
+  font-size:11px;
+}
+
+#mqCatalogMore {
+  display:none;
+  width:100%;
+  margin:14px 0 6px;
+  padding:12px;
+  border:1px solid #ff7900;
+  border-radius:10px;
+  background:#20170f;
+  color:#ff922e;
+  font-size:13px;
+  font-weight:750;
+  cursor:pointer;
+}
+
+@media(min-width:700px) {
+  #routeLocationsGallery {
+    grid-template-columns:repeat(4,minmax(0,1fr)) !important;
+  }
+}
+
+@media(max-width:360px) {
+  #routeLocationsGallery {
+    gap:7px !important;
+  }
+  #routeLocationsGallery > div > div {
+    font-size:11px !important;
+  }
+}
+</style>
+
+<script>
+(function () {
+  function iniciarCatalogoPremium() {
+    const gallery =
+      document.getElementById("routeLocationsGallery");
+
+    if (!gallery ||
+        document.getElementById("mqCatalogTools")) {
+      return;
+    }
+
+    const tools = document.createElement("div");
+    tools.id = "mqCatalogTools";
+
+    const search = document.createElement("input");
+    search.id = "mqCatalogSearch";
+    search.type = "search";
+    search.placeholder = "🔎 Pesquisar local pelo nome...";
+    search.setAttribute(
+      "aria-label",
+      "Pesquisar locais da rota"
+    );
+
+    const count = document.createElement("div");
+    count.id = "mqCatalogCount";
+    count.setAttribute("aria-live", "polite");
+
+    tools.append(search, count);
+    gallery.parentNode.insertBefore(tools, gallery);
+
+    const more = document.createElement("button");
+    more.id = "mqCatalogMore";
+    more.type = "button";
+    more.textContent = "Mostrar mais locais";
+    gallery.insertAdjacentElement("afterend", more);
+
+    let visibleLimit = 12;
+
+    function atualizarCatalogo() {
+      const cards = Array.from(gallery.children)
+        .filter(el => el.querySelector("img"));
+
+      if (!cards.length) {
+        count.textContent = "";
+        more.style.display = "none";
+        return;
+      }
+
+      const query = search.value.trim()
+        .toLocaleLowerCase("pt-PT");
+
+      const matching = cards.filter(card => {
+        const title = card.children[1];
+        const name = title
+          ? title.textContent
+          : card.textContent;
+
+        return name.toLocaleLowerCase("pt-PT")
+          .includes(query);
+      });
+
+      const visible = matching.slice(0, visibleLimit);
+      const visibleSet = new Set(visible);
+
+      cards.forEach(card => {
+        card.style.display =
+          visibleSet.has(card) ? "" : "none";
+      });
+
+      count.textContent =
+        "A mostrar " + visible.length +
+        " de " + matching.length + " locais";
+
+      more.style.display =
+        matching.length > visibleLimit
+          ? "block"
+          : "none";
+    }
+
+    search.addEventListener("input", () => {
+      visibleLimit = 12;
+      atualizarCatalogo();
+    });
+
+    more.addEventListener("click", () => {
+      visibleLimit += 12;
+      atualizarCatalogo();
+    });
+
+    ["routeLocalityFilter", "routeTypeFilter"]
+      .forEach(id => {
+        const select = document.getElementById(id);
+        if (!select) return;
+
+        select.addEventListener("change", () => {
+          visibleLimit = 12;
+        });
+      });
+
+    const observer = new MutationObserver(() => {
+      atualizarCatalogo();
+    });
+
+    observer.observe(gallery, {
+      childList:true
+    });
+
+    atualizarCatalogo();
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener(
+      "DOMContentLoaded",
+      iniciarCatalogoPremium
+    );
+  } else {
+    iniciarCatalogoPremium();
+  }
+})();
+</script>
+<!-- FIM CATALOGO COMPACTO PREMIUM -->
+
     
 </body>
 </html>
