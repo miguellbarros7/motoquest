@@ -6037,6 +6037,50 @@ meetingCheckbox.onchange = () => {
     }
 };
 
+const tripDateLabel = document.createElement("label");
+tripDateLabel.textContent = "📅 DATA DA VIAGEM";
+tripDateLabel.style.cssText = `
+    display:block;
+    color:#ff7900;
+    font-size:12px;
+    font-weight:800;
+    margin-top:18px;
+    margin-bottom:8px;
+`;
+
+const tripDateInput = document.createElement("input");
+tripDateInput.type = "date";
+
+const tripTimeLabel = document.createElement("label");
+tripTimeLabel.textContent = "🕘 HORA DE PARTIDA";
+tripTimeLabel.style.cssText = `
+    display:block;
+    color:#ff7900;
+    font-size:12px;
+    font-weight:800;
+    margin-top:14px;
+    margin-bottom:8px;
+`;
+
+const tripTimeInput = document.createElement("input");
+tripTimeInput.type = "time";
+tripTimeInput.value = "09:00";
+
+[tripDateInput, tripTimeInput].forEach(input => {
+    input.style.cssText = `
+        display:block;
+        width:100%;
+        box-sizing:border-box;
+        background:#292929;
+        color:#fff;
+        color-scheme:dark;
+        border:1px solid #555;
+        border-radius:9px;
+        padding:12px;
+        font-size:13px;
+    `;
+});
+
 tripPlannerCard.append(
     tripPlannerTitle,
     tripPlannerDescription,
@@ -6044,7 +6088,11 @@ tripPlannerCard.append(
     departureSelect,
     meetingLabel,
     meetingCheckboxLabel,
-    meetingInput
+    meetingInput,
+    tripDateLabel,
+    tripDateInput,
+    tripTimeLabel,
+    tripTimeInput
 );
 
 summaryPanel.insertBefore(tripPlannerCard, routeInfo);
