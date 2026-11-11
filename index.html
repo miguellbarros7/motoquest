@@ -6651,9 +6651,12 @@ subtitle.style.cssText = `
   
 const addToRouteButton = document.createElement("button");
 addToRouteButton.type = "button";
+
 addToRouteButton.textContent = matchingFuelStop
     ? "🔄 SUBSTITUIR BOMBA"
     : "➕ ADICIONAR À ROTA";
+
+addToRouteButton.style.cssText = `
     flex:1;
     min-width:0;
     background:#ff7900;
