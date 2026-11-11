@@ -6203,10 +6203,11 @@ const savedTripDate = savedTripPlan.trip_date
 const savedTripTime = savedTripPlan.departure_time || "Não definida";
 
 const savedTripEnd =
-    savedTripPlan.end_type === "home"
-        ? "🏠 Regresso a casa"
-        : "🏁 Último local da rota";
-
+    savedTripPlan.end_type === "other"
+        ? "🏨 " + (savedTripPlan.end_location || "Destino não definido")
+        : savedTripPlan.end_type === "home"
+            ? "🏠 Regresso a casa"
+            : "🏁 Último local da rota";
 tripPlannerDescription.textContent =
     "🏁 Partida: " + savedDepartureLabel + savedDepartureLocation +
     savedMeetingText +
