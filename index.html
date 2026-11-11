@@ -6377,7 +6377,12 @@ if (tripMeetingEnabled && tripMeetingAddress) {
     }
 }
 
-// Acrescentar a partida ao início do percurso, quando encontrada
+// Acrescentar o ponto de encontro antes da primeira paragem original
+if (tripMeetingPoint) {
+    tripRouteStops.unshift(tripMeetingPoint);
+}
+
+// Acrescentar a partida antes do ponto de encontro
 if (tripDeparturePoint) {
     tripRouteStops.unshift(tripDeparturePoint);
 }
