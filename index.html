@@ -6072,13 +6072,25 @@ async function findFuelStations(latitude, longitude) {
         out center;
     `;
 
-    const response = await fetch(
+
+const controller = new AbortController();
+const timeoutId = setTimeout(() => controller.abort(), 12000);
+
+let response;
+
+try {
+    response = await fetch(
         "https://overpass.kumi.systems/api/interpreter",
         {
             method: "POST",
-            body: new URLSearchParams({ data: query })
+            body: new URLSearchParams({ data: query }),
+            signal: controller.signal
         }
     );
+} finally {
+    clearTimeout(timeoutId);
+}
+
 
     if (!response.ok) {
         throw new Error("Não foi possível consultar os postos.");
