@@ -5392,7 +5392,7 @@ meetingRow.innerHTML = `
 `;
 
 meetingRow.querySelector(".meeting-location").textContent =
-    tripPlan.meeting_location.trim();
+    (tripPlan.meeting_name || tripPlan.meeting_location || "").trim();
 
     stopsPanel.appendChild(meetingRow);
 }
