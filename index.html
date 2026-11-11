@@ -6134,8 +6134,23 @@ const tripPlannerTitle = document.createElement("div");
 `;
 
 const tripPlannerDescription = document.createElement("div");
+
+const savedDepartureType = savedTripPlan.departure_type || "first";
+
+const savedDepartureLabel =
+    savedDepartureType === "home"
+        ? "🏠 A minha casa"
+        : savedDepartureType === "other"
+            ? "📍 Outra localização"
+            : "📍 Primeiro local da rota";
+
+const savedDepartureLocation =
+    savedDepartureType !== "first" && savedTripPlan.departure_location
+        ? " — " + savedTripPlan.departure_location
+        : "";
+
 tripPlannerDescription.textContent =
-    "Define a partida, o ponto de encontro e a data da viagem.";
+    "🏁 Partida: " + savedDepartureLabel + savedDepartureLocation;
 tripPlannerDescription.style.cssText = `
     color:#bbb;
     font-size:12px;
