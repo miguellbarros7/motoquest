@@ -6291,6 +6291,9 @@ const tripEndAddress =
         ? (route.trip_plan?.end_location || "").trim()
         : "";
 
+// Coordenadas do destino previamente confirmado, se existirem
+const confirmedTripEnd = route.trip_plan?.end_confirmed || null;
+
 // Converter uma localização escrita em coordenadas
 async function geocodeTripLocation(address) {
     if (!address) return null;
