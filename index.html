@@ -7292,12 +7292,13 @@ if (tripStartDate && tripRouteStops.length > 0) {
                 elapsedSeconds * 1000
             );
 
-            tripWeatherSchedule.push({
-                name: stop.name || `Paragem ${index + 1}`,
-                latitude: Number(stop.latitude),
-                longitude: Number(stop.longitude),
-                arrivalTime: arrival
-            });
+          tripWeatherSchedule.push({
+    name: stop.name || `Paragem ${index + 1}`,
+    district: stop.district || "",
+    latitude: Number(stop.latitude),
+    longitude: Number(stop.longitude),
+    arrivalTime: arrival
+});
         });
     }
 }
