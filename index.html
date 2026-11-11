@@ -5186,6 +5186,8 @@ avoidTollsCheckbox.style.cssText =
     "margin:0;border:1px solid #ff7900;" +
     "border-radius:3px;background:transparent;" +
     "cursor:pointer;";
+        avoidTollsCheckbox.style.background =
+    avoidTollsCheckbox.checked ? "#ff7900" : "transparent";
 
 avoidTollsCheckbox.addEventListener("change", () => {
     avoidTollsCheckbox.style.background =
