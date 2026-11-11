@@ -6309,8 +6309,28 @@ const needsTripDeparture =
 
 let tripDeparturePoint = null;
 
-// Nesta fase, ainda não alteramos o percurso.
-// Primeiro será necessário confirmar a localização encontrada.
+// Pesquisar a partida adicional, quando existir
+if (needsTripDeparture) {
+    try {
+        tripDeparturePoint = await geocodeTripLocation(
+            tripDepartureAddress
+        );
+
+        if (!tripDeparturePoint) {
+            console.warn(
+                "MotoQuest: localização de partida não encontrada:",
+                tripDepartureAddress
+            );
+        }
+    } catch (geocodeError) {
+        console.warn(
+            "MotoQuest: não foi possível pesquisar a partida:",
+            geocodeError
+        );
+    }
+}
+
+// Ainda não alteramos o percurso com esta localização.
 const coordinates = tripRouteStops.map(loc =>
     `${Number(loc.longitude)},${Number(loc.latitude)}`
 ).join(";");
