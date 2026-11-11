@@ -6545,6 +6545,18 @@ updatedFuelStops.push({
 
 const newStops = [...ordered];
 
+    [...updatedFuelStops]
+    .sort((a, b) =>
+        Number(b.insertion_index) - Number(a.insertion_index)
+    )
+    .forEach(fuel => {
+        newStops.splice(Number(fuel.insertion_index), 0, {
+            name: fuel.name,
+            latitude: Number(fuel.latitude),
+            longitude: Number(fuel.longitude)
+        });
+    });
+
 
 const newCoordinates = newStops.map(loc =>
     `${Number(loc.longitude)},${Number(loc.latitude)}`
