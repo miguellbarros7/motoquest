@@ -6163,8 +6163,45 @@ if (stopLocation) {
             " · Abastecer por volta do km " +
             distanceText;
 
-        stop.append(icon, text);
-        fuelPlanner.appendChild(stop);
+        
+stop.append(icon, text);
+
+if (stopLocation) {
+    const mapButton = document.createElement("button");
+
+    mapButton.type = "button";
+    mapButton.textContent = "📍 VER NO MAPA";
+
+    mapButton.style.cssText = `
+        margin-left:auto;
+        background:#ff7900;
+        color:#111;
+        border:none;
+        border-radius:7px;
+        padding:9px 11px;
+        font-size:10px;
+        font-weight:900;
+        cursor:pointer;
+        flex-shrink:0;
+    `;
+
+    mapButton.onclick = () => {
+        const lat = stopLocation.latitude;
+        const lon = stopLocation.longitude;
+
+        window.open(
+            "https://www.google.com/maps/search/?api=1&query=" +
+            encodeURIComponent(`${lat},${lon}`),
+            "_blank",
+            "noopener,noreferrer"
+        );
+    };
+
+    stop.appendChild(mapButton);
+}
+
+fuelPlanner.appendChild(stop);
+
     });
 }
 
