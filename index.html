@@ -5925,9 +5925,41 @@ try {
         );
     }
 
-    const coordinates = ordered.map(loc =>
-        `${Number(loc.longitude)},${Number(loc.latitude)}`
-    ).join(";");
+// Juntar as bombas guardadas às paragens originais
+const routeStops = [...ordered];
+
+const savedFuelStops = Array.isArray(route.fuel_stops)
+    ? route.fuel_stops
+    : [];
+
+const sortedFuelStops = [...savedFuelStops].sort(
+    (a, b) =>
+        Number(b.insertion_index) - Number(a.insertion_index)
+);
+
+sortedFuelStops.forEach(fuel => {
+    const latitude = Number(fuel.latitude);
+    const longitude = Number(fuel.longitude);
+    const index = Number(fuel.insertion_index);
+
+    if (
+        !Number.isFinite(latitude) ||
+        !Number.isFinite(longitude) ||
+        !Number.isInteger(index) ||
+        index < 1 ||
+        index >= ordered.length
+    ) return;
+
+    routeStops.splice(index, 0, {
+        name: fuel.name,
+        latitude,
+        longitude
+    });
+});
+
+const coordinates = routeStops.map(loc =>
+    `${Number(loc.longitude)},${Number(loc.latitude)}`
+).join(";");
 
     const response = await fetch(
         `https://router.project-osrm.org/route/v1/driving/${coordinates}` +
