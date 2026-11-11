@@ -5144,8 +5144,13 @@ avoidHighwaysLabel.style.cssText =
 
 const avoidHighwaysCheckbox = document.createElement("input");
 avoidHighwaysCheckbox.type = "checkbox";
-avoidHighwaysCheckbox.style.accentColor = "#ff7900";
 
+        avoidHighwaysCheckbox.style.cssText =
+    "appearance:none;-webkit-appearance:none;" +
+    "width:11px;height:11px;min-width:11px;" +
+    "margin:0;border:1px solid #ff7900;" +
+    "border-radius:3px;background:transparent;" +
+    "cursor:pointer;";
 avoidHighwaysLabel.append(
     avoidHighwaysCheckbox,
     document.createTextNode("Evitar AE")
