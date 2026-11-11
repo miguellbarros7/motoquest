@@ -6113,8 +6113,36 @@ tripEndSelect.style.cssText = `
     option.value = value;
     option.textContent = label;
     tripEndSelect.appendChild(option);
+
+    
 });
 
+const departureInput = document.createElement("input");
+departureInput.type = "text";
+departureInput.placeholder = "Ex.: Chaves, Portugal";
+departureInput.style.cssText = `
+    display:none;
+    width:100%;
+    box-sizing:border-box;
+    background:#292929;
+    color:#fff;
+    border:1px solid #555;
+    border-radius:9px;
+    padding:12px;
+    font-size:13px;
+    margin-top:10px;
+`;
+
+departureSelect.onchange = () => {
+    const needsLocation = departureSelect.value !== "first";
+
+    departureInput.style.display =
+        needsLocation ? "block" : "none";
+
+    departureInput.placeholder = departureSelect.value === "home"
+        ? "🏠 Introduz a tua morada de casa"
+        : "📍 Introduz a localização de partida";
+};    
 tripPlannerCard.append(
     tripPlannerTitle,
     tripPlannerDescription,
