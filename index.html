@@ -6938,12 +6938,14 @@ detourStatus.style.cssText = `
 `;
 
 detour.append(detourDistance, detourStatus);
+const isBetterRoute = differenceKm <= 0;
+
 detour.style.cssText = `
-    background:#302014;
-    border:1px solid #ff7900;
+    background:${isBetterRoute ? "#14291d" : "#302014"};
+    border:1px solid ${isBetterRoute ? "#22c55e" : "#ff7900"};
     border-radius:12px;
     padding:15px 10px;
-    color:#ff941c;
+    color:${isBetterRoute ? "#4ade80" : "#ff941c"};
     font-size:15px;
     font-weight:900;
     margin-bottom:22px;
