@@ -6395,8 +6395,47 @@ subtitle.style.cssText = `
     `;
 
 
-    item.append(top, mapButton);
-    stationResults.appendChild(item);
+  
+const addToRouteButton = document.createElement("button");
+addToRouteButton.type = "button";
+addToRouteButton.textContent = "➕ ADICIONAR À ROTA";
+
+addToRouteButton.style.cssText = `
+    width:100%;
+    background:#ff7900;
+    color:#111;
+    border:none;
+    border-radius:8px;
+    padding:11px;
+    font-size:11px;
+    font-weight:900;
+    cursor:pointer;
+`;
+
+addToRouteButton.onclick = () => {
+    const placeName = station.locality
+        ? station.name + " — " + station.locality
+        : station.name;
+
+    const confirmed = window.confirm(
+        "Adicionar este posto à rota?\n\n" +
+        "⛽ " + placeName + "\n\n" +
+        "A rota será recalculada depois de " +
+        "integrarmos esta funcionalidade."
+    );
+
+    if (!confirmed) return;
+
+    window.alert(
+        "Posto selecionado: " + placeName +
+        "\n\nAinda não foi adicionado à rota. " +
+        "Estamos a preparar o recálculo do percurso."
+    );
+};
+
+item.append(top, mapButton, addToRouteButton);
+stationResults.appendChild(item);
+
 });
             }
         } catch (error) {
