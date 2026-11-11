@@ -6318,6 +6318,8 @@ stations.slice(0, 5).forEach(station => {
         station.latitude,
         station.longitude
     );
+// Limite para substituir uma bomba por outra na mesma rota
+const FUEL_REPLACEMENT_RADIUS_KM = 5;    
 
     const top = document.createElement("div");
     top.style.cssText = `
