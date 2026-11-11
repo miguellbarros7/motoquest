@@ -16847,6 +16847,95 @@ padding:12px 44px 12px 15px !important;
 })();
 </script>
 <!-- FIM CATALOGO COMPACTO PREMIUM -->
+
+    
+<!-- MOTOQUEST - TITULO EXPLORAR IGUAL A CRIAR VIAGEM -->
+<style>
+/* Moldura exterior igual à Criar Viagem */
+.field:has(> div > div:first-child) {
+  min-width:0;
+}
+
+/* Cabeçalho Explorar Locais */
+.mq-explorar-titulo {
+  margin:20px 0 !important;
+  padding:20px !important;
+  background:#141414 !important;
+  border:1px solid #ff7900 !important;
+  border-radius:16px !important;
+  box-shadow:0 8px 24px rgba(0,0,0,.25) !important;
+}
+
+/* Linha de título */
+.mq-explorar-titulo-linha {
+  color:#ff7900 !important;
+  font-size:16px !important;
+  font-weight:800 !important;
+  letter-spacing:.4px !important;
+  padding-bottom:16px !important;
+  border-bottom:1px solid #333 !important;
+}
+
+/* Descrição */
+.mq-explorar-titulo-descricao {
+  margin-top:16px !important;
+  color:#aaa !important;
+  font-size:13px !important;
+}
+</style>
+
+<script>
+(function () {
+  function ajustarTituloExplorar() {
+    const titulo = Array.from(
+      document.querySelectorAll("div")
+    ).find(el =>
+      el.textContent.trim() === "EXPLORAR LOCAIS" &&
+      el.children.length === 0
+    );
+
+    if (!titulo) return;
+
+    const descricao = titulo.nextElementSibling;
+    const conteudo = titulo.parentElement;
+    const cabecalho = conteudo &&
+      conteudo.parentElement;
+
+    if (!cabecalho ||
+        cabecalho.classList.contains(
+          "mq-explorar-titulo"
+        )) return;
+
+    cabecalho.classList.add("mq-explorar-titulo");
+    titulo.classList.add("mq-explorar-titulo-linha");
+
+    if (descricao) {
+      descricao.classList.add(
+        "mq-explorar-titulo-descricao"
+      );
+    }
+
+    /* Retirar o ícone quadrado anterior */
+    const icone = cabecalho.firstElementChild;
+    if (icone && icone !== conteudo) {
+      icone.style.display = "none";
+    }
+
+    cabecalho.style.display = "block";
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener(
+      "DOMContentLoaded",
+      ajustarTituloExplorar
+    );
+  } else {
+    ajustarTituloExplorar();
+  }
+})();
+</script>
+<!-- FIM TITULO EXPLORAR -->
+
     
 <!-- MOTOQUEST - FILTROS COM ESTILO DA VIAGEM -->
 <style>
