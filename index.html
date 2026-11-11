@@ -6301,7 +6301,12 @@ sortedFuelStops.forEach(fuel => {
     });
 });
 
-const coordinates = routeStops.map(loc =>
+// Preparar a lista de pontos para o percurso completo
+const tripRouteStops = [...routeStops];
+
+// A partida adicional será inserida nesta lista
+// depois de confirmarmos as suas coordenadas.
+const coordinates = tripRouteStops.map(loc =>
     `${Number(loc.longitude)},${Number(loc.latitude)}`
 ).join(";");
 
