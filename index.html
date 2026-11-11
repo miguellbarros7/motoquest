@@ -5174,8 +5174,17 @@ avoidTollsLabel.style.cssText =
 
 const avoidTollsCheckbox = document.createElement("input");
 avoidTollsCheckbox.type = "checkbox";
-avoidTollsCheckbox.style.accentColor = "#ff7900";
+avoidTollsCheckbox.style.cssText =
+    "appearance:none;-webkit-appearance:none;" +
+    "width:11px;height:11px;min-width:11px;" +
+    "margin:0;border:1px solid #ff7900;" +
+    "border-radius:3px;background:transparent;" +
+    "cursor:pointer;";
 
+avoidTollsCheckbox.addEventListener("change", () => {
+    avoidTollsCheckbox.style.background =
+        avoidTollsCheckbox.checked ? "#ff7900" : "transparent";
+});        
 avoidTollsLabel.append(
     avoidTollsCheckbox,
     document.createTextNode("Evitar portagens")
