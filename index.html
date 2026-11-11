@@ -5067,9 +5067,30 @@ if (route.created_at) {
 
 const stops = document.createElement("small");
 
-const stopsCount = Array.isArray(route.location_ids)
+const originalStopsCount = Array.isArray(route.location_ids)
     ? route.location_ids.length
     : 0;
+
+const countTripPlan = route.trip_plan || {};
+
+const extraStopsCount =
+    (
+        countTripPlan.departure_type !== "first" &&
+        (countTripPlan.departure_location || "").trim()
+            ? 1 : 0
+    ) +
+    (
+        countTripPlan.meeting_enabled === true &&
+        (countTripPlan.meeting_location || "").trim()
+            ? 1 : 0
+    ) +
+    (
+        countTripPlan.end_type === "other" &&
+        (countTripPlan.end_location || "").trim()
+            ? 1 : 0
+    );
+
+const stopsCount = originalStopsCount + extraStopsCount;
 
 
 stops.style.display = "flex";
