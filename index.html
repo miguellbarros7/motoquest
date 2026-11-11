@@ -16847,6 +16847,67 @@ padding:12px 44px 12px 15px !important;
 })();
 </script>
 <!-- FIM CATALOGO COMPACTO PREMIUM -->
+    
+<!-- MOTOQUEST - FILTROS COM ESTILO DA VIAGEM -->
+<style>
+/* Cartões exteriores iguais aos da viagem */
+.field:has(> #routeLocalityFilter),
+.field:has(> #routeTypeFilter) {
+  min-width:0;
+  box-sizing:border-box;
+  padding:16px !important;
+  background:#1d1d1d !important;
+  border:1px solid #383838 !important;
+  border-radius:14px !important;
+}
+
+/* Títulos como os cartões de partida e destino */
+label[for="routeLocalityFilter"],
+label[for="routeTypeFilter"] {
+  display:block !important;
+  margin-bottom:12px !important;
+  color:#ffffff !important;
+  font-family:system-ui,-apple-system,
+    "Segoe UI",sans-serif !important;
+  font-size:14px !important;
+  font-weight:800 !important;
+  letter-spacing:.1px !important;
+}
+
+/* Caixas interiores premium */
+#routeLocalityFilter,
+#routeTypeFilter {
+  min-height:52px !important;
+  width:100% !important;
+  border-radius:15px !important;
+  background-color:#101010 !important;
+  border:1px solid #74502d !important;
+  color:#fff !important;
+}
+
+/* Em telemóveis estreitos, manter legibilidade */
+@media(max-width:420px) {
+  .field:has(> #routeLocalityFilter),
+  .field:has(> #routeTypeFilter) {
+    padding:10px !important;
+  }
+
+  #routeLocalityFilter,
+  #routeTypeFilter {
+    font-size:12px !important;
+    padding-left:10px !important;
+    padding-right:30px !important;
+    background-position:right 8px center !important;
+  }
+
+  label[for="routeLocalityFilter"],
+  label[for="routeTypeFilter"] {
+    font-size:12px !important;
+  }
+}
+</style>
+<!-- FIM FILTROS COM ESTILO DA VIAGEM -->
+
 
     
 </body>
