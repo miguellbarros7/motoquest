@@ -7598,11 +7598,81 @@ tripWeatherButton.addEventListener("click", async () => {
 
     tripWeatherCards.replaceChildren();
 
-    forecasts.forEach(item => {
-        tripWeatherCards.appendChild(
-            createCard(item.stop, item.forecast, item.message)
-        );
+const weatherGroups = [];
+
+forecasts.forEach(item => {
+    const district = String(item.stop.district || "").trim();
+    const previous = weatherGroups[weatherGroups.length - 1];
+
+    const hoursApart = previous
+        ? Math.abs(
+            item.stop.arrivalTime - previous.lastStop.arrivalTime
+          ) / 3600000
+        : Infinity;
+
+    const rainDifference =
+        previous?.forecast && item.forecast
+            ? Math.abs(
+                Number(previous.forecast.rain ?? 0) -
+                Number(item.forecast.rain ?? 0)
+              )
+            : Infinity;
+
+    const windDifference =
+        previous?.forecast && item.forecast
+            ? Math.abs(
+                Number(previous.forecast.wind ?? 0) -
+                Number(item.forecast.wind ?? 0)
+              )
+            : Infinity;
+
+    const sameGroup =
+        district &&
+        previous?.district === district &&
+        !previous.message &&
+        !item.message &&
+        hoursApart <= 3 &&
+        rainDifference < 30 &&
+        windDifference < 20;
+
+    if (sameGroup) {
+        previous.count++;
+        previous.lastStop = item.stop;
+        return;
+    }
+
+    weatherGroups.push({
+        district,
+        stop: item.stop,
+        lastStop: item.stop,
+        forecast: item.forecast,
+        message: item.message,
+        count: 1
     });
+});
+
+weatherGroups.forEach(group => {
+    const label = group.district
+        ? group.district.toUpperCase()
+        : group.stop.name;
+
+    const subtitle = group.count > 1
+        ? `${group.count} spots · ${group.stop.name}`
+        : group.stop.name;
+
+    tripWeatherCards.appendChild(
+        createCard(
+            {
+                ...group.stop,
+                name: group.district
+                    ? `${label} · ${subtitle}`
+                    : label
+            },
+            group.forecast,
+            group.message
+        )
+    );
+});
 });
 
 /* FIM PREVISÃO POR PARAGEM */
