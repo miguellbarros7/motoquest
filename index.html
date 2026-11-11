@@ -5666,6 +5666,10 @@ title.append(left, arrow);
 
 arrow.onclick = async (event) => {
     event.stopPropagation();
+    if (stopsPanel.style.display !== "none") {
+    alert("Fecha primeiro a edição das paragens para abrir o Google Maps.");
+    return;
+}
     if (
     avoidHighwaysCheckbox.checked !==
         (route.trip_plan?.avoid_highways === true) ||
