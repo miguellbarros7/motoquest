@@ -9531,7 +9531,11 @@ let personalRouteStops = [];
         url.searchParams.get("query") ||
         url.searchParams.get("q") ||
         url.searchParams.get("destination");
+    const placeMatch = url.pathname.match(/\/maps\/place\/([^/]+)/);
 
+    const placeName = placeMatch
+        ? decodeURIComponent(placeMatch[1].replace(/\+/g, " "))
+        : null;        
     let location = text;
 
     if (queryLocation) {
