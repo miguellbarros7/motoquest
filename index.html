@@ -5602,10 +5602,9 @@ let fuelReviewNeeded =
     route.trip_plan?.fuel_review_pending === true;
 
 const renderStops = () => {
-    
+    stopsPanel.innerHTML = "";
 
     let routeStepNumber = 0;
-
 // Mostrar a partida personalizada antes das paragens originais
 const tripPlan = route.trip_plan || {};
 
