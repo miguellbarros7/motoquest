@@ -7036,8 +7036,21 @@ deleteBtn.style.flexShrink = "0";
 
 actionsRow.style.flexWrap = "wrap";
 
-actionsRow.append(title, editBtn, shareRouteBtn, deleteBtn);
+// Agrupar os três botões à direita
+const routeControls = document.createElement("div");
 
+routeControls.style.cssText =
+    "display:flex;align-items:center;gap:10px;" +
+    "flex-shrink:0;margin-left:auto;";
+
+routeControls.append(editBtn, shareRouteBtn, deleteBtn);
+
+// Manter os botões juntos, sem quebrar a linha
+actionsRow.style.flexWrap = "nowrap";
+title.style.flex = "1 1 0%";
+title.style.minWidth = "0";
+
+actionsRow.append(title, routeControls);
 shareOptions.style.flexBasis = "100%";
 shareOptions.style.order = "10";
 actionsRow.appendChild(shareOptions);
