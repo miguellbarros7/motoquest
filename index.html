@@ -5942,6 +5942,22 @@ if (fuelReviewNeeded) {
 fuelActions.style.cssText =
     "display:flex;flex-wrap:wrap;gap:6px;margin-top:9px;";
 
+    const keepFuelBtn = document.createElement("button");
+keepFuelBtn.type = "button";
+keepFuelBtn.textContent = "✓ Manter abastecimento";
+
+keepFuelBtn.style.cssText =
+    "background:#3b3020;border:1px solid #b88628;" +
+    "border-radius:6px;color:#f5d58a;" +
+    "padding:6px 9px;cursor:pointer;font-size:11px;";
+
+keepFuelBtn.onclick = () => {
+    fuelReviewNeeded = false;
+    renderStops();
+};
+
+fuelActions.appendChild(keepFuelBtn);
+
 fuelWarning.appendChild(fuelActions);
 stopsPanel.appendChild(fuelWarning);
 }    
