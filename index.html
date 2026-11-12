@@ -9843,6 +9843,18 @@ details.append(stationTitle, distances, detour, question);
 
 if (!saveConfirmed) return;
 
+// Identifica a bomba escolhida para substituição
+const selectedFuelIndex =
+    saveConfirmed === "keep"
+        ? -1
+        : Number(saveConfirmed);
+
+const selectedFuelToReplace =
+    selectedFuelIndex >= 0 &&
+    selectedFuelIndex < existingFuelStops.length
+        ? existingFuelStops[selectedFuelIndex]
+        : null;    
+
 const { error: saveError } = await supabaseClient
     .from("routes")
     .update({ fuel_stops: updatedFuelStops })
