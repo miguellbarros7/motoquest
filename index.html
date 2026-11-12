@@ -6085,6 +6085,33 @@ shareImageBtn.onclick = async (event) => {
         return;
     }
 
+// Preparar coordenadas GPS reais das paragens
+const routeCoordinates = orderedLocations
+    .map(location => ({
+        name: location.name,
+        lat: Number(location.latitude),
+        lng: Number(location.longitude),
+        hasCoordinates:
+            location.latitude !== null &&
+            location.longitude !== null &&
+            location.latitude !== "" &&
+            location.longitude !== ""
+    }))
+    .filter(point =>
+        point.hasCoordinates &&
+        Number.isFinite(point.lat) &&
+        Number.isFinite(point.lng) &&
+        point.lat >= -90 &&
+        point.lat <= 90 &&
+        point.lng >= -180 &&
+        point.lng <= 180
+    );
+
+console.log(
+    "🗺️ Coordenadas reais para a imagem:",
+    routeCoordinates
+);
+    
     const canvas = document.createElement("canvas");
     canvas.width = 1200;
     canvas.height = 630;
