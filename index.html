@@ -6261,10 +6261,14 @@ const availableH = mapH - padding * 2;
 const rangeX = Math.max(maxX - minX, 0.000001);
 const rangeY = Math.max(maxY - minY, 0.000001);
 
-const scale = Math.min(
+// Escala inicial para enquadrar o percurso
+const fitScale = Math.min(
     availableW / rangeX,
     availableH / rangeY
 );
+
+// Escala partilhada pelo mapa e pelo percurso
+let scale = fitScale;
 
 const offsetX = mapX + (mapW - rangeX * scale) / 2;
 const offsetY = mapY + (mapH - rangeY * scale) / 2;
