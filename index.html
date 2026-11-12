@@ -6006,6 +6006,9 @@ shareRouteBtn.style.cssText =
 // Adicionar botão ao lado do Google Maps
 routeActionButtons.appendChild(shareRouteBtn);
 
+// Colocar os botões no cartão da rota
+title.append(left, routeActionButtons);
+
 // Partilhar o percurso da rota
 shareRouteBtn.onclick = async (event) => {
     event.stopPropagation();
