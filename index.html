@@ -6363,6 +6363,64 @@ const stopPoints = routeCoordinates.map(toCanvasPoint);
 ctx.fillStyle = "#171c24";
 ctx.fillRect(mapX, mapY, mapW, mapH);
 
+// Desenhar os mosaicos do mapa escuro
+ctx.save();
+
+ctx.beginPath();
+ctx.rect(mapX, mapY, mapW, mapH);
+ctx.clip();
+
+const tilePromises = [];
+
+for (let x = firstTileX; x <= lastTileX; x++) {
+    for (let y = firstTileY; y <= lastTileY; y++) {
+        if (y < 0 || y >= tilesPerAxis) continue;
+
+        const wrappedX =
+            ((x % tilesPerAxis) + tilesPerAxis) % tilesPerAxis;
+
+        const url = darkMapConfig.tileUrl(mapZoom, wrappedX, y);
+
+        const drawX = mapX + mapW / 2
+            + x * tileSize - centerPixelX;
+
+        const drawY = mapY + mapH / 2
+            + y * tileSize - centerPixelY;
+
+        tilePromises.push(
+            loadMapImage(url)
+                .then(image => {
+                    ctx.drawImage(
+                        image,
+                        drawX,
+                        drawY,
+                        tileSize,
+                        tileSize
+                    );
+                })
+                .catch(error => {
+                    console.warn("Mosaico indisponível:", error);
+                })
+        );
+    }
+}
+
+await Promise.all(tilePromises);
+
+ctx.restore();
+
+// Atribuição obrigatória da cartografia
+ctx.fillStyle = "rgba(0, 0, 0, 0.8)";
+ctx.fillRect(mapX, mapY + mapH - 23, mapW, 23);
+
+ctx.fillStyle = "#ffffff";
+ctx.font = "12px Arial";
+ctx.fillText(
+    darkMapConfig.attribution,
+    mapX + 8,
+    mapY + mapH - 7
+);    
+
 // Contorno discreto do mapa
 ctx.strokeStyle = "#343b46";
 ctx.lineWidth = 2;
