@@ -6586,6 +6586,38 @@ if (orderedLocations.length > maxStops) {
 shareLinkBtn.onclick = async (event) => {
     event.stopPropagation();
 
+        if (route.googleMapsShareUrl) {
+        const shareData = {
+            title: `🏍️ ${route.name} | MotoQuest`,
+            text: `Vê esta rota no Google Maps: ${route.name}`,
+            url: route.googleMapsShareUrl
+        };
+
+        if (navigator.share) {
+            try {
+                await navigator.share(shareData);
+            } catch (error) {
+                if (error.name !== "AbortError") {
+                    console.error("Erro ao partilhar:", error);
+                }
+            }
+        } else {
+            try {
+                await navigator.clipboard.writeText(
+                    route.googleMapsShareUrl
+                );
+                alert("🔗 Link do Google Maps copiado!");
+            } catch (error) {
+                prompt(
+                    "Copia o link do Google Maps:",
+                    route.googleMapsShareUrl
+                );
+            }
+        }
+
+        return;
+    }
+
     const routeUrl = new URL(
         "https://miguellbarros7.github.io/motoquest/"
     );
