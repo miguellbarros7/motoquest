@@ -8934,8 +8934,17 @@ if (bike) {
 const safeRange = estimatedRange * 0.80;
 const plannedStops = [];
 const destinationMargin = 30;
+        
+const fuelSafetyLimitKm = safeRange;
 
-// Só planear abastecimentos quando um depósito
+const savedFuelStopsForReview =
+    Array.isArray(route.fuel_stops)
+        ? route.fuel_stops
+        : [];
+
+const fuelPositionReviewNeeded =
+    savedFuelStopsForReview.length > 0 &&
+    km > estimatedRange;// Só planear abastecimentos quando um depósito
 // não chega para completar a rota.
 if (km > estimatedRange) {
     let lastRefuelKm = 0;
