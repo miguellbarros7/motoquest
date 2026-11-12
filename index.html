@@ -6111,6 +6111,14 @@ console.log(
     "🗺️ Coordenadas reais para a imagem:",
     routeCoordinates
 );
+
+    // Confirmar disponibilidade do Leaflet
+if (typeof L === "undefined") {
+    alert("O mapa ainda não está disponível. Atualiza a página e tenta novamente.");
+    return;
+}
+
+console.log("🗺️ Leaflet disponível para gerar o mapa da rota");
     
     const canvas = document.createElement("canvas");
     canvas.width = 1200;
