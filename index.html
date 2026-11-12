@@ -5805,11 +5805,9 @@ const fuelStopsHere = Array.isArray(route.fuel_stops)
 fuelStopsHere.forEach(fuel => {
     const fuelRow = document.createElement("div");
 
-    fuelRow.style.cssText =
-        "display:flex;align-items:center;gap:9px;" +
-        "padding:7px 8px;margin:4px 0 4px 18px;" +
-        "background:#302417;border:1px solid #805020;" +
-        "border-radius:8px;color:#ffb366;font-size:12px;";
+ fuelRow.style.cssText =
+    "display:flex;align-items:center;gap:9px;" +
+    "margin:4px 0;";
 
     const fuelNumber = document.createElement("span");
 fuelNumber.textContent = ++routeStepNumber;
