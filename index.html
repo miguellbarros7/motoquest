@@ -9898,6 +9898,9 @@ if (tripDeparturePoint) {
 if (tripEndPoint) {
     finalRouteStops.push(tripEndPoint);
 }
+
+    // Distância da rota final, conforme os abastecimentos escolhidos
+const finalRouteKm = await calculateRouteDistance(finalRouteStops);
 const { error: saveError } = await supabaseClient
     .from("routes")
     .update({ fuel_stops: finalFuelStops })
