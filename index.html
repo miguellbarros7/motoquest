@@ -6192,8 +6192,13 @@ if (routeCoordinates.length >= 2) {
     const mapW = 420;
     const mapH = 300;
 
-    const lats = routeCoordinates.map(p => p.lat);
-    const lngs = routeCoordinates.map(p => p.lng);
+    // Usar as estradas reais quando disponíveis
+const mapCoordinates = roadCoordinates.length >= 2
+    ? roadCoordinates
+    : routeCoordinates;
+
+const lats = mapCoordinates.map(p => p.lat);
+const lngs = mapCoordinates.map(p => p.lng);
 
     const minLat = Math.min(...lats);
     const maxLat = Math.max(...lats);
@@ -6203,11 +6208,17 @@ if (routeCoordinates.length >= 2) {
     const latRange = Math.max(maxLat - minLat, 0.001);
     const lngRange = Math.max(maxLng - minLng, 0.001);
 
-    const points = routeCoordinates.map(point => ({
-        x: mapX + 20 + ((point.lng - minLng) / lngRange) * (mapW - 40),
-        y: mapY + 20 + ((maxLat - point.lat) / latRange) * (mapH - 40)
-    }));
+// Converter coordenadas GPS para posições na imagem
+const toCanvasPoint = point => ({
+    x: mapX + 20 + ((point.lng - minLng) / lngRange) * (mapW - 40),
+    y: mapY + 20 + ((maxLat - point.lat) / latRange) * (mapH - 40)
+});
 
+// Pontos do traçado rodoviário
+const points = mapCoordinates.map(toCanvasPoint);
+
+// Marcadores das paragens originais
+const stopPoints = routeCoordinates.map(toCanvasPoint);
     // Área do percurso
     ctx.fillStyle = "#1b1b1b";
     ctx.fillRect(mapX, mapY, mapW, mapH);
@@ -6217,7 +6228,7 @@ if (routeCoordinates.length >= 2) {
     ctx.lineJoin = "round";
 
     ctx.beginPath();
-    points.forEach((point, index) => {
+    stopPoints.forEach((point, index) => {
         if (index === 0) {
             ctx.moveTo(point.x, point.y);
         } else {
