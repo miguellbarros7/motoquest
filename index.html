@@ -8946,6 +8946,14 @@ const fuelPositionReviewNeeded =
     savedFuelStopsForReview.length > 0 &&
     km > estimatedRange;
 
+        const fuelStopsOutsideSafeRange =
+    savedFuelStopsForReview.filter(fuel => {
+        const fuelKm = fuelKmByStop.get(fuel);
+
+        return Number.isFinite(fuelKm) &&
+            fuelKm > fuelSafetyLimitKm;
+    });
+
 // Só planear abastecimentos quando um depósito
 // não chega para completar a rota.
 if (km > estimatedRange) {
