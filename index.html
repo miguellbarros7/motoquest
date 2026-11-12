@@ -6114,6 +6114,38 @@ shareImageBtn.onclick = async (event) => {
     const title = route.name || "A minha rota";
     ctx.fillText(title.slice(0, 32), 70, 300);
 
+// Paragens reais da rota
+ctx.fillStyle = "#ff7900";
+ctx.font = "bold 27px Arial";
+ctx.fillText("📍 PARAGENS DA ROTA", 70, 365);
+
+ctx.font = "23px Arial";
+
+const maxStops = 5;
+
+orderedLocations.slice(0, maxStops).forEach((location, index) => {
+    const y = 405 + index * 25;
+
+    ctx.fillStyle = "#ff7900";
+    ctx.fillText(`${index + 1}.`, 70, y);
+
+    ctx.fillStyle = "#ffffff";
+    ctx.fillText(
+        String(location.name || "Local sem nome").slice(0, 45),
+        115,
+        y
+    );
+});
+
+if (orderedLocations.length > maxStops) {
+    ctx.fillStyle = "#ff7900";
+    ctx.font = "20px Arial";
+    ctx.fillText(
+        `+ ${orderedLocations.length - maxStops} paragens`,
+        700,
+        480
+    );
+}    
     // Rodapé
     ctx.fillStyle = "#ff7900";
     ctx.fillRect(70, 520, 1060, 3);
