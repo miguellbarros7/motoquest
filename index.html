@@ -9857,14 +9857,7 @@ const selectedFuelToReplace =
         ? existingFuelStops[selectedFuelIndex]
         : null;    
 
-    // Não guardar substituições antes de recalcular a rota correta
-if (selectedFuelToReplace) {
-    alert(
-        "⛽ A substituição ainda está em preparação. " +
-        "Nenhuma bomba foi removida ou alterada."
-    );
-    return;
-}
+
 
     // Lista de abastecimentos após a escolha do motociclista
 const finalFuelStops = updatedFuelStops.filter(fuel =>
