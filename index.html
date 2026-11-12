@@ -5979,7 +5979,19 @@ stopsLoaded = true;
 
 textBox.append(routeTitle, routeInfo, stopsBtn, stopsPanel);
 left.append(icon, textBox);
-title.append(left, arrow);
+
+// Área dos botões da rota
+const routeActionButtons = document.createElement("div");
+
+routeActionButtons.style.cssText =
+    "display:flex;align-items:center;justify-content:flex-end;" +
+    "flex-wrap:wrap;gap:8px;flex-shrink:0;";
+
+// Manter o botão Google Maps
+routeActionButtons.appendChild(arrow);
+
+// Colocar os botões ao lado das informações da rota
+title.append(left, routeActionButtons);
 
 
 
