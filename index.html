@@ -6224,6 +6224,26 @@ const lngs = mapCoordinates.map(p => p.lng);
 
     const latRange = Math.max(maxLat - minLat, 0.001);
     const lngRange = Math.max(maxLng - minLng, 0.001);
+// Converter coordenadas GPS para a projeção Web Mercator
+const toMercator = (point) => {
+    const lat = Math.max(
+        -85.05112878,
+        Math.min(85.05112878, point.lat)
+    );
+
+    const latRad = lat * Math.PI / 180;
+
+    return {
+        x: (point.lng + 180) / 360,
+        y: (
+            1 -
+            Math.log(
+                Math.tan(latRad) +
+                1 / Math.cos(latRad)
+            ) / Math.PI
+        ) / 2
+    };
+};    
 
 // Converter coordenadas GPS para posições na imagem
 const toCanvasPoint = point => ({
