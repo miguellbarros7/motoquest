@@ -6269,6 +6269,24 @@ const scale = Math.min(
 const offsetX = mapX + (mapW - rangeX * scale) / 2;
 const offsetY = mapY + (mapH - rangeY * scale) / 2;
 
+    // Calcular o zoom adequado para o mapa cartográfico
+const tileSize = 256;
+
+const zoomX = Math.log2(
+    availableW / (rangeX * tileSize)
+);
+
+const zoomY = Math.log2(
+    availableH / (rangeY * tileSize)
+);
+
+const mapZoom = Math.max(
+    0,
+    Math.min(18, Math.floor(Math.min(zoomX, zoomY)))
+);
+
+console.log("🗺️ Zoom calculado para o mapa:", mapZoom);
+
 // Converter coordenadas GPS para posições na imagem
 const toCanvasPoint = point => {
     const projected = toMercator(point);
