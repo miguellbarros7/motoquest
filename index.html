@@ -5850,10 +5850,8 @@ if (
     const destinationRow = document.createElement("div");
 
 destinationRow.style.cssText =
-    "display:flex;align-items:center;gap:12px;" +
-    "padding:11px 12px;margin-top:10px;" +
-    "background:#242424;border:1px solid #59402c;" +
-    "border-radius:9px;";
+    "display:flex;align-items:center;gap:9px;" +
+    "margin-top:10px;";
 
 const destinationName =
     tripPlan.end_confirmed?.name ||
@@ -5863,39 +5861,35 @@ const destinationDisplayName =
     destinationName.split(",").slice(0, 2).join(",").trim();
 
 destinationRow.innerHTML = `
-    <div style="
-        width:38px;height:38px;flex-shrink:0;
+    <span style="
         display:flex;align-items:center;justify-content:center;
-        background:#3c2a1c;border-radius:8px;
-        color:#ff7900;
+        width:23px;height:23px;flex-shrink:0;
+        background:#ff7900;color:#111;border-radius:50%;
+        font-size:11px;font-weight:bold;
+    ">${++routeStepNumber}</span>
+
+    <div style="
+        flex:1;min-width:0;
+        display:flex;align-items:center;gap:9px;
+        padding:9px 12px;
+        background:#302417;
+        border:1px solid #805020;
+        border-radius:8px;
+        color:#ffb366;font-size:12px;
     ">
-       <svg width="21" height="21" viewBox="0 0 24 24"
-     fill="none" stroke="currentColor"
-     stroke-width="1.8" stroke-linecap="round"
-     stroke-linejoin="round">
-    <path d="M4 22V3"/>
-    <path d="M4 4h16v12H4z"/>
-    <path d="M12 4v12M4 10h16"/>
-    <path d="M4 4h8v6H4z" fill="currentColor" stroke="none"/>
-    <path d="M12 10h8v6h-8z" fill="currentColor" stroke="none"/>
-</svg>
-    </div>
-    <div style="min-width:0;flex:1;">
-        <div style="
-            color:#ff7900;font-size:10px;
-            font-weight:600;letter-spacing:.5px;
-        ">DESTINO FINAL</div>
-        <div class="destination-location" style="
-            color:#f5f5f5;font-size:13px;
-            font-weight:600;overflow-wrap:anywhere;
-        "></div>
+        <span style="color:#ff7900;">🏁</span>
+        <span>
+            <strong>Destino final — </strong>
+            <span class="destination-location"></span>
+        </span>
     </div>
 `;
 
 destinationRow.querySelector(".destination-location").textContent =
     destinationDisplayName;
 
-    stopsPanel.appendChild(destinationRow);
+
+
 }
 };
 
