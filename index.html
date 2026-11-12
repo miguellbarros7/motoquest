@@ -9900,6 +9900,9 @@ if (tripEndPoint) {
 }
 
     // Distância da rota final, conforme os abastecimentos escolhidos
+const finalCoordinates = finalRouteStops.map(loc =>
+    `${Number(loc.longitude)},${Number(loc.latitude)}`
+).join(";");    
 
 const { error: saveError } = await supabaseClient
     .from("routes")
