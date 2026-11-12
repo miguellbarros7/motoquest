@@ -9869,6 +9869,10 @@ const selectedFuelToReplace =
         ? existingFuelStops[selectedFuelIndex]
         : null;    
 
+    if (saveConfirmed !== "keep" && !selectedFuelToReplace) {
+    alert("⛽ Não foi possível identificar a bomba a substituir.");
+    return;
+}
 
 
     // Lista de abastecimentos após a escolha do motociclista
