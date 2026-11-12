@@ -9745,6 +9745,18 @@ detourStatus.style.cssText = `
 `;
 
 detour.append(detourDistance, detourStatus);
+
+        const previewNotice = document.createElement("p");
+previewNotice.textContent =
+    "ℹ️ Pré-visualização com todas as bombas. " +
+    "A distância definitiva será recalculada após a tua escolha.";
+previewNotice.style.cssText = `
+    color:#aaa;
+    font-size:11px;
+    line-height:1.5;
+    margin:10px 0 0;
+`;
+detour.appendChild(previewNotice);
 const isBetterRoute = differenceKm <= 0;
 
 detour.style.cssText = `
