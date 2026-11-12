@@ -6035,8 +6035,7 @@ shareImageBtn.textContent = "🖼️ Partilhar imagem";
 
 shareOptions.append(shareLinkBtn, shareImageBtn);
 
-// Colocar o menu por baixo do cabeçalho da rota
-title.after(shareOptions);
+
 
 // Mostrar ou esconder as opções de partilha
 shareRouteBtn.onclick = (event) => {
@@ -6398,7 +6397,12 @@ title.style.minWidth = "0";
 deleteBtn.style.margin = "0";
 deleteBtn.style.flexShrink = "0";
 
+actionsRow.style.flexWrap = "wrap";
+
 actionsRow.append(title, editBtn, deleteBtn);
+
+shareOptions.style.flexBasis = "100%";
+actionsRow.appendChild(shareOptions);
 
 /* RESUMO DA ROTA GUARDADA */
 
