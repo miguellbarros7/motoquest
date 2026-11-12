@@ -10,9 +10,19 @@
         window.location.search
     ).get("shared_route");
 
-    if (sharedRouteId) {
-        console.log("🔗 Rota partilhada recebida:", sharedRouteId);
-    }
+  if (sharedRouteId) {
+    console.log("🔗 Rota partilhada recebida:", sharedRouteId);
+
+    document.addEventListener("DOMContentLoaded", () => {
+        const viewer = document.getElementById("sharedRouteViewer");
+        const content = document.getElementById("sharedRouteContent");
+
+        if (viewer && content) {
+            viewer.style.display = "block";
+            content.textContent = "A preparar a rota partilhada...";
+        }
+    });
+}
 </script>
     
     
