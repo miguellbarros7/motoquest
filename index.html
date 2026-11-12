@@ -5783,7 +5783,8 @@ downBtn.onclick = event => {
 
     [ids[index], ids[index + 1]] =
         [ids[index + 1], ids[index]];
-
+fuelReviewNeeded = Array.isArray(route.fuel_stops) &&
+    route.fuel_stops.length > 0;
     renderStops();
 
   stopsPanel.append(addStopBtn, addStopSelect, googleRouteOptions, saveOrderBtn);
