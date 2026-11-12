@@ -6227,8 +6227,8 @@ const stopPoints = routeCoordinates.map(toCanvasPoint);
     ctx.lineWidth = 5;
     ctx.lineJoin = "round";
 
-    ctx.beginPath();
-    stopPoints.forEach((point, index) => {
+   ctx.beginPath();
+points.forEach((point, index) => {
         if (index === 0) {
             ctx.moveTo(point.x, point.y);
         } else {
@@ -6238,8 +6238,9 @@ const stopPoints = routeCoordinates.map(toCanvasPoint);
     ctx.stroke();
 
     // Marcadores das paragens
-    points.forEach((point, index) => {
-        ctx.beginPath();
+// Marcadores das paragens
+stopPoints.forEach((point, index) => {
+    ctx.beginPath();
         ctx.arc(point.x, point.y, 7, 0, Math.PI * 2);
         ctx.fillStyle = "#ffffff";
         ctx.fill();
