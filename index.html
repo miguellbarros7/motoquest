@@ -9901,6 +9901,19 @@ const finalRouteStops = [...ordered];
     return;
 }
 
+    if (finalFuelStops.some(fuel => {
+    const lat = Number(fuel.latitude);
+    const lon = Number(fuel.longitude);
+
+    return !Number.isFinite(lat) ||
+        !Number.isFinite(lon) ||
+        lat < -90 || lat > 90 ||
+        lon < -180 || lon > 180;
+})) {
+    alert("⛽ Uma bomba tem coordenadas inválidas.");
+    return;
+}
+
 [...finalFuelStops]
     .sort((a, b) =>
         Number(b.insertion_index) - Number(a.insertion_index)
