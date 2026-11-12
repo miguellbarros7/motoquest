@@ -6046,14 +6046,51 @@ shareRouteBtn.onclick = (event) => {
             ? "flex"
             : "none";
 };
-// Preparar a partilha da imagem da rota
+// Gerar imagem inicial da rota
 shareImageBtn.onclick = (event) => {
     event.stopPropagation();
 
-    alert(
-        "🖼️ Vamos preparar a imagem da rota: " +
-        route.name
-    );
+    const canvas = document.createElement("canvas");
+    canvas.width = 1200;
+    canvas.height = 630;
+
+    const ctx = canvas.getContext("2d");
+
+    // Fundo preto
+    ctx.fillStyle = "#101010";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    // Faixa laranja
+    ctx.fillStyle = "#ff7900";
+    ctx.fillRect(0, 0, canvas.width, 12);
+
+    // Marca MotoQuest
+    ctx.font = "bold 70px Arial";
+    ctx.fillStyle = "#ffffff";
+    ctx.fillText("Moto", 70, 120);
+
+    ctx.fillStyle = "#ff7900";
+    ctx.fillText("Quest", 240, 120);
+
+    // Título
+    ctx.fillStyle = "#ffffff";
+    ctx.font = "bold 54px Arial";
+
+    const title = route.name || "A minha rota";
+    ctx.fillText(title.slice(0, 32), 70, 300);
+
+    // Rodapé
+    ctx.fillStyle = "#ff7900";
+    ctx.fillRect(70, 520, 1060, 3);
+
+    ctx.font = "28px Arial";
+    ctx.fillText("ROTAS • VIAGENS • AVENTURA", 70, 575);
+
+    // Guardar imagem
+    const link = document.createElement("a");
+    link.download = "motoquest-rota.png";
+    link.href = canvas.toDataURL("image/png");
+    link.click();
 };
         
 // Partilhar o percurso da rota
