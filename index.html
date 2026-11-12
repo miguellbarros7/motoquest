@@ -6065,15 +6065,24 @@ routeActionButtons.appendChild(arrow);
 // Criar botão Partilhar Rota
 const shareRouteBtn = document.createElement("button");
 shareRouteBtn.type = "button";
-shareRouteBtn.textContent = "🔗 Partilhar Rota";
+shareRouteBtn.title = "Partilhar rota";
+shareRouteBtn.setAttribute("aria-label", "Partilhar rota");
+
+shareRouteBtn.innerHTML =
+    '<svg width="16" height="16" viewBox="0 0 24 24" ' +
+    'fill="none" stroke="currentColor" stroke-width="1.8" ' +
+    'stroke-linecap="round" stroke-linejoin="round">' +
+    '<circle cx="18" cy="5" r="3"/>' +
+    '<circle cx="6" cy="12" r="3"/>' +
+    '<circle cx="18" cy="19" r="3"/>' +
+    '<path d="M8.7 10.7l6.6-4.4M8.7 13.3l6.6 4.4"/>' +
+    '</svg>';
 
 shareRouteBtn.style.cssText =
-    "display:flex;align-items:center;gap:6px;" +
-    "flex-shrink:0;padding:8px 11px;" +
-    "background:transparent;border:1px solid #444;" +
-    "border-radius:8px;color:#999;" +
-    "font-family:inherit;font-size:12px;font-weight:600;" +
-    "cursor:pointer;";
+    "display:flex;align-items:center;justify-content:center;" +
+    "padding:9px;background:transparent;" +
+    "border:1px solid #444;border-radius:8px;" +
+    "color:#999;cursor:pointer;flex-shrink:0;";
 
 // Adicionar botão ao lado do Google Maps
 routeActionButtons.appendChild(shareRouteBtn);
