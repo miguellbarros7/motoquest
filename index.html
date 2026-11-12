@@ -9474,7 +9474,7 @@ for (let i = 0; i < originalLegs.length; i++) {
     }
 }
 
-// Se substituir uma bomba próxima, mantém a posição dela
+// Identificar uma bomba guardada próxima da nova sugestão
 const nearbySavedFuel = (route.fuel_stops || []).find(fuel =>
     haversineKm(
         Number(fuel.latitude),
