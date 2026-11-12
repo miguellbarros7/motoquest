@@ -4,6 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MotoQuest</title>
+
+    <script>
+    const sharedRouteId = new URLSearchParams(
+        window.location.search
+    ).get("shared_route");
+
+    if (sharedRouteId) {
+        console.log("🔗 Rota partilhada recebida:", sharedRouteId);
+    }
+</script>
     
     
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
