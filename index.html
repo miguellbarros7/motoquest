@@ -6009,6 +6009,32 @@ routeActionButtons.appendChild(shareRouteBtn);
 // Colocar os botões no cartão da rota
 title.append(left, routeActionButtons);
 
+
+// Menu de opções de partilha
+const shareOptions = document.createElement("div");
+
+shareOptions.style.cssText =
+    "display:none;gap:8px;flex-wrap:wrap;" +
+    "width:100%;margin-top:8px;";
+
+const shareLinkBtn = document.createElement("button");
+shareLinkBtn.type = "button";
+shareLinkBtn.textContent = "🔗 Partilhar link";
+
+const shareImageBtn = document.createElement("button");
+shareImageBtn.type = "button";
+shareImageBtn.textContent = "🖼️ Partilhar imagem";
+
+[shareLinkBtn, shareImageBtn].forEach(btn => {
+    btn.style.cssText =
+        "padding:9px 12px;background:#171717;" +
+        "border:1px solid #ff7900;border-radius:8px;" +
+        "color:#ff7900;font-size:12px;font-weight:700;" +
+        "cursor:pointer;";
+});
+
+shareOptions.append(shareLinkBtn, shareImageBtn);
+        
 // Partilhar o percurso da rota
 shareRouteBtn.onclick = async (event) => {
     event.stopPropagation();
