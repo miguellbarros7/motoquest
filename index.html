@@ -5954,6 +5954,13 @@ keepFuelBtn.style.cssText =
 keepFuelBtn.onclick = () => {
     fuelReviewNeeded = false;
     renderStops();
+
+    stopsPanel.append(
+        addStopBtn,
+        addStopSelect,
+        googleRouteOptions,
+        saveOrderBtn
+    );
 };
 const removeFuelBtn = document.createElement("button");
 removeFuelBtn.type = "button";
