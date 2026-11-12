@@ -6028,8 +6028,10 @@ saveOrderBtn.onclick = async event => {
 
     const { data, error } = await supabaseClient
         .from("routes")
-        .update({
+        
+       .update({
     location_ids: ids,
+    fuel_stops: route.fuel_stops,
     trip_plan: {
         ...(route.trip_plan || {}),
         avoid_highways: avoidHighwaysCheckbox.checked,
