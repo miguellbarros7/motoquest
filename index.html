@@ -6846,19 +6846,7 @@ googleFuelStops
             longitude
         });
     });
-    // Incluir partida, encontro e destino no recálculo
-if (tripMeetingPoint) {
-    finalRouteStops.unshift(tripMeetingPoint);
-}
-
-if (tripDeparturePoint) {
-    finalRouteStops.unshift(tripDeparturePoint);
-}
-
-if (tripEndPoint) {
-    finalRouteStops.push(tripEndPoint);
-}
-
+  
 
       // Dados do planeamento para o percurso no Google Maps
     const googleTripPlan = route.trip_plan || {};
@@ -9897,8 +9885,19 @@ const finalRouteStops = [...ordered];
             longitude: Number(fuel.longitude)
         });
     }); 
-   
+    
+   // Incluir partida, encontro e destino
+if (tripMeetingPoint) {
+    finalRouteStops.unshift(tripMeetingPoint);
+}
 
+if (tripDeparturePoint) {
+    finalRouteStops.unshift(tripDeparturePoint);
+}
+
+if (tripEndPoint) {
+    finalRouteStops.push(tripEndPoint);
+}
 const { error: saveError } = await supabaseClient
     .from("routes")
     .update({ fuel_stops: finalFuelStops })
