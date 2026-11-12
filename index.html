@@ -5025,6 +5025,21 @@ function updateRouteSummaryBike() {
     title.textContent = `🏍️ ${bike.brand} ${bike.model}`;
 
     const details = document.createElement("div");
+const fuelReplacementSelect = document.createElement("select");
+
+fuelReplacementSelect.style.cssText =
+    "width:100%;padding:12px;margin:12px 0;" +
+    "background:#111;color:#fff;" +
+    "border:1px solid #ff7900;border-radius:8px;";
+
+fuelReplacementOptions.forEach(option => {
+    const selectOption = document.createElement("option");
+
+    selectOption.value = String(option.index);
+    selectOption.textContent = option.label;
+
+    fuelReplacementSelect.appendChild(selectOption);
+});    
     details.textContent =
         `⛽ ${fuelName} · ${bike.consumption} L/100 km · ` +
         `Depósito: ${bike.tank} L`;
