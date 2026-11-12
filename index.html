@@ -9818,7 +9818,11 @@ details.append(stationTitle, distances, detour, question);
         return;
     }
 
-    finish(true);
+    finish(
+    fuelReplacementOptions.length > 0
+        ? fuelReplacementSelect.value
+        : "keep"
+);
 };
 
     buttons.append(cancelButton, saveButton);
