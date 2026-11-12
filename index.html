@@ -5925,9 +5925,21 @@ destinationRow.querySelector(".destination-location").textContent =
     destinationDisplayName;
     stopsPanel.appendChild(destinationRow);
 
-
-
 }
+if (fuelReviewNeeded) {
+    const fuelWarning = document.createElement("div");
+
+    fuelWarning.style.cssText =
+        "margin-top:12px;padding:10px;" +
+        "background:#302817;border:1px solid #b88628;" +
+        "border-radius:8px;color:#f5d58a;font-size:12px;";
+
+    fuelWarning.textContent =
+        "⛽ Abastecimento a rever: alteraste o percurso. " +
+        "A bomba guardada pode já não ser necessária.";
+
+    stopsPanel.appendChild(fuelWarning);
+}    
 };
 
 
