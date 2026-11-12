@@ -5938,78 +5938,7 @@ if (fuelReviewNeeded) {
     "⛽ O abastecimento será reavaliado depois " +
     "de guardares e recalculares a nova rota.";
 
-   const fuelActions = document.createElement("div");
-fuelActions.style.cssText =
-    "display:flex;flex-wrap:wrap;gap:6px;margin-top:9px;";
 
-    const keepFuelBtn = document.createElement("button");
-keepFuelBtn.type = "button";
-keepFuelBtn.textContent = "✓ Manter abastecimento";
-
-keepFuelBtn.style.cssText =
-    "background:#3b3020;border:1px solid #b88628;" +
-    "border-radius:6px;color:#f5d58a;" +
-    "padding:6px 9px;cursor:pointer;font-size:11px;";
-
-keepFuelBtn.onclick = () => {
-    fuelReviewNeeded = false;
-    renderStops();
-
-    stopsPanel.append(
-        addStopBtn,
-        addStopSelect,
-        googleRouteOptions,
-        saveOrderBtn
-    );
-};
-const removeFuelBtn = document.createElement("button");
-removeFuelBtn.type = "button";
-removeFuelBtn.textContent = "✕ Já não preciso de abastecer";
-
-removeFuelBtn.style.cssText =
-    "background:#332222;border:1px solid #774444;" +
-    "border-radius:6px;color:#ff9999;" +
-    "padding:6px 9px;cursor:pointer;font-size:11px;";
-
-removeFuelBtn.onclick = () => {
-    const confirmed = confirm(
-        "Queres remover o abastecimento desta rota?"
-    );
-
-    if (!confirmed) return;
-
-   route.fuel_stops = [];
-fuelReviewNeeded = false;
-renderStops();
-
-stopsPanel.append(
-    addStopBtn,
-    addStopSelect,
-    googleRouteOptions,
-    saveOrderBtn
-);
-};
-const changeFuelBtn = document.createElement("button");
-changeFuelBtn.type = "button";
-changeFuelBtn.textContent = "↻ Escolher outra";
-
-changeFuelBtn.style.cssText =
-    "background:#302417;border:1px solid #ff7900;" +
-    "border-radius:6px;color:#ffb366;" +
-    "padding:6px 9px;cursor:pointer;font-size:11px;";
-
-changeFuelBtn.onclick = () => {
-    saveOrderBtn.scrollIntoView({
-        behavior: "smooth",
-        block: "center"
-    });
-
-    saveOrderBtn.style.boxShadow =
-        "0 0 0 3px rgba(255,121,0,.35), 0 0 18px #ff7900";
-
-    saveOrderBtn.textContent =
-        "💾 Guarda para escolher outra bomba";
-};
 
     
  
