@@ -5828,7 +5828,16 @@ fuelNumber.style.cssText =
         ? fuel.name + " — " + fuel.locality
         : fuel.name;
 
- fuelRow.append(fuelNumber, fuelIcon, fuelName);
+ const fuelBox = document.createElement("div");
+
+fuelBox.style.cssText =
+    "flex:1;min-width:0;display:flex;align-items:center;gap:9px;" +
+    "padding:9px 12px;background:#302417;" +
+    "border:1px solid #805020;border-radius:8px;" +
+    "color:#ffb366;font-size:12px;";
+
+fuelBox.append(fuelIcon, fuelName);
+fuelRow.append(fuelNumber, fuelBox);
     stopsPanel.appendChild(fuelRow);
 });
 
@@ -8605,16 +8614,9 @@ if (routeFuelStops.length > 0) {
     routeFuelStops.forEach(fuel => {
         const fuelRow = document.createElement("div");
 
-        fuelRow.style.cssText = `
-            display:flex;
-            align-items:center;
-            gap:12px;
-            background:#252525;
-            border:1px solid #444;
-            border-radius:9px;
-            padding:12px;
-            margin-bottom:8px;
-        `;
+       fuelRow.style.cssText =
+    "display:flex;align-items:center;gap:9px;" +
+    "margin:4px 0;";
 
         const fuelIcon = document.createElement("span");
         fuelIcon.textContent = "⛽";
