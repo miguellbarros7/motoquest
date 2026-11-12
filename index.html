@@ -6034,9 +6034,22 @@ shareImageBtn.textContent = "🖼️ Partilhar imagem";
 });
 
 shareOptions.append(shareLinkBtn, shareImageBtn);
-        
+
+// Colocar o menu por baixo do cabeçalho da rota
+title.after(shareOptions);
+
+// Mostrar ou esconder as opções de partilha
+shareRouteBtn.onclick = (event) => {
+    event.stopPropagation();
+
+    shareOptions.style.display =
+        shareOptions.style.display === "none"
+            ? "flex"
+            : "none";
+};
+
 // Partilhar o percurso da rota
-shareRouteBtn.onclick = async (event) => {
+shareLinkBtn.onclick = async (event) => {
     event.stopPropagation();
 
     const routeUrl = new URL(
