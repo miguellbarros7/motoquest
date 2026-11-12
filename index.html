@@ -5809,8 +5809,12 @@ removeBtn.onclick = event => {
         return;
     }
 
-    ids.splice(index, 1);
-    renderStops();
+  ids.splice(index, 1);
+
+fuelReviewNeeded = Array.isArray(route.fuel_stops) &&
+    route.fuel_stops.length > 0;
+
+renderStops();
 stopsPanel.append(addStopBtn, addStopSelect, saveOrderBtn);
 };
 
