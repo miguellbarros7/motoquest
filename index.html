@@ -9809,7 +9809,17 @@ details.append(stationTitle, distances, detour, question);
     };
 
     cancelButton.onclick = () => finish(false);
-    saveButton.onclick = () => finish(true);
+  saveButton.onclick = () => {
+    if (
+        fuelReplacementOptions.length > 0 &&
+        fuelReplacementSelect.value === ""
+    ) {
+        alert("⛽ Escolhe a bomba a substituir ou MANTER AMBAS.");
+        return;
+    }
+
+    finish(true);
+};
 
     buttons.append(cancelButton, saveButton);
     card.append(title, details, buttons);
