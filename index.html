@@ -6015,6 +6015,13 @@ saveOrderBtn.onclick = async event => {
 
    route.location_ids = [...ids];
 
+    route.trip_plan = {
+    ...(route.trip_plan || {}),
+    avoid_highways: avoidHighwaysCheckbox.checked,
+    avoid_tolls: avoidTollsCheckbox.checked,
+    fuel_review_pending: fuelReviewNeeded
+};
+
 saveOrderBtn.disabled = false;
 saveOrderBtn.textContent = "💾 Guardar nova ordem";
 
