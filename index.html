@@ -6245,12 +6245,39 @@ const toMercator = (point) => {
     };
 };    
 
-// Converter coordenadas GPS para posições na imagem
-const toCanvasPoint = point => ({
-    x: mapX + 20 + ((point.lng - minLng) / lngRange) * (mapW - 40),
-    y: mapY + 20 + ((maxLat - point.lat) / latRange) * (mapH - 40)
-});
+// Limites do percurso na projeção Web Mercator
+const projectedPoints = mapCoordinates.map(toMercator);
 
+const minX = Math.min(...projectedPoints.map(p => p.x));
+const maxX = Math.max(...projectedPoints.map(p => p.x));
+const minY = Math.min(...projectedPoints.map(p => p.y));
+const maxY = Math.max(...projectedPoints.map(p => p.y));
+
+// Manter a proporção geográfica do percurso
+const padding = 20;
+const availableW = mapW - padding * 2;
+const availableH = mapH - padding * 2;
+
+const rangeX = Math.max(maxX - minX, 0.000001);
+const rangeY = Math.max(maxY - minY, 0.000001);
+
+const scale = Math.min(
+    availableW / rangeX,
+    availableH / rangeY
+);
+
+const offsetX = mapX + (mapW - rangeX * scale) / 2;
+const offsetY = mapY + (mapH - rangeY * scale) / 2;
+
+// Converter coordenadas GPS para posições na imagem
+const toCanvasPoint = point => {
+    const projected = toMercator(point);
+
+    return {
+        x: offsetX + (projected.x - minX) * scale,
+        y: offsetY + (projected.y - minY) * scale
+    };
+};
 // Pontos do traçado rodoviário
 const points = mapCoordinates.map(toCanvasPoint);
 
