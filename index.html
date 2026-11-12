@@ -5978,9 +5978,16 @@ removeFuelBtn.onclick = () => {
 
     if (!confirmed) return;
 
-    route.fuel_stops = [];
-    fuelReviewNeeded = false;
-    renderStops();
+   route.fuel_stops = [];
+fuelReviewNeeded = false;
+renderStops();
+
+stopsPanel.append(
+    addStopBtn,
+    addStopSelect,
+    googleRouteOptions,
+    saveOrderBtn
+);
 };
 const changeFuelBtn = document.createElement("button");
 changeFuelBtn.type = "button";
