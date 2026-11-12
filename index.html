@@ -6859,18 +6859,7 @@ if (tripEndPoint) {
     finalRouteStops.push(tripEndPoint);
 }
 
-    // Incluir os pontos adicionais da viagem
-if (tripMeetingPoint) {
-    finalRouteStops.unshift(tripMeetingPoint);
-}
 
-if (tripDeparturePoint) {
-    finalRouteStops.unshift(tripDeparturePoint);
-}
-
-if (tripEndPoint) {
-    finalRouteStops.push(tripEndPoint);
-}
       // Dados do planeamento para o percurso no Google Maps
     const googleTripPlan = route.trip_plan || {};
 
