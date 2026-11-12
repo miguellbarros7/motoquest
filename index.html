@@ -5609,9 +5609,43 @@ if (
     tripPlan.departure_type !== "first" &&
     (tripPlan.departure_location || "").trim()
 ) {
-    const departureRow = document.createElement("div");
+   
+const departureRow = document.createElement("div");
 
-  stopsPanel.appendChild(departureRow);
+departureRow.style.cssText =
+    "display:flex;align-items:center;gap:9px;" +
+    "margin-bottom:8px;";
+
+departureRow.innerHTML = `
+    <span style="
+        display:flex;align-items:center;justify-content:center;
+        width:23px;height:23px;flex-shrink:0;
+        background:#ff7900;color:#111;border-radius:50%;
+        font-size:11px;font-weight:bold;
+    ">1</span>
+
+    <div style="
+        flex:1;min-width:0;
+        display:flex;align-items:center;gap:9px;
+        padding:9px 12px;
+        background:#302417;
+        border:1px solid #805020;
+        border-radius:8px;
+        color:#ffb366;font-size:12px;
+    ">
+        <span style="color:#ff7900;">⚑</span>
+        <span>
+            <strong>Partida — </strong>
+            <span class="departure-location"></span>
+        </span>
+    </div>
+`;
+
+departureRow.querySelector(".departure-location").textContent =
+    (tripPlan.departure_name || tripPlan.departure_location || "").trim();
+
+stopsPanel.appendChild(departureRow);
+
 }
 
 // Mostrar o ponto de encontro antes das paragens originais
