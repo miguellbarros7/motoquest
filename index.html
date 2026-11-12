@@ -6846,6 +6846,18 @@ googleFuelStops
             longitude
         });
     });
+    // Incluir partida, encontro e destino no recálculo
+if (tripMeetingPoint) {
+    finalRouteStops.unshift(tripMeetingPoint);
+}
+
+if (tripDeparturePoint) {
+    finalRouteStops.unshift(tripDeparturePoint);
+}
+
+if (tripEndPoint) {
+    finalRouteStops.push(tripEndPoint);
+}
 
     // Incluir os pontos adicionais da viagem
 if (tripMeetingPoint) {
