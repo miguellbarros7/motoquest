@@ -8947,11 +8947,15 @@ const fuelPositionReviewNeeded =
     savedFuelStopsForReview.length > 0 &&
     km > estimatedRange;
 
-        const fuelStopsOutsideSafeRange =
+      const fuelStopsOutsideSafeRange =
     savedFuelStopsForReview.filter(fuel => {
         const fuelKm = fuelKmByStop.get(fuel);
 
-        if (
+        return Number.isFinite(fuelKm) &&
+            fuelKm > fuelSafetyLimitKm;
+    });
+
+if (
     fuelPositionReviewNeeded &&
     fuelStopsOutsideSafeRange.length > 0
 ) {
@@ -8975,10 +8979,6 @@ const fuelPositionReviewNeeded =
 
     routeInfo.appendChild(fuelPositionAlert);
 }
-
-        return Number.isFinite(fuelKm) &&
-            fuelKm > fuelSafetyLimitKm;
-    });
 
 // Só planear abastecimentos quando um depósito
 // não chega para completar a rota.
