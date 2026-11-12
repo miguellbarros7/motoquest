@@ -9511,17 +9511,8 @@ let replaceExistingFuel = false;
     })
 );
 
-// Mantém as bombas que estejam a mais de 5 km da nova
-const updatedFuelStops = existingFuelStops.filter(savedStation => {
-    const distanceBetweenStations = haversineKm(
-        Number(savedStation.latitude),
-        Number(savedStation.longitude),
-        Number(station.latitude),
-        Number(station.longitude)
-    );
-
-    return distanceBetweenStations > FUEL_REPLACEMENT_RADIUS_KM;
-});
+// Preserva todas as bombas até o motociclista confirmar a substituição
+const updatedFuelStops = [...existingFuelStops];
 
 // Acrescenta a nova bomba à rota
 updatedFuelStops.push({
