@@ -6299,6 +6299,14 @@ const tilesPerAxis = Math.pow(2, mapZoom);
 
 const centerTileX = mapCenter.x * tilesPerAxis;
 const centerTileY = mapCenter.y * tilesPerAxis;
+// Configuração da cartografia escura
+const darkMapConfig = {
+    tileSize: 256,
+    tileUrl: (z, x, y) =>
+        `https://a.basemaps.cartocdn.com/dark_all/${z}/${x}/${y}.png`,
+    attribution: "© OpenStreetMap contributors © CARTO"
+};
+    
 
 console.log("🗺️ Centro do mapa:", {
     zoom: mapZoom,
