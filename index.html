@@ -6287,7 +6287,24 @@ const mapZoom = Math.max(
 
 console.log("🗺️ Zoom calculado para o mapa:", mapZoom);
 
-// Converter coordenadas GPS para posições na imagem
+    
+// Centro do mapa na projeção Web Mercator
+const mapCenter = {
+    x: (minX + maxX) / 2,
+    y: (minY + maxY) / 2
+};
+
+// Converter o centro para coordenadas dos mosaicos
+const tilesPerAxis = Math.pow(2, mapZoom);
+
+const centerTileX = mapCenter.x * tilesPerAxis;
+const centerTileY = mapCenter.y * tilesPerAxis;
+
+console.log("🗺️ Centro do mapa:", {
+    zoom: mapZoom,
+    tileX: centerTileX,
+    tileY: centerTileY
+});// Converter coordenadas GPS para posições na imagem
 const toCanvasPoint = point => {
     const projected = toMercator(point);
 
