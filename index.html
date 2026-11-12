@@ -6305,6 +6305,33 @@ const tilesPerAxis = Math.pow(2, mapZoom);
 
 const centerTileX = mapCenter.x * tilesPerAxis;
 const centerTileY = mapCenter.y * tilesPerAxis;
+
+// Identificar os mosaicos necessários para cobrir o mapa
+const centerPixelX = centerTileX * tileSize;
+const centerPixelY = centerTileY * tileSize;
+
+const firstTileX = Math.floor(
+    (centerPixelX - mapW / 2) / tileSize
+);
+
+const lastTileX = Math.floor(
+    (centerPixelX + mapW / 2) / tileSize
+);
+
+const firstTileY = Math.floor(
+    (centerPixelY - mapH / 2) / tileSize
+);
+
+const lastTileY = Math.floor(
+    (centerPixelY + mapH / 2) / tileSize
+);
+
+console.log("🗺️ Mosaicos necessários:", {
+    firstTileX,
+    lastTileX,
+    firstTileY,
+    lastTileY
+});    
 // Configuração da cartografia escura
 const darkMapConfig = {
     tileSize: 256,
