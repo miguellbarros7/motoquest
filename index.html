@@ -6219,9 +6219,26 @@ const points = mapCoordinates.map(toCanvasPoint);
 
 // Marcadores das paragens originais
 const stopPoints = routeCoordinates.map(toCanvasPoint);
-    // Área do percurso
-    ctx.fillStyle = "#1b1b1b";
-    ctx.fillRect(mapX, mapY, mapW, mapH);
+  // Fundo do mapa — estilo escuro MotoQuest
+ctx.fillStyle = "#171c24";
+ctx.fillRect(mapX, mapY, mapW, mapH);
+
+// Contorno discreto do mapa
+ctx.strokeStyle = "#343b46";
+ctx.lineWidth = 2;
+ctx.strokeRect(mapX, mapY, mapW, mapH);
+
+// Guardar a área para o futuro mapa cartográfico
+const mapBounds = {
+    x: mapX,
+    y: mapY,
+    width: mapW,
+    height: mapH,
+    minLat,
+    maxLat,
+    minLng,
+    maxLng
+};
 
     ctx.strokeStyle = "#ff7900";
     ctx.lineWidth = 5;
