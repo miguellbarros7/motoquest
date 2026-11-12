@@ -9484,17 +9484,7 @@ const nearbySavedFuel = (route.fuel_stops || []).find(fuel =>
     ) <= FUEL_REPLACEMENT_RADIUS_KM
 );
 
-if (nearbySavedFuel) {
-    const savedIndex = Number(nearbySavedFuel.insertion_index);
 
-    if (
-        Number.isInteger(savedIndex) &&
-        savedIndex >= 0 &&
-        savedIndex <= ordered.length
-    ) {
-        insertionIndex = savedIndex;
-    }
-}
 
 // Abastecimentos já guardados nesta rota
 const existingFuelStops = Array.isArray(route.fuel_stops)
