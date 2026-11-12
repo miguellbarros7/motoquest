@@ -6046,7 +6046,16 @@ shareRouteBtn.onclick = (event) => {
             ? "flex"
             : "none";
 };
+// Preparar a partilha da imagem da rota
+shareImageBtn.onclick = (event) => {
+    event.stopPropagation();
 
+    alert(
+        "🖼️ Vamos preparar a imagem da rota: " +
+        route.name
+    );
+};
+        
 // Partilhar o percurso da rota
 shareLinkBtn.onclick = async (event) => {
     event.stopPropagation();
