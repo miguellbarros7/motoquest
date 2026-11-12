@@ -5975,10 +5975,18 @@ removeFuelBtn.onclick = () => {
     fuelReviewNeeded = false;
     renderStops();
 };
+const changeFuelBtn = document.createElement("button");
+changeFuelBtn.type = "button";
+changeFuelBtn.textContent = "↻ Escolher outra";
 
-fuelActions.appendChild(keepFuelBtn);
+changeFuelBtn.style.cssText =
+    "background:#302417;border:1px solid #ff7900;" +
+    "border-radius:6px;color:#ffb366;" +
+    "padding:6px 9px;cursor:pointer;font-size:11px;";
+    
+  fuelActions.appendChild(keepFuelBtn);
+fuelActions.appendChild(changeFuelBtn);
 fuelActions.appendChild(removeFuelBtn);
-
 
 fuelWarning.appendChild(fuelActions);
 stopsPanel.appendChild(fuelWarning);
