@@ -5955,7 +5955,28 @@ keepFuelBtn.onclick = () => {
     fuelReviewNeeded = false;
     renderStops();
 };
+const removeFuelBtn = document.createElement("button");
+removeFuelBtn.type = "button";
+removeFuelBtn.textContent = "✕ Já não preciso de abastecer";
 
+removeFuelBtn.style.cssText =
+    "background:#332222;border:1px solid #774444;" +
+    "border-radius:6px;color:#ff9999;" +
+    "padding:6px 9px;cursor:pointer;font-size:11px;";
+
+removeFuelBtn.onclick = () => {
+    const confirmed = confirm(
+        "Queres remover o abastecimento desta rota?"
+    );
+
+    if (!confirmed) return;
+
+    route.fuel_stops = [];
+    fuelReviewNeeded = false;
+    renderStops();
+};
+
+fuelActions.appendChild(removeFuelBtn);
 fuelActions.appendChild(keepFuelBtn);
 
 fuelWarning.appendChild(fuelActions);
