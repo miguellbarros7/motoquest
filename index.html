@@ -6119,6 +6119,42 @@ if (typeof L === "undefined") {
 }
 
 console.log("🗺️ Leaflet disponível para gerar o mapa da rota");
+
+    // Obter o percurso rodoviário real entre as paragens
+let roadCoordinates = [];
+
+if (routeCoordinates.length >= 2) {
+    try {
+        const coordinates = routeCoordinates
+            .map(point => `${point.lng},${point.lat}`)
+            .join(";");
+
+        const url =
+            `https://router.project-osrm.org/route/v1/driving/${coordinates}` +
+            `?overview=full&geometries=geojson`;
+
+        const response = await fetch(url);
+
+        if (!response.ok) {
+            throw new Error(`OSRM respondeu com ${response.status}`);
+        }
+
+        const result = await response.json();
+
+        if (result.code === "Ok" && result.routes?.[0]?.geometry?.coordinates) {
+            roadCoordinates = result.routes[0].geometry.coordinates.map(
+                ([lng, lat]) => ({ lat, lng })
+            );
+        }
+
+        console.log(
+            "🛣️ Pontos do percurso rodoviário:",
+            roadCoordinates.length
+        );
+    } catch (error) {
+        console.warn("Não foi possível obter o percurso rodoviário:", error);
+    }
+}
     
     const canvas = document.createElement("canvas");
     canvas.width = 1200;
