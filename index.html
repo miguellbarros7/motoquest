@@ -6047,8 +6047,43 @@ shareRouteBtn.onclick = (event) => {
             : "none";
 };
 // Gerar imagem inicial da rota
-shareImageBtn.onclick = (event) => {
+// Gerar imagem com os dados reais da rota
+shareImageBtn.onclick = async (event) => {
     event.stopPropagation();
+
+    // IDs das paragens guardadas, pela ordem da rota
+    const ids = Array.isArray(route.location_ids)
+        ? route.location_ids
+        : [];
+
+    if (ids.length === 0) {
+        alert("Esta rota não tem paragens guardadas.");
+        return;
+    }
+
+    // Consultar os locais reais no Supabase
+    const { data: locations, error } = await supabaseClient
+        .from("locations")
+        .select("id, name, latitude, longitude")
+        .in("id", ids);
+
+    if (error) {
+        console.error("Erro ao carregar paragens:", error);
+        alert("Não foi possível carregar as paragens da rota.");
+        return;
+    }
+
+    // Recuperar a ordem original da rota
+    const orderedLocations = ids
+        .map(id => locations?.find(
+            location => String(location.id) === String(id)
+        ))
+        .filter(Boolean);
+
+    if (orderedLocations.length !== ids.length) {
+        alert("Não foi possível encontrar todas as paragens da rota.");
+        return;
+    }
 
     const canvas = document.createElement("canvas");
     canvas.width = 1200;
