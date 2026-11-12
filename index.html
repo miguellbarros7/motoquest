@@ -5938,11 +5938,12 @@ if (fuelReviewNeeded) {
         "⛽ Abastecimento a rever: alteraste o percurso. " +
         "A bomba guardada pode já não ser necessária.";
 
-    stopsPanel.appendChild(fuelWarning);
-
-    const fuelActions = document.createElement("div");
+   const fuelActions = document.createElement("div");
 fuelActions.style.cssText =
     "display:flex;flex-wrap:wrap;gap:6px;margin-top:9px;";
+
+fuelWarning.appendChild(fuelActions);
+stopsPanel.appendChild(fuelWarning);
 }    
 };
 
