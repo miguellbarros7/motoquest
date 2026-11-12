@@ -6562,8 +6562,42 @@ shareLinkBtn.onclick = async (event) => {
         "https://miguellbarros7.github.io/motoquest/"
     );
 
-    routeUrl.searchParams.set("shared_route", route.id);
+  const ids = Array.isArray(route.location_ids)
+    ? route.location_ids
+    : [];
 
+const { data: locations, error } = await supabaseClient
+    .from("locations")
+    .select("id, name, latitude, longitude")
+    .in("id", ids);
+
+if (error || !locations || locations.length !== ids.length) {
+    alert("Não foi possível preparar a partilha desta rota.");
+    return;
+}
+
+const orderedLocations = ids.map(id =>
+    locations.find(location => String(location.id) === String(id))
+);
+
+if (orderedLocations.some(location => !location)) {
+    alert("Faltam paragens nesta rota.");
+    return;
+}
+
+const sharedData = {
+    name: route.name,
+    stops: orderedLocations.map(location => ({
+        name: location.name,
+        lat: location.latitude,
+        lng: location.longitude
+    }))
+};
+
+routeUrl.searchParams.set(
+    "route_data",
+    JSON.stringify(sharedData)
+);
     const shareData = {
         title: `🏍️ ${route.name} | MotoQuest`,
         text: `Vê esta rota de mota na MotoQuest: ${route.name}`,
