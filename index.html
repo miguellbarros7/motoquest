@@ -6141,6 +6141,60 @@ console.log(
     const title = route.name || "A minha rota";
     ctx.fillText(title.slice(0, 32), 70, 300);
 
+// Primeira representação geográfica da rota
+if (routeCoordinates.length >= 2) {
+    const mapX = 700;
+    const mapY = 170;
+    const mapW = 420;
+    const mapH = 300;
+
+    const lats = routeCoordinates.map(p => p.lat);
+    const lngs = routeCoordinates.map(p => p.lng);
+
+    const minLat = Math.min(...lats);
+    const maxLat = Math.max(...lats);
+    const minLng = Math.min(...lngs);
+    const maxLng = Math.max(...lngs);
+
+    const latRange = Math.max(maxLat - minLat, 0.001);
+    const lngRange = Math.max(maxLng - minLng, 0.001);
+
+    const points = routeCoordinates.map(point => ({
+        x: mapX + 20 + ((point.lng - minLng) / lngRange) * (mapW - 40),
+        y: mapY + 20 + ((maxLat - point.lat) / latRange) * (mapH - 40)
+    }));
+
+    // Área do percurso
+    ctx.fillStyle = "#1b1b1b";
+    ctx.fillRect(mapX, mapY, mapW, mapH);
+
+    ctx.strokeStyle = "#ff7900";
+    ctx.lineWidth = 5;
+    ctx.lineJoin = "round";
+
+    ctx.beginPath();
+    points.forEach((point, index) => {
+        if (index === 0) {
+            ctx.moveTo(point.x, point.y);
+        } else {
+            ctx.lineTo(point.x, point.y);
+        }
+    });
+    ctx.stroke();
+
+    // Marcadores das paragens
+    points.forEach((point, index) => {
+        ctx.beginPath();
+        ctx.arc(point.x, point.y, 7, 0, Math.PI * 2);
+        ctx.fillStyle = "#ffffff";
+        ctx.fill();
+
+        ctx.fillStyle = "#ff7900";
+        ctx.font = "bold 16px Arial";
+        ctx.fillText(String(index + 1), point.x + 10, point.y - 10);
+    });
+}
+    
 // Paragens reais da rota
 ctx.fillStyle = "#ff7900";
 ctx.font = "bold 27px Arial";
