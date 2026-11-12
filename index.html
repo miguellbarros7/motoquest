@@ -6830,10 +6830,12 @@ if (route.trip_plan?.avoid_tolls === true) {
     }
 
     const url = "https://www.google.com/maps/dir/?" +
-        params.toString();
+    params.toString();
 
+// Guardar o link para a partilha
+route.googleMapsShareUrl = url;
 
-    window.open(url, "_blank", "noopener,noreferrer");
+window.open(url, "_blank", "noopener,noreferrer");
 };
 
 
