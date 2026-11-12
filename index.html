@@ -9631,6 +9631,10 @@ fuelReplacementSelect.style.cssText =
     placeholder.disabled = true;
     fuelReplacementSelect.appendChild(placeholder);
 }
+const keepBothOption = document.createElement("option");
+keepBothOption.value = "keep";
+keepBothOption.textContent = "➕ MANTER AMBAS AS BOMBAS";
+fuelReplacementSelect.appendChild(keepBothOption);        
 
 fuelReplacementOptions.forEach(option => {
     const selectOption = document.createElement("option");
