@@ -6769,9 +6769,11 @@ googleFuelStops
             ? (googleTripPlan.meeting_location || "").trim()
             : "";
 
-    const googleEndAddress =
-        googleTripPlan.end_type === "other"
-            ? (googleTripPlan.end_location || "").trim()
+const googleEndAddress =
+    googleTripPlan.end_type === "other"
+        ? (googleTripPlan.end_location || "").trim()
+        : googleTripPlan.end_type === "home"
+            ? (googleTripPlan.departure_location || "").trim()
             : "";
 
     const googleConfirmedEnd =
