@@ -6006,8 +6006,39 @@ shareRouteBtn.style.cssText =
 // Adicionar botão ao lado do Google Maps
 routeActionButtons.appendChild(shareRouteBtn);
 
-// Colocar os botões ao lado das informações da rota
-title.append(left, routeActionButtons);
+// Partilhar o percurso da rota
+shareRouteBtn.onclick = async (event) => {
+    event.stopPropagation();
+
+    const routeUrl = new URL(
+        "https://miguellbarros7.github.io/motoquest/"
+    );
+
+    routeUrl.searchParams.set("shared_route", route.id);
+
+    const shareData = {
+        title: `🏍️ ${route.name} | MotoQuest`,
+        text: `Vê esta rota de mota na MotoQuest: ${route.name}`,
+        url: routeUrl.toString()
+    };
+
+    if (navigator.share) {
+        try {
+            await navigator.share(shareData);
+        } catch (error) {
+            if (error.name !== "AbortError") {
+                console.error("Erro ao partilhar:", error);
+            }
+        }
+    } else {
+        try {
+            await navigator.clipboard.writeText(routeUrl.toString());
+            alert("🔗 Link copiado! Já podes enviar pelo WhatsApp.");
+        } catch (error) {
+            prompt("Copia o link da rota:", routeUrl.toString());
+        }
+    }
+};
 
 
 
