@@ -9500,6 +9500,16 @@ if (existingFuelStops.length === 1) {
 // A substituição só será ativada após confirmação
 let replaceExistingFuel = false;
 
+    const fuelReplacementOptions = existingFuelStops.map(
+    (fuel, index) => ({
+        index,
+        fuel,
+        label: fuel.locality
+            ? fuel.name + " — " + fuel.locality
+            : fuel.name
+    })
+);
+
 // Mantém as bombas que estejam a mais de 5 km da nova
 const updatedFuelStops = existingFuelStops.filter(savedStation => {
     const distanceBetweenStations = haversineKm(
