@@ -9756,6 +9756,9 @@ question.style.cssText = `
 `;
 
 details.append(stationTitle, distances, detour, question);
+        if (fuelReplacementOptions.length > 0) {
+    details.appendChild(fuelReplacementSelect);
+}
 
     const buttons = document.createElement("div");
     buttons.style.cssText = `
