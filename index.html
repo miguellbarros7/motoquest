@@ -8944,7 +8944,9 @@ const savedFuelStopsForReview =
 
 const fuelPositionReviewNeeded =
     savedFuelStopsForReview.length > 0 &&
-    km > estimatedRange;// Só planear abastecimentos quando um depósito
+    km > estimatedRange;
+
+// Só planear abastecimentos quando um depósito
 // não chega para completar a rota.
 if (km > estimatedRange) {
     let lastRefuelKm = 0;
