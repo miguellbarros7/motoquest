@@ -5680,11 +5680,13 @@ meetingRow.innerHTML = `
         border-radius:8px;
         color:#ffb366;font-size:12px;
     ">
-        <span style="color:#ff7900;">⌖</span>
-        <span>
-            <strong>Encontro — </strong>
-            <span class="meeting-location"></span>
-        </span>
+<span style="display:flex;flex-direction:column;gap:2px;min-width:0;">
+    <span style="color:#ff7900;font-size:10px;">
+        ♧ Encontro
+    </span>
+    <span class="meeting-location"
+          style="color:#fff;font-size:12px;"></span>
+</span>
     </div>
 `;
 
