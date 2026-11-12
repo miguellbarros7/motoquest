@@ -5941,12 +5941,20 @@ if (fuelReviewNeeded) {
     
  
 stopsPanel.appendChild(fuelWarning);
-}    
+}
+
+if (typeof addStopBtn !== "undefined") {
+    stopsPanel.append(
+        addStopBtn,
+        addStopSelect,
+        googleRouteOptions,
+        saveOrderBtn
+    );
+}
 };
 
 
 renderStops();
-
 const addStopBtn = document.createElement("button");
 addStopBtn.type = "button";
 addStopBtn.textContent = "+ Adicionar paragem";
