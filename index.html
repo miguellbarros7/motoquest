@@ -9891,6 +9891,16 @@ const finalFuelStops = updatedFuelStops.filter(fuel =>
 // Preparar os pontos da rota com os abastecimentos finais
 const finalRouteStops = [...ordered];
 
+    if (finalFuelStops.some(fuel => {
+    const index = Number(fuel.insertion_index);
+    return !Number.isInteger(index) ||
+        index < 0 ||
+        index > ordered.length;
+})) {
+    alert("⛽ Uma bomba tem uma posição inválida na rota.");
+    return;
+}
+
 [...finalFuelStops]
     .sort((a, b) =>
         Number(b.insertion_index) - Number(a.insertion_index)
