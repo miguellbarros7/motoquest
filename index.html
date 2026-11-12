@@ -9491,10 +9491,11 @@ const existingFuelStops = Array.isArray(route.fuel_stops)
     : [];
 
     // Bomba existente que poderá ser substituída
-const fuelReplacementCandidate =
-    existingFuelStops.length > 0
-        ? existingFuelStops[0]
-        : null;
+let fuelReplacementCandidate = null;
+
+if (existingFuelStops.length === 1) {
+    fuelReplacementCandidate = existingFuelStops[0];
+}
 
 // A substituição só será ativada após confirmação
 let replaceExistingFuel = false;
