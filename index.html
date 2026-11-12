@@ -5,21 +5,49 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MotoQuest</title>
 
-    <script>
-    const sharedRouteId = new URLSearchParams(
-        window.location.search
-    ).get("shared_route");
+   <script>
+const sharedRouteData = new URLSearchParams(
+    window.location.search
+).get("route_data");
 
-  if (sharedRouteId) {
-    console.log("🔗 Rota partilhada recebida:", sharedRouteId);
-
+if (sharedRouteData) {
     document.addEventListener("DOMContentLoaded", () => {
         const viewer = document.getElementById("sharedRouteViewer");
         const content = document.getElementById("sharedRouteContent");
 
-        if (viewer && content) {
-            viewer.style.display = "block";
-            content.textContent = "A preparar a rota partilhada...";
+        if (!viewer || !content) return;
+
+        viewer.style.display = "block";
+        content.replaceChildren();
+
+        try {
+            const route = JSON.parse(sharedRouteData);
+
+            if (
+                typeof route.name !== "string" ||
+                !Array.isArray(route.stops)
+            ) {
+                throw new Error("Dados inválidos");
+            }
+
+            const title = document.createElement("h3");
+            title.textContent = "🏍️ " + route.name;
+            title.style.color = "#ff7900";
+            content.appendChild(title);
+
+            const list = document.createElement("ol");
+            list.style.lineHeight = "2";
+
+            route.stops.forEach(stop => {
+                const item = document.createElement("li");
+                item.textContent = String(stop.name || "Paragem");
+                list.appendChild(item);
+            });
+
+            content.appendChild(list);
+
+        } catch (error) {
+            content.textContent = "Não foi possível abrir esta rota.";
         }
     });
 }
