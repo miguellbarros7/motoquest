@@ -6270,9 +6270,6 @@ const fitScale = Math.min(
 // Escala partilhada pelo mapa e pelo percurso
 let scale = fitScale;
 
-const offsetX = mapX + (mapW - rangeX * scale) / 2;
-const offsetY = mapY + (mapH - rangeY * scale) / 2;
-
     // Calcular o zoom adequado para o mapa cartográfico
 const tileSize = 256;
 
@@ -6288,7 +6285,12 @@ const mapZoom = Math.max(
     0,
     Math.min(18, Math.floor(Math.min(zoomX, zoomY)))
 );
+// Escala exata dos mosaicos cartográficos
+scale = tileSize * Math.pow(2, mapZoom);
 
+// Centralizar o percurso com a escala definitiva
+const offsetX = mapX + (mapW - rangeX * scale) / 2;
+const offsetY = mapY + (mapH - rangeY * scale) / 2;
 console.log("🗺️ Zoom calculado para o mapa:", mapZoom);
 
     
