@@ -9623,6 +9623,15 @@ fuelReplacementSelect.style.cssText =
     "background:#111;color:#fff;" +
     "border:1px solid #ff7900;border-radius:8px;";
 
+        if (fuelReplacementOptions.length > 1) {
+    const placeholder = document.createElement("option");
+    placeholder.value = "";
+    placeholder.textContent = "⛽ Escolhe a bomba a substituir";
+    placeholder.selected = true;
+    placeholder.disabled = true;
+    fuelReplacementSelect.appendChild(placeholder);
+}
+
 fuelReplacementOptions.forEach(option => {
     const selectOption = document.createElement("option");
 
