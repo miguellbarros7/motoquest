@@ -5983,6 +5983,13 @@ changeFuelBtn.style.cssText =
     "background:#302417;border:1px solid #ff7900;" +
     "border-radius:6px;color:#ffb366;" +
     "padding:6px 9px;cursor:pointer;font-size:11px;";
+
+    changeFuelBtn.onclick = () => {
+    alert(
+        "Vamos escolher uma nova bomba de abastecimento. " +
+        "A bomba atual mantém-se até confirmares a substituição."
+    );
+};
     
   fuelActions.appendChild(keepFuelBtn);
 fuelActions.appendChild(changeFuelBtn);
