@@ -9295,14 +9295,18 @@ const uniqueStations = stations.filter((station, index, all) => {
 });
 
 const availableStations = uniqueStations.filter(station => {
-    if (!matchingFuelStop) return true;
+    const savedFuelStops = Array.isArray(route.fuel_stops)
+        ? route.fuel_stops
+        : [];
 
-    return haversineKm(
-        Number(matchingFuelStop.latitude),
-        Number(matchingFuelStop.longitude),
-        Number(station.latitude),
-        Number(station.longitude)
-    ) >= 0.1;
+    return !savedFuelStops.some(fuel =>
+        haversineKm(
+            Number(fuel.latitude),
+            Number(fuel.longitude),
+            Number(station.latitude),
+            Number(station.longitude)
+        ) < 0.1
+    );
 });
 
 availableStations.slice(0, 5).forEach(station => {    const item = document.createElement("div");
