@@ -9526,7 +9526,21 @@ const newStops = [...ordered];
     });
 
 
-const newCoordinates = newStops.map(loc =>
+const previewStops = [...newStops];
+
+if (tripMeetingPoint) {
+    previewStops.unshift(tripMeetingPoint);
+}
+
+if (tripDeparturePoint) {
+    previewStops.unshift(tripDeparturePoint);
+}
+
+if (tripEndPoint) {
+    previewStops.push(tripEndPoint);
+}
+
+const newCoordinates = previewStops.map(loc =>
     `${Number(loc.longitude)},${Number(loc.latitude)}`
 ).join(";");
 
