@@ -9869,6 +9869,21 @@ const finalFuelStops = updatedFuelStops.filter(fuel =>
     fuel !== selectedFuelToReplace
 );
 
+// Preparar os pontos da rota com os abastecimentos finais
+const finalRouteStops = [...ordered];
+
+[...finalFuelStops]
+    .sort((a, b) =>
+        Number(b.insertion_index) - Number(a.insertion_index)
+    )
+    .forEach(fuel => {
+        finalRouteStops.splice(Number(fuel.insertion_index), 0, {
+            name: fuel.name,
+            latitude: Number(fuel.latitude),
+            longitude: Number(fuel.longitude)
+        });
+    });    
+
 const { error: saveError } = await supabaseClient
     .from("routes")
     .update({ fuel_stops: finalFuelStops })
