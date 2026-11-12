@@ -7151,8 +7151,9 @@ summaryPanel.className = "hidden mq-trip-summary";
 summaryPanel.style.cssText =
     "margin-top:12px;padding:18px;background:#111;" +
     "border:1px solid #ff7900;border-radius:14px;";
-
-
+        
+const fuelReviewPending =
+    route.trip_plan?.fuel_review_pending === true;
 if (!document.getElementById("mq-trip-design")) {
     const style = document.createElement("style");
     style.id = "mq-trip-design";
