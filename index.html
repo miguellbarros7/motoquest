@@ -9490,6 +9490,15 @@ const existingFuelStops = Array.isArray(route.fuel_stops)
     ? route.fuel_stops
     : [];
 
+    // Bomba existente que poderá ser substituída
+const fuelReplacementCandidate =
+    existingFuelStops.length > 0
+        ? existingFuelStops[0]
+        : null;
+
+// A substituição só será ativada após confirmação
+let replaceExistingFuel = false;
+
 // Mantém as bombas que estejam a mais de 5 km da nova
 const updatedFuelStops = existingFuelStops.filter(savedStation => {
     const distanceBetweenStations = haversineKm(
