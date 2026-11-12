@@ -9895,7 +9895,8 @@ const finalRouteStops = [...ordered];
             latitude: Number(fuel.latitude),
             longitude: Number(fuel.longitude)
         });
-    });    
+    }); 
+const finalRouteStops = [...ordered];    
 
 const { error: saveError } = await supabaseClient
     .from("routes")
