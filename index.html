@@ -9485,7 +9485,15 @@ const nearbySavedFuel = (route.fuel_stops || []).find(fuel =>
 );
 
 if (nearbySavedFuel) {
-    insertionIndex = Number(nearbySavedFuel.insertion_index);
+    const savedIndex = Number(nearbySavedFuel.insertion_index);
+
+    if (
+        Number.isInteger(savedIndex) &&
+        savedIndex >= 0 &&
+        savedIndex <= ordered.length
+    ) {
+        insertionIndex = savedIndex;
+    }
 }
 
 // Abastecimentos já guardados nesta rota
