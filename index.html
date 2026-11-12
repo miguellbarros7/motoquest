@@ -6618,7 +6618,10 @@ shareLinkBtn.onclick = async (event) => {
         return;
     }
 
-   alert("Abre primeiro a rota no Google Maps e depois volta a Partilhar Rota.");
+   await arrow.onclick({
+    stopPropagation: () => {},
+    shareRoute: true
+});
 return;
 
   const ids = Array.isArray(route.location_ids)
