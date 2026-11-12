@@ -9835,6 +9835,16 @@ routeInfo.append(
     savedFuelCard,
     fuelPlanner
 );
+
+// Mostrar o planeador apenas quando há
+// abastecimentos recomendados
+fuelPlanner.style.display =
+    plannedStops.length > 0 ? "" : "none";
+
+// Mostrar abastecimentos guardados apenas
+// quando existem
+savedFuelCard.style.display =
+    routeFuelStops.length > 0 ? "" : "none";
 routeInfo.insertBefore(tripWeatherButton, savedFuelCard);
 routeInfo.insertBefore(tripWeatherPanel, savedFuelCard);
         try {
