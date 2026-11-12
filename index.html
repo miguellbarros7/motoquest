@@ -9645,6 +9645,11 @@ fuelReplacementOptions.forEach(option => {
     fuelReplacementSelect.appendChild(selectOption);
 });  
 
+// Propõe substituir quando existe apenas uma bomba guardada
+if (fuelReplacementOptions.length === 1) {
+    fuelReplacementSelect.value = "0";
+}
+
 const formatKm = value =>
     value.toLocaleString("pt-PT", {
         minimumFractionDigits: 1,
