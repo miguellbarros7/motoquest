@@ -5703,11 +5703,7 @@ stopsPanel.appendChild(meetingRow);
             "display:flex;align-items:center;gap:9px;padding:6px 0;";
 
         const number = document.createElement("span");
-        number.textContent = index + 1
-    + (tripPlan.departure_type !== "first" &&
-       (tripPlan.departure_location || "").trim() ? 1 : 0)
-    + (tripPlan.meeting_enabled === true &&
-       (tripPlan.meeting_location || "").trim() ? 1 : 0);
+       number.textContent = ++routeStepNumber;
         number.style.cssText =
             "display:flex;align-items:center;justify-content:center;" +
             "width:23px;height:23px;flex-shrink:0;" +
