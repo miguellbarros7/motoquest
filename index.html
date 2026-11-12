@@ -6103,7 +6103,11 @@ addStopSelect.onchange = event => {
 
     ids.push(selectedId);
 
-    renderStops();
+fuelReviewNeeded = Array.isArray(route.fuel_stops) &&
+    route.fuel_stops.length > 0;
+
+renderStops();
+    
 stopsPanel.append(addStopBtn, addStopSelect, googleRouteOptions, saveOrderBtn);
     addStopSelect.value = "";
     addStopSelect.style.display = "none";
