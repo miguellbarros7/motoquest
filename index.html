@@ -9880,8 +9880,7 @@ if (saveError) {
     throw saveError;
 }
 
-route.fuel_stops = updatedFuelStops;
-
+route.fuel_stops = finalFuelStops;
 // Reabrir o resumo para atualizar os dados apresentados
 summaryPanel.classList.add("hidden");
 summaryBtn.click();
