@@ -5596,11 +5596,14 @@ arrow.style.cursor = "not-allowed";
         stopsPanel.textContent = "Erro ao carregar as paragens.";
         return;
     }
-
-    stopsPanel.innerHTML = "";
-let fuelReviewNeeded = false;
-const renderStops = () => {
 stopsPanel.innerHTML = "";
+
+let fuelReviewNeeded =
+    route.trip_plan?.fuel_review_pending === true;
+
+const renderStops = () => {
+    
+
     let routeStepNumber = 0;
 
 // Mostrar a partida personalizada antes das paragens originais
