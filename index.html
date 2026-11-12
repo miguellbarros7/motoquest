@@ -9922,6 +9922,18 @@ if (finalResult.code !== "Ok" || !finalRoute) {
 
 const finalRouteKm = finalRoute.distance / 1000;
 
+const confirmFinalDistance = confirm(
+    "⛽ CONFIRMAR ROTA FINAL\n\n" +
+    "Distância original: " + originalKm.toFixed(1) + " km\n" +
+    "Distância final: " + finalRouteKm.toFixed(1) + " km\n" +
+    "Diferença: " +
+    (finalRouteKm - originalKm >= 0 ? "+" : "") +
+    (finalRouteKm - originalKm).toFixed(1) + " km\n\n" +
+    "Confirmas que queres guardar esta alteração?"
+);
+
+if (!confirmFinalDistance) return;
+
 const { error: saveError } = await supabaseClient
     .from("routes")
     .update({ fuel_stops: finalFuelStops })
