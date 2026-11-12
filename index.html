@@ -9855,6 +9855,15 @@ const selectedFuelToReplace =
         ? existingFuelStops[selectedFuelIndex]
         : null;    
 
+    // Não guardar substituições antes de recalcular a rota correta
+if (selectedFuelToReplace) {
+    alert(
+        "⛽ A substituição ainda está em preparação. " +
+        "Nenhuma bomba foi removida ou alterada."
+    );
+    return;
+}
+
 const { error: saveError } = await supabaseClient
     .from("routes")
     .update({ fuel_stops: updatedFuelStops })
