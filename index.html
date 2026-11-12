@@ -5990,6 +5990,22 @@ routeActionButtons.style.cssText =
 // Manter o botão Google Maps
 routeActionButtons.appendChild(arrow);
 
+// Criar botão Partilhar Rota
+const shareRouteBtn = document.createElement("button");
+shareRouteBtn.type = "button";
+shareRouteBtn.textContent = "🔗 Partilhar Rota";
+
+shareRouteBtn.style.cssText =
+    "display:flex;align-items:center;gap:6px;" +
+    "flex-shrink:0;padding:8px 11px;" +
+    "background:transparent;border:1px solid #ff7900;" +
+    "border-radius:8px;color:#ff7900;" +
+    "font-family:inherit;font-size:12px;font-weight:600;" +
+    "cursor:pointer;";
+
+// Adicionar botão ao lado do Google Maps
+routeActionButtons.appendChild(shareRouteBtn);
+
 // Colocar os botões ao lado das informações da rota
 title.append(left, routeActionButtons);
 
