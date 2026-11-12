@@ -8951,6 +8951,31 @@ const fuelPositionReviewNeeded =
     savedFuelStopsForReview.filter(fuel => {
         const fuelKm = fuelKmByStop.get(fuel);
 
+        if (
+    fuelPositionReviewNeeded &&
+    fuelStopsOutsideSafeRange.length > 0
+) {
+    const fuelPositionAlert = document.createElement("div");
+
+    fuelPositionAlert.style.cssText =
+        "grid-column:1/-1;" +
+        "margin:12px 0;padding:14px;" +
+        "background:#302817;" +
+        "border:1px solid #b88628;" +
+        "border-radius:10px;" +
+        "color:#f5d58a;" +
+        "font-size:13px;line-height:1.6;";
+
+    fuelPositionAlert.textContent =
+        "⚠️ ABASTECIMENTO A REAVALIAR — " +
+        "Existe uma bomba guardada depois do limite " +
+        "de segurança de " +
+        fuelSafetyLimitKm.toFixed(0) +
+        " km. A bomba foi mantida na rota.";
+
+    routeInfo.appendChild(fuelPositionAlert);
+}
+
         return Number.isFinite(fuelKm) &&
             fuelKm > fuelSafetyLimitKm;
     });
