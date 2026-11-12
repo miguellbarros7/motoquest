@@ -9864,6 +9864,11 @@ if (selectedFuelToReplace) {
     return;
 }
 
+    // Lista de abastecimentos após a escolha do motociclista
+const finalFuelStops = updatedFuelStops.filter(fuel =>
+    fuel !== selectedFuelToReplace
+);
+
 const { error: saveError } = await supabaseClient
     .from("routes")
     .update({ fuel_stops: updatedFuelStops })
