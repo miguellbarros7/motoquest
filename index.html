@@ -8970,13 +8970,23 @@ if (
         "color:#f5d58a;" +
         "font-size:13px;line-height:1.6;";
 
-    fuelPositionAlert.textContent =
-        "⚠️ ABASTECIMENTO A REAVALIAR — " +
-        "Existe uma bomba guardada depois do limite " +
-        "de segurança de " +
-        fuelSafetyLimitKm.toFixed(0) +
-        " km. A bomba foi mantida na rota.";
+   const fuelToReview = fuelStopsOutsideSafeRange[0];
 
+const fuelNameToReview = fuelToReview.locality
+    ? fuelToReview.name + " – " + fuelToReview.locality
+    : fuelToReview.name;
+
+const fuelKmToReview = fuelKmByStop.get(fuelToReview);
+
+fuelPositionAlert.textContent =
+    "⚠️ " + fuelNameToReview.toUpperCase() +
+    " A REAVALIAR — " +
+    "Esta bomba está no km " +
+    fuelKmToReview.toFixed(0) +
+    ", depois do limite recomendado de " +
+    fuelSafetyLimitKm.toFixed(0) +
+    " km. Considera abastecer mais cedo. " +
+    "A bomba foi mantida na rota.";
     routeInfo.appendChild(fuelPositionAlert);
 }
 
