@@ -7493,24 +7493,6 @@ summaryBtn.onclick = async () => {
   const bike = loadMyBike();
 summaryPanel.replaceChildren();
 
-if (fuelReviewPending) {
-    const fuelReviewAlert = document.createElement("div");
-
-    fuelReviewAlert.style.cssText =
-        "margin:12px 0;padding:14px;" +
-        "background:#302817;" +
-        "border:1px solid #b88628;" +
-        "border-radius:10px;" +
-        "color:#f5d58a;" +
-        "font-size:13px;line-height:1.6;";
-
-    fuelReviewAlert.textContent =
-        "⛽ A rota foi alterada. " +
-        "O abastecimento precisa de ser reavaliado " +
-        "com a nova distância e autonomia.";
-
-    summaryPanel.appendChild(fuelReviewAlert);
-}
 
 const heading = document.createElement("h3");
     heading.textContent = "🏍️ Resumo da Rota";
