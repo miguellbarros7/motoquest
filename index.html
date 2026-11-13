@@ -20479,6 +20479,17 @@ label[for="routeTripTime"] {
     background: rgba(239, 68, 68, 0.2);
 }
 
+/* MOTOQUEST — AVISO APENAS NAS SUGESTÕES */
+
+#adminSuggestionsNotice {
+    display: none;
+}
+
+#adminSection:has(#adminSuggestionsPanel.active)
+#adminSuggestionsNotice:not(.hidden) {
+    display: block;
+}
+
 
 /* MOTOQUEST — MELHORIAS ADMIN PREMIUM */
 
