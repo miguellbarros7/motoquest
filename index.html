@@ -9572,6 +9572,7 @@ const fuelNeedsAttention =
     fuelStopsOutsideSafeRange.length > 0;
 		
 
+
 const fuelNeedsNewStop =
     km > fuelSafetyLimitKm &&
     (
@@ -9579,8 +9580,16 @@ const fuelNeedsNewStop =
         (
             orderedFuelStops.length > 0 &&
             distanceToDestination > fuelSafetyLimitKm
-        )
+        ) ||
+        orderedFuelStops.some((item, index) => {
+            const previousKm = index === 0
+                ? 0
+                : orderedFuelStops[index - 1].km;
+
+            return item.km - previousKm > fuelSafetyLimitKm;
+        })
     );
+
 
 
 
