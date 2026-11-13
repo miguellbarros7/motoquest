@@ -8670,9 +8670,11 @@ fuelStatus.textContent = Number.isFinite(fuelKm)
     
 const check = document.createElement("span");
 
-const fuelNeedsReview =
-    fuelStopsOutsideSafeRange.includes(fuel);
+const fuelKm = fuelKmByStop.get(fuel);
 
+const fuelNeedsReview =
+    !Number.isFinite(fuelKm) ||
+    fuelKm > (Number(bike.tank) / Number(bike.consumption)) * 100 * 0.8;
 check.textContent = fuelNeedsReview
     ? "⚠️ REVER POSTO"
     : "✅ ADEQUADO";
