@@ -11458,6 +11458,12 @@ document.addEventListener(
     }
 );
 
+/* ABRIR DEFINIÇÕES PELO MENU */
+
+$("topSettingsBtn").addEventListener("click", () => {
+    $("topMenu").classList.add("hidden");
+    showSection("settings");
+});
 
 /* Terminar sessão pelo menu do topo */
 
