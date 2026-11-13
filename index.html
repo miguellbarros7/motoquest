@@ -5628,7 +5628,8 @@ const updateFuelReviewNeeded = () => {
         (hasFuelStops && orderChanged);
 };
 
-let fuelReviewNeeded = originalFuelReviewPending;
+
+let fuelReviewNeeded = false;
 
 
 const renderStops = () => {
