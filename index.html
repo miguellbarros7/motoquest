@@ -9313,7 +9313,11 @@ check.style.cssText = `
 
 const removeFuelButton = document.createElement("button");
 removeFuelButton.type = "button";
-removeFuelButton.textContent = "🗑️ REMOVER";
+
+removeFuelButton.textContent = "🗑️";
+removeFuelButton.title = "Remover abastecimento";
+removeFuelButton.setAttribute("aria-label", "Remover abastecimento");
+
 
 removeFuelButton.style.cssText = `
     background:#352020;
