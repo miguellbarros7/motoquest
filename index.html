@@ -9582,6 +9582,20 @@ const orderedFuelStops = savedFuelStopsForReview
     .filter(item => Number.isFinite(item.km))
     .sort((a, b) => a.km - b.km);
 
+	
+const dispensableFuelStops = orderedFuelStops.filter((item, index) => {
+    const previousKm = index === 0
+        ? 0
+        : orderedFuelStops[index - 1].km;
+
+    const nextKm = index === orderedFuelStops.length - 1
+        ? km
+        : orderedFuelStops[index + 1].km;
+
+    return nextKm - previousKm <= fuelSafetyLimitKm;
+});
+
+
 const fuelStopsOutsideSafeRange =
     savedFuelStopsForReview.filter(
         fuel => !Number.isFinite(fuelKmByStop.get(fuel))
