@@ -9255,6 +9255,19 @@ missingFuelButton.className = "primary-btn";
 missingFuelButton.style.cssText =
     "margin-top:8px;padding:10px 14px;" +
     "font-size:12px;font-weight:800;";
+	
+missingFuelButton.onclick = () => {
+    const planner = summaryPanel.querySelector("#mq-fuel-planner");
+
+    if (planner) {
+        planner.style.display = "";
+        planner.scrollIntoView({
+            behavior: "smooth",
+            block: "center"
+        });
+    }
+};
+
 
 missingFuelNotice.appendChild(missingFuelButton);
 
