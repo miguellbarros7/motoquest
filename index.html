@@ -9765,7 +9765,9 @@ fuelReplacementOptions.forEach(option => {
 if (fuelReplacementOptions.length === 1) {
     fuelReplacementSelect.value = "0";
 }
-
+const calculateFuelReplacementPreview = async () => {
+    // Aqui será calculada a rota após a substituição.
+};
 const formatKm = value =>
     value.toLocaleString("pt-PT", {
         minimumFractionDigits: 1,
