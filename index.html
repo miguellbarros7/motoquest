@@ -3874,13 +3874,21 @@ transform:translateX(38px);
   </div>
 
   <style>
-    #settingsSection .mq-settings-group {
-      background: #151515;
-      border: 1px solid #333;
-      border-radius: 16px;
-      margin: 18px 0;
-      overflow: hidden;
-    }
+ 
+#settingsSection .mq-settings-group {
+    background: linear-gradient(145deg, #191919, #101010);
+    border: 1px solid #333;
+    border-radius: 18px;
+    margin: 20px 0;
+    overflow: hidden;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+    transition: border-color 0.2s ease;
+}
+
+#settingsSection .mq-settings-group:hover {
+    border-color: rgba(255, 121, 0, 0.45);
+}
+
 
     #settingsSection .mq-settings-heading {
       color: #ff7900;
