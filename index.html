@@ -18699,6 +18699,12 @@ async function loadAdminUsers() {
         return;
     }
 
+const usersCount = document.getElementById("adminUsersCount");
+
+if (usersCount) {
+    usersCount.textContent = `${users.length} ${users.length === 1 ? "utilizador" : "utilizadores"}`;
+}
+
     const users = data || [];
 
 
