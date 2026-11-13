@@ -6834,8 +6834,10 @@ return;
 
     if (error) {
         console.error("Erro ao carregar paragens:", error);
-        alert("Não foi possível carregar as paragens da rota.");
-        return;
+await showMQAlert(
+    "Não foi possível carregar as paragens da rota.",
+    "error"
+);        return;
     }
 
     // Recuperar a ordem original da rota
