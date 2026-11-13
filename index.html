@@ -16131,6 +16131,12 @@ function editLocation(location) {
         location.locality ||
         "";
 
+    distritoIdentificado = String(
+    location.district || location.distrito || ""
+).replace(/^distrito\s+de\s+/i, "").trim();
+
+$("locationDistrict").value = distritoIdentificado;
+
     $("locationType").value =
         normalizeFilterValue(
             location.type
