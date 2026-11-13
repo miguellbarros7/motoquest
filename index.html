@@ -6602,8 +6602,10 @@ saveOrderBtn.onclick = async event => {
 
     if (error || !data || data.length === 0) {
         console.error(error);
-        alert("Não foi possível guardar a nova ordem.");
-        saveOrderBtn.disabled = false;
+await showMQAlert(
+    "Não foi possível guardar a nova ordem.",
+    "error"
+);        saveOrderBtn.disabled = false;
         saveOrderBtn.textContent = "💾 Guardar nova ordem";
         return;
     }
