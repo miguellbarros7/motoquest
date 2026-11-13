@@ -18699,13 +18699,15 @@ async function loadAdminUsers() {
         return;
     }
 
+
+const users = data || [];
+
 const usersCount = document.getElementById("adminUsersCount");
 
 if (usersCount) {
     usersCount.textContent = `${users.length} ${users.length === 1 ? "utilizador" : "utilizadores"}`;
 }
 
-    const users = data || [];
 
 
 const roleFilter = document.getElementById("adminUsersRoleFilter");
