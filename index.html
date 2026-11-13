@@ -9238,7 +9238,15 @@ missingFuelNotice.style.cssText =
     "border:1px dashed #ff7900;" +
     "border-radius:10px;color:#ffb366;" +
     "font-size:13px;line-height:1.5;";
+	
 
+const missingFuelMessage = document.createElement("div");
+missingFuelMessage.textContent =
+    "⛽ Falta um abastecimento nesta rota.";
+missingFuelMessage.style.cssText =
+    "font-weight:800;margin-bottom:10px;";
+
+missingFuelNotice.appendChild(missingFuelMessage);
 savedFuelCard.appendChild(missingFuelNotice);
 const routeFuelStops = Array.isArray(route.fuel_stops)
     ? route.fuel_stops
