@@ -11937,6 +11937,28 @@ statusLabel.textContent = "Estado da sugestão";
 
 const statusSelect = document.createElement("select");
 
+
+        
+statusLabel.style.display = "block";
+statusLabel.style.marginTop = "18px";
+statusLabel.style.marginBottom = "8px";
+statusLabel.style.fontWeight = "600";
+statusLabel.style.fontSize = "13px";
+
+statusSelect.style.display = "block";
+statusSelect.style.width = "100%";
+statusSelect.style.maxWidth = "280px";
+statusSelect.style.padding = "12px 14px";
+statusSelect.style.borderRadius = "10px";
+statusSelect.style.border = "1px solid #ff7900";
+statusSelect.style.backgroundColor = "#1b1b1b";
+statusSelect.style.color = "#ffffff";
+statusSelect.style.fontSize = "14px";
+statusSelect.style.fontWeight = "600";
+statusSelect.style.cursor = "pointer";
+statusSelect.style.marginBottom = "4px";
+
+
 const states = [
     ["pendente", "🕒 Pendente"],
     ["em_analise", "🔎 Em análise"],
