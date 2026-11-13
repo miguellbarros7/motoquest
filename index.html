@@ -6695,7 +6695,10 @@ addStopSelect.onchange = event => {
     if (!selectedId) return;
 
     if (ids.some(id => String(id) === selectedId)) {
-        alert("Este local já faz parte da rota.");
+       showMQAlert(
+    "Este local já faz parte da rota.",
+    "error"
+);
         return;
     }
 
