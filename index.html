@@ -18718,7 +18718,110 @@ async function deleteSuggestionPhoto(
         throw error;
     }
 }
-                
+
+/* AVISOS PREMIUM MOTOQUEST */
+function showMQAlert(message, type = "info") {
+    return new Promise(resolve => {
+        const overlay = document.createElement("div");
+
+        const success = type === "success";
+        const title = success
+            ? "Operação concluída"
+            : type === "error"
+                ? "Atenção"
+                : "MotoQuest";
+
+        const icon = success ? "✅" : "⚠️";
+
+        overlay.style.cssText = `
+            position:fixed;
+            inset:0;
+            z-index:100001;
+            background:rgba(0,0,0,.85);
+            backdrop-filter:blur(7px);
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            padding:20px;
+        `;
+
+        overlay.innerHTML = `
+            <div role="alertdialog"
+                 aria-modal="true"
+                 aria-labelledby="mqAlertTitle"
+                 style="
+                    width:min(100%,420px);
+                    background:#191a20;
+                    border:1px solid #ff8000;
+                    border-radius:20px;
+                    padding:24px;
+                    box-shadow:0 24px 80px #000a;
+                    color:#fff;
+                 ">
+                <h3 id="mqAlertTitle"
+                    style="color:#ff9000;margin:0 0 12px;">
+                    ${icon} ${title}
+                </h3>
+
+                <p data-mq-message
+                   style="
+                       color:#ccc;
+                       line-height:1.6;
+                       white-space:pre-wrap;
+                       overflow-wrap:anywhere;
+                   "></p>
+
+                <div style="
+                    display:flex;
+                    justify-content:flex-end;
+                    margin-top:22px;
+                ">
+                    <button type="button"
+                            data-mq-ok
+                            style="
+                                background:#ff8000;
+                                color:#111;
+                                border:0;
+                                border-radius:10px;
+                                padding:12px 28px;
+                                font-weight:800;
+                                cursor:pointer;
+                            ">
+                        OK
+                    </button>
+                </div>
+            </div>
+        `;
+
+        overlay.querySelector("[data-mq-message]")
+            .textContent = String(message);
+
+        const okButton = overlay.querySelector("[data-mq-ok]");
+        const previousFocus = document.activeElement;
+
+        function close() {
+            document.removeEventListener("keydown", onKey);
+            overlay.remove();
+
+            if (previousFocus?.isConnected) {
+                previousFocus.focus();
+            }
+
+            resolve();
+        }
+
+        function onKey(event) {
+            if (event.key === "Escape") close();
+        }
+
+        okButton.addEventListener("click", close);
+        document.addEventListener("keydown", onKey);
+
+        document.body.appendChild(overlay);
+        okButton.focus();
+    });
+}
+
 
 /* CONFIRMAÇÃO PREMIUM MOTOQUEST */
 function confirmRejectSuggestionMQ() {
