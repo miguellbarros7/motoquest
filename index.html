@@ -9576,12 +9576,15 @@ const fuelNeedsNewStop =
     savedFuelStopsForReview.length === 0;
 
 
-        
+
 card.dataset.fuelNeedsAttention = String(fuelNeedsAttention);
+card.dataset.fuelAlertType = fuelNeedsNewStop
+    ? "add"
+    : fuelNeedsAttention
+        ? "review"
+        : "none";
 card.dataset.fuelCheckCompleted = "true";
 
-        const showFuelAlertAfterSave =
-    card.dataset.fuelCheckAfterSave === "true";
 
 delete card.dataset.fuelCheckAfterSave;
 
