@@ -14366,22 +14366,17 @@ $("confirmRewardBtn").addEventListener("click", async () => {
 
 updateProfileUI();
 
-// Mostrar o sucesso sem sair da janela
-$("rewardSuccessCode").textContent = code;
-$("rewardSuccessPanel").classList.remove("hidden");
 
-// Esconder o custo e a descrição
-$("rewardModalPoints").closest(".profile-card").classList.add("hidden");
-$("rewardModalDescription").classList.add("hidden");
+// Fechar a janela após o resgate
+$("rewardModal").classList.remove("open");
 
-// Transformar o botão em acesso ao histórico
-const rewardButton = $("confirmRewardBtn");
-rewardButton.textContent = "Ver recompensa no histórico";
-rewardButton.dataset.rewardSuccess = "true";
-        
+// Abrir Histórico → Recompensas
+showSection("history");
+showHistoryTab("rewards");
 
-$("cancelRewardBtn").classList.add("hidden");
-rewardButton.style.flex = "1";
+// Carregar a recompensa resgatada
+await loadRedemptions();
+
   } catch (error) {
 
     console.error(
