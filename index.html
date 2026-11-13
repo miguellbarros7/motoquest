@@ -9609,6 +9609,12 @@ const dispensableFuelStops = orderedFuelStops.filter((item, index) => {
 
     return nextKm - previousKm <= fuelSafetyLimitKm;
 });
+		
+fuelOptimizationNotice.style.display =
+    dispensableFuelStops.length > 0
+        ? "block"
+        : "none";
+
 
 
 const fuelStopsOutsideSafeRange =
