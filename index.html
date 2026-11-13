@@ -6181,7 +6181,9 @@ const updateFuelReviewNeeded = () => {
         ids.some((id, index) => id !== originalStopIds[index]);
 
     
-fuelReviewNeeded = hasFuelStops && orderChanged;
+
+fuelReviewNeeded = orderChanged;
+
 
 };
 
