@@ -9586,6 +9586,8 @@ card.dataset.fuelAlertType = fuelNeedsNewStop
 card.dataset.fuelCheckCompleted = "true";
 
 
+const showFuelAlertAfterSave =
+    card.dataset.fuelCheckAfterSave === "true";
 delete card.dataset.fuelCheckAfterSave;
 
 if (
