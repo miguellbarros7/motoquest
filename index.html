@@ -9381,13 +9381,24 @@ availableStations.slice(0, 5).forEach(station => {
         gap:12px;
     `;
 
-    // Distância em linha reta desde a paragem prevista
-    const distanceKm = haversineKm(
-    searchLatitude,
-    searchLongitude,
-    station.latitude,
-    station.longitude
-);
+ // Distância real pela rede rodoviária
+let distanceKm;
+
+try {
+    distanceKm = await getRoadDistanceKm(
+        searchLatitude,
+        searchLongitude,
+        station.latitude,
+        station.longitude
+    );
+} catch (error) {
+    console.error(
+        "MotoQuest — erro na distância por estrada:",
+        station.name,
+        error
+    );
+    return;
+}
 // Limite para substituir uma bomba por outra na mesma rota
 const FUEL_REPLACEMENT_RADIUS_KM = 5;    
 
