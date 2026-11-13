@@ -11938,6 +11938,12 @@ statusLabel.textContent = "Estado da sugestão";
 const statusSelect = document.createElement("select");
 
 
+const statusContainer = document.createElement("div");
+statusContainer.style.width = "fit-content";
+statusContainer.style.maxWidth = "100%";
+statusContainer.style.marginLeft = "auto";
+
+statusContainer.append(statusLabel, statusSelect);
         
 statusLabel.style.display = "block";
 statusLabel.style.marginTop = "18px";
