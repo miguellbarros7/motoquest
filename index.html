@@ -18263,6 +18263,16 @@ $("approveEditedSuggestionBtn")
         "click",
         async () => {
 
+
+            
+const approveButton = $("approveEditedSuggestionBtn");
+
+if (approveButton.disabled) return;
+
+approveButton.disabled = true;
+approveButton.textContent = "A aprovar...";
+
+
             if (!isAdmin()) return;
 
             if (!editingSuggestionId) {
