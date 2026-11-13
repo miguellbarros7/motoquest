@@ -8929,7 +8929,7 @@ card.dataset.fuelNeedsAttention = String(fuelNeedsAttention);
 card.dataset.fuelCheckCompleted = "true";
 
 if (
-    fuelReviewPending &&
+    card.dataset.fuelCheckAfterSave === "true" &&
     fuelNeedsAttention &&
     !card.dataset.fuelAlertShown
 ) {
