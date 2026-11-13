@@ -13024,18 +13024,14 @@ function renderLocations() {
             normalizeFilterValue(
                 location.locality
             ) ===
-            normalizeFilterValue(
-                selectedLocalityFilter
-            );
+            normalizedLocalityFilter;
 
         const typeMatch =
             selectedTypeFilter === "all" ||
             normalizeFilterValue(
                 location.type
             ) ===
-            normalizeFilterValue(
-                selectedTypeFilter
-            );
+           normalizedTypeFilter;
 
         return viewMatch && localityMatch && typeMatch;
     });
