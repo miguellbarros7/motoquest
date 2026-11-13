@@ -8667,9 +8667,23 @@ fuelStatus.textContent = Number.isFinite(fuelKm)
 
         fuelInfo.append(fuelName, fuelStatus);
 
-     const check = document.createElement("span");
-check.textContent = "✅";
-check.style.fontSize = "20px";
+    
+const check = document.createElement("span");
+
+const fuelNeedsReview =
+    fuelStopsOutsideSafeRange.includes(fuel);
+
+check.textContent = fuelNeedsReview
+    ? "⚠️ REVER POSTO"
+    : "✅ ADEQUADO";
+
+check.style.cssText = `
+    font-size:11px;
+    font-weight:900;
+    white-space:nowrap;
+    color:${fuelNeedsReview ? "#ff7900" : "#75ed91"};
+`;
+
 
 const removeFuelButton = document.createElement("button");
 removeFuelButton.type = "button";
