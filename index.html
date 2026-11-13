@@ -8869,13 +8869,41 @@ const fuelPositionReviewNeeded =
     savedFuelStopsForReview.length > 0 &&
     km > estimatedRange;
 
-      const fuelStopsOutsideSafeRange =
-    savedFuelStopsForReview.filter(fuel => {
-        const fuelKm = fuelKmByStop.get(fuel);
+     
+const orderedFuelStops = savedFuelStopsForReview
+    .map(fuel => ({
+        fuel,
+        km: fuelKmByStop.get(fuel)
+    }))
+    .filter(item => Number.isFinite(item.km))
+    .sort((a, b) => a.km - b.km);
 
-        return Number.isFinite(fuelKm) &&
-            fuelKm > fuelSafetyLimitKm;
-    });
+const fuelStopsOutsideSafeRange = [];
+
+let previousFuelKm = 0;
+
+orderedFuelStops.forEach(item => {
+    const distanceSinceLastFuel = item.km - previousFuelKm;
+
+    if (distanceSinceLastFuel > fuelSafetyLimitKm) {
+        fuelStopsOutsideSafeRange.push(item.fuel);
+    }
+
+    previousFuelKm = item.km;
+});
+
+const distanceToDestination = km - previousFuelKm;
+
+if (
+    orderedFuelStops.length > 0 &&
+    distanceToDestination > fuelSafetyLimitKm
+) {
+    const lastFuel = orderedFuelStops[orderedFuelStops.length - 1].fuel;
+
+    if (!fuelStopsOutsideSafeRange.includes(lastFuel)) {
+        fuelStopsOutsideSafeRange.push(lastFuel);
+    }
+}
 
 
 
