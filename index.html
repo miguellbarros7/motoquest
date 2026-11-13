@@ -13492,15 +13492,19 @@ $("confirmRewardBtn").addEventListener("click", async () => {
             throw profileError;
         }
 
-        currentProfile.points = newPoints;
+       currentProfile.points = newPoints;
 
-        updateProfileUI();
+updateProfileUI();
 
-        showMessage(
-            "rewardModalMessage",
-            `Recompensa resgatada! Código: ${code}`,
-            "success"
-        );
+// Fechar a janela de resgate
+$("rewardModal").classList.remove("open");
+
+// Abrir o histórico de recompensas
+showSection("history");
+showHistoryTab("rewards");
+
+// Carregar a recompensa acabada de resgatar
+await loadRedemptions();
 
   } catch (error) {
 
