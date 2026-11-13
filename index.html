@@ -6094,6 +6094,9 @@ const updatedRouteCard = [...document.querySelectorAll("#myRoutesList [data-rout
 
 const updatedSummaryBtn = updatedRouteCard?.querySelector(".mq-route-summary-btn");
 };
+    if (fuelReviewNeeded && updatedSummaryBtn) {
+    updatedSummaryBtn.click();
+}
 addStopBtn.onclick = async event => {
     event.stopPropagation();
 
