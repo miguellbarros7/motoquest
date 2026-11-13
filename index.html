@@ -9825,16 +9825,20 @@ if (tripDeparturePoint) {
     replacementRouteStops.unshift(tripDeparturePoint);
 }
 
+
 if (tripEndPoint) {
     replacementRouteStops.push(tripEndPoint);
 }
-};
 
 const replacementCoordinates = replacementRouteStops
     .map(stop =>
         `${Number(stop.longitude)},${Number(stop.latitude)}`
     )
     .join(";");
+
+};
+
+
 
 
 const formatKm = value =>
