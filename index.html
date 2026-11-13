@@ -8927,6 +8927,44 @@ const fuelNeedsAttention =
 card.dataset.fuelNeedsAttention = String(fuelNeedsAttention);
 card.dataset.fuelCheckCompleted = "true";
 
+if (fuelReviewPending && fuelNeedsAttention) {
+    const fuelAlert = document.createElement("div");
+
+    fuelAlert.style.cssText = `
+        margin:16px 0;
+        padding:18px;
+        background:#21170f;
+        border:2px solid #ff7900;
+        border-radius:14px;
+        color:white;
+        text-align:center;
+    `;
+
+    const alertMessage = document.createElement("p");
+    alertMessage.textContent =
+        "⚠️ A nova rota exige uma revisão dos abastecimentos.";
+    alertMessage.style.cssText =
+        "font-weight:800;margin-bottom:12px;";
+
+    const editButton = document.createElement("button");
+    editButton.type = "button";
+    editButton.textContent = "⛽ EDITAR COMBUSTÍVEIS";
+    editButton.className = "primary-btn";
+
+    editButton.onclick = () => {
+        fuelAlert.remove();
+        document.getElementById("mq-fuel-planner")
+            ?.scrollIntoView({
+                behavior: "smooth",
+                block: "center"
+            });
+    };
+
+    fuelAlert.append(alertMessage, editButton);
+    summaryPanel.appendChild(fuelAlert);
+}
+        
+
 // Só planear abastecimentos quando um depósito
 // não chega para completar a rota.
 if (km > estimatedRange) {
