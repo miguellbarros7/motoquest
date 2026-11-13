@@ -6818,8 +6818,10 @@ shareImageBtn.onclick = async (event) => {
         : [];
 
     if (ids.length === 0) {
-        alert("Esta rota não tem paragens guardadas.");
-        return;
+await showMQAlert(
+    "Esta rota não tem paragens guardadas.",
+    "error"
+);        return;
     }
 
     // Consultar os locais reais no Supabase
