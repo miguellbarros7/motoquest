@@ -4033,6 +4033,56 @@ transform:translateX(38px);
 
 </section>
 
+<!-- PAINEL ADMIN MOTOQUEST -->
+<section id="adminSection" class="section">
+
+  <div class="section-header">
+    <div>
+      <h1 class="section-title">🛡️ Administração</h1>
+      <div class="section-subtitle">
+        Gestão de sugestões da comunidade MotoQuest.
+      </div>
+    </div>
+
+    <button type="button" class="secondary-btn" data-go="settings">
+      ← Voltar
+    </button>
+  </div>
+
+  <div class="mq-admin-stats">
+    <div class="mq-admin-stat">
+      <strong id="adminPendingCount">—</strong>
+      <small>Pendentes</small>
+    </div>
+
+    <div class="mq-admin-stat">
+      <strong id="adminReviewCount">—</strong>
+      <small>Em análise</small>
+    </div>
+
+    <div class="mq-admin-stat">
+      <strong id="adminResolvedCount">—</strong>
+      <small>Resolvidas</small>
+    </div>
+  </div>
+
+  <div class="profile-card">
+    <h3 style="color:#ff7900;"> Sugestões recebidas</h3>
+
+    <select id="adminSuggestionFilter">
+      <option value="todas">Todas</option>
+      <option value="pendente">Pendentes</option>
+      <option value="em_analise">Em análise</option>
+      <option value="resolvida">Resolvidas</option>
+    </select>
+
+    <div id="adminSuggestionsList">
+      <p style="color:#999;">As sugestões aparecerão aqui.</p>
+    </div>
+  </div>
+
+</section>
+<!-- FIM PAINEL ADMIN -->
 <!-- SUGESTÕES DE MELHORIAS MOTOQUEST -->
 <section id="feedbackSection" class="section">
 
