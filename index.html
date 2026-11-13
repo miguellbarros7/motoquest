@@ -13440,7 +13440,20 @@ function openRewardModal(reward) {
         `${Number(reward.points || 0)} pts`;
 
     $("rewardModalMessage").textContent = "";
+    
 
+$("rewardSuccessPanel").classList.add("hidden");
+$("rewardSuccessCode").textContent = "";
+
+$("rewardModalPoints")
+    .closest(".profile-card")
+    .classList.remove("hidden");
+
+$("rewardModalDescription")
+    .classList.remove("hidden");
+
+$("confirmRewardBtn").textContent = "Confirmar resgate";
+$("confirmRewardBtn").dataset.rewardSuccess = "false";
     $("confirmRewardBtn").dataset.rewardId =
         reward.id;
 
