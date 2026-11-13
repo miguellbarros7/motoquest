@@ -5623,9 +5623,9 @@ const updateFuelReviewNeeded = () => {
         ids.length !== originalStopIds.length ||
         ids.some((id, index) => id !== originalStopIds[index]);
 
-    fuelReviewNeeded =
-        originalFuelReviewPending ||
-        (hasFuelStops && orderChanged);
+    
+fuelReviewNeeded = hasFuelStops && orderChanged;
+
 };
 
 
