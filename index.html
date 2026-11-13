@@ -1593,11 +1593,16 @@ body.nav-ready .bottom-nav {
     color: #ff6a00;
 }      
 #redemptionsList .history-card {
-    padding: 18px;
-    margin-bottom: 12px;
-    background: #151515;
-    border: 1px solid #2a2a2a;
-    border-radius: 16px;
+    position: relative;
+    min-height: 260px;
+    padding-right: 180px;
+}
+
+#redemptionsList .mq-hide-redemption-btn {
+    position: absolute;
+    right: 18px;
+    bottom: 18px;
+    margin: 0 !important;
 }
 
 #redemptionsList .history-card:last-child {
