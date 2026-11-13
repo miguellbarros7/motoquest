@@ -13450,6 +13450,16 @@ function openRewardModal(reward) {
 $("confirmRewardBtn").addEventListener("click", async () => {
 
     const button = $("confirmRewardBtn");
+
+    // Depois do resgate, abrir o histórico sem descontar pontos
+    if (button.dataset.rewardSuccess === "true") {
+        $("rewardModal").classList.remove("open");
+        showSection("history");
+        showHistoryTab("rewards");
+        await loadRedemptions();
+        return;
+    }
+
     const rewardId = button.dataset.rewardId;
 
     const reward = rewards.find(
