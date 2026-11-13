@@ -18715,7 +18715,9 @@ if (searchInput && !searchInput.dataset.searchReady) {
         users.length
             ? users.map(user => `
 
-                <div class="admin-item">
+              
+<div class="admin-item" data-role="${user.is_admin ? 'admin' : 'user'}">
+
 
                     
 <div class="admin-item-main">
