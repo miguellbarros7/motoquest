@@ -6880,44 +6880,7 @@ const googleEndAddress =
                 return `${location.name}, Portugal`;
 
 
-
-const replacementCoordinates = replacementRouteStops
-    .map(stop =>
-        `${Number(stop.longitude)},${Number(stop.latitude)}`
-    )
-    .join(";");
-
-const replacementResponse = await fetch(
-    `https://router.project-osrm.org/route/v1/driving/${replacementCoordinates}` +
-    "?overview=false&steps=false"
-);
-
-if (!replacementResponse.ok) {
-    throw new Error("Não foi possível calcular a rota da substituição.");
-}
-
-const replacementResult = await replacementResponse.json();
-const replacementRoute = replacementResult.routes?.[0];
-
-if (replacementResult.code !== "Ok" || !replacementRoute) {
-    throw new Error("O serviço não devolveu uma rota válida.");
-}
-
-};
-
-
-    
-
-const replacementResponse = await fetch(
-    `https://router.project-osrm.org/route/v1/driving/${replacementCoordinates}` +
-    "?overview=false&steps=false"
-);
-
-if (!replacementResponse.ok) {
-    throw new Error("Não foi possível calcular a rota da substituição.");
-}
-
-const replacementResult = await replacementResponse.json();
+    });
 
     // Acrescentar o ponto de encontro antes das paragens originais
    if (googleMeetingAddress) {
