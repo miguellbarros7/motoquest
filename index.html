@@ -9534,23 +9534,61 @@ const originalLegs = calculatedRoute.legs || [];
 let accumulatedDistance = 0;
 let insertionIndex = 1;
 
+
+const originalLegs = calculatedRoute.legs || [];
+
+// Usar exatamente a sequência de pontos enviada ao OSRM
+const routeSequence = tripRouteStops;
+
+let accumulatedDistance = 0;
+let insertionIndex = 1;
+let insertionFound = false;
+
 for (let i = 0; i < originalLegs.length; i++) {
-    accumulatedDistance += originalLegs[i].distance / 1000;
+    accumulatedDistance +=
+        Number(originalLegs[i].distance || 0) / 1000;
 
     if (distance <= accumulatedDistance) {
-        const originalStopsBefore = routeStops
+
+        // Contar apenas as paragens originais
+        // anteriores ao segmento rodoviário encontrado
+        const originalStopsBefore = routeSequence
             .slice(0, i + 1)
-            .filter(stop =>
-                ordered.some(loc => loc.id === stop.id)
-            ).length;
+            .filter(stop => ordered.includes(stop))
+            .length;
 
         insertionIndex = Math.max(
             1,
-            Math.min(ordered.length - 1, originalStopsBefore)
+            Math.min(
+                ordered.length - 1,
+                originalStopsBefore
+            )
         );
+
+        insertionFound = true;
         break;
     }
 }
+
+if (!insertionFound) {
+    throw new Error(
+        "Não foi possível determinar a posição correta " +
+        "do abastecimento na rota."
+    );
+}
+
+console.log(
+    "MotoQuest — posição do abastecimento:",
+    {
+        kmPlaneado: distance,
+        insertionIndex,
+        paragemAnterior:
+            ordered[insertionIndex - 1]?.name,
+        proximaParagem:
+            ordered[insertionIndex]?.name
+    }
+);
+
 
 // Identificar uma bomba guardada próxima da nova sugestão
 const nearbySavedFuel = (route.fuel_stops || []).find(fuel =>
