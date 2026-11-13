@@ -18642,6 +18642,87 @@ window.alert = function(message) {
 };
 
 
+function promptMQ(message, initialValue = "") {
+    return new Promise(resolve => {
+        const overlay = document.createElement("div");
+
+        overlay.style.cssText = `
+            position:fixed;
+            inset:0;
+            z-index:100003;
+            background:rgba(0,0,0,.85);
+            backdrop-filter:blur(7px);
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            padding:20px;
+        `;
+
+        overlay.innerHTML = `
+            <div role="dialog" aria-modal="true"
+                 style="width:min(100%,440px);background:#191a20;
+                 border:1px solid #ff8000;border-radius:20px;
+                 padding:24px;box-shadow:0 24px 80px #000a;
+                 color:white;">
+                <h3 style="color:#ff9000;margin:0 0 16px;">
+                    ✏️ Introduzir texto
+                </h3>
+                <p data-mq-label style="color:#ddd;"></p>
+                <input data-mq-input type="text"
+                       style="box-sizing:border-box;width:100%;
+                       padding:13px;background:#101115;color:white;
+                       border:1px solid #ff8000;border-radius:10px;
+                       outline:none;">
+                <div style="display:flex;justify-content:flex-end;
+                            gap:10px;margin-top:22px;">
+                    <button data-mq-cancel type="button"
+                            style="padding:12px 18px;background:#333;
+                            color:white;border:0;border-radius:10px;
+                            cursor:pointer;">
+                        Cancelar
+                    </button>
+                    <button data-mq-ok type="button"
+                            style="padding:12px 22px;background:#ff8000;
+                            color:#111;border:0;border-radius:10px;
+                            font-weight:800;cursor:pointer;">
+                        Confirmar
+                    </button>
+                </div>
+            </div>
+        `;
+
+        const input = overlay.querySelector("[data-mq-input]");
+        const previousFocus = document.activeElement;
+
+        overlay.querySelector("[data-mq-label]").textContent =
+            String(message);
+
+        input.value = String(initialValue ?? "");
+
+        function close(value) {
+            document.removeEventListener("keydown", onKey);
+            overlay.remove();
+            if (previousFocus?.isConnected) previousFocus.focus();
+            resolve(value);
+        }
+
+        function onKey(event) {
+            if (event.key === "Escape") close(null);
+            if (event.key === "Enter") close(input.value);
+        }
+
+        overlay.querySelector("[data-mq-cancel]")
+            .addEventListener("click", () => close(null));
+
+        overlay.querySelector("[data-mq-ok]")
+            .addEventListener("click", () => close(input.value));
+
+        document.addEventListener("keydown", onKey);
+        document.body.appendChild(overlay);
+        input.focus();
+        input.select();
+    });
+}
 function confirmMQ(message, title = "Confirmar operação") {
     return new Promise(resolve => {
         const overlay = document.createElement("div");
