@@ -8953,7 +8953,7 @@ if (fuelReviewPending && fuelNeedsAttention) {
 
     editButton.onclick = () => {
         fuelAlert.remove();
-        document.getElementById("mq-fuel-planner")
+      summaryPanel.querySelector("#mq-fuel-planner")
             ?.scrollIntoView({
                 behavior: "smooth",
                 block: "center"
