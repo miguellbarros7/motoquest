@@ -11556,29 +11556,6 @@ const mqSettingsIds = [];
 
 
 
-mqSettingsIds.forEach(id => {
-    const element = document.getElementById(id);
-    if (!element) return;
-
-    const key = "motoquest_" + id;
-    const saved = localStorage.getItem(key);
-
-    if (saved !== null) {
-        if (element.type === "checkbox") {
-            element.checked = saved === "true";
-        } else {
-            element.value = saved;
-        }
-    }
-
-    element.addEventListener("change", () => {
-        const value = element.type === "checkbox"
-            ? String(element.checked)
-            : element.value;
-
-        localStorage.setItem(key, value);
-    });
-});
 
 /* ENVIAR SUGESTÃO PELAS DEFINIÇÕES */
 
