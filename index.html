@@ -20476,6 +20476,160 @@ label[for="routeTripTime"] {
     background: rgba(239, 68, 68, 0.2);
 }
 
+/* MOTOQUEST — FORMULÁRIO DE RECOMPENSAS PREMIUM */
+
+#rewardForm {
+    background: #17191e;
+    border: 1px solid #30343c;
+    border-radius: 20px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+#rewardForm h3 {
+    color: #fff;
+    font-size: 20px;
+    font-weight: 800;
+    margin: 0 0 8px;
+}
+
+#rewardForm .admin-two {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+    align-items: end;
+}
+
+#rewardForm .field {
+    min-width: 0;
+    margin: 0;
+}
+
+#rewardForm .field label {
+    display: block;
+    color: #b9bdc5;
+    font-size: 12px;
+    font-weight: 700;
+    margin-bottom: 7px;
+}
+
+#rewardForm input:not([type="hidden"]),
+#rewardForm select,
+#rewardForm textarea {
+    width: 100%;
+    box-sizing: border-box;
+    background: #101115;
+    border: 1px solid #343840;
+    border-radius: 11px;
+    color: #f5f5f5;
+    padding: 12px 14px;
+    font-size: 14px;
+}
+
+#rewardForm input:not([type="hidden"]),
+#rewardForm select {
+    min-height: 46px;
+}
+
+#rewardForm textarea {
+    min-height: 110px;
+    resize: vertical;
+}
+
+#rewardForm input:focus,
+#rewardForm select:focus,
+#rewardForm textarea:focus {
+    outline: none;
+    border-color: #ff8a32;
+    box-shadow: 0 0 0 3px rgba(255,138,50,.12);
+}
+
+#rewardForm .pexels-box {
+    background: #111318;
+    border: 1px solid #343840;
+    border-radius: 16px;
+    padding: 20px;
+}
+
+#rewardForm .pexels-title {
+    color: #fff;
+    font-size: 16px;
+    font-weight: 800;
+    margin-bottom: 12px;
+}
+
+#rewardForm .pexels-search-row {
+    display: flex;
+    gap: 10px;
+    margin-top: 16px;
+}
+
+#rewardForm .pexels-search-row input {
+    flex: 1;
+    min-width: 0;
+}
+
+#rewardForm .pexels-search-row .primary-btn {
+    background: #ff7900;
+    color: #111;
+    border-radius: 11px;
+    padding: 12px 20px;
+    font-weight: 800;
+}
+
+#rewardForm .selected-photo {
+    background: #1b1e24;
+    border: 1px solid #343840;
+    border-radius: 12px;
+    padding: 12px;
+    margin-top: 12px;
+}
+
+#rewardForm .admin-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 8px;
+}
+
+#rewardForm .admin-actions .primary-btn {
+    background: #ff7900;
+    color: #111;
+    border-radius: 11px;
+    padding: 13px 22px;
+    font-weight: 800;
+}
+
+#rewardForm .admin-actions .secondary-btn {
+    border-radius: 11px;
+    padding: 13px 22px;
+}
+
+@media (max-width: 650px) {
+    #rewardForm {
+        padding: 16px;
+        gap: 14px;
+    }
+
+    #rewardForm .admin-two {
+        grid-template-columns: 1fr;
+    }
+
+    #rewardForm .pexels-box {
+        padding: 14px;
+    }
+
+    #rewardForm .pexels-search-row {
+        flex-direction: column;
+    }
+
+    #rewardForm .admin-actions button {
+        flex: 1;
+    }
+}
+
 /* MOTOQUEST — FORMULÁRIO DE LOCAIS PREMIUM */
 
 #locationForm {
