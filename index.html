@@ -18770,6 +18770,21 @@ async function loadAdminUsers() {
                 Não existem utilizadores.
             </div>`;
 
+document.querySelectorAll(".cancel-admin-user-btn").forEach(button => {
+    button.addEventListener("click", () => {
+        const card = button.closest(".admin-item");
+        if (!card) return;
+
+        const fields = card.querySelector(".admin-user-edit-fields");
+        const editButton = card.querySelector(".edit-admin-user-btn");
+
+        if (fields) fields.style.display = "none";
+        if (editButton) editButton.style.display = "";
+
+        loadAdminUsers();
+    });
+});
+
     
 document.querySelectorAll(".edit-admin-user-btn").forEach(button => {
     button.addEventListener("click", () => {
