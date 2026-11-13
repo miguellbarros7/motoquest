@@ -9366,7 +9366,7 @@ const availableStations = uniqueStations.filter(station => {
         "As bombas já guardadas na rota foram excluídas dos resultados.";
 }
 
-availableStations.slice(0, 5).forEach(station => {    
+availableStations.slice(0, 5).forEach(async station => {
     
     const item = document.createElement("div");
 
@@ -9457,7 +9457,7 @@ subtitle.style.cssText = `
         distanceKm.toFixed(1).replace(".", ",") + " km";
 
     const distanceLabel = document.createElement("small");
-    distanceLabel.textContent = "linha reta";
+ distanceLabel.textContent = "por estrada";
     distanceLabel.style.cssText = `
         display:block;
         color:#999;
