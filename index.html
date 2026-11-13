@@ -20627,6 +20627,41 @@ label[for="routeTripTime"] {
     
 /* MOTOQUEST — EDITAR SUGESTÃO PREMIUM */
 
+/* Janela de aprovação em primeiro plano */
+
+#suggestionEditModal:not(.hidden) {
+    position: fixed !important;
+    inset: 0 !important;
+    z-index: 99999 !important;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.85) !important;
+    backdrop-filter: blur(6px);
+    overflow-y: auto;
+}
+
+#suggestionEditModal.hidden {
+    display: none !important;
+}
+
+#suggestionEditModal .modal-card {
+    position: relative;
+    flex-shrink: 0;
+    width: min(100%, 620px);
+    max-height: calc(100dvh - 32px);
+    overflow-y: auto;
+    margin: auto;
+    box-shadow: 0 24px 80px rgba(0,0,0,.65);
+}
+
+@media (max-width: 650px) {
+    #suggestionEditModal .modal-card {
+        max-height: calc(100dvh - 20px);
+    }
+}
+    
+
 #suggestionEditModal {
     padding: 16px;
     overflow-y: auto;
