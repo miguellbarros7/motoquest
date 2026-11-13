@@ -8599,11 +8599,12 @@ let geometryTotalKm = 0;
     geometryTotalKm += 2 * earthRadius *
         Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 }
-    for (let i = 1; i < routePath.length; i++) {
-const adjustedTargetKm =
+   const adjustedTargetKm =
     geometryTotalKm > 0 && routeDistanceKm > 0
         ? targetKm * (geometryTotalKm / routeDistanceKm)
-        : targetKm;        
+        : targetKm;
+
+for (let i = 1; i < routePath.length; i++) {
         const [lon1, lat1] = routePath[i - 1];
         const [lon2, lat2] = routePath[i];
 
