@@ -8973,8 +8973,24 @@ editButton.onclick = () => {
     fuelAlert.remove();
 };
 
-    fuelAlert.append(alertMessage, editButton);
-    summaryPanel.appendChild(fuelAlert);
+  const closeButton = document.createElement("button");
+closeButton.type = "button";
+closeButton.textContent = "✕ Fechar";
+closeButton.style.cssText = `
+    display:block;
+    margin:12px auto 0;
+    padding:8px 12px;
+    background:transparent;
+    color:#aaa;
+    border:1px solid #555;
+    border-radius:8px;
+    cursor:pointer;
+`;
+
+closeButton.onclick = () => fuelAlert.remove();
+
+fuelAlert.append(alertMessage, editButton, closeButton);
+summaryPanel.appendChild(fuelAlert);
 }
         
 
