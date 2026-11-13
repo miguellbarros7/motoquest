@@ -9309,7 +9309,15 @@ const availableStations = uniqueStations.filter(station => {
     );
 });
 
-availableStations.slice(0, 5).forEach(station => {    const item = document.createElement("div");
+                if (availableStations.length === 0) {
+    stationResults.textContent =
+        "⛽ Não foram encontradas novas bombas nesta pesquisa. " +
+        "As bombas já guardadas na rota foram excluídas dos resultados.";
+}
+
+availableStations.slice(0, 5).forEach(station => {    
+    
+    const item = document.createElement("div");
 
     item.style.cssText = `
         background:#242424;
