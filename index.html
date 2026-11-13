@@ -9667,9 +9667,11 @@ alertMessage.textContent = card.dataset.fuelAlertType === "add"
     const editButton = document.createElement("button");
     editButton.type = "button";
 
-editButton.textContent = fuelNeedsNewStop
+
+editButton.textContent = card.dataset.fuelAlertType === "add"
     ? "⛽ ADICIONAR BOMBA"
     : "⛽ ESCOLHER OUTRA BOMBA";
+
     editButton.className = "primary-btn";
 
 editButton.onclick = () => {
