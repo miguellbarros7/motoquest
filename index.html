@@ -8951,14 +8951,19 @@ if (fuelReviewPending && fuelNeedsAttention) {
     editButton.textContent = "⛽ EDITAR COMBUSTÍVEIS";
     editButton.className = "primary-btn";
 
-    editButton.onclick = () => {
-        fuelAlert.remove();
-      summaryPanel.querySelector("#mq-fuel-planner")
-            ?.scrollIntoView({
-                behavior: "smooth",
-                block: "center"
-            });
-    };
+editButton.onclick = () => {
+    const planner = summaryPanel.querySelector("#mq-fuel-planner");
+
+    if (planner) {
+        planner.style.display = "";
+        planner.scrollIntoView({
+            behavior: "smooth",
+            block: "center"
+        });
+    }
+
+    fuelAlert.remove();
+};
 
     fuelAlert.append(alertMessage, editButton);
     summaryPanel.appendChild(fuelAlert);
