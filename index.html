@@ -17846,6 +17846,9 @@ async function loadAdminSuggestions() {
             const suggestionPhoto =
                 suggestion.image_url || "";
 
+const suggestionPhotoValid =
+    /^https?:\/\//i.test(suggestionPhoto);            
+
             return `
                 <div
                     class="admin-item suggestion-admin-item"
@@ -17889,7 +17892,7 @@ async function loadAdminSuggestions() {
                         </div>
 
                         ${
-                            suggestionPhoto
+                            suggestionPhotoValid
                                 ? `
                                     <div
                                         style="
