@@ -18647,8 +18647,13 @@ heading.style.cssText = `
 
         const description = document.createElement("p");
         description.textContent = message;
-        description.style.cssText =
-            "color:#ccc;line-height:1.6;white-space:pre-line;";
+      description.style.cssText = `
+    color:#d1d1d6;
+    font-size:16px;
+    line-height:1.7;
+    white-space:pre-line;
+    margin:0;
+`;
 
         const actions = document.createElement("div");
         actions.style.cssText = `
