@@ -9366,7 +9366,33 @@ const availableStations = uniqueStations.filter(station => {
         "As bombas já guardadas na rota foram excluídas dos resultados.";
 }
 
-availableStations.slice(0, 5).forEach(async station => {
+const stationsWithRoadDistance = await Promise.all(
+    availableStations.map(async station => {
+        try {
+            const roadDistanceKm = await getRoadDistanceKm(
+                searchLatitude,
+                searchLongitude,
+                station.latitude,
+                station.longitude
+            );
+
+            return { ...station, roadDistanceKm };
+        } catch (error) {
+            console.error(
+                "Erro ao calcular distância:",
+                station.name,
+                error
+            );
+            return null;
+        }
+    })
+);
+
+stationsWithRoadDistance
+    .filter(Boolean)
+    .sort((a, b) => a.roadDistanceKm - b.roadDistanceKm)
+    .slice(0, 5)
+    .forEach(station => {
     
     const item = document.createElement("div");
 
