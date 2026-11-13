@@ -19216,48 +19216,156 @@ document.querySelectorAll(".edit-admin-user-btn").forEach(button => {
 
 
 
+
 async function editAdminUser(user) {
     if (!user) return;
 
-    const name = prompt(
-        "Nome do utilizador:",
-        user.name || ""
-    );
-    if (name === null) return;
+    const overlay = document.createElement("div");
+    overlay.style.cssText = `
+        position:fixed;
+        inset:0;
+        z-index:100002;
+        background:rgba(0,0,0,.85);
+        backdrop-filter:blur(7px);
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        padding:20px;
+    `;
 
-    const pointsText = prompt(
-        "Pontos do utilizador:",
-        String(user.points || 0)
-    );
-    if (pointsText === null) return;
+    const dialog = document.createElement("div");
+    dialog.setAttribute("role", "dialog");
+    dialog.setAttribute("aria-modal", "true");
+    dialog.setAttribute("aria-label", "Editar utilizador");
+    dialog.style.cssText = `
+        width:min(100%,480px);
+        background:linear-gradient(145deg,#191a20,#101115);
+        border:2px solid #ff8000;
+        border-radius:24px;
+        padding:28px;
+        box-shadow:0 24px 80px rgba(0,0,0,.75);
+        color:#fff;
+    `;
 
-    const points = Number(pointsText);
+    dialog.innerHTML = `
+        <h3 style="color:#ff9000;font-size:26px;margin:0 0 22px;">
+            ✏️ Editar utilizador
+        </h3>
 
-    if (!Number.isFinite(points) || points < 0) {
-        await showMQAlert(
-            "Os pontos têm de ser um número igual ou superior a 0.",
-            "error"
-        );
-        return;
+        <form id="mqEditUserForm">
+            <label style="display:block;margin-bottom:8px;">
+                Nome
+            </label>
+            <input id="mqEditUserName" type="text" required
+                style="width:100%;box-sizing:border-box;
+                padding:13px;border-radius:12px;
+                background:#292a30;color:white;
+                border:1px solid #555;margin-bottom:18px;">
+
+            <label style="display:block;margin-bottom:8px;">
+                Pontos
+            </label>
+            <input id="mqEditUserPoints" type="number"
+                min="0" step="1" required
+                style="width:100%;box-sizing:border-box;
+                padding:13px;border-radius:12px;
+                background:#292a30;color:white;
+                border:1px solid #555;margin-bottom:20px;">
+
+            <label style="display:flex;align-items:center;
+                gap:12px;margin-bottom:26px;">
+                <input id="mqEditUserAdmin" type="checkbox"
+                    style="width:20px;height:20px;accent-color:#ff8000;">
+                Administrador
+            </label>
+
+            <div style="display:flex;justify-content:flex-end;
+                gap:10px;flex-wrap:wrap;">
+                <button id="mqEditUserCancel" type="button"
+                    class="secondary-btn">Cancelar</button>
+                <button type="submit" class="primary-btn">
+                    Guardar alterações
+                </button>
+            </div>
+        </form>
+    `;
+
+    overlay.appendChild(dialog);
+    document.body.appendChild(overlay);
+
+    const form = dialog.querySelector("#mqEditUserForm");
+    const nameInput = dialog.querySelector("#mqEditUserName");
+    const pointsInput = dialog.querySelector("#mqEditUserPoints");
+    const adminInput = dialog.querySelector("#mqEditUserAdmin");
+    const cancelBtn = dialog.querySelector("#mqEditUserCancel");
+    const saveBtn = form.querySelector('[type="submit"]');
+
+    nameInput.value = user.name || "";
+    pointsInput.value = user.points ?? 0;
+    adminInput.checked = Boolean(user.is_admin);
+
+    // Impede alterar as próprias permissões.
+    if (user.id === currentUser.id) {
+        adminInput.disabled = true;
     }
 
-    let isAdminValue = Boolean(user.is_admin);
-
-    if (user.id !== currentUser.id) {
-        isAdminValue = await confirmMQ(
-            "Este utilizador deve ser administrador?",
-            "Permissões de administrador"
-        );
+    function closeDialog() {
+        document.removeEventListener("keydown", onKeyDown);
+        overlay.remove();
     }
 
-    await saveAdminUser(
-        user.id,
-        name.trim(),
-        Math.floor(points),
-        isAdminValue
-    );
+    function onKeyDown(event) {
+        if (event.key === "Escape" && !saveBtn.disabled) {
+            closeDialog();
+        }
+    }
+
+    document.addEventListener("keydown", onKeyDown);
+
+    cancelBtn.onclick = closeDialog;
+
+    overlay.onclick = event => {
+        if (event.target === overlay && !saveBtn.disabled) {
+            closeDialog();
+        }
+    };
+
+    form.onsubmit = async event => {
+        event.preventDefault();
+
+        const name = nameInput.value.trim();
+        const points = Number(pointsInput.value);
+
+        if (!name || !Number.isSafeInteger(points) || points < 0) {
+            await showMQAlert(
+                "Indica um nome e um número válido de pontos.",
+                "error"
+            );
+            return;
+        }
+
+        saveBtn.disabled = true;
+        cancelBtn.disabled = true;
+
+        try {
+            await saveAdminUser(
+                user.id,
+                name,
+                points,
+                user.id === currentUser.id
+                    ? Boolean(user.is_admin)
+                    : adminInput.checked
+            );
+
+            closeDialog();
+        } finally {
+            saveBtn.disabled = false;
+            cancelBtn.disabled = false;
+        }
+    };
+
+    nameInput.focus();
 }
-
 
 
 async function saveAdminUser(
