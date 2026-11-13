@@ -7630,14 +7630,17 @@ deleteBtn.onclick = async () => {
         .eq("user_id", currentUser.id)
         .eq("route_type", "personal");
 
-    if (error) {
-        console.error(error);
-await showMQAlert(
-    "Não foi possível eliminar a rota. Tenta novamente.",
-    "error"
-);        deleteBtn.disabled = false;
-        return;
-    }
+if (error) {
+    console.error(error);
+
+    await showMQAlert(
+        "Não foi possível eliminar a rota. Tenta novamente.",
+        "error"
+    );
+
+    deleteBtn.disabled = false;
+    return;
+}
 
     await loadMyRoutes();
 };
