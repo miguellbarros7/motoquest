@@ -9038,50 +9038,7 @@ if (matchingFuelStop) {
         
 stop.append(icon, text);
 
-if (stopLocation) {
-    const mapButton = document.createElement("button");
 
-    mapButton.type = "button";
-mapButton.textContent = matchingFuelStop
-    ? "📍 VER BOMBA NO MAPA"
-    : "📍 VER NO MAPA";
-    
-mapButton.style.cssText = `
-    flex:1;
-    min-width:0;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    background:#333;
-    color:#fff;
-    border:1px solid #555;
-    border-radius:8px;
-    padding:9px 4px;
-    text-align:center;
-    text-decoration:none;
-    font-size:10px;
-    font-weight:800;
-`;
-
-    mapButton.onclick = () => {
-          const lat = matchingFuelStop
-        ? Number(matchingFuelStop.latitude)
-        : stopLocation.latitude;
-
-    const lon = matchingFuelStop
-        ? Number(matchingFuelStop.longitude)
-        : stopLocation.longitude;
-
-        window.open(
-            "https://www.google.com/maps/search/?api=1&query=" +
-            encodeURIComponent(`${lat},${lon}`),
-            "_blank",
-            "noopener,noreferrer"
-        );
-    };
-
-    stop.appendChild(mapButton);
-}
 
 if (stopLocation) {
     const searchButton = document.createElement("button");
