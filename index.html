@@ -9655,8 +9655,22 @@ const fuelNeedsNewStop =
     );
 
 
+
+const fuelShouldShowReview = fuelNeedsStationReview;
+
 missingFuelNotice.style.display =
-    fuelNeedsNewStop ? "block" : "none";
+    fuelShouldShowReview || fuelNeedsNewStop
+        ? "block"
+        : "none";
+
+missingFuelMessage.textContent = fuelShouldShowReview
+    ? "⚠️ Uma bomba está demasiado longe. Recomendamos escolher outra mais próxima."
+    : "⛽ Falta um abastecimento nesta rota.";
+
+missingFuelButton.textContent = fuelShouldShowReview
+    ? "⛽ TROCAR BOMBA"
+    : "⛽ ADICIONAR BOMBA";
+
 
 
 
