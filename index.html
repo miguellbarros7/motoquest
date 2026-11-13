@@ -19401,16 +19401,21 @@ async function saveAdminUser(
             updateProfileUI();
         }
 
-        await loadAdminUsers();
+       await loadAdminUsers();
+
+        return true;
 
     } catch (error) {
 
         console.error(error);
 
-        alert(
-            error.message ||
-            "Não foi possível atualizar o utilizador."
-        );
+        await showMQAlert(
+    error.message ||
+    "Não foi possível atualizar o utilizador.",
+    "error"
+);
+
+return false;
     }
 }
 
