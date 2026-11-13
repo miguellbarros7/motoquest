@@ -21639,6 +21639,29 @@ label[for="routeTripTime"] {
     }
 }
 
+/* MOTOQUEST — ORDEM DO CABEÇALHO DAS SUGESTÕES */
+
+#adminSection:has(#adminSuggestionsPanel.active) {
+    display: flex;
+    flex-direction: column;
+}
+
+#adminSection:has(#adminSuggestionsPanel.active) #adminSuggestionsPanel {
+    display: contents;
+}
+
+#adminSection:has(#adminSuggestionsPanel.active) #adminSuggestionsPanel > .admin-form {
+    order: 1;
+}
+
+#adminSection:has(#adminSuggestionsPanel.active) #adminSuggestionsNotice {
+    order: 2;
+}
+
+#adminSection:has(#adminSuggestionsPanel.active) #adminSuggestionsList {
+    order: 3;
+}
+
     
 </style>
 <!-- FIM TITULOS IGUAIS AO DESTINO FINAL -->
