@@ -9844,7 +9844,7 @@ const detourDistance = document.createElement("div");
 detourDistance.textContent =
     (differenceKm > 0 ? "↗ DESVIO ADICIONAL: " :
      differenceKm < 0 ? "↘ ROTA MAIS CURTA: " :
-     "✓ SEM DESVIO: ") +
+   "≈ DIFERENÇA NA PRÉ-VISUALIZAÇÃO: ") +
     detourSign + formatKm(Math.abs(differenceKm)) + " km";
 
 const detourStatus = document.createElement("div");
