@@ -12996,9 +12996,19 @@ async function loadFavorites() {
     select.value =
         selectedLocalityFilter || "all";
 }
+
 function renderLocations() {
 
     const container = $("locationsGrid");
+
+    const normalizedLocalityFilter =
+        normalizeFilterValue(selectedLocalityFilter);
+
+    const normalizedTypeFilter =
+        normalizeFilterValue(selectedTypeFilter);
+
+    const filtered =
+    locations.filter(location => {
 
     const filtered =
     locations.filter(location => {
