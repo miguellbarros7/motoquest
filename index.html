@@ -6887,8 +6887,10 @@ console.log(
 
     // Confirmar disponibilidade do Leaflet
 if (typeof L === "undefined") {
-    alert("O mapa ainda não está disponível. Atualiza a página e tenta novamente.");
-    return;
+await showMQAlert(
+    "O mapa ainda não está disponível. Atualiza a página e tenta novamente.",
+    "error"
+);    return;
 }
 
 console.log("🗺️ Leaflet disponível para gerar o mapa da rota");
