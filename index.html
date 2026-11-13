@@ -11868,6 +11868,81 @@ $("adminAccessBtn").addEventListener("click", async () => {
 verificarAcessoAdmin();
 
 
+/* CARREGAR SUGESTÕES DE MELHORIAS NA ADMINISTRAÇÃO */
+
+let adminImprovementsData = [];
+
+async function loadAdminImprovements() {
+    const list = $("adminImprovementsList");
+    list.textContent = "A carregar sugestões...";
+
+    try {
+        const { data, error } = await supabaseClient
+            .from("sugestoes_melhorias")
+            .select("id, tipo, titulo, descricao, estado, criado_em")
+            .order("criado_em", { ascending: false });
+
+        if (error) throw error;
+
+        adminImprovementsData = data || [];
+
+        $("adminPendingCount").textContent =
+            adminImprovementsData.filter(s => s.estado === "pendente").length;
+
+        $("adminReviewCount").textContent =
+            adminImprovementsData.filter(s => s.estado === "em_analise").length;
+
+        $("adminResolvedCount").textContent =
+            adminImprovementsData.filter(s => s.estado === "resolvida").length;
+
+        renderAdminImprovements();
+
+    } catch (error) {
+        console.error("Erro ao carregar melhorias:", error);
+        list.textContent = "Não foi possível carregar as sugestões.";
+    }
+}
+
+function renderAdminImprovements() {
+    const list = $("adminImprovementsList");
+    const filter = $("adminSuggestionFilter").value;
+
+    list.replaceChildren();
+
+    const suggestions = adminImprovementsData.filter(s =>
+        filter === "todas" || s.estado === filter
+    );
+
+    if (!suggestions.length) {
+        list.textContent = "Não existem sugestões nesta categoria.";
+        return;
+    }
+
+    suggestions.forEach(s => {
+        const card = document.createElement("div");
+        card.className = "mq-admin-suggestion";
+
+        const title = document.createElement("h3");
+        title.textContent = s.titulo;
+
+        const type = document.createElement("p");
+        type.textContent = "Tipo: " + s.tipo;
+
+        const description = document.createElement("p");
+        description.textContent = s.descricao;
+
+        const status = document.createElement("p");
+        status.textContent = "Estado: " + s.estado;
+
+        card.append(title, type, description, status);
+        list.appendChild(card);
+    });
+}
+
+$("adminSuggestionFilter").addEventListener(
+    "change",
+    renderAdminImprovements
+);
 /* SOBRE O MOTOQUEST */
 
 $("settingAboutBtn").addEventListener("click", () => {
