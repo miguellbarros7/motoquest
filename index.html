@@ -4033,6 +4033,65 @@ transform:translateX(38px);
 
 </section>
 
+<!-- SUGESTÕES DE MELHORIAS MOTOQUEST -->
+<section id="feedbackSection" class="section">
+
+  <div class="section-header">
+    <div>
+      <h1 class="section-title">💡 Sugerir melhorias</h1>
+      <div class="section-subtitle">
+        Ajuda-nos a tornar o MotoQuest ainda melhor.
+      </div>
+    </div>
+
+    <button type="button" class="secondary-btn" data-go="settings">
+      ← Voltar
+    </button>
+  </div>
+
+  <div class="profile-card">
+    <form id="feedbackForm">
+
+      <div class="field">
+        <label for="feedbackType">Tipo de sugestão</label>
+        <select id="feedbackType" required>
+          <option value="melhoria">💡 Melhoria</option>
+          <option value="funcionalidade">🚀 Nova funcionalidade</option>
+          <option value="problema">🐛 Comunicar problema</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="feedbackTitle">Título</label>
+        <input
+          id="feedbackTitle"
+          type="text"
+          maxlength="120"
+          placeholder="Ex.: Melhorar o mapa"
+          required
+        >
+      </div>
+
+      <div class="field">
+        <label for="feedbackDescription">Descrição</label>
+        <textarea
+          id="feedbackDescription"
+          rows="5"
+          maxlength="2000"
+          placeholder="Explica a tua ideia ou o problema encontrado..."
+          required
+        ></textarea>
+      </div>
+
+      <button type="submit" class="primary-btn full-btn">
+        📩 Enviar sugestão
+      </button>
+
+    </form>
+  </div>
+
+</section>
+<!-- FIM SUGESTÕES DE MELHORIAS -->
 
 <!-- PRIVACIDADE E DADOS MOTOQUEST -->
 <section id="privacySection" class="section">
