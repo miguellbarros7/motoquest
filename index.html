@@ -7313,8 +7313,10 @@ shareLinkBtn.onclick = async (event) => {
                 await navigator.clipboard.writeText(
                     route.googleMapsShareUrl
                 );
-                alert("🔗 Link do Google Maps copiado!");
-            } catch (error) {
+await showMQAlert(
+    "🔗 Link do Google Maps copiado!",
+    "success"
+);            } catch (error) {
                 prompt(
                     "Copia o link do Google Maps:",
                     route.googleMapsShareUrl
