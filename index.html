@@ -9247,6 +9247,17 @@ missingFuelMessage.style.cssText =
     "font-weight:800;margin-bottom:10px;";
 
 missingFuelNotice.appendChild(missingFuelMessage);
+	
+const missingFuelButton = document.createElement("button");
+missingFuelButton.type = "button";
+missingFuelButton.textContent = "⛽ ADICIONAR BOMBA";
+missingFuelButton.className = "primary-btn";
+missingFuelButton.style.cssText =
+    "margin-top:8px;padding:10px 14px;" +
+    "font-size:12px;font-weight:800;";
+
+missingFuelNotice.appendChild(missingFuelButton);
+
 savedFuelCard.appendChild(missingFuelNotice);
 const routeFuelStops = Array.isArray(route.fuel_stops)
     ? route.fuel_stops
