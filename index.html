@@ -18729,6 +18729,24 @@ function applyAdminUsersFilters() {
 
         card.style.display = matchesName && matchesRole ? "" : "none";
     });
+
+
+const visibleCount = document.querySelectorAll(
+    '#adminUsersList .admin-item:not([style*="display: none"])'
+).length;
+
+const totalCount = document.querySelectorAll(
+    "#adminUsersList .admin-item"
+).length;
+
+const countElement = document.getElementById("adminUsersCount");
+
+if (countElement) {
+    countElement.textContent = visibleCount === totalCount
+        ? `${totalCount} ${totalCount === 1 ? "utilizador" : "utilizadores"}`
+        : `${visibleCount} de ${totalCount} utilizadores`;
+}
+
 }
 
 if (roleFilter && !roleFilter.dataset.filterReady) {
