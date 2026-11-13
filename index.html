@@ -8913,7 +8913,9 @@ const fuelNeedsAttention =
     savedFuelStopsForReview.length > 0 &&
     fuelStopsOutsideSafeRange.length > 0;
 
-
+        
+card.dataset.fuelNeedsAttention = String(fuelNeedsAttention);
+card.dataset.fuelCheckCompleted = "true";
 
 // Só planear abastecimentos quando um depósito
 // não chega para completar a rota.
