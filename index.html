@@ -19215,59 +19215,49 @@ document.querySelectorAll(".edit-admin-user-btn").forEach(button => {
 }
 
 
-function editAdminUser(user) {
 
+async function editAdminUser(user) {
     if (!user) return;
 
-    const name =
-        prompt(
-            "Nome do utilizador:",
-            user.name || ""
-        );
-
+    const name = prompt(
+        "Nome do utilizador:",
+        user.name || ""
+    );
     if (name === null) return;
 
-    const pointsText =
-        prompt(
-            "Pontos do utilizador:",
-            String(user.points || 0)
-        );
-
+    const pointsText = prompt(
+        "Pontos do utilizador:",
+        String(user.points || 0)
+    );
     if (pointsText === null) return;
 
-    const points =
-        Number(pointsText);
+    const points = Number(pointsText);
 
     if (!Number.isFinite(points) || points < 0) {
-
-        alert(
-            "Os pontos têm de ser um número igual ou superior a 0."
+        await showMQAlert(
+            "Os pontos têm de ser um número igual ou superior a 0.",
+            "error"
         );
-
         return;
     }
 
-    let isAdminValue =
-        Boolean(user.is_admin);
+    let isAdminValue = Boolean(user.is_admin);
 
     if (user.id !== currentUser.id) {
-
-        const adminAnswer =
-            confirm(
-                "Este utilizador deve ser administrador?"
-            );
-
-        isAdminValue =
-            adminAnswer;
+        isAdminValue = await confirmMQ(
+            "Este utilizador deve ser administrador?",
+            "Permissões de administrador"
+        );
     }
 
-    saveAdminUser(
+    await saveAdminUser(
         user.id,
         name.trim(),
         Math.floor(points),
         isAdminValue
     );
 }
+
 
 
 async function saveAdminUser(
