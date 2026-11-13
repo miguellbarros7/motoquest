@@ -18626,6 +18626,21 @@ function showMQAlert(message, type = "info") {
     });
 }
 
+/* Avisos antigos com o visual MotoQuest */
+window.alert = function(message) {
+    const text = String(message ?? "");
+
+    const isSuccess =
+        /sucesso|concluíd|copiad|atualizad|guardad|enviad|obrigado|✅|🎉/i
+            .test(text) &&
+        !/erro|não foi possível|falhou|inválid|❌|⛔/i.test(text);
+
+    return showMQAlert(
+        text,
+        isSuccess ? "success" : "info"
+    );
+};
+
 
 function confirmMQ(message, title = "Confirmar operação") {
     return new Promise(resolve => {
