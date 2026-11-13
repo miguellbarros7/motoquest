@@ -8622,10 +8622,10 @@ for (let i = 1; i < routePath.length; i++) {
             Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 
 
-        if (accumulatedKm + segmentKm >= targetKm) {
-            const fraction = segmentKm > 0
-                ? (targetKm - accumulatedKm) / segmentKm
-                : 0;
+       if (accumulatedKm + segmentKm >= adjustedTargetKm) {
+    const fraction = segmentKm > 0
+        ? (adjustedTargetKm - accumulatedKm) / segmentKm
+        : 0;
 
             return {
                 latitude: lat1 + (lat2 - lat1) * fraction,
