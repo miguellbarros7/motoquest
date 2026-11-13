@@ -21984,11 +21984,16 @@ label[for="routeTripTime"] {
 
 /* MOTOQUEST — BOTOES CIRCULARES DAS ROTAS */
 @media (max-width: 600px) {
-    .mq-route-circle-controls {
-        flex-direction: column !important;
-        align-items: center !important;
-        gap: 10px !important;
-    }
+   
+.mq-route-circle-controls {
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 10px !important;
+    flex-shrink: 0 !important;
+    margin-left: 0 !important;
+}
+
 
     .mq-route-circle-controls > button {
         width: 44px !important;
