@@ -18691,6 +18691,31 @@ async function loadAdminUsers() {
     const users = data || [];
 
 
+const roleFilter = document.getElementById("adminUsersRoleFilter");
+
+function applyAdminUsersFilters() {
+    const term = document.getElementById("adminUsersSearch")?.value
+        .trim()
+        .toLocaleLowerCase("pt-PT") || "";
+
+    const role = roleFilter?.value || "all";
+
+    document.querySelectorAll("#adminUsersList .admin-item").forEach(card => {
+        const name = card.querySelector(".admin-item-title")?.textContent
+            .trim()
+            .toLocaleLowerCase("pt-PT") || "";
+
+        const matchesName = name.includes(term);
+        const matchesRole = role === "all" || card.dataset.role === role;
+
+        card.style.display = matchesName && matchesRole ? "" : "none";
+    });
+}
+
+if (roleFilter && !roleFilter.dataset.filterReady) {
+    roleFilter.addEventListener("change", applyAdminUsersFilters);
+    roleFilter.dataset.filterReady = "true";
+}
 const searchInput = document.getElementById("adminUsersSearch");
 
 if (searchInput && !searchInput.dataset.searchReady) {
