@@ -20239,6 +20239,34 @@ label[for="routeTripTime"] {
 
 
 /* Avatar dos utilizadores na administração */
+
+
+/* Alinhamento dos cartões dos utilizadores */
+#adminUsersList .admin-item-main {
+    display: grid;
+    grid-template-columns: 46px minmax(0, 1fr);
+    column-gap: 14px;
+    align-items: center;
+}
+
+#adminUsersList .admin-user-avatar {
+    grid-row: span 2;
+}
+
+#adminUsersList .admin-item-title {
+    grid-column: 2;
+    font-size: 16px;
+    font-weight: 700;
+}
+
+#adminUsersList .admin-item-meta {
+    grid-column: 2;
+    font-size: 12px;
+    color: #999;
+}
+
+
+    
 #adminUsersList .admin-user-avatar {
     width: 46px;
     height: 46px;
