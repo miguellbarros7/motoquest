@@ -8670,8 +8670,6 @@ fuelStatus.textContent = Number.isFinite(fuelKm)
     
 const check = document.createElement("span");
 
-const fuelKm = fuelKmByStop.get(fuel);
-
 const fuelNeedsReview =
     !Number.isFinite(fuelKm) ||
     fuelKm > (Number(bike.tank) / Number(bike.consumption)) * 100 * 0.8;
