@@ -16803,15 +16803,24 @@ async function loadAdminLocations() {
 <div class="admin-item" data-role="${user.is_admin ? 'admin' : 'user'}">
 
 
-                    <div class="admin-item-main">
+                 
+<div class="admin-item-main">
 
-                    
+    <div style="display:flex;align-items:center;gap:12px;">
 
+        <img
+            src="${escapeHtml(reward.image_url || FALLBACK_IMAGE)}"
+            alt="${escapeHtml(reward.name || 'Recompensa')}"
+            loading="lazy"
+            style="width:50px;height:50px;object-fit:cover;border-radius:10px;flex-shrink:0;"
+        >
 
+        <div class="admin-item-title" style="margin-bottom:0;">
+            ${escapeHtml(reward.name)}
+        </div>
 
-                        <div class="admin-item-title">
-                            ${escapeHtml(location.name)}
-                        </div>
+    </div>
+
 
                         <div class="admin-item-meta">
                             ${escapeHtml(
