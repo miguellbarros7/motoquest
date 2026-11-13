@@ -6888,6 +6888,14 @@ const googleEndAddress =
         }
 
                 return `${location.name}, Portugal`;
+
+
+const replacementCoordinates = replacementRouteStops
+    .map(stop =>
+        `${Number(stop.longitude)},${Number(stop.latitude)}`
+    )
+    .join(";");
+
     });
 
     // Acrescentar o ponto de encontro antes das paragens originais
