@@ -6847,6 +6847,18 @@ googleFuelStops
         });
     });
   
+if (tripMeetingPoint) {
+    replacementRouteStops.unshift(tripMeetingPoint);
+}
+
+if (tripDeparturePoint) {
+    replacementRouteStops.unshift(tripDeparturePoint);
+}
+
+if (tripEndPoint) {
+    replacementRouteStops.push(tripEndPoint);
+}
+
 
       // Dados do planeamento para o percurso no Google Maps
     const googleTripPlan = route.trip_plan || {};
