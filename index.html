@@ -7632,8 +7632,10 @@ deleteBtn.onclick = async () => {
 
     if (error) {
         console.error(error);
-        alert("Não foi possível eliminar a rota. Tenta novamente.");
-        deleteBtn.disabled = false;
+await showMQAlert(
+    "Não foi possível eliminar a rota. Tenta novamente.",
+    "error"
+);        deleteBtn.disabled = false;
         return;
     }
 
