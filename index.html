@@ -6095,6 +6095,7 @@ const updatedRouteCard = [...document.querySelectorAll("#myRoutesList [data-rout
 const updatedSummaryBtn = updatedRouteCard?.querySelector(".mq-route-summary-btn");
 
 if (fuelReviewNeeded && updatedSummaryBtn) {
+    updatedRouteCard.dataset.fuelCheckAfterSave = "true";
     updatedSummaryBtn.click();
 }
 };
