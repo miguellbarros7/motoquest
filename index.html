@@ -18844,6 +18844,9 @@ if (searchInput && !searchInput.dataset.searchReady) {
                 Não existem utilizadores.
             </div>`;
 
+applyAdminUsersFilters();
+    
+
 document.querySelectorAll(".cancel-admin-user-btn").forEach(button => {
     button.addEventListener("click", () => {
         const card = button.closest(".admin-item");
