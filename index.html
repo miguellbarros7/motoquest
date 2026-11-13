@@ -11638,6 +11638,55 @@ $("settingSuggestionBtn").addEventListener("click", () => {
     showSection("feedback");
 });
 
+/* GUARDAR SUGESTÕES DE MELHORIAS NO SUPABASE */
+
+$("feedbackForm").addEventListener("submit", async (event) => {
+    event.preventDefault();
+
+    const button = $("feedbackForm").querySelector('button[type="submit"]');
+    button.disabled = true;
+    button.textContent = "A enviar...";
+
+    try {
+        const { data: { user }, error: authError } =
+            await supabaseClient.auth.getUser();
+
+        if (authError || !user) {
+            throw new Error("Precisas de iniciar sessão para enviar sugestões.");
+        }
+
+        const tipo = $("feedbackType").value;
+        const titulo = $("feedbackTitle").value.trim();
+        const descricao = $("feedbackDescription").value.trim();
+
+        if (!titulo || !descricao) {
+            throw new Error("Preenche o título e a descrição.");
+        }
+
+        const { error } = await supabaseClient
+            .from("sugestoes_melhorias")
+            .insert({
+                user_id: user.id,
+                tipo,
+                titulo,
+                descricao
+            });
+
+        if (error) throw error;
+
+        alert("✅ Sugestão enviada com sucesso! Obrigado por ajudares a melhorar o MotoQuest.");
+
+        $("feedbackForm").reset();
+        showSection("settings");
+
+    } catch (error) {
+        console.error("Erro ao enviar sugestão:", error);
+        alert("❌ Não foi possível enviar a sugestão. " + error.message);
+    } finally {
+        button.disabled = false;
+        button.textContent = "📩 Enviar sugestão";
+    }
+});
 
 /* SOBRE O MOTOQUEST */
 
