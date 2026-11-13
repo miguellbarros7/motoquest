@@ -9809,6 +9809,17 @@ const replacementRouteStops = [...ordered];
     });
 
 
+if (tripMeetingPoint) {
+    replacementRouteStops.unshift(tripMeetingPoint);
+}
+
+if (tripDeparturePoint) {
+    replacementRouteStops.unshift(tripDeparturePoint);
+}
+
+if (tripEndPoint) {
+    replacementRouteStops.push(tripEndPoint);
+}
 };
 
 const formatKm = value =>
