@@ -9618,9 +9618,13 @@ fuelAlert.style.cssText = `
 `;
 
 
-    const alertMessage = document.createElement("p");
-    alertMessage.textContent =
-        "⚠️ A nova rota exige uma revisão dos abastecimentos.";
+
+const alertMessage = document.createElement("p");
+
+alertMessage.textContent = fuelNeedsNewStop
+    ? "⛽ É necessário adicionar uma nova bomba de combustível à rota para garantir a autonomia da tua mota."
+    : "⚠️ A bomba selecionada pode estar demasiado longe para a autonomia da tua mota. Recomendamos escolher um posto mais próximo para manteres uma margem de segurança durante a viagem.";
+
     alertMessage.style.cssText =
         "font-weight:800;margin-bottom:12px;";
 
