@@ -18843,13 +18843,33 @@ async function updateSuggestionStatus(
 
         if (error) throw error;
 
-        if (!data) {
-            alert(
-                "A sugestão já não está pendente ou não foi possível rejeitá-la."
-            );
-            await loadAdminSuggestions();
-            return;
-        }
+      
+if (!data) {
+    const { data: current, error: checkError } =
+        await supabaseClient
+            .from("suggestions")
+            .select("id, status")
+            .eq("id", suggestionId)
+            .maybeSingle();
+
+    console.warn("MotoQuest — diagnóstico rejeição:", {
+        suggestionId,
+        current,
+        checkError
+    });
+
+    alert(
+        checkError
+            ? "Erro ao consultar a sugestão: " + checkError.message
+            : !current
+                ? "A sugestão não está acessível. Verifica as permissões do Supabase."
+                : "A sugestão continua com o estado: " + current.status +
+                  ". A atualização pode estar bloqueada pelas permissões do Supabase."
+    );
+
+    await loadAdminSuggestions();
+    return;
+}
 
         try {
             await deleteSuggestionPhoto(suggestionId);
