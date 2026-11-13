@@ -7318,7 +7318,7 @@ await showMQAlert(
     "success"
 );
             } catch (error) {
-                prompt(
+                await promptMQ(
                     "Copia o link do Google Maps:",
                     route.googleMapsShareUrl
                 );
@@ -7389,7 +7389,7 @@ routeUrl.searchParams.set(
             await navigator.clipboard.writeText(routeUrl.toString());
             alert("🔗 Link copiado! Já podes enviar pelo WhatsApp.");
         } catch (error) {
-            prompt("Copia o link da rota:", routeUrl.toString());
+           await promptMQ("Copia o link da rota:", routeUrl.toString());
         }
     }
 };
@@ -7607,7 +7607,7 @@ if (event.shareRoute === true) {
             await navigator.clipboard.writeText(url);
             alert("🔗 Link do Google Maps copiado!");
         } catch (error) {
-            prompt("Copia o link do Google Maps:", url);
+           await promptMQ("Copia o link do Google Maps:", url);
         }
     }
 } else {
@@ -7696,8 +7696,7 @@ editBtn.style.cssText =
 
 
 editBtn.onclick = async () => {
-    const newName = prompt(
-        "Novo nome para a rota:",
+	const newName = await promptMQ(        "Novo nome para a rota:",
         route.name
     );
 
@@ -14854,7 +14853,7 @@ const partilharLocalizacao = async () => {
             await navigator.clipboard.writeText(mensagem);
             alert("📋 Localização copiada! Já podes colá-la numa mensagem.");
         } catch (erro) {
-            window.prompt("Copia este link para partilhar:", mapa);
+           await promptMQ("Copia este link para partilhar:", mapa);
         }
     }
 
