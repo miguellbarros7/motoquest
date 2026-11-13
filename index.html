@@ -9227,7 +9227,19 @@ savedFuelTitle.style.cssText = `
 `;
 
 savedFuelCard.appendChild(savedFuelTitle);
+	
 
+const missingFuelNotice = document.createElement("div");
+missingFuelNotice.id = "mq-missing-fuel-notice";
+missingFuelNotice.style.cssText =
+    "display:none;" +
+    "margin-top:14px;padding:14px;" +
+    "background:#24180e;" +
+    "border:1px dashed #ff7900;" +
+    "border-radius:10px;color:#ffb366;" +
+    "font-size:13px;line-height:1.5;";
+
+savedFuelCard.appendChild(missingFuelNotice);
 const routeFuelStops = Array.isArray(route.fuel_stops)
     ? route.fuel_stops
     : [];
