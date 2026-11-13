@@ -9295,9 +9295,13 @@ const previousFuelPosition = previousFuelPositions.length
 const fuelNeedsReview =
     !Number.isFinite(fuelKm) ||
     fuelKm - previousFuelPosition > safeFuelRangeKm;
+
 check.textContent = fuelNeedsReview
-    ? "⚠️ REVER POSTO"
-    : "✅ ADEQUADO";
+    ? "⚠️"
+    : "✅";
+check.title = fuelNeedsReview
+    ? "Rever posto"
+    : "Posto adequado";
 
 check.style.cssText = `
     font-size:11px;
