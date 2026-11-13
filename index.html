@@ -12697,9 +12697,11 @@ async function loadRedemptions() {
         return;
     }
 
-    redemptions = data || [];
+redemptions = (data || []).filter(
+    redemption => redemption.hidden_by_user !== true
+);
 
-    renderRedemptions();
+renderRedemptions();
 }
 function renderRedemptions() {
 
