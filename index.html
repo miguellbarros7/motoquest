@@ -11911,57 +11911,6 @@ $("feedbackForm").addEventListener("submit", async (event) => {
 });
 
     
-/* ACESSO SEGURO AO PAINEL DE ADMINISTRAÇÃO */
-
-async function verificarAcessoAdmin() {
-    const container = $("adminAccessContainer");
-
-    container.classList.add("hidden");
-    container.style.display = "none";
-
-    const { data: { user }, error: authError } =
-        await supabaseClient.auth.getUser();
-
-    if (authError || !user) return;
-
-    const { data, error } = await supabaseClient
-        .from("motoquest_admins")
-        .select("user_id")
-        .eq("user_id", user.id)
-        .maybeSingle();
-
-    if (error) {
-        console.error("Erro ao verificar administrador:", error);
-        return;
-    }
-
-    if (data) {
-        container.classList.remove("hidden");
-        container.style.display = "block";
-    }
-}
-
-$("adminAccessBtn").addEventListener("click", async () => {
-    const { data: { user } } =
-        await supabaseClient.auth.getUser();
-
-    if (!user) return;
-
-    const { data, error } = await supabaseClient
-        .from("motoquest_admins")
-        .select("user_id")
-        .eq("user_id", user.id)
-        .maybeSingle();
-
-    if (error || !data) {
-        alert("⛔ Não tens acesso à administração.");
-        return;
-    }
-
-    showSection("admin");
-});
-
-verificarAcessoAdmin();
 
 
 /* CARREGAR SUGESTÕES DE MELHORIAS NA ADMINISTRAÇÃO */
