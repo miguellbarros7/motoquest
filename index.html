@@ -19347,18 +19347,22 @@ async function editAdminUser(user) {
         saveBtn.disabled = true;
         cancelBtn.disabled = true;
 
-        try {
-            await saveAdminUser(
-                user.id,
-                name,
-                points,
-                user.id === currentUser.id
-                    ? Boolean(user.is_admin)
-                    : adminInput.checked
-            );
+      
+try {
+    const saved = await saveAdminUser(
+        user.id,
+        name,
+        points,
+        user.id === currentUser.id
+            ? Boolean(user.is_admin)
+            : adminInput.checked
+    );
 
-            closeDialog();
-        } finally {
+    if (saved) {
+        closeDialog();
+    }
+} finally {
+
             saveBtn.disabled = false;
             cancelBtn.disabled = false;
         }
