@@ -8927,7 +8927,12 @@ const fuelNeedsAttention =
 card.dataset.fuelNeedsAttention = String(fuelNeedsAttention);
 card.dataset.fuelCheckCompleted = "true";
 
-if (fuelReviewPending && fuelNeedsAttention) {
+if (
+    fuelReviewPending &&
+    fuelNeedsAttention &&
+    !card.dataset.fuelAlertShown
+) {
+    card.dataset.fuelAlertShown = "true";
     const fuelAlert = document.createElement("div");
 
   
