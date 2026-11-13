@@ -18926,6 +18926,7 @@ function confirmRejectSuggestionMQ() {
 
 
 /* REJEITAR SUGESTÃO */
+
 async function updateSuggestionStatus(
     suggestionId,
     status
@@ -18946,33 +18947,36 @@ async function updateSuggestionStatus(
 
         if (error) throw error;
 
-      
-if (!data) {
-    const { data: current, error: checkError } =
-        await supabaseClient
-            .from("suggestions")
-            .select("id, status")
-            .eq("id", suggestionId)
-            .maybeSingle();
+        if (!data) {
+            const {
+                data: current,
+                error: checkError
+            } = await supabaseClient
+                .from("suggestions")
+                .select("id, status")
+                .eq("id", suggestionId)
+                .maybeSingle();
 
-    console.warn("MotoQuest — diagnóstico rejeição:", {
-        suggestionId,
-        current,
-        checkError
-    });
+            console.warn(
+                "MotoQuest — diagnóstico rejeição:",
+                { suggestionId, current, checkError }
+            );
 
-    alert(
-        checkError
-            ? "Erro ao consultar a sugestão: " + checkError.message
-            : !current
-                ? "A sugestão não está acessível. Verifica as permissões do Supabase."
-                : "A sugestão continua com o estado: " + current.status +
-                  ". A atualização pode estar bloqueada pelas permissões do Supabase."
-    );
+            await showMQAlert(
+                checkError
+                    ? "Erro ao consultar a sugestão: " +
+                      checkError.message
+                    : !current
+                        ? "A sugestão não está acessível. Verifica as permissões do Supabase."
+                        : "A sugestão continua com o estado: " +
+                          current.status +
+                          ". A atualização pode estar bloqueada pelas permissões do Supabase.",
+                "error"
+            );
 
-    await loadAdminSuggestions();
-    return;
-}
+            await loadAdminSuggestions();
+            return;
+        }
 
         try {
             await deleteSuggestionPhoto(suggestionId);
@@ -18985,12 +18989,21 @@ if (!data) {
 
         await loadAdminSuggestions();
 
-    } catch (error) {
-        console.error("Erro ao rejeitar sugestão:", error);
+        await showMQAlert(
+            "Sugestão rejeitada com sucesso.",
+            "success"
+        );
 
-        alert(
+    } catch (error) {
+        console.error(
+            "Erro ao rejeitar sugestão:",
+            error
+        );
+
+        await showMQAlert(
             error.message ||
-            "Não foi possível rejeitar a sugestão."
+            "Não foi possível rejeitar a sugestão.",
+            "error"
         );
     }
 }
