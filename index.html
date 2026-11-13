@@ -8579,9 +8579,9 @@ const routeDistanceKm = calculatedRoute.distance / 1000;
         return null;
     }
 
-    const earthRadius = 6371;
-    let accumulatedKm = 0;
-
+   const earthRadius = 6371;
+let accumulatedKm = 0;
+let geometryTotalKm = 0;
     for (let i = 1; i < routePath.length; i++) {
         const [lon1, lat1] = routePath[i - 1];
         const [lon2, lat2] = routePath[i];
