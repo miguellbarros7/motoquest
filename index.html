@@ -9264,7 +9264,7 @@ fuelLocality.style.cssText =
         const fuelKm = fuelKmByStop.get(fuel);
 
 fuelStatus.textContent = Number.isFinite(fuelKm)
-    ? `📍 Km ${fuelKm.toLocaleString("pt-PT", {
+    ? ` Km ${fuelKm.toLocaleString("pt-PT", {
         maximumFractionDigits: 0
     })} · Paragem guardada na rota`
     : "Paragem guardada na rota";
