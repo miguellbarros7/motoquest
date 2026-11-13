@@ -9630,7 +9630,10 @@ alertMessage.textContent = fuelNeedsNewStop
 
     const editButton = document.createElement("button");
     editButton.type = "button";
-    editButton.textContent = "⛽ EDITAR COMBUSTÍVEIS";
+
+editButton.textContent = fuelNeedsNewStop
+    ? "⛽ ADICIONAR BOMBA"
+    : "⛽ ESCOLHER OUTRA BOMBA";
     editButton.className = "primary-btn";
 
 editButton.onclick = () => {
