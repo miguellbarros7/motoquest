@@ -12770,8 +12770,9 @@ function renderRedemptions() {
 
     }).join("");
 container.querySelectorAll(".mq-hide-redemption-btn").forEach(button => {
-    button.addEventListener("click", async () => {
-        const redemptionId = button.dataset.redemptionId;
+   button.addEventListener("click", async () => {
+    alert("✅ O clique no botão foi detetado!");
+    const redemptionId = button.dataset.redemptionId;
 
         const confirmed = confirm(
             "🗑️ Queres retirar esta recompensa do histórico?\n\n" +
