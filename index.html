@@ -6093,10 +6093,11 @@ const updatedRouteCard = [...document.querySelectorAll("#myRoutesList [data-rout
     .find(card => card.dataset.routeId === String(route.id));
 
 const updatedSummaryBtn = updatedRouteCard?.querySelector(".mq-route-summary-btn");
-};
-    if (fuelReviewNeeded && updatedSummaryBtn) {
+
+if (fuelReviewNeeded && updatedSummaryBtn) {
     updatedSummaryBtn.click();
 }
+};
 addStopBtn.onclick = async event => {
     event.stopPropagation();
 
