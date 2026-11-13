@@ -8616,7 +8616,6 @@ let geometryTotalKm = 0;
             2 * earthRadius *
             Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 
-        geometryTotalKm += segmentKm;
 
         if (accumulatedKm + segmentKm >= targetKm) {
             const fraction = segmentKm > 0
