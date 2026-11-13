@@ -21579,6 +21579,59 @@ label[for="routeTripTime"] {
 }
 
 
+/* MOTOQUEST — FOTOGRAFIAS DA APROVAÇÃO */
+
+.suggestion-photos-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+    margin: 20px 0;
+    align-items: stretch;
+}
+
+.suggestion-photo-card {
+    min-width: 0;
+    padding: 14px;
+    background: #191919;
+    border: 1px solid #383838;
+    border-radius: 16px;
+    box-sizing: border-box;
+}
+
+.suggestion-photo-title {
+    color: #ff9000;
+    font-size: 13px;
+    font-weight: 800;
+    margin-bottom: 8px;
+}
+
+.suggestion-photo-description {
+    color: #aaa;
+    font-size: 12px;
+    line-height: 1.5;
+    margin: 0 0 12px;
+}
+
+.suggestion-proof-photo {
+    display: block;
+    width: 100%;
+    height: 190px;
+    object-fit: contain;
+    border-radius: 12px;
+    background: #101010;
+}
+
+.suggestion-photo-card input[type="file"] {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+@media (max-width: 540px) {
+    .suggestion-photos-grid {
+        grid-template-columns: 1fr;
+    }
+}
 
     
 </style>
