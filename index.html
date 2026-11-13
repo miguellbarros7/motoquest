@@ -5843,8 +5843,9 @@ removeBtn.onclick = event => {
 
     ids.splice(index, 1);
 
-    fuelReviewNeeded = Array.isArray(route.fuel_stops) &&
-        route.fuel_stops.length > 0;
+   
+updateFuelReviewNeeded();
+
 
     renderStops();
 };
