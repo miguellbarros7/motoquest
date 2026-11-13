@@ -20476,6 +20476,184 @@ label[for="routeTripTime"] {
     background: rgba(239, 68, 68, 0.2);
 }
 
+/* MOTOQUEST — FORMULÁRIO DE LOCAIS PREMIUM */
+
+#locationForm {
+    background: #17191e;
+    border: 1px solid #30343c;
+    border-radius: 20px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+#locationForm h3 {
+    color: #fff;
+    font-size: 20px;
+    font-weight: 800;
+    margin: 0 0 8px;
+}
+
+#locationForm .admin-two,
+#locationForm .admin-three {
+    display: grid;
+    gap: 14px;
+    align-items: end;
+}
+
+#locationForm .admin-two {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+#locationForm .admin-three {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+#locationForm .field {
+    min-width: 0;
+    margin: 0;
+}
+
+#locationForm .field label {
+    display: block;
+    color: #b9bdc5;
+    font-size: 12px;
+    font-weight: 700;
+    margin-bottom: 7px;
+}
+
+#locationForm input:not([type="hidden"]):not([type="file"]),
+#locationForm select,
+#locationForm textarea {
+    width: 100%;
+    box-sizing: border-box;
+    background: #101115;
+    border: 1px solid #343840;
+    border-radius: 11px;
+    color: #f5f5f5;
+    padding: 12px 14px;
+    font-size: 14px;
+}
+
+#locationForm input:not([type="hidden"]):not([type="file"]),
+#locationForm select {
+    min-height: 46px;
+}
+
+#locationForm textarea {
+    min-height: 110px;
+    resize: vertical;
+}
+
+#locationForm input:focus,
+#locationForm select:focus,
+#locationForm textarea:focus {
+    outline: none;
+    border-color: #ff8a32;
+    box-shadow: 0 0 0 3px rgba(255,138,50,.12);
+}
+
+#locationForm #extractCoordinatesBtn {
+    align-self: flex-start;
+    background: #29221d;
+    color: #ff9b4a;
+    border: 1px solid #80502d;
+    border-radius: 11px;
+    padding: 12px 18px;
+    font-weight: 750;
+}
+
+#locationForm .pexels-box {
+    background: #111318;
+    border: 1px solid #343840;
+    border-radius: 16px;
+    padding: 20px;
+}
+
+#locationForm .pexels-title {
+    color: #fff;
+    font-size: 16px;
+    font-weight: 800;
+    margin-bottom: 12px;
+}
+
+#locationForm #locationImageFile {
+    width: 100%;
+    box-sizing: border-box;
+    background: #1b1e24;
+    border: 1px dashed #666;
+    border-radius: 11px;
+    padding: 12px;
+    color: #ddd;
+}
+
+#locationForm #locationImageFile::file-selector-button {
+    background: #33251b;
+    color: #ff9b4a;
+    border: 1px solid #80502d;
+    border-radius: 8px;
+    padding: 9px 12px;
+    margin-right: 12px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+#locationForm .pexels-search-row {
+    display: flex;
+    gap: 10px;
+    margin-top: 16px;
+}
+
+#locationForm .pexels-search-row input {
+    flex: 1;
+    min-width: 0;
+}
+
+#locationForm .admin-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 8px;
+}
+
+#locationForm .admin-actions .primary-btn {
+    background: #ff7900;
+    color: #111;
+    border-radius: 11px;
+    font-weight: 800;
+    padding: 13px 22px;
+}
+
+#locationForm .admin-actions .secondary-btn {
+    border-radius: 11px;
+    padding: 13px 22px;
+}
+
+@media (max-width: 650px) {
+    #locationForm {
+        padding: 16px;
+        gap: 14px;
+    }
+
+    #locationForm .admin-two,
+    #locationForm .admin-three {
+        grid-template-columns: 1fr;
+    }
+
+    #locationForm .pexels-box {
+        padding: 14px;
+    }
+
+    #locationForm .pexels-search-row {
+        flex-direction: column;
+    }
+
+    #locationForm .admin-actions button {
+        flex: 1;
+    }
+}
+
 /* MOTOQUEST — LOCAIS ADMIN PREMIUM */
 
 #adminLocationsList .admin-item {
