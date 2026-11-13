@@ -4919,125 +4919,130 @@ style="display:none;"
      REWARD MODAL
 ========================= -->
 
+
+<!-- MOTOQUEST — JANELA PREMIUM -->
 <div id="rewardModal" class="modal">
-    <div class="modal-card">
+  <div class="modal-card" style="background:#141414;border:1px solid #353535;border-radius:22px;padding:22px 18px;width:min(500px,100%);box-sizing:border-box;">
 
-       
-<div class="modal-header">
-    <div style="display:flex;align-items:center;gap:12px;">
-        <span style="font-size:28px;color:#ff6a00;flex-shrink:0;" aria-hidden="true">🎁</span>
-        <div>
-            <h3 id="rewardModalTitle">
+    <!-- Cabeçalho -->
+    <div class="modal-header" style="display:flex;align-items:center;gap:14px;margin-bottom:26px;">
 
-                    Resgatar recompensa
-                </h3>
+      <svg width="38" height="38" viewBox="0 0 24 24"
+           fill="none" stroke="#ff7900" stroke-width="1.8"
+           stroke-linecap="round" stroke-linejoin="round"
+           style="flex-shrink:0;" aria-hidden="true">
+        <rect x="3" y="9" width="18" height="12" rx="1"/>
+        <path d="M12 9v12M2 9h20"/>
+        <path d="M12 9H7.5a3 3 0 1 1 3-3c0 2 1.5 3 1.5 3Z"/>
+        <path d="M12 9h4.5a3 3 0 1 0-3-3c0 2-1.5 3-1.5 3Z"/>
+      </svg>
 
-                <p
-                    id="rewardModalDescription"
-                    class="section-subtitle"
-                >
-                    Confirma o resgate desta recompensa.
-                </p>
-                    </div>
+      <div style="min-width:0;">
+        <h3 id="rewardModalTitle"
+            style="margin:0 0 7px;font-size:clamp(17px,4.5vw,22px);font-weight:850;line-height:1.2;color:#fff;">
+          Resgatar recompensa
+        </h3>
+
+        <p id="rewardModalDescription"
+           class="section-subtitle"
+           style="margin:0;color:#999;font-size:13px;line-height:1.5;">
+          Confirma o resgate desta recompensa.
+        </p>
+      </div>
+    </div>
+
+    <!-- Cartão dos pontos -->
+    <div class="profile-card"
+         style="background:#101010;border:2px solid #ff7900;border-radius:18px;padding:22px 16px;margin:0 0 20px;">
+
+      <div style="display:flex;align-items:center;gap:16px;">
+
+        <!-- Bilhete laranja -->
+        <svg width="56" height="56" viewBox="0 0 24 24"
+             fill="none" stroke="#ff7900" stroke-width="1.7"
+             stroke-linecap="round" stroke-linejoin="round"
+             style="flex-shrink:0;transform:rotate(-18deg);"
+             aria-hidden="true">
+          <path d="M2 9a2 2 0 0 0 0 4v5a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-5a2 2 0 0 1 0-4V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v3Z"/>
+          <path d="m12 8 1.2 2.5 2.8.4-2 2 .5 2.8-2.5-1.3-2.5 1.3.5-2.8-2-2 2.8-.4Z"/>
+        </svg>
+
+        <!-- Divisória -->
+        <div style="width:1px;height:62px;background:#ff7900;flex-shrink:0;"></div>
+
+        <!-- Custo -->
+        <div style="min-width:0;flex:1;">
+          <div class="home-points-label"
+               style="font-size:12px;font-weight:700;color:#aaa;letter-spacing:1px;margin-bottom:7px;">
+            CUSTO
+          </div>
+
+          <div style="display:flex;align-items:center;gap:8px;">
+            <svg width="28" height="28" viewBox="0 0 24 24"
+                 fill="none" stroke="#ff7900" stroke-width="1.8"
+                 stroke-linecap="round" stroke-linejoin="round"
+                 style="flex-shrink:0;" aria-hidden="true">
+              <ellipse cx="9" cy="6" rx="6" ry="3"/>
+              <path d="M3 6v5c0 1.7 2.7 3 6 3s6-1.3 6-3V6"/>
+              <path d="M3 11v5c0 1.7 2.7 3 6 3 1.5 0 2.9-.3 4-.8"/>
+              <path d="M15 10c3.3 0 6 1.3 6 3s-2.7 3-6 3"/>
+              <path d="M21 13v5c0 1.7-2.7 3-6 3s-6-1.3-6-3"/>
+            </svg>
+
+            <div id="rewardModalPoints"
+                 class="home-points-value"
+                 style="color:#ff7900;font-size:clamp(25px,7vw,34px);font-weight:900;letter-spacing:-1px;white-space:nowrap;">
+              0 pts
             </div>
-
-           
+          </div>
         </div>
+      </div>
+    </div>
 
+    <!-- Mensagens do resgate -->
+    <div id="rewardModalMessage" class="form-message"></div>
 
-<div
-    class="profile-card"
-    style="background:#171717;border:1.5px solid #ff6a00;border-radius:18px;padding:18px;margin:18px 0;"
->
-          
-<div
-    class="home-points"
-    style="margin-bottom:0;display:flex;align-items:center;gap:16px;"
->
-    <span
-        aria-hidden="true"
-        style="font-size:30px;flex-shrink:0;"
-    >🎟️</span>
+    <div id="rewardSuccessPanel" class="hidden"
+         style="margin:16px 0;padding:24px 16px;text-align:center;background:#0d1c13;border:1px solid #176b37;border-radius:16px;">
 
-    <div
-        style="width:1px;height:48px;background:#ff6a00;opacity:.65;flex-shrink:0;"
-    ></div>
+      <div style="font-size:38px;color:#22c55e;">✓</div>
 
-    <div style="min-width:0;">
-
-                <div class="home-points-label">
-                    Custo
-                </div>
-
-               
-<div
-    id="rewardModalPoints"
-    class="home-points-value"
-    style="font-size:32px;font-weight:900;color:#ff6a00;letter-spacing:-1px;"
->
-    0 pts
-</div>
-
-            </div>
-        </div>
-        </div>
-
-        <div
-            id="rewardModalMessage"
-            class="form-message"
-        ></div>
-        
-<div
-    id="rewardSuccessPanel"
-    class="hidden"
-    style="margin:16px 0;padding:24px 16px;text-align:center;background:#0d1c13;border:1px solid #176b37;border-radius:16px;"
->
-    <div style="font-size:38px;color:#22c55e;">✓</div>
-
-    <div style="color:#86efac;font-size:17px;font-weight:800;margin:10px 0;">
+      <div style="color:#86efac;font-size:17px;font-weight:800;margin:10px 0;">
         Recompensa resgatada com sucesso!
-    </div>
+      </div>
 
-    <div style="color:#aaa;font-size:13px;margin-bottom:12px;">
+      <div style="color:#aaa;font-size:13px;margin-bottom:12px;">
         O teu código de recompensa é:
+      </div>
+
+      <div id="rewardSuccessCode"
+           style="color:#4ade80;font-size:22px;font-weight:800;overflow-wrap:anywhere;">
+      </div>
     </div>
 
-    <div
-        id="rewardSuccessCode"
-        style="color:#4ade80;font-size:22px;font-weight:800;"
-    ></div>
-</div>  
+    <!-- Botões -->
+    <div id="rewardActionButtons"
+         style="display:flex;gap:10px;align-items:stretch;margin-top:14px;">
 
-        
-
-
-<div
-    id="rewardActionButtons"
-    style="display:flex;gap:10px;align-items:stretch;margin-top:14px;"
->
-    <button
-        id="cancelRewardBtn"
-        class="secondary-btn"
-        data-close-modal="rewardModal"
-        type="button"
-        style="background:#222;color:#fff;border:1px solid #444;border-radius:14px;padding:14px 10px;font-size:14px;font-weight:700;flex:1;min-width:0;"
-    >
+      <button id="cancelRewardBtn"
+              class="secondary-btn"
+              data-close-modal="rewardModal"
+              type="button"
+              style="background:#242424;color:#fff;border:1px solid #555;border-radius:14px;padding:15px 8px;font-size:14px;font-weight:750;flex:1;min-width:0;">
         Cancelar
-    </button>
+      </button>
 
-    <button
-        id="confirmRewardBtn"
-        class="primary-btn full-btn"
-        type="button"
-        style="background:#ff6a00;color:#fff;border:none;border-radius:14px;padding:14px 10px;font-size:14px;font-weight:800;flex:2;min-width:0;width:auto;"
-    >
-        
-🎟️ Confirmar resgate
+      <button id="confirmRewardBtn"
+              class="primary-btn full-btn"
+              type="button"
+              style="background:#ff7900;color:#fff;border:0;border-radius:14px;padding:15px 8px;font-size:14px;font-weight:850;flex:2;min-width:0;width:auto;">
+        Confirmar resgate
+      </button>
+    </div>
 
-    </button>
+  </div>
 </div>
 
-</div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
 
