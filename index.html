@@ -9707,9 +9707,25 @@ missingFuelNotice.style.display =
         ? "block"
         : "none";
 
+
+const fuelStopsToReview = orderedFuelStops.filter((item, index) => {
+    const previousKm = index === 0
+        ? 0
+        : orderedFuelStops[index - 1].km;
+
+    return item.km - previousKm > fuelSafetyLimitKm;
+});
+
+const fuelStopsToReviewNames = fuelStopsToReview.map(item =>
+    `${item.fuel.name} (km ${Math.round(item.km)})`
+);
+
 missingFuelMessage.textContent = fuelShouldShowReview
-    ? "⚠️ Uma bomba está demasiado longe. Recomendamos escolher outra mais próxima."
+    ? fuelStopsToReviewNames.length > 0
+        ? `⚠️ Bombas a rever: ${fuelStopsToReviewNames.join(" e ")}. Os intervalos ultrapassam a autonomia de segurança.`
+        : "⚠️ Há bombas cuja posição precisa de ser revista."
     : "⛽ Falta um abastecimento nesta rota.";
+
 
 missingFuelButton.textContent = fuelShouldShowReview
     ? "⛽ TROCAR BOMBA"
@@ -10003,6 +10019,25 @@ const matchingFuelStop = routeFuelStops.find(fuel => {
     return Number.isFinite(fuelKm) &&
         Math.abs(fuelKm - distance) <= 5;
 });
+
+	
+const fuelStopsNeedingReview = routeFuelStops
+    .filter(fuel => {
+        const fuelKm = fuelKmByStop.get(fuel);
+
+        return Number.isFinite(fuelKm) &&
+            fuelStopsOutsideSafeRange.includes(fuel);
+    })
+    .sort((a, b) => {
+        const distanceA = Math.abs(fuelKmByStop.get(a) - distance);
+        const distanceB = Math.abs(fuelKmByStop.get(b) - distance);
+
+        return distanceA - distanceB;
+    });
+
+const suggestedFuelToReplace =
+    fuelStopsNeedingReview[0] || null;
+
 
 if (matchingFuelStop) {
     const fuelKm = fuelKmByStop.get(matchingFuelStop);
