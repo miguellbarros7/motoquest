@@ -18128,6 +18128,34 @@ async function openSuggestionEdit(
         editingSuggestion =
             suggestion;
 
+
+/* Identificar quem enviou a sugestão */
+const authorElement = $("editSuggestionAuthor");
+
+authorElement.textContent = "Utilizador";
+
+if (suggestion.user_id) {
+    const {
+        data: authorProfile,
+        error: authorError
+    } = await supabaseClient
+        .from("profiles")
+        .select("name")
+        .eq("id", suggestion.user_id)
+        .maybeSingle();
+
+    if (authorError) {
+        console.warn(
+            "Não foi possível obter o nome do utilizador:",
+            authorError
+        );
+    }
+
+    authorElement.textContent =
+        authorProfile?.name || "Utilizador";
+}
+        
+
         $("editSuggestionName").value =
             suggestion.name || "";
 
