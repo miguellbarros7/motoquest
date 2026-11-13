@@ -18681,6 +18681,27 @@ async function loadAdminUsers() {
 
     const users = data || [];
 
+
+const searchInput = document.getElementById("adminUsersSearch");
+
+if (searchInput && !searchInput.dataset.searchReady) {
+    searchInput.addEventListener("input", () => {
+        const term = searchInput.value.trim().toLocaleLowerCase("pt-PT");
+
+        document.querySelectorAll("#adminUsersList .admin-item").forEach(card => {
+            const name = card.querySelector(".admin-item-title")?.textContent
+                .trim()
+                .toLocaleLowerCase("pt-PT") || "";
+
+            card.style.display = name.includes(term) ? "" : "none";
+        });
+    });
+
+    searchInput.dataset.searchReady = "true";
+}
+
+    
+
     $("adminUsersList").innerHTML =
         users.length
             ? users.map(user => `
