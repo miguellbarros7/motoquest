@@ -8837,40 +8837,7 @@ const fuelPositionReviewNeeded =
             fuelKm > fuelSafetyLimitKm;
     });
 
-if (
-    fuelPositionReviewNeeded &&
-    fuelStopsOutsideSafeRange.length > 0
-) {
-    const fuelPositionAlert = document.createElement("div");
 
-    fuelPositionAlert.style.cssText =
-        "grid-column:1/-1;" +
-        "margin:12px 0;padding:14px;" +
-        "background:#302817;" +
-        "border:1px solid #b88628;" +
-        "border-radius:10px;" +
-        "color:#f5d58a;" +
-        "font-size:13px;line-height:1.6;";
-
-   const fuelToReview = fuelStopsOutsideSafeRange[0];
-
-const fuelNameToReview = fuelToReview.locality
-    ? fuelToReview.name + " – " + fuelToReview.locality
-    : fuelToReview.name;
-
-const fuelKmToReview = fuelKmByStop.get(fuelToReview);
-
-fuelPositionAlert.textContent =
-    "⚠️ " + fuelNameToReview.toUpperCase() +
-    " A REAVALIAR — " +
-    "Esta bomba está no km " +
-    fuelKmToReview.toFixed(0) +
-    ", depois do limite recomendado de " +
-    fuelSafetyLimitKm.toFixed(0) +
-    " km. Considera abastecer mais cedo. " +
-    "A bomba foi mantida na rota.";
-    routeInfo.appendChild(fuelPositionAlert);
-}
 
 // Só planear abastecimentos quando um depósito
 // não chega para completar a rota.
