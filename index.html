@@ -13574,7 +13574,10 @@ $("rewardModalDescription").classList.add("hidden");
 const rewardButton = $("confirmRewardBtn");
 rewardButton.textContent = "Ver recompensa no histórico";
 rewardButton.dataset.rewardSuccess = "true";
+        
 
+$("cancelRewardBtn").classList.add("hidden");
+rewardButton.style.flex = "1";
   } catch (error) {
 
     console.error(
