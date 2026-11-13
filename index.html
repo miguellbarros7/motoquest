@@ -18664,6 +18664,17 @@ heading.style.cssText = `
         cancel.className = "secondary-btn";
         cancel.textContent = "Cancelar";
 
+        cancel.style.cssText = `
+    background:#292a30;
+    color:#fff;
+    border:1px solid #555;
+    border-radius:14px;
+    padding:13px 22px;
+    font-size:15px;
+    font-weight:800;
+    cursor:pointer;
+`;
+
         const confirm = document.createElement("button");
         confirm.type = "button";
         confirm.textContent = "Confirmar";
