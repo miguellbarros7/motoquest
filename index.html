@@ -8883,6 +8883,7 @@ const fuelStopsOutsideSafeRange =
         fuel => !Number.isFinite(fuelKmByStop.get(fuel))
     );
 
+
 let previousFuelKm = 0;
 
 orderedFuelStops.forEach(item => {
@@ -8895,16 +8896,7 @@ orderedFuelStops.forEach(item => {
     previousFuelKm = item.km;
 });
 
-    const fuelNeedsAttention =
-    savedFuelStopsForReview.length > 0 &&
-    (
-        fuelStopsOutsideSafeRange.length > 0 ||
-        (
-            orderedFuelStops.length === 0 &&
-            km > fuelSafetyLimitKm
-        )
-    );
-
+const distanceToDestination = km - previousFuelKm;
 
 if (
     orderedFuelStops.length > 0 &&
@@ -8917,15 +8909,9 @@ if (
     }
 }
 
-        const fuelNeedsAttention =
+const fuelNeedsAttention =
     savedFuelStopsForReview.length > 0 &&
-    (
-        fuelStopsOutsideSafeRange.length > 0 ||
-        (
-            orderedFuelStops.length === 0 &&
-            km > fuelSafetyLimitKm
-        )
-    );
+    fuelStopsOutsideSafeRange.length > 0;
 
 
 
