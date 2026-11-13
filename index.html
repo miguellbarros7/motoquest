@@ -20341,6 +20341,41 @@ label[for="routeTripTime"] {
     overflow-wrap: anywhere;
 }
 
+/* Pesquisa e filtros dos utilizadores */
+#adminUsersPanel .admin-users-toolbar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 18px 0;
+    flex-wrap: wrap;
+}
+
+#adminUsersPanel .admin-users-toolbar input,
+#adminUsersPanel .admin-users-toolbar select {
+    background: #17191e;
+    border: 1px solid #343840;
+    border-radius: 10px;
+    color: #f2f2f2;
+    padding: 12px 14px;
+    font-size: 13px;
+    min-height: 44px;
+}
+
+#adminUsersPanel .admin-users-toolbar input {
+    flex: 1 1 240px;
+    min-width: 0;
+}
+
+#adminUsersPanel .admin-users-toolbar select {
+    flex: 0 1 210px;
+}
+
+#adminUsersPanel .admin-users-toolbar input:focus,
+#adminUsersPanel .admin-users-toolbar select:focus {
+    outline: none;
+    border-color: #ff8a32;
+}
+
 /* Cartões modernos dos utilizadores */
 #adminUsersList .admin-item {
     background: #17191e;
