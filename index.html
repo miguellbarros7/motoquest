@@ -18692,13 +18692,16 @@ async function loadAdminUsers() {
     </div>
 
 
-                        <div class="admin-item-meta">
-                            ${user.is_admin
-                                ? "Administrador"
-                                : "Utilizador"}
-                            <br>
-                            ID: ${escapeHtml(user.id)}
-                        </div>
+                       
+<div class="admin-item-meta">
+    <span class="${user.is_admin ? 'admin-role-badge is-admin' : 'admin-role-badge'}">
+        ${user.is_admin ? 'ADMIN' : 'Utilizador'}
+    </span>
+    <span class="admin-user-id">
+        ID: ${escapeHtml(user.id)}
+    </span>
+</div>
+
 
                     </div>
 
