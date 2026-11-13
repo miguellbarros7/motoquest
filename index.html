@@ -9770,16 +9770,75 @@ if (fuelReplacementOptions.length === 1) {
     fuelReplacementSelect.value = "0";
 }
 
+
 const calculateFuelReplacementPreview = async () => {
     const selectedValue = fuelReplacementSelect.value;
+
+    if (selectedValue === "") return;
 
     const fuelToReplace = selectedValue === "keep"
         ? null
         : existingFuelStops[Number(selectedValue)];
-    
-const previewFuelStops = updatedFuelStops.filter(
-    fuel => fuel !== fuelToReplace
-);
+
+    const previewFuelStops = updatedFuelStops.filter(
+        fuel => fuel !== fuelToReplace
+    );
+
+    const replacementRouteStops = [...ordered];
+
+    [...previewFuelStops]
+        .sort((a, b) =>
+            Number(b.insertion_index) - Number(a.insertion_index)
+        )
+        .forEach(fuel => {
+            replacementRouteStops.splice(
+                Number(fuel.insertion_index),
+                0,
+                {
+                    name: fuel.name,
+                    latitude: Number(fuel.latitude),
+                    longitude: Number(fuel.longitude)
+                }
+            );
+        });
+
+    if (tripMeetingPoint) {
+        replacementRouteStops.unshift(tripMeetingPoint);
+    }
+
+    if (tripDeparturePoint) {
+        replacementRouteStops.unshift(tripDeparturePoint);
+    }
+
+    if (tripEndPoint) {
+        replacementRouteStops.push(tripEndPoint);
+    }
+
+    const replacementCoordinates = replacementRouteStops
+        .map(stop =>
+            `${Number(stop.longitude)},${Number(stop.latitude)}`
+        )
+        .join(";");
+
+    const response = await fetch(
+        `https://router.project-osrm.org/route/v1/driving/${replacementCoordinates}` +
+        "?overview=false&steps=false"
+    );
+
+    if (!response.ok) {
+        throw new Error("Não foi possível calcular a rota.");
+    }
+
+    const result = await response.json();
+    const route = result.routes?.[0];
+
+    if (result.code !== "Ok" || !route) {
+        throw new Error("O serviço não devolveu uma rota válida.");
+    }
+
+    return route.distance / 1000;
+};
+
 
     
 const replacementRouteStops = [...ordered];
