@@ -9571,9 +9571,16 @@ const fuelNeedsAttention =
     savedFuelStopsForReview.length > 0 &&
     fuelStopsOutsideSafeRange.length > 0;
 		
+
 const fuelNeedsNewStop =
     km > fuelSafetyLimitKm &&
-    savedFuelStopsForReview.length === 0;
+    (
+        savedFuelStopsForReview.length === 0 ||
+        (
+            orderedFuelStops.length > 0 &&
+            distanceToDestination > fuelSafetyLimitKm
+        )
+    );
 
 
 
