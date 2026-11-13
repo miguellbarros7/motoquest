@@ -9272,6 +9272,21 @@ missingFuelButton.onclick = () => {
 missingFuelNotice.appendChild(missingFuelButton);
 
 savedFuelCard.appendChild(missingFuelNotice);
+
+const fuelOptimizationNotice = document.createElement("div");
+fuelOptimizationNotice.style.cssText =
+    "display:none;" +
+    "margin-top:12px;padding:12px;" +
+    "background:#1c241c;" +
+    "border:1px solid #4b8a4b;" +
+    "border-radius:10px;" +
+    "color:#b8e6b8;font-size:12px;";
+
+fuelOptimizationNotice.textContent =
+    "💡 Podes dispensar um abastecimento sem comprometer a autonomia de segurança.";
+
+savedFuelCard.appendChild(fuelOptimizationNotice);
+	
 const routeFuelStops = Array.isArray(route.fuel_stops)
     ? route.fuel_stops
     : [];
