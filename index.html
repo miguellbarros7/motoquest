@@ -18761,6 +18761,20 @@ async function loadAdminUsers() {
                 Não existem utilizadores.
             </div>`;
 
+    
+document.querySelectorAll(".edit-admin-user-btn").forEach(button => {
+    button.addEventListener("click", () => {
+        const card = button.closest(".admin-item");
+        const fields = card.querySelector(".admin-user-edit-fields");
+
+        if (!fields) return;
+
+        fields.style.display = "flex";
+        button.style.display = "none";
+    });
+});
+
+
     document
         .querySelectorAll(".save-user-btn")
         .forEach(button => {
