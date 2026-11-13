@@ -8574,6 +8574,7 @@ savedFuelStops.forEach(fuel => {
 });
     
 const getPointAtKm = (targetKm) => {
+const routeDistanceKm = calculatedRoute.distance / 1000;    
     if (!Array.isArray(routePath) || routePath.length < 2) {
         return null;
     }
