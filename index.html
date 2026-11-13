@@ -9468,10 +9468,12 @@ removeFuelButton.disabled = true;
         window.alert(
             "Não foi possível remover a bomba. Tenta novamente."
         );
-    } finally {
-        removeFuelButton.disabled = false;
-        removeFuelButton.textContent = "🗑️ REMOVER";
-    }
+   
+} finally {
+    removeFuelButton.disabled = false;
+    removeFuelButton.textContent = "🗑️";
+}
+
 };        
 fuelRow.append(fuelIcon, fuelInfo, check, removeFuelButton);
 savedFuelCard.appendChild(fuelRow);
