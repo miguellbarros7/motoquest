@@ -8895,6 +8895,16 @@ orderedFuelStops.forEach(item => {
     previousFuelKm = item.km;
 });
 
+    const fuelNeedsAttention =
+    savedFuelStopsForReview.length > 0 &&
+    (
+        fuelStopsOutsideSafeRange.length > 0 ||
+        (
+            orderedFuelStops.length === 0 &&
+            km > fuelSafetyLimitKm
+        )
+    );
+
 const distanceToDestination = km - previousFuelKm;
 
 if (
