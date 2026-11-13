@@ -9233,6 +9233,7 @@ const routeFuelStops = Array.isArray(route.fuel_stops)
 if (routeFuelStops.length > 0) {
     routeFuelStops.forEach(fuel => {
         const fuelRow = document.createElement("div");
+		fuelRow.classList.add("mq-saved-fuel-row");
 
        fuelRow.style.cssText =
     "display:flex;align-items:center;gap:9px;" +
