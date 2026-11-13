@@ -9830,6 +9830,13 @@ if (tripEndPoint) {
 }
 };
 
+const replacementCoordinates = replacementRouteStops
+    .map(stop =>
+        `${Number(stop.longitude)},${Number(stop.latitude)}`
+    )
+    .join(";");
+
+
 const formatKm = value =>
     value.toLocaleString("pt-PT", {
         minimumFractionDigits: 1,
