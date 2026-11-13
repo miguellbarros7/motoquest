@@ -7611,10 +7611,13 @@ deleteBtn.style.cssText =
     "border-radius:8px;color:#999;cursor:pointer;";
 
 
+
 deleteBtn.onclick = async () => {
-    const confirmed = confirm(
-        `Tens a certeza de que queres eliminar a rota "${route.name}"?\n\nEsta ação não pode ser anulada.`
+    const confirmed = await confirmMQ(
+        `Tens a certeza de que queres eliminar a rota "${route.name}"?\n\nEsta ação não pode ser anulada.`,
+        "Eliminar rota?"
     );
+
 
     if (!confirmed) return;
 
