@@ -6424,10 +6424,11 @@ const fuelStopsHere = Array.isArray(route.fuel_stops)
 
 fuelStopsHere.forEach(fuel => {
     const fuelRow = document.createElement("div");
-
+fuelRow.classList.add("mq-saved-fuel-row");
  fuelRow.style.cssText =
     "display:flex;align-items:center;gap:9px;" +
     "margin:4px 0;";
+	
 
     const fuelNumber = document.createElement("span");
 fuelNumber.textContent = ++routeStepNumber;
