@@ -10654,11 +10654,22 @@ const calculateFuelReplacementPreview = async () => {
     }
 
     const result = await response.json();
+
+	
     const route = result.routes?.[0];
 
     if (result.code !== "Ok" || !route) {
         throw new Error("O serviço não devolveu uma rota válida.");
     }
+
+const replacementLegDistancesKm = Array.isArray(route.legs)
+    ? route.legs.map(leg => leg.distance / 1000)
+    : [];
+
+console.log(
+    "MotoQuest — distâncias dos troços da nova rota:",
+    replacementLegDistancesKm
+);
 
     return route.distance / 1000;
 };
