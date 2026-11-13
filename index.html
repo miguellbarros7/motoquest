@@ -6092,6 +6092,7 @@ await loadMyRoutes();
 const updatedRouteCard = [...document.querySelectorAll("#myRoutesList [data-route-id]")]
     .find(card => card.dataset.routeId === String(route.id));
 };
+    const updatedSummaryBtn = updatedRouteCard?.querySelector("button.primary-btn");
 addStopBtn.onclick = async event => {
     event.stopPropagation();
 
