@@ -9609,11 +9609,15 @@ card.dataset.fuelNeedsAttention = String(
 
 
 		
-card.dataset.fuelAlertType = fuelNeedsNewStop
-    ? "add"
-    : fuelNeedsAttention
-        ? "review"
-        : "none";
+
+card.dataset.fuelAlertType = fuelNeedsStationReview
+    ? "review"
+    : fuelNeedsNewStop
+        ? "add"
+        : fuelNeedsAttention
+            ? "review"
+            : "none";
+
 card.dataset.fuelCheckCompleted = "true";
 
 
