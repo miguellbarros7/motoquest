@@ -4033,6 +4033,70 @@ transform:translateX(38px);
 
 </section>
 
+<style>
+  #adminSection .mq-admin-stats {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
+    margin: 20px 0;
+  }
+
+  #adminSection .mq-admin-stat {
+    background: linear-gradient(145deg, #191919, #101010);
+    border: 1px solid #333;
+    border-radius: 16px;
+    padding: 18px 8px;
+    text-align: center;
+  }
+
+  #adminSection .mq-admin-stat strong {
+    display: block;
+    color: #ff7900;
+    font-size: 30px;
+    font-weight: 800;
+  }
+
+  #adminSection .mq-admin-stat small {
+    display: block;
+    color: #aaa;
+    font-size: 12px;
+    margin-top: 5px;
+  }
+
+  #adminSection #adminSuggestionFilter {
+    width: 100%;
+    background: #202020;
+    color: white;
+    border: 1px solid #444;
+    border-radius: 10px;
+    padding: 12px;
+    margin: 12px 0 18px;
+  }
+
+  #adminSection #adminSuggestionsList {
+    display: grid;
+    gap: 12px;
+  }
+
+  #adminSection .mq-admin-suggestion {
+    background: #171717;
+    border: 1px solid #333;
+    border-radius: 14px;
+    padding: 16px;
+  }
+
+  #adminSection .mq-admin-suggestion h3 {
+    color: white;
+    margin: 0 0 8px;
+  }
+
+  #adminSection .mq-admin-suggestion p {
+    color: #aaa;
+    font-size: 13px;
+    line-height: 1.6;
+  }
+</style>
+
 <!-- PAINEL ADMIN MOTOQUEST -->
 <section id="adminSection" class="section">
 
