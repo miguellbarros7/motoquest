@@ -10037,6 +10037,97 @@ details.append(stationTitle, distances, detour, question);
     card.append(title, details, buttons);
     overlay.appendChild(card);
     document.body.appendChild(overlay);
+
+let previewRequestId = 0;
+
+const updateFuelReplacementPreview = async () => {
+    const requestId = ++previewRequestId;
+
+    saveButton.disabled = true;
+    saveButton.textContent = "⏳ A CALCULAR...";
+
+    const newDistanceValue = distances.children[1].children[1];
+
+    newDistanceValue.textContent = "A calcular...";
+    detourDistance.textContent = "⏳ A calcular rota por estrada...";
+    detourStatus.textContent = "";
+
+    try {
+        if (fuelReplacementSelect.value === "") {
+            throw new Error("Escolhe uma opção de abastecimento.");
+        }
+
+        const replacementKm =
+            await calculateFuelReplacementPreview();
+
+        if (requestId !== previewRequestId) return;
+
+        const replacementDifference = replacementKm - originalKm;
+
+        distances.children[1].children[0].textContent =
+            "⛽ ROTA COM A OPÇÃO ESCOLHIDA";
+
+        newDistanceValue.textContent =
+            formatKm(replacementKm) + " km";
+
+        detourDistance.textContent =
+            (replacementDifference > 0
+                ? "↗ DESVIO ADICIONAL: +"
+                : replacementDifference < 0
+                    ? "↘ ROTA MAIS CURTA: -"
+                    : "↔ SEM ALTERAÇÃO: ") +
+            formatKm(Math.abs(replacementDifference)) + " km";
+
+        detourStatus.textContent =
+            replacementDifference > 5
+                ? "🔴 DESVIO ELEVADO"
+                : replacementDifference > 2
+                    ? "🟠 DESVIO MODERADO"
+                    : replacementDifference > 0
+                        ? "🟢 DESVIO MÍNIMO"
+                        : replacementDifference < 0
+                            ? "🟢 ROTA MAIS CURTA"
+                            : "ℹ️ DISTÂNCIA IGUAL";
+
+        const isBetter = replacementDifference <= 0;
+
+        detour.style.background =
+            isBetter ? "#14291d" : "#302014";
+        detour.style.borderColor =
+            isBetter ? "#22c55e" : "#ff7900";
+        detour.style.color =
+            isBetter ? "#4ade80" : "#ff941c";
+
+        previewNotice.textContent =
+            "ℹ️ Distância calculada por estrada para a opção " +
+            "selecionada. A rota será verificada novamente " +
+            "antes de guardar.";
+
+        saveButton.disabled = false;
+        saveButton.textContent = "💾 GUARDAR";
+
+    } catch (error) {
+        if (requestId !== previewRequestId) return;
+
+        newDistanceValue.textContent = "Indisponível";
+        detourDistance.textContent = "⚠️ Cálculo indisponível";
+        detourStatus.textContent = error.message;
+
+        previewNotice.textContent =
+            "Não é possível confirmar sem calcular a rota.";
+
+        saveButton.disabled = true;
+        saveButton.textContent = "💾 GUARDAR";
+    }
+};
+
+fuelReplacementSelect.addEventListener(
+    "change",
+    updateFuelReplacementPreview
+);
+
+updateFuelReplacementPreview();
+        
 });
 
    const saveConfirmed = await confirmFuelSave(
