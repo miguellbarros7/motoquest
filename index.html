@@ -20479,6 +20479,139 @@ label[for="routeTripTime"] {
     background: rgba(239, 68, 68, 0.2);
 }
 
+
+/* MOTOQUEST — MELHORIAS ADMIN PREMIUM */
+
+#adminImprovementsPanel > .admin-form {
+    background: #17191e;
+    border: 1px solid #30343c;
+    border-radius: 18px;
+    padding: 20px;
+    margin-bottom: 18px;
+}
+
+#adminImprovementsPanel > .admin-form h3 {
+    color: #fff;
+    font-size: 19px;
+    font-weight: 800;
+}
+
+#adminImprovementsPanel .mq-admin-stats {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    margin: 18px 0;
+}
+
+#adminImprovementsPanel .mq-admin-stat {
+    background: #17191e;
+    border: 1px solid #30343c;
+    border-radius: 16px;
+    padding: 18px 10px;
+    text-align: center;
+}
+
+#adminImprovementsPanel .mq-admin-stat strong {
+    color: #ff9b4a;
+    font-size: 30px;
+    font-weight: 800;
+}
+
+#adminImprovementsPanel .mq-admin-stat small {
+    color: #b9bdc5;
+    font-size: 12px;
+}
+
+#adminImprovementsPanel > .field label {
+    color: #b9bdc5;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+#adminImprovementsPanel #adminSuggestionFilter {
+    width: 100%;
+    box-sizing: border-box;
+    background: #101115;
+    color: #f5f5f5;
+    border: 1px solid #343840;
+    border-radius: 11px;
+    padding: 12px 14px;
+    min-height: 46px;
+}
+
+#adminImprovementsPanel #adminSuggestionFilter:focus {
+    outline: none;
+    border-color: #ff8a32;
+    box-shadow: 0 0 0 3px rgba(255,138,50,.12);
+}
+
+#adminImprovementsList {
+    display: grid;
+    gap: 12px;
+}
+
+#adminImprovementsList .admin-item,
+#adminImprovementsList .mq-admin-suggestion {
+    background: #17191e;
+    border: 1px solid #30343c;
+    border-radius: 16px;
+    padding: 18px;
+    margin: 0;
+    transition: border-color .2s ease;
+}
+
+#adminImprovementsList .admin-item:hover,
+#adminImprovementsList .mq-admin-suggestion:hover {
+    border-color: #ff8a32;
+}
+
+#adminImprovementsList h3,
+#adminImprovementsList .admin-item-title {
+    color: #fff;
+    font-size: 15px;
+    font-weight: 800;
+}
+
+#adminImprovementsList select {
+    background: #29221d;
+    color: #ff9b4a;
+    border: 1px solid #80502d;
+    border-radius: 10px;
+    padding: 10px 12px;
+    font-size: 12px;
+    font-weight: 700;
+    max-width: 100%;
+}
+
+#adminImprovementsList select:focus {
+    outline: none;
+    border-color: #ff8a32;
+}
+
+@media (max-width: 650px) {
+    #adminImprovementsPanel > .admin-form {
+        padding: 16px;
+    }
+
+    #adminImprovementsPanel .mq-admin-stats {
+        gap: 8px;
+    }
+
+    #adminImprovementsPanel .mq-admin-stat {
+        padding: 14px 6px;
+    }
+
+    #adminImprovementsPanel .mq-admin-stat strong {
+        font-size: 24px;
+    }
+
+    #adminImprovementsList .admin-item,
+    #adminImprovementsList .mq-admin-suggestion {
+        padding: 14px;
+    }
+}
+
+    
 /* MOTOQUEST — EDITAR SUGESTÃO PREMIUM */
 
 #suggestionEditModal {
