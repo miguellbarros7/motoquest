@@ -18719,88 +18719,159 @@ async function deleteSuggestionPhoto(
     }
 }
                 
+
+/* CONFIRMAÇÃO PREMIUM MOTOQUEST */
+function confirmRejectSuggestionMQ() {
+    return new Promise(resolve => {
+        const overlay = document.createElement("div");
+
+        overlay.style.cssText = `
+            position:fixed;
+            inset:0;
+            z-index:100000;
+            background:rgba(0,0,0,.85);
+            backdrop-filter:blur(7px);
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            padding:20px;
+        `;
+
+        overlay.innerHTML = `
+            <div role="alertdialog"
+                 aria-modal="true"
+                 aria-labelledby="mqRejectTitle"
+                 style="
+                    width:min(100%,420px);
+                    background:#191a20;
+                    border:1px solid #ff8000;
+                    border-radius:20px;
+                    padding:24px;
+                    box-shadow:0 24px 80px #000a;
+                    color:#fff;
+                 ">
+                <h3 id="mqRejectTitle"
+                    style="color:#ff9000;margin:0 0 12px;">
+                    ⚠️ Rejeitar sugestão?
+                </h3>
+
+                <p style="color:#ccc;line-height:1.6;">
+                    Tens a certeza de que queres rejeitar
+                    esta sugestão de local?
+                </p>
+
+                <div style="
+                    display:flex;
+                    gap:10px;
+                    justify-content:flex-end;
+                    flex-wrap:wrap;
+                    margin-top:22px;
+                ">
+                    <button type="button"
+                            data-action="cancel"
+                            class="secondary-btn">
+                        Cancelar
+                    </button>
+
+                    <button type="button"
+                            data-action="reject"
+                            style="
+                                background:#b4232e;
+                                color:white;
+                                border:0;
+                                border-radius:10px;
+                                padding:12px 18px;
+                                font-weight:800;
+                                cursor:pointer;
+                            ">
+                        Rejeitar sugestão
+                    </button>
+                </div>
+            </div>
+        `;
+
+        let finished = false;
+
+        function finish(confirmed) {
+            if (finished) return;
+            finished = true;
+            document.removeEventListener("keydown", onKey);
+            overlay.remove();
+            resolve(confirmed);
+        }
+
+        function onKey(event) {
+            if (event.key === "Escape") finish(false);
+        }
+
+        overlay.querySelector('[data-action="cancel"]')
+            .addEventListener("click", () => finish(false));
+
+        overlay.querySelector('[data-action="reject"]')
+            .addEventListener("click", () => finish(true));
+
+        overlay.addEventListener("click", event => {
+            if (event.target === overlay) finish(false);
+        });
+
+        document.addEventListener("keydown", onKey);
+        document.body.appendChild(overlay);
+
+        overlay.querySelector('[data-action="cancel"]').focus();
+    });
+}
+
+
+/* REJEITAR SUGESTÃO */
 async function updateSuggestionStatus(
     suggestionId,
     status
 ) {
-    if (!isAdmin()) return;
+    if (!isAdmin() || status !== "rejeitada") return;
 
-    if (status === "rejeitada") {
+    const confirmed = await confirmRejectSuggestionMQ();
+    if (!confirmed) return;
 
-        if (
-            !confirm(
-                "Queres rejeitar esta sugestão?"
-            )
-        ) {
+    try {
+        const { data, error } = await supabaseClient
+            .from("suggestions")
+            .update({ status: "rejeitada" })
+            .eq("id", suggestionId)
+            .eq("status", "pendente")
+            .select("id")
+            .maybeSingle();
+
+        if (error) throw error;
+
+        if (!data) {
+            alert(
+                "A sugestão já não está pendente ou não foi possível rejeitá-la."
+            );
+            await loadAdminSuggestions();
             return;
         }
 
         try {
-
-            /* 1. Rejeitar a sugestão */
-
-            const {
-                error: statusError
-            } =
-                await supabaseClient
-                    .from("suggestions")
-                    .update({
-                        status: "rejeitada"
-                    })
-                    .eq(
-                        "id",
-                        suggestionId
-                    )
-                    .eq(
-                        "status",
-                        "pendente"
-                    );
-
-            if (statusError) {
-                throw statusError;
-            }
-
-
-            /* 2. Só depois de rejeitar
-               com sucesso, apagar a foto */
-
-            try {
-
-                await deleteSuggestionPhoto(
-                    suggestionId
-                );
-
-            } catch (deleteError) {
-
-                console.error(
-                    "Sugestão rejeitada, mas a fotografia não foi apagada:",
-                    deleteError
-                );
-
-                alert(
-                    "A sugestão foi rejeitada, mas não foi possível apagar a fotografia."
-                );
-            }
-
-
-            /* 3. Atualizar lista */
-
-            await loadAdminSuggestions();
-
-        } catch (error) {
-
+            await deleteSuggestionPhoto(suggestionId);
+        } catch (photoError) {
             console.error(
-                "ERRO AO REJEITAR SUGESTÃO:",
-                error
-            );
-
-            alert(
-                error.message ||
-                "Não foi possível rejeitar a sugestão."
+                "Sugestão rejeitada, mas falhou a limpeza da fotografia:",
+                photoError
             );
         }
+
+        await loadAdminSuggestions();
+
+    } catch (error) {
+        console.error("Erro ao rejeitar sugestão:", error);
+
+        alert(
+            error.message ||
+            "Não foi possível rejeitar a sugestão."
+        );
     }
 }
+
     
 async function loadAdminUsers() {
 
