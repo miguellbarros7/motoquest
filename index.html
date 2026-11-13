@@ -10572,10 +10572,17 @@ fuelReplacementOptions.forEach(option => {
 });  
 
 
- // Mantém a bomba existente por defeito
-if (fuelReplacementOptions.length === 1) {
+
+const suggestedReplacementIndex = existingFuelStops.indexOf(
+    suggestedFuelToReplace
+);
+
+if (suggestedReplacementIndex >= 0) {
+    fuelReplacementSelect.value = String(suggestedReplacementIndex);
+} else if (fuelReplacementOptions.length === 1) {
     fuelReplacementSelect.value = "keep";
 }
+
 
 
 
