@@ -5977,22 +5977,7 @@ if (fuelReviewNeeded) {
     
  
 
-const editFuelBtn = document.createElement("button");
-editFuelBtn.type = "button";
-editFuelBtn.textContent = "⛽ EDITAR ABASTECIMENTOS";
 
-editFuelBtn.style.cssText =
-    "display:block;margin-top:10px;padding:8px 12px;" +
-    "background:#ff7900;color:#111;border:none;" +
-    "border-radius:7px;font-size:11px;font-weight:800;" +
-    "cursor:pointer;";
-
-editFuelBtn.onclick = event => {
-    event.stopPropagation();
-    alert("Guarda primeiro a nova ordem para recalcular a rota.");
-};
-
-fuelWarning.appendChild(editFuelBtn);
 stopsPanel.appendChild(fuelWarning);
 
 }
