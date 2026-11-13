@@ -7698,6 +7698,8 @@ editBtn.onclick = async () => {
 
     if (!name) {
         alert("O nome da rota não pode ficar vazio.");
+        approveButton.disabled = false;
+approveButton.textContent = "Aprovar local";
         return;
     }
 
