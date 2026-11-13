@@ -18585,6 +18585,104 @@ function showMQAlert(message, type = "info") {
 }
 
 
+function confirmMQ(message, title = "Confirmar operação") {
+    return new Promise(resolve => {
+        const overlay = document.createElement("div");
+
+        overlay.style.cssText = `
+            position:fixed;
+            inset:0;
+            z-index:100001;
+            background:rgba(0,0,0,.85);
+            backdrop-filter:blur(7px);
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            padding:20px;
+        `;
+
+        const dialog = document.createElement("div");
+
+        dialog.setAttribute("role", "alertdialog");
+        dialog.setAttribute("aria-modal", "true");
+
+        dialog.style.cssText = `
+            width:min(100%,420px);
+            background:#191a20;
+            border:1px solid #ff8000;
+            border-radius:20px;
+            padding:24px;
+            box-shadow:0 24px 80px #000a;
+            color:#fff;
+        `;
+
+        const heading = document.createElement("h3");
+        heading.textContent = "⚠️ " + title;
+        heading.style.cssText =
+            "color:#ff9000;margin:0 0 12px;";
+
+        const description = document.createElement("p");
+        description.textContent = message;
+        description.style.cssText =
+            "color:#ccc;line-height:1.6;white-space:pre-line;";
+
+        const actions = document.createElement("div");
+        actions.style.cssText = `
+            display:flex;
+            gap:10px;
+            justify-content:flex-end;
+            flex-wrap:wrap;
+            margin-top:22px;
+        `;
+
+        const cancel = document.createElement("button");
+        cancel.type = "button";
+        cancel.className = "secondary-btn";
+        cancel.textContent = "Cancelar";
+
+        const confirm = document.createElement("button");
+        confirm.type = "button";
+        confirm.textContent = "Confirmar";
+        confirm.style.cssText = `
+            background:#ff8000;
+            color:#111;
+            border:0;
+            border-radius:10px;
+            padding:12px 18px;
+            font-weight:800;
+            cursor:pointer;
+        `;
+
+        actions.append(cancel, confirm);
+        dialog.append(heading, description, actions);
+        overlay.appendChild(dialog);
+
+        let finished = false;
+
+        function finish(result) {
+            if (finished) return;
+            finished = true;
+            document.removeEventListener("keydown", onKey);
+            overlay.remove();
+            resolve(result);
+        }
+
+        function onKey(event) {
+            if (event.key === "Escape") finish(false);
+        }
+
+        cancel.addEventListener("click", () => finish(false));
+        confirm.addEventListener("click", () => finish(true));
+
+        overlay.addEventListener("click", event => {
+            if (event.target === overlay) finish(false);
+        });
+
+        document.addEventListener("keydown", onKey);
+        document.body.appendChild(overlay);
+        cancel.focus();
+    });
+}
 /* CONFIRMAÇÃO PREMIUM MOTOQUEST */
 function confirmRejectSuggestionMQ() {
     return new Promise(resolve => {
