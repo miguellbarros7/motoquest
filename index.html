@@ -13462,7 +13462,11 @@ function openRewardModal(reward) {
     $("rewardModalMessage").textContent = "";
     
 
-$("rewardSuccessPanel").classList.add("hidden");
+
+$("cancelRewardBtn").classList.remove("hidden");
+$("confirmRewardBtn").style.flex = "2";
+
+    
 $("rewardSuccessCode").textContent = "";
 
 $("rewardModalPoints")
