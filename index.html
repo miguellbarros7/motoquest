@@ -17316,10 +17316,12 @@ async function deleteLocation(location) {
 
     if (!location || !isAdmin()) return;
 
-    const confirmed =
-        confirm(
-            `Apagar o local "${location.name}"?`
-        );
+    
+const confirmed = await confirmMQ(
+    `Tens a certeza de que queres apagar o local "${location.name}"?\n\nEsta ação não pode ser anulada.`,
+    "Apagar local?"
+);
+
 
     if (!confirmed) return;
 
