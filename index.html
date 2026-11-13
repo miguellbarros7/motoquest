@@ -17673,10 +17673,12 @@ async function deleteReward(reward) {
 
     if (!reward || !isAdmin()) return;
 
-    const confirmed =
-        confirm(
-            `Apagar a recompensa "${reward.name}"?`
-        );
+  
+const confirmed = await confirmMQ(
+    `Tens a certeza de que queres apagar a recompensa "${reward.name}"?\n\nEsta ação não pode ser anulada.`,
+    "Apagar recompensa?"
+);
+
 
     if (!confirmed) return;
 
