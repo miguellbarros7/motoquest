@@ -18625,20 +18625,26 @@ if (suggestionUser?.user_id) {
                     "Local aprovado e adicionado ao MotoQuest!"
                 );
 
-            } catch (error) {
+          
+} catch (error) {
 
-                console.error(
-                    "ERRO AO APROVAR LOCAL:",
-                    error
-                );
+    console.error(
+        "ERRO AO APROVAR LOCAL:",
+        error
+    );
 
-                showMessage(
-                    "editSuggestionMessage",
-                    error.message ||
-                    "Não foi possível aprovar o local.",
-                    "error"
-                );
-            }
+    showMessage(
+        "editSuggestionMessage",
+        error.message ||
+        "Não foi possível aprovar o local.",
+        "error"
+    );
+
+} finally {
+    approveButton.disabled = false;
+    approveButton.textContent = "Aprovar local";
+}
+
         }
     );
 
