@@ -9407,24 +9407,7 @@ stationsWithRoadDistance
         gap:12px;
     `;
 
- // Distância real pela rede rodoviária
-let distanceKm;
-
-try {
-    distanceKm = await getRoadDistanceKm(
-        searchLatitude,
-        searchLongitude,
-        station.latitude,
-        station.longitude
-    );
-} catch (error) {
-    console.error(
-        "MotoQuest — erro na distância por estrada:",
-        station.name,
-        error
-    );
-    return;
-}
+const distanceKm = station.roadDistanceKm;
 // Limite para substituir uma bomba por outra na mesma rota
 const FUEL_REPLACEMENT_RADIUS_KM = 5;    
 
