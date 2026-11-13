@@ -567,8 +567,16 @@ if (sharedRouteData) {
             justify-content: space-between;
             gap: 12px;
         }
+/* Efeito hover — Sugerir Local */
+#suggestHomeBtn {
+    transition: border-color 0.25s ease,
+                box-shadow 0.25s ease;
+}
 
-        .suggest-bar strong {
+#suggestHomeBtn:hover {
+    border-color: #ff7900 !important;
+    box-shadow: 0 0 16px rgba(255, 106, 0, 0.35);
+}        .suggest-bar strong {
             font-size: 14px;
         }
 
