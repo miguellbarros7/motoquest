@@ -9570,6 +9570,11 @@ if (
 const fuelNeedsAttention =
     savedFuelStopsForReview.length > 0 &&
     fuelStopsOutsideSafeRange.length > 0;
+		
+const fuelNeedsNewStop =
+    km > fuelSafetyLimitKm &&
+    savedFuelStopsForReview.length === 0;
+
 
         
 card.dataset.fuelNeedsAttention = String(fuelNeedsAttention);
