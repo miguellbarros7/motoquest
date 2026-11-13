@@ -12002,13 +12002,14 @@ statusSelect.addEventListener("change", async () => {
     await loadAdminImprovements();
 });
 
+
 card.append(
     title,
     type,
     description,
-    statusLabel,
-    statusSelect
+    statusContainer
 );
+
 
         list.appendChild(card);
     });
