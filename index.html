@@ -9860,8 +9860,11 @@ detour.append(detourDistance, detourStatus);
 
         const previewNotice = document.createElement("p");
 previewNotice.textContent =
-    "ℹ️ Pré-visualização com todas as bombas. " +
-    "A distância definitiva será recalculada após a tua escolha.";
+ 
+"ℹ️ Este cálculo inclui a nova bomba e as bombas já guardadas. " +
+"Não representa a substituição selecionada. " +
+"A rota final será recalculada antes da confirmação definitiva.";
+
 previewNotice.style.cssText = `
     color:#aaa;
     font-size:11px;
