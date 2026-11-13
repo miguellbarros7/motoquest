@@ -16797,7 +16797,9 @@ async function loadAdminLocations() {
     $("adminLocationsList").innerHTML =
         list.length
             ? list.map(location => `
-                <div class="admin-item">
+              
+<div class="admin-item" data-role="${user.is_admin ? 'admin' : 'user'}">
+
 
                     <div class="admin-item-main">
 
