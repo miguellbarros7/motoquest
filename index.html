@@ -18678,15 +18678,19 @@ heading.style.cssText = `
         const confirm = document.createElement("button");
         confirm.type = "button";
         confirm.textContent = "Confirmar";
-        confirm.style.cssText = `
-            background:#ff8000;
-            color:#111;
-            border:0;
-            border-radius:10px;
-            padding:12px 18px;
-            font-weight:800;
-            cursor:pointer;
-        `;
+       
+confirm.style.cssText = `
+    background:linear-gradient(135deg,#ff9800,#ff7300);
+    color:#111;
+    border:1px solid #ffac33;
+    border-radius:14px;
+    padding:13px 22px;
+    font-size:15px;
+    font-weight:900;
+    cursor:pointer;
+    box-shadow:0 5px 18px rgba(255,128,0,.22);
+`;
+
 
         actions.append(cancel, confirm);
         dialog.append(heading, description, actions);
