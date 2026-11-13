@@ -18678,13 +18678,19 @@ async function loadAdminUsers() {
 
                 <div class="admin-item">
 
-                    <div class="admin-item-main">
+                    
+<div class="admin-item-main">
 
-                        <div class="admin-item-title">
-                            ${escapeHtml(
-                                user.name || "Sem nome"
-                            )}
-                        </div>
+    <div class="admin-user-avatar">
+        ${escapeHtml((user.name || "?").trim().charAt(0).toUpperCase())}
+    </div>
+
+    <div class="admin-item-title">
+        ${escapeHtml(
+            user.name || "Sem nome"
+        )}
+    </div>
+
 
                         <div class="admin-item-meta">
                             ${user.is_admin
