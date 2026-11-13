@@ -10610,6 +10610,22 @@ const calculateFuelReplacementPreview = async () => {
 
     const replacementRouteStops = [...ordered];
 
+	
+const replacementFuelStops = [...previewFuelStops]
+    .sort((a, b) =>
+        Number(b.insertion_index) - Number(a.insertion_index)
+    );
+
+const replacementFuelStopNames = replacementFuelStops.map(
+    fuel => fuel.name
+);
+
+console.log(
+    "MotoQuest — bombas consideradas na nova rota:",
+    replacementFuelStopNames
+);
+
+
     [...previewFuelStops]
         .sort((a, b) =>
             Number(b.insertion_index) - Number(a.insertion_index)
