@@ -18618,15 +18618,19 @@ function confirmMQ(message, title = "Confirmar operação") {
         dialog.setAttribute("role", "alertdialog");
         dialog.setAttribute("aria-modal", "true");
 
-        dialog.style.cssText = `
-            width:min(100%,420px);
-            background:#191a20;
-            border:1px solid #ff8000;
-            border-radius:20px;
-            padding:24px;
-            box-shadow:0 24px 80px #000a;
-            color:#fff;
-        `;
+      
+dialog.style.cssText = `
+    width:min(100%,480px);
+    background:linear-gradient(145deg,#191a20,#101115);
+    border:2px solid #ff8000;
+    border-radius:24px;
+    padding:28px;
+    box-shadow:
+        0 24px 80px rgba(0,0,0,.75),
+        0 0 24px rgba(255,128,0,.15);
+    color:#fff;
+`;
+
 
         const heading = document.createElement("h3");
         heading.textContent = "⚠️ " + title;
