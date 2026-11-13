@@ -7191,7 +7191,8 @@ actionsRow.appendChild(shareOptions);
 const summaryBtn = document.createElement("button");
 summaryBtn.type = "button";
 summaryBtn.className = "primary-btn";
-summaryBtn.textContent = "📊 RESUMO DA ROTA";
+        summaryBtn.classList.add("mq-route-summary-btn");
+        summaryBtn.textContent = "📊 RESUMO DA ROTA";
 
 summaryBtn.style.cssText =
     "width:auto;margin:0;padding:8px 11px;" +
