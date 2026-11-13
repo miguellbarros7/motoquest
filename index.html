@@ -9615,6 +9615,15 @@ fuelOptimizationNotice.style.display =
         ? "block"
         : "none";
 
+		
+if (dispensableFuelStops.length > 0) {
+    const dispensableFuel = dispensableFuelStops[0].fuel;
+
+    fuelOptimizationNotice.textContent =
+        `💡 O abastecimento em ${dispensableFuel.name} pode ser dispensado sem ultrapassar a autonomia de segurança.`;
+}
+
+
 
 
 const fuelStopsOutsideSafeRange =
