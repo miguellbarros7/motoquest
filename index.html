@@ -9593,7 +9593,13 @@ const fuelNeedsNewStop =
 
 
 
-card.dataset.fuelNeedsAttention = String(fuelNeedsAttention);
+
+card.dataset.fuelNeedsAttention = String(
+    fuelNeedsAttention || fuelNeedsNewStop
+);
+
+
+		
 card.dataset.fuelAlertType = fuelNeedsNewStop
     ? "add"
     : fuelNeedsAttention
