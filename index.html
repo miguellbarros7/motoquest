@@ -12003,12 +12003,25 @@ statusSelect.addEventListener("change", async () => {
 });
 
 
-card.append(
-    title,
-    type,
-    description,
-    statusContainer
-);
+
+const cardInfo = document.createElement("div");
+cardInfo.style.flex = "1";
+cardInfo.style.minWidth = "0";
+
+cardInfo.append(title, type, description);
+
+card.style.display = "flex";
+card.style.alignItems = "center";
+card.style.justifyContent = "space-between";
+card.style.gap = "20px";
+card.style.flexWrap = "wrap";
+
+statusContainer.style.marginLeft = "auto";
+statusContainer.style.flexShrink = "0";
+
+statusLabel.style.marginTop = "0";
+
+card.append(cardInfo, statusContainer);
 
 
         list.appendChild(card);
