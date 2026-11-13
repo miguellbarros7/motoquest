@@ -16298,10 +16298,11 @@ const concelho =
     address.village ||
     "Não identificado";
 
-const distrito =
+const distrito = (
     address.state_district ||
     address.county ||
-    "Não identificado";
+    "Não identificado"
+).replace(/^distrito\s+de\s+/i, "").trim();
 
         
 if (concelho !== "Não identificado") {
