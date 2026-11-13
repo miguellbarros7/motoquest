@@ -6918,11 +6918,7 @@ if (!replacementResponse.ok) {
 }
 
 const replacementResult = await replacementResponse.json();
-const replacementRoute = replacementResult.routes?.[0];
 
-if (replacementResult.code !== "Ok" || !replacementRoute) {
-    throw new Error("O serviço não devolveu uma rota válida.");
-}
     // Acrescentar o ponto de encontro antes das paragens originais
    if (googleMeetingAddress) {
     const isCoordinates =
