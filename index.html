@@ -16964,36 +16964,23 @@ $("locationDistrict").value = distritoIdentificado;
     $("locationUploadPreview")
         .classList.add("hidden");
 
-    selectedLocationPhoto =
-        location.image_url
-            ? {
-                src: {
-                    medium: location.image_url
-                },
-                photographer:
-                    location.image_photographer ||
-                    location.image_credit ||
-                    "Pexels",
-                photographer_url:
-                    location.image_photographer_url ||
-                    "https://www.pexels.com/",
-                alt:
-                    location.name
-            }
-            : null;
+    
+selectedLocationPhoto = null;
 
-    if (selectedLocationPhoto) {
+if (location.image_url) {
+    $("locationUploadPreviewImg").src =
+        location.image_url;
 
-        showSelectedPhoto(
-            selectedLocationPhoto,
-            "location"
-        );
+    $("locationUploadPreviewTitle").textContent =
+        "Fotografia atual do local";
 
-    } else {
+    $("locationUploadPreviewInfo").textContent =
+        "Escolhe outra fotografia para a substituir.";
 
-        $("selectedLocationPhoto")
-            .classList.add("hidden");
-    }
+    $("locationUploadPreview")
+        .classList.remove("hidden");
+}
+
 
     window.scrollTo({
         top: 0,
