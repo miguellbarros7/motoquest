@@ -12776,12 +12776,115 @@ container.querySelectorAll(".mq-hide-redemption-btn").forEach(button => {
  
     const redemptionId = button.dataset.redemptionId;
 
-        const confirmed = confirm(
-            "🗑️ Queres retirar esta recompensa do histórico?\n\n" +
-            "Os pontos não serão devolvidos e o código continuará registado."
-        );
+       const confirmed = await new Promise(resolve => {
+    const overlay = document.createElement("div");
 
-        if (!confirmed) return;
+    overlay.style.cssText = `
+        position:fixed;
+        inset:0;
+        z-index:99999;
+        background:rgba(0,0,0,.82);
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        padding:20px;
+        box-sizing:border-box;
+    `;
+
+    overlay.innerHTML = `
+        <div role="dialog" aria-modal="true"
+            aria-label="Confirmar remoção de recompensa"
+            style="
+                width:100%;
+                max-width:370px;
+                background:#191919;
+                border:1px solid #383838;
+                border-radius:18px;
+                padding:28px 22px;
+                text-align:center;
+                box-shadow:0 20px 60px #000a;
+            ">
+
+            <div style="font-size:36px;margin-bottom:14px;">🗑️</div>
+
+            <div style="
+                color:#fff;
+                font-size:21px;
+                font-weight:900;
+                margin-bottom:12px;
+            ">
+                Apagar recompensa?
+            </div>
+
+            <p style="
+                color:#aaa;
+                font-size:14px;
+                line-height:1.7;
+                margin-bottom:22px;
+            ">
+                Queres retirar esta recompensa do teu histórico?
+                <strong style="color:#fff;">
+                    Os pontos não serão devolvidos.
+                </strong>
+                O código continuará registado.
+            </p>
+
+            <div style="display:flex;gap:10px;">
+                <button type="button" data-action="cancel"
+                    style="
+                        flex:1;
+                        padding:13px 8px;
+                        background:#303030;
+                        color:#fff;
+                        border:1px solid #484848;
+                        border-radius:10px;
+                        font-weight:800;
+                        cursor:pointer;
+                    ">
+                    CANCELAR
+                </button>
+
+                <button type="button" data-action="confirm"
+                    style="
+                        flex:1;
+                        padding:13px 8px;
+                        background:#ff6a00;
+                        color:#111;
+                        border:0;
+                        border-radius:10px;
+                        font-weight:900;
+                        cursor:pointer;
+                    ">
+                    CONFIRMAR
+                </button>
+            </div>
+        </div>
+    `;
+
+    document.body.appendChild(overlay);
+
+    const finish = value => {
+        document.removeEventListener("keydown", onKeyDown);
+        overlay.remove();
+        resolve(value);
+    };
+
+    const onKeyDown = event => {
+        if (event.key === "Escape") finish(false);
+    };
+
+    document.addEventListener("keydown", onKeyDown);
+
+    overlay.querySelector('[data-action="cancel"]').onclick =
+        () => finish(false);
+
+    overlay.querySelector('[data-action="confirm"]').onclick =
+        () => finish(true);
+
+    overlay.querySelector('[data-action="cancel"]').focus();
+});
+
+if (!confirmed) return;
 
         button.disabled = true;
         button.textContent = "A apagar...";
