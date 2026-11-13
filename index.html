@@ -18322,16 +18322,19 @@ approveButton.textContent = "A aprovar...";
                         .value
                         .trim();
 
-                if (!name) {
+             
+if (!name) {
+    showMessage(
+        "editSuggestionMessage",
+        "Indica o nome do local.",
+        "error"
+    );
 
-                    showMessage(
-                        "editSuggestionMessage",
-                        "Indica o nome do local.",
-                        "error"
-                    );
+    approveButton.disabled = false;
+    approveButton.textContent = "Aprovar local";
+    return;
+}
 
-                    return;
-                }
 
                 /* 2. Guardar referência da foto
                    enviada pelo utilizador */
