@@ -10387,25 +10387,6 @@ routeActionButtons.insertBefore(summaryBtn, arrow);
         
 const editFuelBtn = document.createElement("button");
 editFuelBtn.type = "button";
-editFuelBtn.textContent = "⛽ EDITAR ABASTECIMENTOS";
-
-editFuelBtn.style.cssText =
-    "padding:8px 11px;background:#ff7900;color:#111;" +
-    "border:none;border-radius:8px;font-size:10px;" +
-    "font-weight:800;cursor:pointer;";
-
-editFuelBtn.onclick = async event => {
-    event.stopPropagation();
-
-    if (summaryPanel.classList.contains("hidden")) {
-        await summaryBtn.onclick();
-    }
-
-    const planner = summaryPanel.querySelector("#mq-fuel-planner");
-    if (planner) {
-        planner.scrollIntoView({ behavior: "smooth", block: "start" });
-    }
-};
 
 routeActionButtons.insertBefore(editFuelBtn, arrow);
 
