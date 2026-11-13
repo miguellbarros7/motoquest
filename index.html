@@ -16800,74 +16800,62 @@ async function loadAdminLocations() {
         list.length
             ? list.map(location => `
               
-<div class="admin-item" data-role="${user.is_admin ? 'admin' : 'user'}">
 
+<div class="admin-item">
 
-                 
-<div class="admin-item-main">
+    <div class="admin-item-main">
 
-    <div style="display:flex;align-items:center;gap:12px;">
+        <div style="display:flex;align-items:center;gap:12px;">
 
-        <img
-            src="${escapeHtml(reward.image_url || FALLBACK_IMAGE)}"
-            alt="${escapeHtml(reward.name || 'Recompensa')}"
-            loading="lazy"
-            style="width:50px;height:50px;object-fit:cover;border-radius:10px;flex-shrink:0;"
-        >
+            <img
+                src="${escapeHtml(location.image_url || FALLBACK_IMAGE)}"
+                alt="${escapeHtml(location.name || 'Local')}"
+                loading="lazy"
+                style="width:50px;height:50px;object-fit:cover;border-radius:10px;flex-shrink:0;"
+            >
 
-        <div class="admin-item-title" style="margin-bottom:0;">
-            ${escapeHtml(reward.name)}
+            <div class="admin-item-title" style="margin-bottom:0;">
+                ${escapeHtml(location.name || "Local")}
+            </div>
+
+        </div>
+
+        <div class="admin-reward-details">
+            <span class="admin-reward-category">
+                📍 ${escapeHtml(location.localidade || location.locality || "-")}
+            </span>
+
+            <span class="admin-reward-category">
+                🏷️ ${escapeHtml(getTypeLabel(location.type))}
+            </span>
+
+            <span class="admin-reward-points">
+                🪙 ${Number(location.points || 0)} pontos
+            </span>
         </div>
 
     </div>
 
+    <div class="admin-item-actions admin-reward-actions">
 
-                        <div class="admin-item-meta">
-                            ${escapeHtml(
-                                location.localidade || "-"
-                            )}
-                            ·
-                            ${escapeHtml(
-                                getTypeLabel(location.type)
-                            )}
-                            ·
-                            ${Number(location.points || 0)} pts
-                        </div>
+        <button
+            class="small-btn edit-location-btn"
+            data-id="${location.id}"
+        >
+            Editar
+        </button>
 
-                    </div>
+        <button
+            class="small-btn delete delete-location-btn"
+            data-id="${location.id}"
+        >
+            Apagar
+        </button>
 
+    </div>
 
-<button
-    type="button"
-    class="small-btn edit-admin-user-btn"
-    data-id="${user.id}"
->
-    ✏️ Editar
-</button>
+</div>
 
-                  
-
-<div class="admin-item-actions admin-reward-actions">
-
-
-
-                        <button
-                            class="small-btn edit-location-btn"
-                            data-id="${location.id}"
-                        >
-                            Editar
-                        </button>
-
-                        <button
-                            class="small-btn delete delete-location-btn"
-                            data-id="${location.id}"
-                        >
-                            Apagar
-                        </button>
-
-                    </div>
-
-                </div>
             `).join("")
             : `<div class="empty">
                 Ainda não existem locais.
