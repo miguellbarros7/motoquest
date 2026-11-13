@@ -11510,6 +11510,22 @@ $("settingAboutBtn").addEventListener("click", () => {
     );
 });
 
+/* ALTERAR PALAVRA-PASSE PELAS DEFINIÇÕES */
+
+$("settingPasswordBtn").addEventListener("click", () => {
+    showSection("profile");
+
+    const changePasswordBtn = $("changePasswordBtn");
+
+    if (changePasswordBtn) {
+        changePasswordBtn.scrollIntoView({
+            behavior: "smooth",
+            block: "center"
+        });
+
+        changePasswordBtn.click();
+    }
+});
     
 /* ABRIR DEFINIÇÕES PELO MENU */
 
