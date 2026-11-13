@@ -9590,11 +9590,13 @@ const showFuelAlertAfterSave =
     card.dataset.fuelCheckAfterSave === "true";
 delete card.dataset.fuelCheckAfterSave;
 
+
 if (
     showFuelAlertAfterSave &&
-    fuelNeedsAttention &&
+    (fuelNeedsAttention || fuelNeedsNewStop) &&
     !card.dataset.fuelAlertShown
 ) {
+
     card.dataset.fuelAlertShown = "true";
     const fuelAlert = document.createElement("div");
 
