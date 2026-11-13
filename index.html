@@ -18634,8 +18634,16 @@ dialog.style.cssText = `
 
         const heading = document.createElement("h3");
         heading.textContent = "⚠️ " + title;
-        heading.style.cssText =
-            "color:#ff9000;margin:0 0 12px;";
+       
+heading.style.cssText = `
+    color:#ff9000;
+    font-size:26px;
+    font-weight:900;
+    line-height:1.2;
+    margin:0 0 18px;
+    letter-spacing:-.5px;
+`;
+
 
         const description = document.createElement("p");
         description.textContent = message;
