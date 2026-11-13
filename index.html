@@ -5289,6 +5289,7 @@ const container = $("myRoutesList");
 
     data.forEach(route => {
         const card = document.createElement("div");
+        card.dataset.routeId = String(route.id);
       
 card.style.cssText =
     "background:linear-gradient(145deg,#1c1c1c,#0d0d0d);" +
