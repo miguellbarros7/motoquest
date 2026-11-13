@@ -16710,15 +16710,12 @@ $("locationImageFile")
                 return;
             }
 
-            selectedLocationImageFile = file;
+           selectedLocationImageFile = file;
 
-            selectedLocationPhoto = null;
+selectedLocationPhoto = null;
 
-            $("selectedLocationPhoto")
-                .classList.add("hidden");
-
-            const previewUrl =
-                URL.createObjectURL(file);
+const previewUrl =
+    URL.createObjectURL(file);
 
             $("locationUploadPreviewImg").src =
                 previewUrl;
