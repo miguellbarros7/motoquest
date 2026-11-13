@@ -21982,6 +21982,29 @@ label[for="routeTripTime"] {
     order: 3;
 }
 
+/* MOTOQUEST — BOTOES CIRCULARES DAS ROTAS */
+@media (max-width: 600px) {
+    .mq-route-circle-controls {
+        flex-direction: column !important;
+        align-items: center !important;
+        gap: 10px !important;
+    }
+
+    .mq-route-circle-controls > button {
+        width: 44px !important;
+        height: 44px !important;
+        min-width: 44px;
+        padding: 0 !important;
+        margin: 0 !important;
+        border: 1px solid #ff7900 !important;
+        border-radius: 50% !important;
+        display: flex !important;
+        align-items: center;
+        justify-content: center;
+        box-sizing: border-box;
+    }
+}
+
 /* MOTOQUEST — ROTAS RESPONSIVAS */
 @media (max-width: 600px) {
     .mq-mobile-route-title {
