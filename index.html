@@ -10415,10 +10415,12 @@ fuelReplacementOptions.forEach(option => {
     fuelReplacementSelect.appendChild(selectOption);
 });  
 
-// Propõe substituir quando existe apenas uma bomba guardada
+
+ // Mantém a bomba existente por defeito
 if (fuelReplacementOptions.length === 1) {
-    fuelReplacementSelect.value = "0";
+    fuelReplacementSelect.value = "keep";
 }
+
 
 
 const calculateFuelReplacementPreview = async () => {
