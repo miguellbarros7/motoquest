@@ -9245,7 +9245,18 @@ if (routeFuelStops.length > 0) {
         fuelInfo.style.flex = "1";
 
        
+
+const fuelName = document.createElement("strong");
 fuelName.textContent = fuel.name;
+
+const fuelLocality = document.createElement("div");
+fuelLocality.textContent = fuel.locality
+    ? "📍 " + fuel.locality
+    : "";
+
+fuelLocality.style.cssText =
+    "color:#ccc;font-size:12px;margin-top:5px;";
+
 
 
         const fuelStatus = document.createElement("div");
