@@ -20479,6 +20479,160 @@ label[for="routeTripTime"] {
     background: rgba(239, 68, 68, 0.2);
 }
 
+/* MOTOQUEST — EDITAR SUGESTÃO PREMIUM */
+
+#suggestionEditModal {
+    padding: 16px;
+    overflow-y: auto;
+}
+
+#suggestionEditModal .modal-card {
+    width: 100%;
+    max-width: 620px;
+    max-height: calc(100dvh - 32px);
+    overflow-y: auto;
+    box-sizing: border-box;
+    margin: auto;
+    padding: 24px;
+    background: #17191e;
+    border: 1px solid #343840;
+    border-radius: 20px;
+    color: #f5f5f5;
+}
+
+#suggestionEditModal .modal-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 22px;
+}
+
+#suggestionEditModal .modal-header h3 {
+    margin: 0 0 8px;
+    font-size: 21px;
+    font-weight: 800;
+    color: #fff;
+}
+
+#suggestionEditModal .section-subtitle {
+    color: #aeb3bd;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+#suggestionEditModal .field {
+    min-width: 0;
+    margin-bottom: 16px;
+}
+
+#suggestionEditModal .field label {
+    display: block;
+    margin-bottom: 7px;
+    color: #b9bdc5;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+#suggestionEditModal input,
+#suggestionEditModal select,
+#suggestionEditModal textarea {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    background: #101115;
+    border: 1px solid #343840;
+    border-radius: 11px;
+    color: #f5f5f5;
+    padding: 12px 14px;
+    font-size: 14px;
+}
+
+#suggestionEditModal input,
+#suggestionEditModal select {
+    min-height: 46px;
+}
+
+#suggestionEditModal textarea {
+    min-height: 105px;
+    resize: vertical;
+}
+
+#suggestionEditModal input:focus,
+#suggestionEditModal select:focus,
+#suggestionEditModal textarea:focus {
+    outline: none;
+    border-color: #ff8a32;
+    box-shadow: 0 0 0 3px rgba(255,138,50,.12);
+}
+
+#suggestionEditModal input[type="file"] {
+    border: 1px dashed #80502d;
+    background: #111318;
+    padding: 12px;
+}
+
+#suggestionEditModal input[type="file"]::file-selector-button {
+    background: #33251b;
+    color: #ff9b4a;
+    border: 1px solid #80502d;
+    border-radius: 8px;
+    padding: 9px 12px;
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+#suggestionEditModal #closeSuggestionEditBtn {
+    flex-shrink: 0;
+    background: #25272d;
+    color: #ddd;
+    border: 1px solid #41454e;
+    border-radius: 10px;
+    padding: 11px 16px;
+}
+
+#suggestionEditModal #saveSuggestionEditBtn {
+    background: #29221d;
+    color: #ff9b4a;
+    border: 1px solid #80502d;
+    border-radius: 11px;
+    padding: 12px 18px;
+    font-weight: 800;
+}
+
+#suggestionEditModal #approveEditedSuggestionBtn {
+    background: #ff7900;
+    color: #111;
+    border: 1px solid #ff7900;
+    border-radius: 11px;
+    padding: 12px 18px;
+    font-weight: 800;
+}
+
+@media (max-width: 650px) {
+    #suggestionEditModal {
+        padding: 10px;
+    }
+
+    #suggestionEditModal .modal-card {
+        padding: 16px;
+        max-height: calc(100dvh - 20px);
+    }
+
+    #suggestionEditModal .modal-header h3 {
+        font-size: 18px;
+    }
+
+    #suggestionEditModal #closeSuggestionEditBtn {
+        padding: 9px 12px;
+    }
+
+    #suggestionEditModal #saveSuggestionEditBtn,
+    #suggestionEditModal #approveEditedSuggestionBtn {
+        flex: 1;
+        min-width: 130px;
+    }
+}
 
 /* MOTOQUEST — SUGESTÕES ADMIN PREMIUM */
 
