@@ -5608,8 +5608,28 @@ summaryPanel.classList.add("hidden");
     }
 stopsPanel.innerHTML = "";
 
-let fuelReviewNeeded =
+
+const originalStopIds = [...ids];
+
+const hasFuelStops =
+    Array.isArray(route.fuel_stops) &&
+    route.fuel_stops.length > 0;
+
+const originalFuelReviewPending =
     route.trip_plan?.fuel_review_pending === true;
+
+const updateFuelReviewNeeded = () => {
+    const orderChanged =
+        ids.length !== originalStopIds.length ||
+        ids.some((id, index) => id !== originalStopIds[index]);
+
+    fuelReviewNeeded =
+        originalFuelReviewPending ||
+        (hasFuelStops && orderChanged);
+};
+
+let fuelReviewNeeded = originalFuelReviewPending;
+
 
 const renderStops = () => {
     stopsPanel.innerHTML = "";
