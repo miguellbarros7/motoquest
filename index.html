@@ -16330,7 +16330,11 @@ message.textContent = "";
             "⚠️ Não foi possível identificar a localização.";
     }
 });
-
+$("locationDistrict").addEventListener("input", () => {
+    distritoIdentificado = $("locationDistrict").value
+        .replace(/^distrito\s+de\s+/i, "")
+        .trim() || null;
+});
 
 /* LIMPAR DISTRITO QUANDO O GPS MUDA */
 
