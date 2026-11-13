@@ -8670,9 +8670,23 @@ fuelStatus.textContent = Number.isFinite(fuelKm)
     
 const check = document.createElement("span");
 
+const safeFuelRangeKm =
+    (Number(bike.tank) / Number(bike.consumption)) * 100 * 0.8;
+
+const previousFuelPositions = routeFuelStops
+    .map(stop => fuelKmByStop.get(stop))
+    .filter(position =>
+        Number.isFinite(position) &&
+        position < fuelKm
+    );
+
+const previousFuelPosition = previousFuelPositions.length
+    ? Math.max(...previousFuelPositions)
+    : 0;
+
 const fuelNeedsReview =
     !Number.isFinite(fuelKm) ||
-    fuelKm > (Number(bike.tank) / Number(bike.consumption)) * 100 * 0.8;
+    fuelKm - previousFuelPosition > safeFuelRangeKm;
 check.textContent = fuelNeedsReview
     ? "⚠️ REVER POSTO"
     : "✅ ADEQUADO";
