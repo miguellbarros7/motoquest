@@ -12792,7 +12792,10 @@ container.querySelectorAll(".mq-hide-redemption-btn").forEach(button => {
             .select("id");
 
         if (error || !data || data.length !== 1) {
-            alert("❌ Não foi possível ocultar a recompensa.");
+    alert(
+        "❌ Erro ao ocultar recompensa:\n" +
+        (error?.message || "Nenhum registo foi atualizado. Verificar permissões RLS.")
+    );
             button.disabled = false;
             button.textContent = "🗑️ APAGAR";
             return;
