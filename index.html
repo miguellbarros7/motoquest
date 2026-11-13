@@ -19197,9 +19197,10 @@ document.querySelectorAll(".edit-admin-user-btn").forEach(button => {
 
                         console.error(error);
 
-                        alert(
-                            "Erro ao guardar as alterações."
-                        );
+await showMQAlert(
+    "Erro ao guardar as alterações.",
+    "error"
+);
 
                         return;
                     }
