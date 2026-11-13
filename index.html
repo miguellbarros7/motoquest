@@ -13861,12 +13861,15 @@ function renderHistory() {
 </div>
 
 ${item.photo_url ? `
-    <img
-        src="${escapeHtml(item.photo_url)}"
-        alt="Fotografia da visita"
-        style="width:90px;height:90px;object-fit:cover;border-radius:12px;flex-shrink:0;"
-        loading="lazy"
-    >
+   
+<img
+    src="${escapeHtml(item.photo_url)}"
+    alt="Fotografia da visita"
+    style="width:90px;height:90px;object-fit:cover;border-radius:12px;flex-shrink:0;"
+    loading="lazy"
+    decoding="async"
+>
+  
 ` : ""}
 
 </div>
