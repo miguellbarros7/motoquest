@@ -6088,10 +6088,10 @@ summaryBtn.style.opacity = "1";
 summaryBtn.style.cursor = "pointer";
 
 await loadMyRoutes();
-};
-    const updatedRouteCard = [...document.querySelectorAll("#myRoutesList [data-route-id]")]
-    .find(card => card.dataset.routeId === String(route.id));
 
+const updatedRouteCard = [...document.querySelectorAll("#myRoutesList [data-route-id]")]
+    .find(card => card.dataset.routeId === String(route.id));
+};
 addStopBtn.onclick = async event => {
     event.stopPropagation();
 
