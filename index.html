@@ -6605,7 +6605,9 @@ saveOrderBtn.onclick = async event => {
 await showMQAlert(
     "Não foi possível guardar a nova ordem.",
     "error"
-);        saveOrderBtn.disabled = false;
+);
+
+saveOrderBtn.disabled = false;
         saveOrderBtn.textContent = "💾 Guardar nova ordem";
         return;
     }
