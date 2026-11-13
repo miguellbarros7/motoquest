@@ -18260,393 +18260,198 @@ if (suggestion.user_id) {
 
 /* APROVAR LOCAL */
 
-$("approveEditedSuggestionBtn")
-    .addEventListener(
-        "click",
-        async () => {
+/* APROVAR LOCAL COM TRANSAÇÃO SEGURA */
 
+$("approveEditedSuggestionBtn").addEventListener(
+    "click",
+    async () => {
+        const button = $("approveEditedSuggestionBtn");
 
-            
-const approveButton = $("approveEditedSuggestionBtn");
+        if (button.disabled) return;
+        if (!isAdmin() || !editingSuggestionId) return;
 
-if (approveButton.disabled) return;
+        const suggestionId = editingSuggestionId;
 
-approveButton.disabled = true;
-approveButton.textContent = "A aprovar...";
+        const name = $("editSuggestionName").value.trim();
+        const locality = $("editSuggestionLocality").value.trim();
+        const type = $("editSuggestionType").value;
+        const description =
+            $("editSuggestionDescription").value.trim();
 
+        const latText = $("editSuggestionLat").value.trim();
+        const lngText = $("editSuggestionLng").value.trim();
+        const mapsUrl = $("editSuggestionMaps").value.trim();
+        const imageFile = $("editSuggestionImage").files?.[0] || null;
 
-           if (!isAdmin() || !editingSuggestionId) {
-    approveButton.disabled = false;
-    approveButton.textContent = "Aprovar local";
-    return;
-}
+        const latitude = latText === "" ? NaN : Number(latText);
+        const longitude = lngText === "" ? NaN : Number(lngText);
 
-            try {
+        if (!name) {
+            await showMQAlert(
+                "Indica o nome do local.",
+                "error"
+            );
+            return;
+        }
 
-                const suggestionId =
-                    editingSuggestionId;
+        if (
+            !Number.isFinite(latitude) ||
+            !Number.isFinite(longitude) ||
+            latitude < -90 ||
+            latitude > 90 ||
+            longitude < -180 ||
+            longitude > 180
+        ) {
+            await showMQAlert(
+                "Indica coordenadas válidas para o local.",
+                "error"
+            );
+            return;
+        }
 
-                /* 1. Ler dados editados */
+        button.disabled = true;
+        button.textContent = "A aprovar...";
 
-                const name =
-                    $("editSuggestionName")
-                        .value
-                        .trim();
+        let uploadedPath = null;
+        let approved = false;
 
-                const locality =
-                    $("editSuggestionLocality")
-                        .value
-                        .trim();
-
-                const type =
-                    $("editSuggestionType")
-                        .value;
-
-                const description =
-                    $("editSuggestionDescription")
-                        .value
-                        .trim();
-
-                const latitudeValue =
-                    $("editSuggestionLat")
-                        .value
-                        .trim();
-
-                const longitudeValue =
-                    $("editSuggestionLng")
-                        .value
-                        .trim();
-
-                const mapsUrl =
-                    $("editSuggestionMaps")
-                        .value
-                        .trim();
-
-             
-if (!name) {
-    showMessage(
-        "editSuggestionMessage",
-        "Indica o nome do local.",
-        "error"
-    );
-
-    approveButton.disabled = false;
-    approveButton.textContent = "Aprovar local";
-    return;
-}
-
-
-                /* 2. Guardar referência da foto
-                   enviada pelo utilizador */
-
-                const {
-                    data: originalSuggestion,
-                    error: suggestionReadError
-                } = await supabaseClient
+        try {
+            /* Confirmar que a sugestão ainda está pendente */
+            const { data: suggestion, error: readError } =
+                await supabaseClient
                     .from("suggestions")
-                    .select("image_url")
-                    .eq(
-                        "id",
-                        suggestionId
-                    )
+                    .select("id, status, image_url")
+                    .eq("id", suggestionId)
                     .single();
 
-                if (suggestionReadError) {
-                    throw suggestionReadError;
+            if (readError) throw readError;
+
+            if (suggestion.status !== "pendente") {
+                throw new Error(
+                    "Esta sugestão já foi analisada."
+                );
+            }
+
+            /* Fotografia oficial: nunca reutilizar a prova */
+            let officialImageUrl = null;
+
+            if (imageFile) {
+                const extension = imageFile.name
+                    .split(".")
+                    .pop()
+                    .toLowerCase();
+
+                if (!["jpg", "jpeg", "png", "webp"].includes(extension)) {
+                    throw new Error(
+                        "Escolhe uma fotografia JPG, PNG ou WEBP."
+                    );
                 }
 
-                const userPhotoUrl =
-                    originalSuggestion?.image_url ||
-                    null;
+                uploadedPath =
+                    `locations/${Date.now()}-${Math.random()
+                        .toString(36)
+                        .slice(2)}.${extension}`;
 
-                /* 3. Foto oficial */
-
-                const imageFile =
-                    $("editSuggestionImage")
-                        .files?.[0] || null;
-
-                let imageUrl = null;
-
-                /* 4. Upload da foto oficial */
-
-                if (imageFile) {
-
-                    const extension =
-                        imageFile.name
-                            .split(".")
-                            .pop()
-                            .toLowerCase();
-
-                    const filePath =
-                        `locations/${Date.now()}-${Math.random()
-                            .toString(36)
-                            .slice(2)}.${extension}`;
-
-                    const {
-                        error: uploadError
-                    } = await supabaseClient
-                        .storage
+                const { error: uploadError } =
+                    await supabaseClient.storage
                         .from("location-images")
-                        .upload(
-                            filePath,
-                            imageFile,
-                            {
-                                upsert: false
-                            }
-                        );
+                        .upload(uploadedPath, imageFile, {
+                            upsert: false
+                        });
 
-                    if (uploadError) {
-                        throw uploadError;
+                if (uploadError) throw uploadError;
+
+                const { data: urlData } =
+                    supabaseClient.storage
+                        .from("location-images")
+                        .getPublicUrl(uploadedPath);
+
+                officialImageUrl = urlData.publicUrl;
+            }
+
+            /* Uma única transação para local, estado e pontos */
+            const { error: approvalError } =
+                await supabaseClient.rpc(
+                    "approve_location_suggestion",
+                    {
+                        p_suggestion_id: suggestionId,
+                        p_name: name,
+                        p_locality: locality,
+                        p_type: type,
+                        p_description: description,
+                        p_latitude: latitude,
+                        p_longitude: longitude,
+                        p_maps_url: mapsUrl,
+                        p_image_url: officialImageUrl
                     }
-
-                    const {
-                        data: publicUrlData
-                    } =
-                        supabaseClient
-                            .storage
-                            .from("location-images")
-                            .getPublicUrl(
-                                filePath
-                            );
-
-                    imageUrl =
-                        publicUrlData?.publicUrl ||
-                        null;
-                }
-
-                /* 5. Criar local oficial */
-
-                const locationPayload = {
-
-                    name: name,
-
-                    locality:
-                        locality || null,
-
-                    type:
-                        type || null,
-
-                    points: 0,
-
-                    description:
-                        description || null,
-
-                    maps_url:
-                        mapsUrl || null,
-
-                    latitude:
-                        latitudeValue
-                            ? Number(latitudeValue)
-                            : null,
-
-                    longitude:
-                        longitudeValue
-                            ? Number(longitudeValue)
-                            : null
-                };
-
-                if (imageUrl) {
-
-                    locationPayload.image_url =
-                        imageUrl;
-                }
-
-                const {
-                    error: locationError
-                } = await supabaseClient
-                    .from("locations")
-                    .insert(
-                        locationPayload
-                    );
-
-                if (locationError) {
-                    throw locationError;
-                }
-
-                /* 6. Aprovar sugestão */
-
-                const updatePayload = {
-                    status: "aprovada"
-                };
-
-                if (imageUrl) {
-
-                    updatePayload.approved_image_url =
-                        imageUrl;
-                }
-
-                const {
-                    error: statusError
-                } = await supabaseClient
-                    .from("suggestions")
-                    .update(
-                        updatePayload
-                    )
-                    .eq(
-                        "id",
-                        suggestionId
-                    )
-                    .eq(
-                        "status",
-                        "pendente"
-                    );
-
-                if (statusError) {
-                    throw statusError;
-                }
-
-                /* 7. Dar 50 pontos ao utilizador que sugeriu */
-
-const {
-    data: suggestionUser,
-    error: suggestionUserError
-} = await supabaseClient
-    .from("suggestions")
-    .select("user_id")
-    .eq("id", suggestionId)
-    .single();
-
-if (suggestionUserError) {
-    throw suggestionUserError;
-}
-
-if (suggestionUser?.user_id) {
-
-    const {
-        data: userProfile,
-        error: userProfileError
-    } = await supabaseClient
-        .from("profiles")
-        .select("points")
-        .eq("id", suggestionUser.user_id)
-        .single();
-
-    if (userProfileError) {
-        throw userProfileError;
-    }
-
-    const currentPoints =
-        Number(userProfile?.points || 0);
-
-    const newPoints =
-        currentPoints + 50;
-
-    const {
-        error: pointsError
-    } = await supabaseClient
-        .from("profiles")
-        .update({
-            points: newPoints
-        })
-        .eq(
-            "id",
-            suggestionUser.user_id
-        );
-
-    if (pointsError) {
-        throw pointsError;
-    }
-
-    console.log(
-        "Utilizador recebeu +50 pontos."
-    );
-}
-
-/* 8. Só agora apagar a foto
-   original do utilizador */
-                /* 7. Só agora apagar a foto
-                   original do utilizador */
-
-                if (userPhotoUrl) {
-
-                    try {
-
-                        const marker =
-                            "/storage/v1/object/public/location-images/";
-
-                        const markerIndex =
-                            userPhotoUrl.indexOf(
-                                marker
-                            );
-
-                        if (markerIndex !== -1) {
-
-                            const storagePath =
-                                decodeURIComponent(
-                                    userPhotoUrl.substring(
-                                        markerIndex +
-                                        marker.length
-                                    )
-                                );
-
-                            const {
-                                error: deletePhotoError
-                            } =
-                                await supabaseClient
-                                    .storage
-                                    .from(
-                                        "location-images"
-                                    )
-                                    .remove([
-                                        storagePath
-                                    ]);
-
-                            if (deletePhotoError) {
-
-                                console.error(
-                                    "LOCAL APROVADO, MAS NÃO FOI POSSÍVEL APAGAR A FOTO ORIGINAL:",
-                                    deletePhotoError
-                                );
-
-                            } else {
-
-                                console.log(
-                                    "Foto original do utilizador apagada com sucesso."
-                                );
-                            }
-                        }
-
-                    } catch (deleteError) {
-
-                        console.error(
-                            "ERRO AO APAGAR FOTO ORIGINAL:",
-                            deleteError
-                        );
-                    }
-                }
-
-                /* 8. Fechar */
-
-                closeSuggestionEdit();
-
-                await loadAdminSuggestions();
-
-                alert(
-                    "Local aprovado e adicionado ao MotoQuest!"
                 );
 
-          
-} catch (error) {
+            if (approvalError) throw approvalError;
 
-    console.error(
-        "ERRO AO APROVAR LOCAL:",
-        error
-    );
+            approved = true;
 
-    showMessage(
-        "editSuggestionMessage",
-        error.message ||
-        "Não foi possível aprovar o local.",
-        "error"
-    );
+            /* Limpar fotografia de prova após aprovação */
+            if (suggestion.image_url) {
+                try {
+                    await deleteSuggestionPhoto(suggestionId);
+                } catch (photoError) {
+                    console.warn(
+                        "Local aprovado; não foi possível limpar a fotografia de prova:",
+                        photoError
+                    );
+                }
+            }
 
-} finally {
-    approveButton.disabled = false;
-    approveButton.textContent = "Aprovar local";
-}
+            closeSuggestionEdit();
 
+            try {
+                await loadAdminSuggestions();
+            } catch (refreshError) {
+                console.warn(
+                    "Local aprovado; falhou a atualização da lista:",
+                    refreshError
+                );
+            }
+
+            await showMQAlert(
+                "Local aprovado e adicionado ao MotoQuest! O utilizador recebeu 50 pontos.",
+                "success"
+            );
+
+        } catch (error) {
+            console.error(
+                "ERRO AO APROVAR LOCAL:",
+                error
+            );
+
+            /* Apagar upload oficial se a aprovação falhou */
+            if (!approved && uploadedPath) {
+                const { error: cleanupError } =
+                    await supabaseClient.storage
+                        .from("location-images")
+                        .remove([uploadedPath]);
+
+                if (cleanupError) {
+                    console.warn(
+                        "Não foi possível limpar o upload:",
+                        cleanupError
+                    );
+                }
+            }
+
+            await showMQAlert(
+                error.message ||
+                "Não foi possível aprovar o local.",
+                "error"
+            );
+
+        } finally {
+            button.disabled = false;
+            button.textContent = "Aprovar local";
         }
-    );
+    }
+);
+
 
 /* REJEITAR / APROVAÇÃO DIRETA */
 async function deleteSuggestionPhoto(
