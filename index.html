@@ -9772,6 +9772,11 @@ const calculateFuelReplacementPreview = async () => {
     const fuelToReplace = selectedValue === "keep"
         ? null
         : existingFuelStops[Number(selectedValue)];
+    
+const previewFuelStops = updatedFuelStops.filter(
+    fuel => fuel !== fuelToReplace
+);
+
 };
 
 const formatKm = value =>
