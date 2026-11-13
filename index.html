@@ -12021,10 +12021,25 @@ statusContainer.style.flexShrink = "0";
 
 statusLabel.style.marginTop = "0";
 
-card.append(cardInfo, statusContainer);
 
+const suggestionRow = document.createElement("div");
 
-        list.appendChild(card);
+suggestionRow.style.display = "flex";
+suggestionRow.style.alignItems = "center";
+suggestionRow.style.gap = "12px";
+suggestionRow.style.flexWrap = "wrap";
+suggestionRow.style.marginBottom = "14px";
+
+card.style.flex = "1 1 300px";
+card.style.minWidth = "0";
+
+statusContainer.style.flex = "0 0 auto";
+statusContainer.style.marginLeft = "auto";
+
+card.append(cardInfo);
+suggestionRow.append(card, statusContainer);
+list.appendChild(suggestionRow);
+
     });
 }
 
