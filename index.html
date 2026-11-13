@@ -6850,8 +6850,10 @@ return;
         .filter(Boolean);
 
     if (orderedLocations.length !== ids.length) {
-        alert("Não foi possível encontrar todas as paragens da rota.");
-        return;
+await showMQAlert(
+    "Não foi possível encontrar todas as paragens da rota.",
+    "error"
+);        return;
     }
 
 // Preparar coordenadas GPS reais das paragens
