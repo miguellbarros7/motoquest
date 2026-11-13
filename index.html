@@ -8930,15 +8930,23 @@ card.dataset.fuelCheckCompleted = "true";
 if (fuelReviewPending && fuelNeedsAttention) {
     const fuelAlert = document.createElement("div");
 
-    fuelAlert.style.cssText = `
-        margin:16px 0;
-        padding:18px;
-        background:#21170f;
-        border:2px solid #ff7900;
-        border-radius:14px;
-        color:white;
-        text-align:center;
-    `;
+  
+fuelAlert.style.cssText = `
+    position:fixed;
+    top:50%;
+    left:50%;
+    transform:translate(-50%, -50%);
+    width:min(90vw, 420px);
+    padding:24px;
+    background:#21170f;
+    border:2px solid #ff7900;
+    border-radius:16px;
+    color:white;
+    text-align:center;
+    z-index:10000;
+    box-shadow:0 20px 60px rgba(0,0,0,.85);
+`;
+
 
     const alertMessage = document.createElement("p");
     alertMessage.textContent =
