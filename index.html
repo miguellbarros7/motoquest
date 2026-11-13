@@ -9624,8 +9624,17 @@ const fuelNeedsAttention =
     fuelStopsOutsideSafeRange.length > 0;
 		
 		
+
 const fuelNeedsStationReview =
-    fuelStopsWithUnknownPosition.length > 0;
+    fuelStopsWithUnknownPosition.length > 0 ||
+    orderedFuelStops.some((item, index) => {
+        if (index === 0) return false;
+
+        const previousKm = orderedFuelStops[index - 1].km;
+
+        return item.km - previousKm > fuelSafetyLimitKm;
+    });
+
 
 
 const fuelNeedsNewStop =
