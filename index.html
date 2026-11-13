@@ -6386,7 +6386,10 @@ removeBtn.onclick = event => {
     event.stopPropagation();
 
     if (ids.length <= 2) {
-        alert("A rota deve ter pelo menos 2 paragens.");
+        showMQAlert(
+    "A rota deve ter pelo menos 2 paragens.",
+    "error"
+);
         return;
     }
 
