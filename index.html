@@ -11931,10 +11931,57 @@ function renderAdminImprovements() {
         const description = document.createElement("p");
         description.textContent = s.descricao;
 
-        const status = document.createElement("p");
-        status.textContent = "Estado: " + s.estado;
+      
+const statusLabel = document.createElement("label");
+statusLabel.textContent = "Estado da sugestão";
 
-        card.append(title, type, description, status);
+const statusSelect = document.createElement("select");
+
+const states = [
+    ["pendente", "🕒 Pendente"],
+    ["em_analise", "🔎 Em análise"],
+    ["resolvida", "✅ Resolvida"]
+];
+
+states.forEach(([value, label]) => {
+    const option = document.createElement("option");
+    option.value = value;
+    option.textContent = label;
+    statusSelect.appendChild(option);
+});
+
+statusSelect.value = s.estado;
+
+statusSelect.addEventListener("change", async () => {
+    const previousStatus = s.estado;
+    const newStatus = statusSelect.value;
+
+    statusSelect.disabled = true;
+
+    const { error } = await supabaseClient
+        .from("sugestoes_melhorias")
+        .update({ estado: newStatus })
+        .eq("id", s.id);
+
+    if (error) {
+        console.error("Erro ao atualizar sugestão:", error);
+        alert("❌ Não foi possível atualizar o estado.");
+        statusSelect.value = previousStatus;
+        statusSelect.disabled = false;
+        return;
+    }
+
+    await loadAdminImprovements();
+});
+
+card.append(
+    title,
+    type,
+    description,
+    statusLabel,
+    statusSelect
+);
+
         list.appendChild(card);
     });
 }
