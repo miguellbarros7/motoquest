@@ -8950,6 +8950,7 @@ async function findFuelStations(latitude, longitude) {
     return result.routes[0].distance / 1000;
 }
 const fuelPlanner = document.createElement("div");
+        fuelPlanner.id = "mq-fuel-planner";
 
 fuelPlanner.style.cssText = `
     grid-column:1/-1;
