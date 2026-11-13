@@ -3856,6 +3856,162 @@ transform:translateX(38px);
     </div>
 
 </section>
+
+
+<!-- DEFINIÇÕES MOTOQUEST -->
+<section id="settingsSection" class="section">
+
+  <div class="section-header">
+    <div>
+      <h1 class="section-title">⚙️ Definições</h1>
+      <div class="section-subtitle">
+        Personaliza a tua experiência MotoQuest.
+      </div>
+    </div>
+    <button type="button" class="secondary-btn" data-go="profile">
+      ← Voltar
+    </button>
+  </div>
+
+  <style>
+    #settingsSection .mq-settings-group {
+      background: #151515;
+      border: 1px solid #333;
+      border-radius: 16px;
+      margin: 18px 0;
+      overflow: hidden;
+    }
+
+    #settingsSection .mq-settings-heading {
+      color: #ff7900;
+      font-size: 14px;
+      font-weight: 800;
+      padding: 16px;
+      letter-spacing: 1px;
+    }
+
+    #settingsSection .mq-settings-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      padding: 16px;
+      border-top: 1px solid #303030;
+      color: white;
+    }
+
+    #settingsSection .mq-settings-row small {
+      display: block;
+      color: #999;
+      font-size: 12px;
+      margin-top: 5px;
+    }
+
+    #settingsSection input[type="checkbox"] {
+      accent-color: #ff7900;
+      width: 20px;
+      height: 20px;
+    }
+
+    #settingsSection select {
+      background: #222;
+      color: white;
+      border: 1px solid #ff7900;
+      border-radius: 8px;
+      padding: 8px;
+    }
+
+    #settingsSection .mq-settings-link {
+      width: 100%;
+      background: transparent;
+      border: none;
+      text-align: left;
+      cursor: pointer;
+      font: inherit;
+    }
+  </style>
+
+  <div class="mq-settings-group">
+    <div class="mq-settings-heading">APARÊNCIA</div>
+    <label class="mq-settings-row">
+      <div>🌙 Modo escuro
+        <small>Manter o tema escuro do MotoQuest.</small>
+      </div>
+      <input id="settingDarkMode" type="checkbox" checked>
+    </label>
+  </div>
+
+  <div class="mq-settings-group">
+    <div class="mq-settings-heading">NAVEGAÇÃO E VIAGENS</div>
+    <label class="mq-settings-row">
+      <div>📍 Usar localização GPS
+        <small>Permitir funcionalidades de localização.</small>
+      </div>
+      <input id="settingGps" type="checkbox" checked>
+    </label>
+
+    <div class="mq-settings-row">
+      <div>📏 Unidade de distância
+        <small>Escolhe como apresentar as distâncias.</small>
+      </div>
+      <select id="settingDistance">
+        <option value="km">km</option>
+        <option value="mi">mi</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="mq-settings-group">
+    <div class="mq-settings-heading">NOTIFICAÇÕES</div>
+    <label class="mq-settings-row">
+      <div>🔔 Alertas e recompensas
+        <small>Novos locais, conquistas e novidades.</small>
+      </div>
+      <input id="settingNotifications" type="checkbox" checked>
+    </label>
+  </div>
+
+  <div class="mq-settings-group">
+    <div class="mq-settings-heading">CONTA E SEGURANÇA</div>
+    <button type="button" class="mq-settings-row mq-settings-link"
+            id="settingPasswordBtn">
+      <span>🔒 Alterar palavra-passe
+        <small>Atualizar a palavra-passe da conta.</small>
+      </span>
+      <span>›</span>
+    </button>
+
+    <button type="button" class="mq-settings-row mq-settings-link"
+            id="settingPrivacyBtn">
+      <span>🛡️ Privacidade e dados
+        <small>Gerir os teus dados pessoais.</small>
+      </span>
+      <span>›</span>
+    </button>
+  </div>
+
+  <div class="mq-settings-group">
+    <div class="mq-settings-heading">SOBRE O MOTOQUEST</div>
+    <button type="button" class="mq-settings-row mq-settings-link"
+            id="settingAboutBtn">
+      <span>ℹ️ Sobre a aplicação
+        <small>Informações sobre o MotoQuest.</small>
+      </span>
+      <span>›</span>
+    </button>
+
+    <button type="button" class="mq-settings-row mq-settings-link"
+            id="settingSuggestionBtn">
+      <span>💬 Enviar sugestão
+        <small>Partilha ideias e melhorias.</small>
+      </span>
+      <span>›</span>
+    </button>
+  </div>
+
+</section>
+<!-- FIM DEFINIÇÕES MOTOQUEST -->
+            
         <!-- SUGERIR -->
 
        <section id="suggestSection" class="section">
