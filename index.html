@@ -17255,28 +17255,7 @@ if (selectedLocationImageFile) {
     payload.image_credit = null;
 
 }
-        if (selectedLocationPhoto) {
-
-            payload.image_url =
-                selectedLocationPhoto.src?.large2x ||
-                selectedLocationPhoto.src?.large ||
-                selectedLocationPhoto.src?.medium ||
-                selectedLocationPhoto.src?.original ||
-                null;
-
-            payload.image_photographer =
-                selectedLocationPhoto.photographer ||
-                "Pexels";
-
-            payload.image_photographer_url =
-                selectedLocationPhoto.photographer_url ||
-                "https://www.pexels.com/";
-
-            payload.image_credit =
-                selectedLocationPhoto.photographer ||
-                "Pexels";
-        }
-
+      
         try {
 
             let result;
