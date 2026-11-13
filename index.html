@@ -10036,8 +10036,17 @@ const fuelStopsNeedingReview = routeFuelStops
         return distanceA - distanceB;
     });
 
+
 const suggestedFuelToReplace =
-    fuelStopsNeedingReview[0] || null;
+    fuelStopsNeedingReview.find(fuel => {
+        const fuelKm = fuelKmByStop.get(fuel);
+
+        const firstSuitablePlannedKm = plannedStops.find(
+            plannedKm => plannedKm <= fuelKm
+        );
+
+        return firstSuitablePlannedKm === distance;
+    }) || null;
 
 
 if (matchingFuelStop) {
