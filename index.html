@@ -12769,6 +12769,37 @@ function renderRedemptions() {
         `;
 
     }).join("");
+container.querySelectorAll(".mq-hide-redemption-btn").forEach(button => {
+    button.addEventListener("click", async () => {
+        const redemptionId = button.dataset.redemptionId;
+
+        const confirmed = confirm(
+            "🗑️ Queres retirar esta recompensa do histórico?\n\n" +
+            "Os pontos não serão devolvidos e o código continuará registado."
+        );
+
+        if (!confirmed) return;
+
+        button.disabled = true;
+        button.textContent = "A apagar...";
+
+        const { data, error } = await supabaseClient
+            .from("redemptions")
+            .update({ hidden_by_user: true })
+            .eq("id", redemptionId)
+            .eq("user_id", currentUser.id)
+            .select("id");
+
+        if (error || !data || data.length !== 1) {
+            alert("❌ Não foi possível ocultar a recompensa.");
+            button.disabled = false;
+            button.textContent = "🗑️ APAGAR";
+            return;
+        }
+
+        await loadRedemptions();
+    });
+});    
 
     redemptions.forEach(redemption => {
 
