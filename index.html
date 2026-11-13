@@ -17433,13 +17433,16 @@ if (error) {
                             ${escapeHtml(reward.name)}
                         </div>
 
-                        <div class="admin-item-meta">
-                            ${escapeHtml(
-                                reward.type || "Experiência"
-                            )}
-                            ·
-                            ${Number(reward.points || 0)} pts
-                        </div>
+                     
+<div class="admin-reward-details">
+    <span class="admin-reward-points">
+        🪙 ${Number(reward.points || 0)} pontos
+    </span>
+    <span class="admin-reward-category">
+        🏷️ ${escapeHtml(reward.type || "Experiência")}
+    </span>
+</div>
+
 
                     </div>
 
