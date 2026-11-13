@@ -9780,6 +9780,22 @@ const previewFuelStops = updatedFuelStops.filter(
     
 const replacementRouteStops = [...ordered];
 
+[...previewFuelStops]
+    .sort((a, b) =>
+        Number(b.insertion_index) - Number(a.insertion_index)
+    )
+    .forEach(fuel => {
+        replacementRouteStops.splice(
+            Number(fuel.insertion_index),
+            0,
+            {
+                name: fuel.name,
+                latitude: Number(fuel.latitude),
+                longitude: Number(fuel.longitude)
+            }
+        );
+    });
+
 
 };
 
