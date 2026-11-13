@@ -16672,36 +16672,7 @@ function showSelectedPhoto(
 }
 
 
-/* PEXELS LOCATION */
 
-$("searchPexelsLocationBtn")
-    .addEventListener(
-        "click",
-        () => {
-
-            searchPexels(
-                $("pexelsLocationQuery").value,
-                "pexelsLocationResults",
-                "location"
-            );
-        }
-    );
-
-
-$("pexelsLocationQuery")
-    .addEventListener(
-        "keydown",
-        event => {
-
-            if (event.key === "Enter") {
-
-                event.preventDefault();
-
-                $("searchPexelsLocationBtn")
-                    .click();
-            }
-        }
-    );
 $("locationImageFile")
     .addEventListener(
         "change",
