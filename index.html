@@ -10564,34 +10564,9 @@ const stations = await findFuelStations(
 stationResults.replaceChildren();
 
 if (stations.length === 0) {
-
-    try {
-        // Identificar o distrito uma única vez por pesquisa.
-        const firstStation = approvedFuelCandidates[0];
-
-        const district = await getFuelDistrict(
-            firstStation.latitude,
-            firstStation.longitude
-        );
-
-        if (district) {
-            fuelCandidatesWithPrices =
-                await getFuelPricesForStations(
-                    approvedFuelCandidates,
-                    district
-                );
-        } else {
-            console.warn(
-                "MotoQuest — distrito não identificado."
-            );
-        }
-    } catch (error) {
-        console.warn(
-            "MotoQuest — não foi possível consultar preços:",
-            error
-        );
-    }
-}
+    stationResults.textContent =
+        "Não foram encontrados postos num raio de 5 km.";
+} else {
 
 
             stationResults.replaceChildren();
