@@ -9855,6 +9855,19 @@ summaryPanel.appendChild(fuelAlert);
 
 const fuelGapsNeedingStops = [];
 
+		
+const suggestedFuelStopsInGaps = [];
+
+fuelGapsNeedingStops.forEach(gap => {
+    let suggestedKm = gap.startKm + fuelSafetyLimitKm;
+
+    while (suggestedKm < gap.endKm) {
+        suggestedFuelStopsInGaps.push(suggestedKm);
+        suggestedKm += fuelSafetyLimitKm;
+    }
+});
+
+
 let previousSavedFuelKm = 0;
 
 orderedFuelStops.forEach(item => {
