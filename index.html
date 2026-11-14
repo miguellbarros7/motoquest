@@ -10995,7 +10995,10 @@ const replacementKm = replacementPreview.distanceKm;
                             ? "🟢 ROTA MAIS CURTA"
                             : "ℹ️ DISTÂNCIA IGUAL";
 
-        const isBetter = replacementDifference <= 0;
+
+const isBetter =
+    replacementDifference <= 0 &&
+    replacementPreview.fuelIsSafe;
 
         detour.style.background =
             isBetter ? "#14291d" : "#302014";
