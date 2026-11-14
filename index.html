@@ -10099,6 +10099,53 @@ async function fetchFuelPricePage(fuel, page) {
 }
 
 async function fetchFuelPricesByDistrict(district, fuel) {
+	    // MotoQuest: consultar primeiro a tabela semanal do GitHub.
+    try {
+        if (!window.mqWeeklyFuelPricesPromise) {
+            const weeklyUrl =
+                "https://miguellbarros7.github.io/motoquest/data/fuel-prices.json";
+
+            window.mqWeeklyFuelPricesPromise = fetch(
+                weeklyUrl,
+                { cache: "no-cache" }
+            ).then(async response => {
+                if (!response.ok) {
+                    throw new Error("Tabela semanal indisponivel");
+                }
+
+                const table = await response.json();
+
+                if (
+                    !table.fuels ||
+                    !Array.isArray(table.fuels.gasoline_95) ||
+                    !Array.isArray(table.fuels.gasoline_98)
+                ) {
+                    throw new Error("Tabela semanal invalida");
+                }
+
+                return table;
+            }).catch(error => {
+                window.mqWeeklyFuelPricesPromise = null;
+                throw error;
+            });
+        }
+
+        const weeklyTable =
+            await window.mqWeeklyFuelPricesPromise;
+
+        const weeklyRecords = weeklyTable.fuels[fuel];
+
+        if (Array.isArray(weeklyRecords)) {
+            return weeklyRecords;
+        }
+    } catch (error) {
+        console.warn(
+            "MotoQuest: a usar consulta alternativa de precos:",
+            error
+        );
+    }
+
+
     const key = `PORTUGAL|${fuel}`;
     const now = Date.now();
     const cached = fuelPriceCache.get(key);
