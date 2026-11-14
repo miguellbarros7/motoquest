@@ -10861,11 +10861,27 @@ console.log(
 );
 
 
+
+const replacementMissingCount =
+    replacementFuelIntervalsKm.reduce(
+        (total, intervalKm) => {
+            const missingInInterval = Math.max(
+                0,
+                Math.ceil(intervalKm / fuelSafetyLimitKm) - 1
+            );
+
+            return total + missingInInterval;
+        },
+        0
+    );
+
 return {
     distanceKm: route.distance / 1000,
     fuelIsSafe: replacementFuelIsSafe,
-    fuelIntervalsKm: replacementFuelIntervalsKm
+    fuelIntervalsKm: replacementFuelIntervalsKm,
+    missingCount: replacementMissingCount
 };
+
 };
 
 
