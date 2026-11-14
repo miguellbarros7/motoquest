@@ -11020,11 +11020,21 @@ fuelReplacementOptions.forEach(option => {
 
 
 
+
+const approvedReplacementIndex = existingFuelStops.indexOf(
+    station.fuelToReplace
+);
+
 const suggestedReplacementIndex = existingFuelStops.indexOf(
     suggestedFuelToReplace
 );
 
-if (suggestedReplacementIndex >= 0) {
+if (approvedReplacementIndex >= 0) {
+    fuelReplacementSelect.value = String(approvedReplacementIndex);
+} else if (station.fuelEvaluation?.status === "safe" ||
+           station.fuelEvaluation?.status === "improved") {
+    fuelReplacementSelect.value = "keep";
+} else if (suggestedReplacementIndex >= 0) {
     fuelReplacementSelect.value = String(suggestedReplacementIndex);
 } else if (fuelReplacementOptions.length === 1) {
     fuelReplacementSelect.value = "keep";
