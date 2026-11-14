@@ -10920,6 +10920,21 @@ const replacementMissingCount =
         0
     );
 
+	
+const replacementExcessKm =
+    replacementFuelIntervalsKm.reduce(
+        (total, intervalKm) =>
+            total + Math.max(
+                0,
+                intervalKm - fuelSafetyLimitKm
+            ),
+        0
+    );
+
+const replacementWorstIntervalKm =
+    Math.max(0, ...replacementFuelIntervalsKm);
+
+
 return {
     distanceKm: route.distance / 1000,
     fuelIsSafe: replacementFuelIsSafe,
