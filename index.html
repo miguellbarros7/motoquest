@@ -10332,11 +10332,23 @@ const stationsWithRoadDistance = await Promise.all(
     })
 );
 
-stationsWithRoadDistance
-    .filter(Boolean)
-    .sort((a, b) => a.roadDistanceKm - b.roadDistanceKm)
+
+const nearbyFuelCandidates = stationsWithRoadDistance
+    .filter(station =>
+        station &&
+        Number.isFinite(station.roadDistanceKm)
+    )
+    .sort((a, b) => a.roadDistanceKm - b.roadDistanceKm);
+
+console.log(
+    "MotoQuest — bombas candidatas por proximidade, ainda não validadas:",
+    nearbyFuelCandidates.length
+);
+
+nearbyFuelCandidates
     .slice(0, 5)
     .forEach(station => {
+
     
     const item = document.createElement("div");
 
