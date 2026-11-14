@@ -10684,6 +10684,20 @@ const replacementLegDistancesKm = Array.isArray(route.legs)
     ? route.legs.map(leg => leg.distance / 1000)
     : [];
 
+	
+if (
+    replacementLegDistancesKm.length !==
+        replacementRouteStops.length - 1 ||
+    replacementLegDistancesKm.some(
+        distance => !Number.isFinite(distance) || distance < 0
+    )
+) {
+    throw new Error(
+        "Não foi possível validar todos os troços da rota."
+    );
+}
+
+
 console.log(
     "MotoQuest — distâncias dos troços da nova rota:",
     replacementLegDistancesKm
