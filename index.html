@@ -10017,6 +10017,35 @@ plannerInfo.textContent =
 
 fuelPlanner.appendChild(plannerInfo);
 
+	
+if (plannedStops.length > 0) {
+    const missingStopsNotice = document.createElement("div");
+
+    const missingCount = plannedStops.length;
+
+    missingStopsNotice.textContent =
+        "⚠️ Faltam adicionar " +
+        missingCount +
+        (missingCount === 1
+            ? " posto à rota."
+            : " postos à rota.");
+
+    missingStopsNotice.style.cssText = `
+        background:#302014;
+        border:1px solid #ff7900;
+        border-radius:10px;
+        padding:15px;
+        margin-bottom:16px;
+        color:#ffb366;
+        font-size:14px;
+        font-weight:900;
+        text-align:center;
+    `;
+
+    fuelPlanner.appendChild(missingStopsNotice);
+}
+
+
 if (plannedStops.length === 0) {
     const success = document.createElement("div");
     success.textContent =
