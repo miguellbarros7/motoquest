@@ -10034,12 +10034,25 @@ const fuelStopsToReposition =
     });
 
 
+  
+const repositionCount = fuelStopsToReposition.length;
+
+if (repositionCount > 0) {
+    missingStopsNotice.textContent =
+        "⚠️ Existem " +
+        repositionCount +
+        (repositionCount === 1
+            ? " bomba para rever ou reposicionar."
+            : " bombas para rever ou reposicionar.");
+} else {
     missingStopsNotice.textContent =
         "⚠️ Faltam adicionar " +
         missingCount +
         (missingCount === 1
             ? " posto à rota."
             : " postos à rota.");
+}
+
 
     missingStopsNotice.style.cssText = `
         background:#302014;
