@@ -10591,10 +10591,13 @@ for (const fuel of (route.fuel_stops || [])) {
             bestEvaluation.status === "safe" ||
             bestEvaluation.status === "improved"
         ) {
-            approvedFuelCandidates.push({
-                ...station,
-                fuelEvaluation: bestEvaluation
-            });
+           
+approvedFuelCandidates.push({
+    ...station,
+    fuelEvaluation: bestEvaluation,
+    fuelToReplace: bestFuelToReplace
+});
+
         }
     } catch (error) {
         console.warn(
