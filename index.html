@@ -10561,25 +10561,30 @@ for (const station of nearbyFuelCandidates.slice(0, 8)) {
         const addEvaluation =
             await checkCandidateRoute(station, null);
 
-        let bestEvaluation = addEvaluation;
+       
+let bestEvaluation = addEvaluation;
+let bestFuelToReplace = null;
 
-        for (const fuel of (route.fuel_stops || [])) {
-            const replacementEvaluation =
-                await checkCandidateRoute(station, fuel);
+for (const fuel of (route.fuel_stops || [])) {
+    const replacementEvaluation =
+        await checkCandidateRoute(station, fuel);
 
-            const rank = {
-                safe: 3,
-                improved: 2,
-                not_recommended: 1,
-                unverified: 0
-            };
+    const rank = {
+        safe: 3,
+        improved: 2,
+        not_recommended: 1,
+        unverified: 0
+    };
 
-            if (
-                rank[replacementEvaluation.status] >
-                rank[bestEvaluation.status]
-            ) {
-                bestEvaluation = replacementEvaluation;
-            }
+    if (
+        rank[replacementEvaluation.status] >
+        rank[bestEvaluation.status]
+    ) {
+        bestEvaluation = replacementEvaluation;
+        bestFuelToReplace = fuel;
+    }
+}
+
         }
 
         if (
