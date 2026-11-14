@@ -11193,7 +11193,21 @@ finalLegDistancesKm.forEach((legKm, index) => {
 });
 
 finalFuelIntervalsKm.push(finalKmSinceLastFuel);
-	
+
+const finalFuelIsSafe = finalFuelIntervalsKm.every(
+    intervalKm => intervalKm <= fuelSafetyLimitKm
+);
+
+if (!finalFuelIsSafe) {
+    alert(
+        "⚠️ AUTONOMIA INSUFICIENTE\n\n" +
+        "A rota final contém intervalos entre abastecimentos " +
+        "superiores à autonomia de segurança da mota.\n\n" +
+        "Nenhuma bomba foi alterada. Escolhe outra opção."
+    );
+    return;
+}
+
 const finalRouteKm = finalRoute.distance / 1000;
 
 
