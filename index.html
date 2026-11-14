@@ -11119,11 +11119,14 @@ const finalRouteStops = [...ordered];
         Number(b.insertion_index) - Number(a.insertion_index)
     )
     .forEach(fuel => {
-        finalRouteStops.splice(Number(fuel.insertion_index), 0, {
-            name: fuel.name,
-            latitude: Number(fuel.latitude),
-            longitude: Number(fuel.longitude)
-        });
+       
+finalRouteStops.splice(Number(fuel.insertion_index), 0, {
+    name: fuel.name,
+    latitude: Number(fuel.latitude),
+    longitude: Number(fuel.longitude),
+    isFuelStop: true
+});
+
     }); 
     
    // Incluir partida, encontro e destino
