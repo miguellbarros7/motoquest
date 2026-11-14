@@ -10708,6 +10708,16 @@ console.log(
     replacementFuelIntervalsKm
 );
 	
+const replacementFuelIsSafe =
+    replacementFuelIntervalsKm.length > 0 &&
+    replacementFuelIntervalsKm.every(
+        intervalKm => intervalKm <= fuelSafetyLimitKm
+    );
+
+console.log(
+    "MotoQuest — autonomia segura após substituição:",
+    replacementFuelIsSafe
+);
 
     return route.distance / 1000;
 };
