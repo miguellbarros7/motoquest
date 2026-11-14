@@ -9877,12 +9877,47 @@ if (km - previousSavedFuelKm > fuelSafetyLimitKm) {
 
 	const suggestedFuelStopsInGaps = [];
 
-fuelGapsNeedingStops.forEach(gap => {
-    let suggestedKm = gap.startKm + fuelSafetyLimitKm;
 
-    while (suggestedKm < gap.endKm) {
+const preferredFuelMinKm = 260;
+const preferredFuelMaxKm = 300;
+const preferredFuelTargetKm = 280;
+
+fuelGapsNeedingStops.forEach(gap => {
+    let lastFuelKm = gap.startKm;
+
+    while (
+        gap.endKm - lastFuelKm > fuelSafetyLimitKm
+    ) {
+        const remainingKm = gap.endKm - lastFuelKm;
+
+        // Preferir uma bomba perto dos 280 km.
+        let nextDistanceKm = Math.min(
+            preferredFuelTargetKm,
+            preferredFuelMaxKm,
+            fuelSafetyLimitKm
+        );
+
+        // Evitar uma paragem adicional muito perto
+        // da seguinte bomba ou do destino.
+        if (
+            remainingKm - nextDistanceKm >
+            fuelSafetyLimitKm
+        ) {
+            nextDistanceKm = Math.min(
+                preferredFuelMaxKm,
+                fuelSafetyLimitKm
+            );
+        }
+
+        if (nextDistanceKm <= 0) break;
+
+        const suggestedKm =
+            lastFuelKm + nextDistanceKm;
+
+        if (suggestedKm >= gap.endKm) break;
+
         suggestedFuelStopsInGaps.push(suggestedKm);
-        suggestedKm += fuelSafetyLimitKm;
+        lastFuelKm = suggestedKm;
     }
 });
 
