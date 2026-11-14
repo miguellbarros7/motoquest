@@ -11438,10 +11438,11 @@ routeInfo.append(
     fuelPlanner
 );
 
-// Mostrar o planeador apenas quando há
-// abastecimentos recomendados
-fuelPlanner.style.display =
-    plannedStops.length > 0 ? "" : "none";
+
+// Manter o planeador visível para mostrar
+// recomendações ou confirmar que a rota está segura
+fuelPlanner.style.display = "";
+
 
 // Mostrar abastecimentos guardados apenas
 // quando existem
