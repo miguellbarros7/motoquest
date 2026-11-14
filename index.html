@@ -10173,12 +10173,21 @@ if (matchingFuelStop) {
         ? matchingFuelStop.name + " — " + matchingFuelStop.locality
         : matchingFuelStop.name;
 
-    text.textContent =
-        "✅ Paragem " + (index + 1) +
-        " · " + fuelName +
-        " · Km " + fuelKm.toLocaleString("pt-PT", {
-            maximumFractionDigits: 0
-        });
+  
+const fuelNeedsReposition =
+    fuelStopsOutsideSafeRange.includes(matchingFuelStop);
+
+text.textContent =
+    (fuelNeedsReposition ? "⚠️ " : "✅ ") +
+    "Paragem " + (index + 1) +
+    " · " + fuelName +
+    " · Km " + fuelKm.toLocaleString("pt-PT", {
+        maximumFractionDigits: 0
+    }) +
+    (fuelNeedsReposition
+        ? " · REVER POSIÇÃO"
+        : " · POSIÇÃO SEGURA");
+
 } else {
     text.textContent =
         "Paragem " + (index + 1) +
