@@ -11180,6 +11180,19 @@ if (
     return;
 }
 
+const finalFuelIntervalsKm = [];
+let finalKmSinceLastFuel = 0;
+
+finalLegDistancesKm.forEach((legKm, index) => {
+    finalKmSinceLastFuel += legKm;
+
+    if (finalRouteStops[index + 1]?.isFuelStop) {
+        finalFuelIntervalsKm.push(finalKmSinceLastFuel);
+        finalKmSinceLastFuel = 0;
+    }
+});
+
+finalFuelIntervalsKm.push(finalKmSinceLastFuel);
 	
 const finalRouteKm = finalRoute.distance / 1000;
 
