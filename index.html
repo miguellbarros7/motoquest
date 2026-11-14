@@ -9522,14 +9522,14 @@ removeFuelButton.disabled = true;
 
         const { error } = await supabaseClient
             .from("routes")
-           .update({ fuel_stops: finalFuelStops })
-            .eq("id", route.id)
+.update({ fuel_stops: updatedFuelStops })
+			.eq("id", route.id)
             .eq("user_id", currentUser.id)
             .eq("route_type", "personal");
 
         if (error) throw error;
 
-  route.fuel_stops = finalFuelStops;
+route.fuel_stops = updatedFuelStops;
 
         summaryPanel.classList.add("hidden");
         summaryBtn.click();
