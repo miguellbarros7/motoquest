@@ -10990,10 +10990,12 @@ const replacementKm = replacementPreview.distanceKm;
         detour.style.color =
             isBetter ? "#4ade80" : "#ff941c";
 
-        previewNotice.textContent =
-            "ℹ️ Distância calculada por estrada para a opção " +
-            "selecionada. A rota será verificada novamente " +
-            "antes de guardar.";
+       
+previewNotice.textContent = replacementPreview.fuelIsSafe
+    ? "✅ Os intervalos entre abastecimentos respeitam a autonomia de segurança."
+    : "⚠️ Esta opção ultrapassa a autonomia de segurança. " +
+      "Escolhe outra bomba ou mantém os abastecimentos necessários.";
+
 
        
 saveButton.disabled = !replacementPreview.fuelIsSafe;
