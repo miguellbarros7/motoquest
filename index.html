@@ -10689,6 +10689,26 @@ console.log(
     replacementLegDistancesKm
 );
 
+const replacementFuelIntervalsKm = [];
+let kmSinceLastFuel = 0;
+
+replacementLegDistancesKm.forEach((legKm, index) => {
+    kmSinceLastFuel += legKm;
+
+    if (replacementRouteStops[index + 1]?.isFuelStop) {
+        replacementFuelIntervalsKm.push(kmSinceLastFuel);
+        kmSinceLastFuel = 0;
+    }
+});
+
+replacementFuelIntervalsKm.push(kmSinceLastFuel);
+
+console.log(
+    "MotoQuest — intervalos entre abastecimentos:",
+    replacementFuelIntervalsKm
+);
+	
+
     return route.distance / 1000;
 };
 
