@@ -11158,11 +11158,15 @@ const isBetter =
             isBetter ? "#4ade80" : "#ff941c";
 
        
-previewNotice.textContent = replacementPreview.fuelIsSafe
-    ? "✅ Os intervalos entre abastecimentos respeitam a autonomia de segurança."
-    : "⚠️ Esta opção ultrapassa a autonomia de segurança. " +
-      "Escolhe outra bomba ou mantém os abastecimentos necessários.";
 
+previewNotice.textContent = replacementPreview.fuelIsSafe
+    ? "✅ Todos os intervalos respeitam a autonomia de segurança."
+    : "⚠️ Esta opção ainda deixa " +
+      replacementPreview.missingCount +
+      (replacementPreview.missingCount === 1
+          ? " abastecimento adicional necessário."
+          : " abastecimentos adicionais necessários.") +
+      " A rota continua com autonomia insuficiente.";
 
        
 
