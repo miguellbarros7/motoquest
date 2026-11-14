@@ -11304,14 +11304,25 @@ const finalFuelIsSafe = finalFuelIntervalsKm.every(
     intervalKm => intervalKm <= fuelSafetyLimitKm
 );
 
-if (!finalFuelIsSafe) {
+
+if (!finalFuelIsSafe && saveConfirmed !== "keep") {
     alert(
         "⚠️ AUTONOMIA INSUFICIENTE\n\n" +
-        "A rota final contém intervalos entre abastecimentos " +
-        "superiores à autonomia de segurança da mota.\n\n" +
-        "Nenhuma bomba foi alterada. Escolhe outra opção."
+        "Esta substituição deixa intervalos superiores " +
+        "à autonomia de segurança da mota.\n\n" +
+        "Nenhuma bomba foi alterada."
     );
     return;
+}
+
+if (!finalFuelIsSafe && saveConfirmed === "keep") {
+    alert(
+        "⚠️ ROTA AINDA INCOMPLETA\n\n" +
+        "A bomba será guardada, mas ainda existem " +
+        "intervalos com autonomia insuficiente.\n\n" +
+        "Adiciona os abastecimentos em falta " +
+        "antes de iniciar a viagem."
+    );
 }
 
 const finalRouteKm = finalRoute.distance / 1000;
