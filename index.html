@@ -11090,7 +11090,99 @@ recommendation.style.cssText = `
     line-height:1.5;
 `;
 
-info.append(name, subtitle, recommendation);
+
+const fuelPricesBox = document.createElement("div");
+
+fuelPricesBox.style.cssText = `
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:8px;
+    margin-top:10px;
+`;
+
+function createFuelPriceItem(label, fuelData) {
+    const item = document.createElement("div");
+
+    item.style.cssText = `
+        background:#303030;
+        border:1px solid #484848;
+        border-radius:8px;
+        padding:9px;
+        min-width:0;
+    `;
+
+    const title = document.createElement("div");
+    title.textContent = label;
+    title.style.cssText = `
+        color:#bbb;
+        font-size:10px;
+        font-weight:700;
+    `;
+
+    const price = document.createElement("div");
+
+    const validPrice =
+        fuelData &&
+        Number.isFinite(Number(fuelData.price)) &&
+        Number(fuelData.price) > 0;
+
+    price.textContent = validPrice
+        ? Number(fuelData.price).toLocaleString("pt-PT", {
+            minimumFractionDigits: 3,
+            maximumFractionDigits: 3
+        }) + " €/L"
+        : "Preço indisponível";
+
+    price.style.cssText = `
+        color:${validPrice ? "#ff7900" : "#999"};
+        font-size:13px;
+        font-weight:900;
+        margin-top:4px;
+    `;
+
+    item.append(title, price);
+
+    if (validPrice && fuelData.updatedAt) {
+        const updated = new Date(fuelData.updatedAt);
+
+        if (!Number.isNaN(updated.getTime())) {
+            const date = document.createElement("div");
+
+            date.textContent =
+                "Atualizado: " +
+                updated.toLocaleDateString("pt-PT");
+
+            date.style.cssText = `
+                color:#999;
+                font-size:9px;
+                margin-top:5px;
+            `;
+
+            item.appendChild(date);
+        }
+    }
+
+    return item;
+}
+
+fuelPricesBox.append(
+    createFuelPriceItem(
+        "⛽ Gasolina 95",
+        station.fuelPrices?.gasoline95
+    ),
+    createFuelPriceItem(
+        "⛽ Gasolina 98",
+        station.fuelPrices?.gasoline98
+    )
+);
+
+info.append(
+    name,
+    subtitle,
+    recommendation,
+    fuelPricesBox
+);
+
 
     const distanceBadge = document.createElement("div");
     distanceBadge.style.cssText = `
