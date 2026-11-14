@@ -10265,27 +10265,24 @@ async function getFuelPricesForStations(stations, district) {
             station, records98
         );
 
-        // Nunca misturar preços de dois postos diferentes.
+              // Confirmar que os dois preços pertencem ao mesmo posto.
+        // Se houver conflito, manter apenas a correspondência
+        // mais próxima, sem misturar postos diferentes.
         if (
             match95 &&
             match98 &&
             String(match95.station_id) !==
             String(match98.station_id)
         ) {
-            match95 = null;
-            match98 = null;
-        }
+            const distance95 = Number(match95.distanceMeters);
+            const distance98 = Number(match98.distanceMeters);
 
-        return {
-            ...station,
-            fuelPrices: {
-                gasoline95: toPrice(match95),
-                gasoline98: toPrice(match98)
+            if (distance95 <= distance98) {
+                match98 = null;
+            } else {
+                match95 = null;
             }
-        };
-    });
-}
-
+        }
 
 async function getFuelDistrict(latitude, longitude) {
     const lat = Number(latitude);
