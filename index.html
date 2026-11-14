@@ -10333,6 +10333,79 @@ const stationsWithRoadDistance = await Promise.all(
 );
 
 
+const evaluateFuelCandidate = (
+    candidateIntervalsKm,
+    currentIntervalsKm,
+    safetyLimitKm
+) => {
+    const validIntervals = intervals =>
+        Array.isArray(intervals) &&
+        intervals.length > 0 &&
+        intervals.every(value =>
+            Number.isFinite(value) && value >= 0
+        );
+
+    if (
+        !Number.isFinite(safetyLimitKm) ||
+        safetyLimitKm <= 0 ||
+        !validIntervals(candidateIntervalsKm) ||
+        !validIntervals(currentIntervalsKm)
+    ) {
+        return {
+            status: "unverified",
+            label: "⚠️ AUTONOMIA NÃO VALIDADA"
+        };
+    }
+
+    const metrics = intervals => ({
+        missing: intervals.reduce(
+            (total, value) =>
+                total + Math.max(
+                    0,
+                    Math.ceil(value / safetyLimitKm) - 1
+                ),
+            0
+        ),
+        excess: intervals.reduce(
+            (total, value) =>
+                total + Math.max(0, value - safetyLimitKm),
+            0
+        ),
+        worst: Math.max(...intervals)
+    });
+
+    const before = metrics(currentIntervalsKm);
+    const after = metrics(candidateIntervalsKm);
+
+    if (after.worst <= safetyLimitKm) {
+        return {
+            status: "safe",
+            label: "🟢 AUTONOMIA SEGURA",
+            before,
+            after
+        };
+    }
+
+    if (
+        after.missing <= before.missing &&
+        after.excess < before.excess - 0.1 &&
+        after.worst <= before.worst + 0.1
+    ) {
+        return {
+            status: "improved",
+            label: "🟡 MELHORIA PARCIAL",
+            before,
+            after
+        };
+    }
+
+    return {
+        status: "not_recommended",
+        label: "🔴 NÃO RECOMENDADA",
+        before,
+        after
+    };
+};
 const nearbyFuelCandidates = stationsWithRoadDistance
     .filter(station =>
         station &&
