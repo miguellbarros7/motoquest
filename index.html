@@ -11114,12 +11114,26 @@ previewNotice.textContent = replacementPreview.fuelIsSafe
 
 
        
-saveButton.disabled = !replacementPreview.fuelIsSafe;
 
-saveButton.textContent = replacementPreview.fuelIsSafe
-    ? "💾 GUARDAR"
-    : "⚠️ AUTONOMIA INSUFICIENTE";
+const isAddingFuel =
+    fuelReplacementSelect.value === "keep";
 
+saveButton.disabled =
+    !isAddingFuel && !replacementPreview.fuelIsSafe;
+
+saveButton.textContent =
+    replacementPreview.fuelIsSafe
+        ? "💾 GUARDAR"
+        : isAddingFuel
+            ? "💾 ADICIONAR BOMBA"
+            : "⚠️ AUTONOMIA INSUFICIENTE";
+
+if (isAddingFuel && !replacementPreview.fuelIsSafe) {
+    previewNotice.textContent =
+        "⚠️ Podes guardar esta bomba, mas a rota " +
+        "continua com autonomia insuficiente. " +
+        "Será necessário adicionar mais abastecimentos.";
+}
 
     } catch (error) {
         if (requestId !== previewRequestId) return;
