@@ -10968,7 +10968,7 @@ if (approvedFuelCandidates.length === 0) {
         "Experimenta procurar noutro ponto da rota.";
 }
 
-approvedFuelCandidates
+fuelCandidatesWithPrices
     .sort((a, b) => {
         const rank = { safe: 2, improved: 1 };
         return rank[b.fuelEvaluation.status] -
