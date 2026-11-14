@@ -10945,8 +10945,12 @@ const updateFuelReplacementPreview = async () => {
             throw new Error("Escolhe uma opção de abastecimento.");
         }
 
-        const replacementKm =
-            await calculateFuelReplacementPreview();
+      
+const replacementPreview =
+    await calculateFuelReplacementPreview();
+
+const replacementKm = replacementPreview.distanceKm;
+
 
         if (requestId !== previewRequestId) return;
 
