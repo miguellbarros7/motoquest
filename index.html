@@ -11289,6 +11289,24 @@ const replacementKm = replacementPreview.distanceKm;
 
         const replacementDifference = replacementKm - originalKm;
 		
+const fuelCandidateEvaluation =
+    currentFuelPositionsAreValid &&
+    currentRouteLegsAreValid
+        ? evaluateFuelCandidate(
+            replacementPreview.fuelIntervalsKm,
+            currentFuelIntervalsKm,
+            fuelSafetyLimitKm
+        )
+        : {
+            status: "unverified",
+            label: "⚠️ AUTONOMIA NÃO VALIDADA"
+        };
+
+console.log(
+    "MotoQuest — avaliação real da bomba:",
+    fuelCandidateEvaluation.label,
+    fuelCandidateEvaluation
+);
 
 const missingDifference =
     replacementPreview.missingCount - currentMissingCount;
