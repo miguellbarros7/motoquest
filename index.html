@@ -10561,10 +10561,9 @@ const stations = await findFuelStations(
     searchLongitude
 );
 
-			
+stationResults.replaceChildren();
 
-    stationResults.textContent =
-        "⏳ A consultar preços da Gasolina 95 e 98...";
+if (stations.length === 0) {
 
     try {
         // Identificar o distrito uma única vez por pesquisa.
