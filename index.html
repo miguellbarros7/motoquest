@@ -10935,12 +10935,16 @@ const replacementWorstIntervalKm =
     Math.max(0, ...replacementFuelIntervalsKm);
 
 
+
 return {
     distanceKm: route.distance / 1000,
     fuelIsSafe: replacementFuelIsSafe,
     fuelIntervalsKm: replacementFuelIntervalsKm,
-    missingCount: replacementMissingCount
+    missingCount: replacementMissingCount,
+    excessKm: replacementExcessKm,
+    worstIntervalKm: replacementWorstIntervalKm
 };
+
 
 };
 
