@@ -10998,12 +10998,14 @@ if (!replacementPreview.fuelIsSafe) {
                         ? "🟢 DESVIO MÍNIMO"
                         : replacementDifference < 0
                             ? "🟢 ROTA MAIS CURTA"
-                            : "ℹ️ DISTÂNCIA IGUAL";
-
+                            
+                    : "ℹ️ DISTÂNCIA IGUAL";
+}
 
 const isBetter =
     replacementDifference <= 0 &&
     replacementPreview.fuelIsSafe;
+
 
         detour.style.background =
             isBetter ? "#14291d" : "#302014";
