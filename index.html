@@ -10021,7 +10021,18 @@ fuelPlanner.appendChild(plannerInfo);
 if (plannedStops.length > 0) {
     const missingStopsNotice = document.createElement("div");
 
-    const missingCount = plannedStops.length;
+   
+const missingCount = plannedStops.length;
+
+const fuelStopsToReposition =
+    orderedFuelStops.filter((item, index) => {
+        const previousKm = index === 0
+            ? 0
+            : orderedFuelStops[index - 1].km;
+
+        return item.km - previousKm > fuelSafetyLimitKm;
+    });
+
 
     missingStopsNotice.textContent =
         "⚠️ Faltam adicionar " +
