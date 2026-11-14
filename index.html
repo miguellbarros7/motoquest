@@ -9932,8 +9932,8 @@ if (suggestedFuelStopsInGaps.length > 0) {
 const fuelPriceCache = new Map();
 
 async function fetchFuelPricesByDistrict(district, fuel) {
-    const cacheKey = `${district}|${fuel}`;
-    const cached = fuelPriceCache.get(cacheKey);
+const cacheKey = `PORTUGAL|${fuel}`;
+	const cached = fuelPriceCache.get(cacheKey);
 
     // Evitar repetir consultas durante 30 minutos.
     if (cached && Date.now() - cached.time < 30 * 60 * 1000) {
@@ -9946,12 +9946,11 @@ async function fetchFuelPricesByDistrict(district, fuel) {
     let totalPages = 1;
 
     do {
-        const params = new URLSearchParams({
-            district: district,
-            fuel: fuel,
-            limit: String(limit),
-            page: String(page)
-        });
+      const params = new URLSearchParams({
+    fuel: fuel,
+    limit: String(limit),
+    page: String(page)
+});
 
         const response = await fetch(
             `https://api.apiaberta.pt/v1/fuel/stations?${params}`
@@ -10171,8 +10170,8 @@ async function getFuelPricesForStations(stations, district) {
         gasoline98: null
     });
 
-    if (!Array.isArray(stations) || !district) {
-        return (stations || []).map(station => ({
+if (!Array.isArray(stations)) {
+	return (stations || []).map(station => ({
             ...station,
             fuelPrices: emptyPrices()
         }));
@@ -10925,36 +10924,27 @@ approvedFuelCandidates.push({
 
 let fuelCandidatesWithPrices = approvedFuelCandidates;
 
+
+let fuelCandidatesWithPrices = approvedFuelCandidates;
+
 if (approvedFuelCandidates.length > 0) {
     stationResults.textContent =
         "⏳ A consultar preços da Gasolina 95 e 98...";
 
     try {
-        const firstStation = approvedFuelCandidates[0];
-
-        const district = await getFuelDistrict(
-            firstStation.latitude,
-            firstStation.longitude
-        );
-
-        if (district) {
-            fuelCandidatesWithPrices =
-                await getFuelPricesForStations(
-                    approvedFuelCandidates,
-                    district
-                );
-        } else {
-            console.warn(
-                "MotoQuest — distrito não identificado."
+        fuelCandidatesWithPrices =
+            await getFuelPricesForStations(
+                approvedFuelCandidates,
+                null
             );
-        }
     } catch (error) {
         console.warn(
-            "MotoQuest — não foi possível consultar preços:",
+            "MotoQuest — preços indisponíveis:",
             error
         );
     }
 }
+
 				
 stationResults.replaceChildren();
 
