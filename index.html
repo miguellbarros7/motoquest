@@ -9843,9 +9843,15 @@ summaryPanel.appendChild(fuelAlert);
 }
         
 
-// Só planear abastecimentos quando um depósito
-// não chega para completar a rota.
-if (km > estimatedRange) {
+
+const savedFuelStopsAreSafe =
+    fuelStopsWithUnknownPosition.length === 0 &&
+    orderedFuelStops.length > 0 &&
+    !fuelNeedsNewStop &&
+    !fuelNeedsStationReview;
+
+if (km > estimatedRange && !savedFuelStopsAreSafe) {
+
     let lastRefuelKm = 0;
 
     while (km - lastRefuelKm > estimatedRange) {
