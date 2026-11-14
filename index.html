@@ -10129,12 +10129,14 @@ if (stopLocation) {
         );
 
       // Verificar se já existe uma bomba guardada perto deste ponto
+
 const matchingFuelStop = routeFuelStops.find(fuel => {
     const fuelKm = fuelKmByStop.get(fuel);
 
     return Number.isFinite(fuelKm) &&
-        Math.abs(fuelKm - distance) <= 5;
+        Math.abs(fuelKm - distance) <= 15;
 });
+
 
 	
 const fuelStopsNeedingReview = routeFuelStops
