@@ -9291,8 +9291,18 @@ const routeFuelStops = Array.isArray(route.fuel_stops)
     ? route.fuel_stops
     : [];
 
+
 if (routeFuelStops.length > 0) {
-    routeFuelStops.forEach(fuel => {
+    [...routeFuelStops]
+        .sort((a, b) => {
+            const kmA = fuelKmByStop.get(a);
+            const kmB = fuelKmByStop.get(b);
+
+            return (Number.isFinite(kmA) ? kmA : Infinity) -
+                   (Number.isFinite(kmB) ? kmB : Infinity);
+        })
+        .forEach(fuel => {
+
         const fuelRow = document.createElement("div");
 		fuelRow.classList.add("mq-saved-fuel-row");
 
