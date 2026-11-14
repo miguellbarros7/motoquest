@@ -10750,6 +10750,21 @@ const currentMissingCount =
         0
     );
 
+		
+const currentExcessKm =
+    currentFuelIntervalsKm.reduce(
+        (total, intervalKm) =>
+            total + Math.max(
+                0,
+                intervalKm - fuelSafetyLimitKm
+            ),
+        0
+    );
+
+const currentWorstIntervalKm =
+    Math.max(0, ...currentFuelIntervalsKm);
+
+
 
 const calculateFuelReplacementPreview = async () => {
     const selectedValue = fuelReplacementSelect.value;
