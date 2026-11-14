@@ -10719,6 +10719,36 @@ if (suggestedReplacementIndex >= 0) {
 }
 
 
+const currentFuelPositionsKm = existingFuelStops
+    .map(fuel => fuelKmByStop.get(fuel))
+    .filter(position => Number.isFinite(position))
+    .sort((a, b) => a - b);
+
+const currentFuelIntervalsKm = [];
+
+let previousFuelPositionKm = 0;
+
+currentFuelPositionsKm.forEach(positionKm => {
+    currentFuelIntervalsKm.push(
+        positionKm - previousFuelPositionKm
+    );
+
+    previousFuelPositionKm = positionKm;
+});
+
+currentFuelIntervalsKm.push(
+    km - previousFuelPositionKm
+);
+
+const currentMissingCount =
+    currentFuelIntervalsKm.reduce(
+        (total, intervalKm) =>
+            total + Math.max(
+                0,
+                Math.ceil(intervalKm / fuelSafetyLimitKm) - 1
+            ),
+        0
+    );
 
 
 const calculateFuelReplacementPreview = async () => {
