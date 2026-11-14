@@ -10568,14 +10568,6 @@ if (stations.length === 0) {
         "Não foram encontrados postos num raio de 5 km.";
 } else {
 
-
-            stationResults.replaceChildren();
-
-            if (stations.length === 0) {
-                stationResults.textContent =
-                    "Não foram encontrados postos num raio de 5 km.";
-            } else {
-                
 const haversineKm = (lat1, lon1, lat2, lon2) => {
     const R = 6371;
     const toRad = degrees => degrees * Math.PI / 180;
