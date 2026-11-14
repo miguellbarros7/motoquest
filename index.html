@@ -9929,61 +9929,10 @@ if (suggestedFuelStopsInGaps.length > 0) {
 }
 
 		
+
 const fuelPriceCache = new Map();
+const fuelPriceRequests = new Map();
 
-async function fetchFuelPricesByDistrict(district, fuel) {
-const cacheKey = `PORTUGAL|${fuel}`;
-	const cached = fuelPriceCache.get(cacheKey);
-
-    // Evitar repetir consultas durante 30 minutos.
-    if (cached && Date.now() - cached.time < 30 * 60 * 1000) {
-        return cached.data;
-    }
-
-    const allStations = [];
-    const limit = 100;
-    let page = 1;
-    let totalPages = 1;
-
-    do {
-      const params = new URLSearchParams({
-    fuel: fuel,
-    limit: String(limit),
-    page: String(page)
-});
-
-        const response = await fetch(
-            `https://api.apiaberta.pt/v1/fuel/stations?${params}`
-        );
-
-        if (!response.ok) {
-            throw new Error(
-                `Erro na API de combustíveis: ${response.status}`
-            );
-        }
-
-        const result = await response.json();
-
-        if (!Array.isArray(result.data)) {
-            throw new Error("Resposta inválida da API de combustíveis.");
-        }
-
-        allStations.push(...result.data);
-
-        totalPages = Number(result.meta?.pages) || 1;
-        page++;
-
-    } while (page <= totalPages);
-
-    fuelPriceCache.set(cacheKey, {
-        time: Date.now(),
-        data: allStations
-    });
-
-    return allStations;
-}
-
-		
 function normalizeFuelBrand(value) {
     return String(value || "")
         .normalize("NFD")
@@ -9993,87 +9942,270 @@ function normalizeFuelBrand(value) {
 }
 
 function fuelStationDistanceMeters(lat1, lon1, lat2, lon2) {
-    const toRad = degrees => degrees * Math.PI / 180;
-    const earthRadius = 6371000;
-
-    const dLat = toRad(lat2 - lat1);
-    const dLon = toRad(lon2 - lon1);
+    const rad = value => value * Math.PI / 180;
+    const dLat = rad(lat2 - lat1);
+    const dLon = rad(lon2 - lon1);
 
     const a =
         Math.sin(dLat / 2) ** 2 +
-        Math.cos(toRad(lat1)) *
-        Math.cos(toRad(lat2)) *
+        Math.cos(rad(lat1)) *
+        Math.cos(rad(lat2)) *
         Math.sin(dLon / 2) ** 2;
 
-    return 2 * earthRadius * Math.asin(
+    return 6371000 * 2 * Math.asin(
         Math.min(1, Math.sqrt(a))
     );
 }
 
-function matchFuelStationPrice(station, priceRecords) {
-    const stationLat = Number(station.latitude);
-    const stationLng = Number(station.longitude);
+function matchFuelStationPrice(station, records) {
+    const lat = Number(station.latitude);
+    const lng = Number(station.longitude);
+    const brand = normalizeFuelBrand(station.brand);
 
     if (
-        !Number.isFinite(stationLat) ||
-        !Number.isFinite(stationLng) ||
-        !station.brand
+        station.latitude == null ||
+        station.longitude == null ||
+        !Number.isFinite(lat) ||
+        !Number.isFinite(lng) ||
+        !brand
     ) {
         return null;
     }
 
-    const brand = normalizeFuelBrand(station.brand);
+    const matches = [];
 
-    const matches = (priceRecords || [])
-        .filter(record => {
-            const lat = Number(record.location?.lat);
-            const lng = Number(record.location?.lng);
-            const price = Number(record.price_eur);
+    for (const record of records || []) {
+        const rLat = Number(record.location?.lat);
+        const rLng = Number(record.location?.lng);
+        const price = Number(record.price_eur);
 
-            if (
-                !Number.isFinite(lat) ||
-                !Number.isFinite(lng) ||
-                !Number.isFinite(price) ||
-                price <= 0
-            ) {
-                return false;
-            }
+        if (
+            record.location?.lat == null ||
+            record.location?.lng == null ||
+            !Number.isFinite(rLat) ||
+            !Number.isFinite(rLng) ||
+            !Number.isFinite(price) ||
+            price <= 0 ||
+            normalizeFuelBrand(record.brand) !== brand
+        ) {
+            continue;
+        }
 
-            if (normalizeFuelBrand(record.brand) !== brand) {
-                return false;
-            }
+        const distance = fuelStationDistanceMeters(
+            lat, lng, rLat, rLng
+        );
 
-            return fuelStationDistanceMeters(
-                stationLat,
-                stationLng,
-                lat,
-                lng
-            ) <= 100;
-        })
-        .map(record => ({
-            ...record,
-            distanceMeters: fuelStationDistanceMeters(
-                stationLat,
-                stationLng,
-                Number(record.location.lat),
-                Number(record.location.lng)
-            )
-        }))
-        .sort((a, b) => a.distanceMeters - b.distanceMeters);
-
-    // Só aceitar quando existe exatamente um posto compatível.
-    const uniqueStationIds = new Set(
-        matches.map(record => String(record.station_id))
-    );
-
-    if (uniqueStationIds.size !== 1) {
-        return null;
+        if (distance <= 100) {
+            matches.push({
+                ...record,
+                distanceMeters: distance
+            });
+        }
     }
 
-    return matches[0];
+    const ids = new Set(
+        matches.map(item => String(item.station_id))
+    );
+
+    if (ids.size !== 1) return null;
+
+    matches.sort(
+        (a, b) => a.distanceMeters - b.distanceMeters
+    );
+
+    return matches[0] || null;
 }
 
-const fuelDistrictCache = new Map();
+async function fetchFuelPricePage(fuel, page) {
+    const params = new URLSearchParams({
+        fuel,
+        limit: "100",
+        page: String(page)
+    });
+
+    const url =
+        `https://api.apiaberta.pt/v1/fuel/stations?${params}`;
+
+    for (let attempt = 0; attempt < 3; attempt++) {
+        try {
+            const controller = new AbortController();
+            const timeout = setTimeout(
+                () => controller.abort(),
+                15000
+            );
+
+            let response;
+
+            try {
+                response = await fetch(url, {
+                    signal: controller.signal
+                });
+            } finally {
+                clearTimeout(timeout);
+            }
+
+            if (!response.ok) {
+                throw new Error(`HTTP ${response.status}`);
+            }
+
+            const result = await response.json();
+
+            if (!Array.isArray(result.data)) {
+                throw new Error("Resposta inválida da API");
+            }
+
+            return result;
+        } catch (error) {
+            if (attempt === 2) throw error;
+
+            await new Promise(resolve =>
+                setTimeout(resolve, 700 * (attempt + 1))
+            );
+        }
+    }
+}
+
+async function fetchFuelPricesByDistrict(district, fuel) {
+    const key = `PORTUGAL|${fuel}`;
+    const now = Date.now();
+    const cached = fuelPriceCache.get(key);
+
+    if (cached && now - cached.time < cached.ttl) {
+        return cached.data;
+    }
+
+    if (fuelPriceRequests.has(key)) {
+        return fuelPriceRequests.get(key);
+    }
+
+    const request = (async () => {
+        const first = await fetchFuelPricePage(fuel, 1);
+        const records = [...first.data];
+        const totalPages = Math.max(
+            1,
+            Math.min(200, Number(first.meta?.pages) || 1)
+        );
+
+        const pages = [];
+
+        for (let page = 2; page <= totalPages; page++) {
+            pages.push(page);
+        }
+
+        let failedPages = 0;
+
+        // Três pedidos simultâneos para não sobrecarregar a API.
+        const workers = Array.from(
+            { length: Math.min(3, pages.length) },
+            async () => {
+                while (pages.length > 0) {
+                    const page = pages.shift();
+
+                    try {
+                        const result =
+                            await fetchFuelPricePage(fuel, page);
+
+                        records.push(...result.data);
+                    } catch (error) {
+                        failedPages++;
+                        console.warn(
+                            `MotoQuest — falhou página ${page} de ${fuel}:`,
+                            error
+                        );
+                    }
+                }
+            }
+        );
+
+        await Promise.all(workers);
+
+        // Dados completos: 30 minutos.
+        // Dados parciais: tentar completar após 2 minutos.
+        fuelPriceCache.set(key, {
+            time: Date.now(),
+            ttl: failedPages === 0
+                ? 30 * 60 * 1000
+                : 2 * 60 * 1000,
+            data: records
+        });
+
+        console.info(
+            `MotoQuest — ${fuel}: ${records.length} registos; ` +
+            `${failedPages} páginas falhadas`
+        );
+
+        return records;
+    })();
+
+    fuelPriceRequests.set(key, request);
+
+    try {
+        return await request;
+    } catch (error) {
+        console.warn(
+            `MotoQuest — falha na consulta de ${fuel}:`,
+            error
+        );
+
+        // Se houver dados anteriores, aproveitá-los.
+        return cached?.data || [];
+    } finally {
+        fuelPriceRequests.delete(key);
+    }
+}
+
+async function getFuelPricesForStations(stations, district) {
+    if (!Array.isArray(stations)) return [];
+
+    const [result95, result98] = await Promise.allSettled([
+        fetchFuelPricesByDistrict(null, "gasoline_95"),
+        fetchFuelPricesByDistrict(null, "gasoline_98")
+    ]);
+
+    const records95 = result95.status === "fulfilled"
+        ? result95.value
+        : [];
+
+    const records98 = result98.status === "fulfilled"
+        ? result98.value
+        : [];
+
+    const toPrice = match => match ? {
+        price: Number(match.price_eur),
+        updatedAt: match.updated_at,
+        stationId: match.station_id
+    } : null;
+
+    return stations.map(station => {
+        let match95 = matchFuelStationPrice(
+            station, records95
+        );
+
+        let match98 = matchFuelStationPrice(
+            station, records98
+        );
+
+        // Nunca misturar preços de dois postos diferentes.
+        if (
+            match95 &&
+            match98 &&
+            String(match95.station_id) !==
+            String(match98.station_id)
+        ) {
+            match95 = null;
+            match98 = null;
+        }
+
+        return {
+            ...station,
+            fuelPrices: {
+                gasoline95: toPrice(match95),
+                gasoline98: toPrice(match98)
+            }
+        };
+    });
+}
+
 
 async function getFuelDistrict(latitude, longitude) {
     const lat = Number(latitude);
