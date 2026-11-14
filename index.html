@@ -9897,7 +9897,17 @@ const savedFuelStopsAreSafe =
     !fuelNeedsNewStop &&
     !fuelNeedsStationReview;
 
-if (km > estimatedRange && !savedFuelStopsAreSafe) {
+if (suggestedFuelStopsInGaps.length > 0) {
+
+    suggestedFuelStopsInGaps.forEach(suggestedKm => {
+        plannedStops.push(suggestedKm);
+    });
+
+} else if (
+    km > estimatedRange &&
+    orderedFuelStops.length === 0 &&
+    !savedFuelStopsAreSafe
+) {
 
     let lastRefuelKm = 0;
 
