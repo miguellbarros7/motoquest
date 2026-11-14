@@ -10719,7 +10719,12 @@ console.log(
     replacementFuelIsSafe
 );
 
-    return route.distance / 1000;
+
+return {
+    distanceKm: route.distance / 1000,
+    fuelIsSafe: replacementFuelIsSafe,
+    fuelIntervalsKm: replacementFuelIntervalsKm
+};
 };
 
 
