@@ -10418,7 +10418,203 @@ console.log(
     nearbyFuelCandidates.length
 );
 
-nearbyFuelCandidates
+
+const currentFuelIntervals = [];
+let previousFuelKm = 0;
+
+orderedFuelStops.forEach(item => {
+    currentFuelIntervals.push(item.km - previousFuelKm);
+    previousFuelKm = item.km;
+});
+
+currentFuelIntervals.push(km - previousFuelKm);
+
+const originalLegDistances = calculatedRoute.legs || [];
+
+const getCandidateInsertionIndex = () => {
+    let accumulatedKm = 0;
+
+    for (let i = 0; i < originalLegDistances.length; i++) {
+        accumulatedKm +=
+            Number(originalLegDistances[i].distance) / 1000;
+
+        if (distance <= accumulatedKm) {
+            const count = tripRouteStops
+                .slice(0, i + 1)
+                .filter(stop => ordered.includes(stop))
+                .length;
+
+            return Math.max(
+                1,
+                Math.min(ordered.length - 1, count)
+            );
+        }
+    }
+
+    return null;
+};
+
+const candidateInsertionIndex = getCandidateInsertionIndex();
+
+const checkCandidateRoute = async (station, fuelToReplace) => {
+    if (
+        candidateInsertionIndex === null ||
+        !Number.isFinite(fuelSafetyLimitKm) ||
+        fuelSafetyLimitKm <= 0 ||
+        !Array.isArray(calculatedRoute.legs) ||
+        calculatedRoute.legs.length !== tripRouteStops.length - 1 ||
+        currentFuelIntervals.some(value =>
+            !Number.isFinite(value) || value < 0
+        )
+    ) {
+        return { status: "unverified" };
+    }
+
+    const candidateFuel = {
+        ...station,
+        insertion_index: candidateInsertionIndex
+    };
+
+    const fuelStops = [
+        ...(route.fuel_stops || []).filter(
+            fuel => fuel !== fuelToReplace
+        ),
+        candidateFuel
+    ];
+
+    const stops = [...ordered];
+
+    [...fuelStops]
+        .sort((a, b) =>
+            Number(b.insertion_index) -
+            Number(a.insertion_index)
+        )
+        .forEach(fuel => {
+            stops.splice(Number(fuel.insertion_index), 0, {
+                latitude: Number(fuel.latitude),
+                longitude: Number(fuel.longitude),
+                isFuelStop: true
+            });
+        });
+
+    if (tripMeetingPoint) stops.unshift(tripMeetingPoint);
+    if (tripDeparturePoint) stops.unshift(tripDeparturePoint);
+    if (tripEndPoint) stops.push(tripEndPoint);
+
+    if (stops.some(stop =>
+        !Number.isFinite(Number(stop.latitude)) ||
+        !Number.isFinite(Number(stop.longitude))
+    )) {
+        return { status: "unverified" };
+    }
+
+    const coordinates = stops.map(stop =>
+        `${Number(stop.longitude)},${Number(stop.latitude)}`
+    ).join(";");
+
+    const response = await fetch(
+        `https://router.project-osrm.org/route/v1/driving/${coordinates}` +
+        "?overview=false&steps=false"
+    );
+
+    if (!response.ok) throw new Error("OSRM indisponível");
+
+    const result = await response.json();
+    const legs = result.routes?.[0]?.legs;
+
+    if (
+        result.code !== "Ok" ||
+        !Array.isArray(legs) ||
+        legs.length !== stops.length - 1
+    ) {
+        return { status: "unverified" };
+    }
+
+    const intervals = [];
+    let sinceFuel = 0;
+
+    legs.forEach((leg, index) => {
+        sinceFuel += Number(leg.distance) / 1000;
+
+        if (stops[index + 1].isFuelStop) {
+            intervals.push(sinceFuel);
+            sinceFuel = 0;
+        }
+    });
+
+    intervals.push(sinceFuel);
+
+    return evaluateFuelCandidate(
+        intervals,
+        currentFuelIntervals,
+        fuelSafetyLimitKm
+    );
+};
+
+stationResults.textContent =
+    "⏳ A validar bombas pela autonomia real...";
+
+const approvedFuelCandidates = [];
+
+for (const station of nearbyFuelCandidates.slice(0, 8)) {
+    try {
+        const addEvaluation =
+            await checkCandidateRoute(station, null);
+
+        let bestEvaluation = addEvaluation;
+
+        for (const fuel of (route.fuel_stops || [])) {
+            const replacementEvaluation =
+                await checkCandidateRoute(station, fuel);
+
+            const rank = {
+                safe: 3,
+                improved: 2,
+                not_recommended: 1,
+                unverified: 0
+            };
+
+            if (
+                rank[replacementEvaluation.status] >
+                rank[bestEvaluation.status]
+            ) {
+                bestEvaluation = replacementEvaluation;
+            }
+        }
+
+        if (
+            bestEvaluation.status === "safe" ||
+            bestEvaluation.status === "improved"
+        ) {
+            approvedFuelCandidates.push({
+                ...station,
+                fuelEvaluation: bestEvaluation
+            });
+        }
+    } catch (error) {
+        console.warn(
+            "Bomba não validada:",
+            station.name,
+            error
+        );
+    }
+}
+
+stationResults.replaceChildren();
+
+if (approvedFuelCandidates.length === 0) {
+    stationResults.textContent =
+        "⛽ Nenhuma bomba desta pesquisa melhorou " +
+        "a autonomia de forma validada. " +
+        "Experimenta procurar noutro ponto da rota.";
+}
+
+approvedFuelCandidates
+    .sort((a, b) => {
+        const rank = { safe: 2, improved: 1 };
+        return rank[b.fuelEvaluation.status] -
+            rank[a.fuelEvaluation.status];
+    })
     .slice(0, 5)
     .forEach(station => {
 
