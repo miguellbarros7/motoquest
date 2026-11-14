@@ -11163,6 +11163,24 @@ if (finalResult.code !== "Ok" || !finalRoute) {
     throw new Error("O serviço não devolveu uma rota final válida.");
 }
 
+const finalLegDistancesKm = Array.isArray(finalRoute.legs)
+    ? finalRoute.legs.map(leg => leg.distance / 1000)
+    : [];
+
+if (
+    finalLegDistancesKm.length !== finalRouteStops.length - 1 ||
+    finalLegDistancesKm.some(
+        distance => !Number.isFinite(distance) || distance < 0
+    )
+) {
+    alert(
+        "⚠️ Não foi possível validar todos os troços da rota final. " +
+        "O abastecimento não será guardado."
+    );
+    return;
+}
+
+	
 const finalRouteKm = finalRoute.distance / 1000;
 
 
