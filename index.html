@@ -10677,7 +10677,30 @@ subtitle.style.cssText = `
 `;
 
 
-    info.append(name, subtitle);
+
+const recommendation = document.createElement("div");
+
+const approvedReplacement = station.fuelToReplace;
+
+recommendation.textContent =
+    station.fuelEvaluation.label + " · " +
+    (approvedReplacement
+        ? "SUBSTITUIR " +
+          approvedReplacement.name +
+          (approvedReplacement.locality
+              ? " — " + approvedReplacement.locality
+              : "")
+        : "ADICIONAR SEM SUBSTITUIR");
+
+recommendation.style.cssText = `
+    color:#ffb15c;
+    font-size:11px;
+    font-weight:800;
+    margin-top:6px;
+    line-height:1.5;
+`;
+
+info.append(name, subtitle, recommendation);
 
     const distanceBadge = document.createElement("div");
     distanceBadge.style.cssText = `
