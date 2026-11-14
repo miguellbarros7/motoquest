@@ -9942,8 +9942,9 @@ async function findFuelStations(latitude, longitude) {
         throw error;
     }
 
-   return (data || []).map(station => ({
+return (data || []).map(station => ({
     name: station.name || station.brand || "Posto de combustível",
+    brand: station.brand || "",
     locality: station.locality || "",
     latitude: Number(station.latitude),
     longitude: Number(station.longitude)
