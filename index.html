@@ -9853,6 +9853,28 @@ summaryPanel.appendChild(fuelAlert);
 }
         
 
+const fuelGapsNeedingStops = [];
+
+let previousSavedFuelKm = 0;
+
+orderedFuelStops.forEach(item => {
+    if (item.km - previousSavedFuelKm > fuelSafetyLimitKm) {
+        fuelGapsNeedingStops.push({
+            startKm: previousSavedFuelKm,
+            endKm: item.km
+        });
+    }
+
+    previousSavedFuelKm = item.km;
+});
+
+if (km - previousSavedFuelKm > fuelSafetyLimitKm) {
+    fuelGapsNeedingStops.push({
+        startKm: previousSavedFuelKm,
+        endKm: km
+    });
+}
+
 
 const savedFuelStopsAreSafe =
     fuelStopsWithUnknownPosition.length === 0 &&
