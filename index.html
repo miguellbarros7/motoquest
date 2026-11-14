@@ -10724,6 +10724,33 @@ const currentFuelPositionsKm = existingFuelStops
     .filter(position => Number.isFinite(position))
     .sort((a, b) => a - b);
 
+		
+const currentFuelPositionsAreValid =
+    currentFuelPositionsKm.length === existingFuelStops.length &&
+    currentFuelPositionsKm.every(
+        positionKm =>
+            Number.isFinite(positionKm) &&
+            positionKm >= 0 &&
+            positionKm <= km
+    );
+
+const currentRouteLegsAreValid =
+    Array.isArray(calculatedRoute.legs) &&
+    calculatedRoute.legs.length === tripRouteStops.length - 1 &&
+    calculatedRoute.legs.every(
+        leg =>
+            Number.isFinite(leg.distance) &&
+            leg.distance >= 0
+    );
+
+console.log("MotoQuest — validação da rota atual:", {
+    currentFuelPositionsAreValid,
+    currentRouteLegsAreValid,
+    savedFuelStops: existingFuelStops.length,
+    locatedFuelStops: currentFuelPositionsKm.length
+});
+
+
 const currentFuelIntervalsKm = [];
 
 let previousFuelPositionKm = 0;
@@ -11189,8 +11216,12 @@ const worstIntervalDifferenceKm =
     replacementPreview.worstIntervalKm -
     currentWorstIntervalKm;
 
+
 const comparisonDataIsValid =
-    currentFuelPositionsKm.length === existingFuelStops.length &&
+    currentFuelPositionsAreValid &&
+    currentRouteLegsAreValid &&
+
+
     currentFuelIntervalsKm.every(
         value => Number.isFinite(value) && value >= 0
     ) &&
