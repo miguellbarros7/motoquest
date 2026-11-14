@@ -10983,6 +10983,11 @@ const replacementKm = replacementPreview.distanceKm;
                     ? "↘ ROTA MAIS CURTA: -"
                     : "↔ SEM ALTERAÇÃO: ") +
             formatKm(Math.abs(replacementDifference)) + " km";
+		
+if (!replacementPreview.fuelIsSafe) {
+    detourStatus.textContent = "⚠️ AUTONOMIA INSUFICIENTE";
+} else {
+
 
         detourStatus.textContent =
             replacementDifference > 5
