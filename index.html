@@ -11257,6 +11257,26 @@ if (missingDifference < 0) {
         "🟠 Mantém o número de abastecimentos adicionais necessários.";
 }
 
+let fuelSafetyComparisonMessage = "";
+
+if (!comparisonDataIsValid) {
+    fuelSafetyComparisonMessage =
+        "⚠️ Não foi possível validar a comparação de autonomia.";
+} else if (replacementPreview.fuelIsSafe) {
+    fuelSafetyComparisonMessage =
+        "🟢 AUTONOMIA SEGURA — todos os intervalos respeitam o limite.";
+} else if (improvesFuelSafety) {
+    fuelSafetyComparisonMessage =
+        "🟢 MELHORIA DE AUTONOMIA — o excesso total diminuiu " +
+        "sem aumentar o maior intervalo. " +
+        "A rota ainda precisa de abastecimentos adicionais.";
+} else if (worsensFuelSafety) {
+    fuelSafetyComparisonMessage =
+        "🔴 AGRAVA A AUTONOMIA — pelo menos um indicador de risco piorou.";
+} else {
+    fuelSafetyComparisonMessage =
+        "🟠 SEM MELHORIA SUFICIENTE — os intervalos continuam a exigir revisão.";
+}
 console.log(
     "MotoQuest — comparação de abastecimentos:",
     fuelComparisonMessage
@@ -11313,7 +11333,9 @@ const isBetter =
 
 previewNotice.textContent =
     fuelComparisonMessage + "\n\n" +
+    fuelSafetyComparisonMessage + "\n\n" +
     (replacementPreview.fuelIsSafe
+
         ? "✅ Todos os intervalos respeitam a autonomia de segurança."
         : "⚠️ Esta opção ainda deixa " +
           replacementPreview.missingCount +
