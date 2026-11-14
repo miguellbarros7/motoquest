@@ -11288,6 +11288,21 @@ if (missingDifference < 0) {
         "🟠 Mantém o número de abastecimentos adicionais necessários.";
 }
 
+const fuelSafetyDetailsMessage =
+    comparisonDataIsValid
+        ? "📊 EXCESSO TOTAL DE AUTONOMIA\n" +
+          "Atual: " + formatKm(currentExcessKm) + " km\n" +
+          "Alternativa: " +
+          formatKm(replacementPreview.excessKm) + " km\n\n" +
+          "📏 MAIOR INTERVALO SEM ABASTECER\n" +
+          "Atual: " +
+          formatKm(currentWorstIntervalKm) + " km\n" +
+          "Alternativa: " +
+          formatKm(replacementPreview.worstIntervalKm) + " km\n" +
+          "Limite seguro: " +
+          formatKm(fuelSafetyLimitKm) + " km"
+        : "⚠️ Dados insuficientes para comparar os intervalos.";
+
 let fuelSafetyComparisonMessage = "";
 
 if (!comparisonDataIsValid) {
