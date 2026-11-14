@@ -9984,6 +9984,97 @@ async function fetchFuelPricesByDistrict(district, fuel) {
     return allStations;
 }
 
+		
+function normalizeFuelBrand(value) {
+    return String(value || "")
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .toUpperCase()
+        .replace(/[^A-Z0-9]/g, "");
+}
+
+function fuelStationDistanceMeters(lat1, lon1, lat2, lon2) {
+    const toRad = degrees => degrees * Math.PI / 180;
+    const earthRadius = 6371000;
+
+    const dLat = toRad(lat2 - lat1);
+    const dLon = toRad(lon2 - lon1);
+
+    const a =
+        Math.sin(dLat / 2) ** 2 +
+        Math.cos(toRad(lat1)) *
+        Math.cos(toRad(lat2)) *
+        Math.sin(dLon / 2) ** 2;
+
+    return 2 * earthRadius * Math.asin(
+        Math.min(1, Math.sqrt(a))
+    );
+}
+
+function matchFuelStationPrice(station, priceRecords) {
+    const stationLat = Number(station.latitude);
+    const stationLng = Number(station.longitude);
+
+    if (
+        !Number.isFinite(stationLat) ||
+        !Number.isFinite(stationLng) ||
+        !station.brand
+    ) {
+        return null;
+    }
+
+    const brand = normalizeFuelBrand(station.brand);
+
+    const matches = (priceRecords || [])
+        .filter(record => {
+            const lat = Number(record.location?.lat);
+            const lng = Number(record.location?.lng);
+            const price = Number(record.price_eur);
+
+            if (
+                !Number.isFinite(lat) ||
+                !Number.isFinite(lng) ||
+                !Number.isFinite(price) ||
+                price <= 0
+            ) {
+                return false;
+            }
+
+            if (normalizeFuelBrand(record.brand) !== brand) {
+                return false;
+            }
+
+            return fuelStationDistanceMeters(
+                stationLat,
+                stationLng,
+                lat,
+                lng
+            ) <= 100;
+        })
+        .map(record => ({
+            ...record,
+            distanceMeters: fuelStationDistanceMeters(
+                stationLat,
+                stationLng,
+                Number(record.location.lat),
+                Number(record.location.lng)
+            )
+        }))
+        .sort((a, b) => a.distanceMeters - b.distanceMeters);
+
+    // Só aceitar quando existe exatamente um posto compatível.
+    const uniqueStationIds = new Set(
+        matches.map(record => String(record.station_id))
+    );
+
+    if (uniqueStationIds.size !== 1) {
+        return null;
+    }
+
+    return matches[0];
+}
+
+
 async function findFuelStations(latitude, longitude) {
     const { data, error } = await supabaseClient.rpc(
         "find_nearby_fuel_stations",
