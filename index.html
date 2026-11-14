@@ -10296,68 +10296,7 @@ async function getFuelDistrict(latitude, longitude) {
     }
 }
 
-async function getFuelPricesForStations(stations, district) {
-    const emptyPrices = () => ({
-        gasoline95: null,
-        gasoline98: null
-    });
 
-if (!Array.isArray(stations)) {
-	return (stations || []).map(station => ({
-            ...station,
-            fuelPrices: emptyPrices()
-        }));
-    }
-
-    try {
-        // Consultar os dois combustíveis em paralelo.
-        const [records95, records98] = await Promise.all([
-            fetchFuelPricesByDistrict(district, "gasoline_95"),
-            fetchFuelPricesByDistrict(district, "gasoline_98")
-        ]);
-
-        return stations.map(station => {
-            const match95 = matchFuelStationPrice(
-                station,
-                records95
-            );
-
-            const match98 = matchFuelStationPrice(
-                station,
-                records98
-            );
-
-            // Se os dois combustíveis apontarem para postos
-            // diferentes, rejeitar ambos por segurança.
-            if (
-                match95 &&
-                match98 &&
-                String(match95.station_id) !==
-                String(match98.station_id)
-            ) {
-                return {
-                    ...station,
-                    fuelPrices: emptyPrices()
-                };
-            }
-
-            return {
-                ...station,
-                fuelPrices: {
-                    gasoline95: match95 ? {
-                        price: Number(match95.price_eur),
-                        updatedAt: match95.updated_at,
-                        stationId: match95.station_id
-                    } : null,
-
-                    gasoline98: match98 ? {
-                        price: Number(match98.price_eur),
-                        updatedAt: match98.updated_at,
-                        stationId: match98.station_id
-                    } : null
-                }
-            };
-        });
 
     } catch (error) {
         console.warn(
