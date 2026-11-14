@@ -10283,8 +10283,15 @@ async function getFuelPricesForStations(stations, district) {
                 match95 = null;
             }
         }
-
-async function getFuelDistrict(latitude, longitude) {
+        return {
+            ...station,
+            fuelPrices: {
+                gasoline95: toPrice(match95),
+                gasoline98: toPrice(match98)
+            }
+        };
+    });
+}async function getFuelDistrict(latitude, longitude) {
     const lat = Number(latitude);
     const lng = Number(longitude);
 
