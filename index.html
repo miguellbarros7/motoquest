@@ -10995,8 +10995,13 @@ const replacementKm = replacementPreview.distanceKm;
             "selecionada. A rota será verificada novamente " +
             "antes de guardar.";
 
-        saveButton.disabled = false;
-        saveButton.textContent = "💾 GUARDAR";
+       
+saveButton.disabled = !replacementPreview.fuelIsSafe;
+
+saveButton.textContent = replacementPreview.fuelIsSafe
+    ? "💾 GUARDAR"
+    : "⚠️ AUTONOMIA INSUFICIENTE";
+
 
     } catch (error) {
         if (requestId !== previewRequestId) return;
