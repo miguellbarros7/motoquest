@@ -10761,9 +10761,11 @@ info.append(name, subtitle, recommendation);
 const addToRouteButton = document.createElement("button");
 addToRouteButton.type = "button";
 
-addToRouteButton.textContent = matchingFuelStop
+
+addToRouteButton.textContent = station.fuelToReplace
     ? "🔄 SUBSTITUIR BOMBA"
-    : "➕ ADICIONAR À ROTA";
+    : "➕ ADICIONAR BOMBA";
+
 
 addToRouteButton.style.cssText = `
     flex:1;
