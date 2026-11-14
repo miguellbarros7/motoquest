@@ -10294,18 +10294,6 @@ async function getFuelDistrict(latitude, longitude) {
 
 
 
-    } catch (error) {
-        console.warn(
-            "MotoQuest — preços indisponíveis:",
-            error
-        );
-
-        return stations.map(station => ({
-            ...station,
-            fuelPrices: emptyPrices()
-        }));
-    }
-}
 
 async function findFuelStations(latitude, longitude) {
     const { data, error } = await supabaseClient.rpc(
