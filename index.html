@@ -6179,23 +6179,27 @@ const container = $("myRoutesList");
         const card = document.createElement("div");
         card.dataset.routeId = String(route.id);
       
+
+const card = document.createElement("div");
+
 card.style.cssText =
-    "background:linear-gradient(145deg,#1c1c1c,#0d0d0d);" +
-    "border:1px solid #ff7900;border-radius:18px;" +
-    "padding:18px;margin:16px 0;" +
-    "box-shadow:0 0 22px rgba(255,121,0,.10);";
+    "display:flex;align-items:center;gap:12px;" +
+    "background:#111;" +
+    "border:1px solid #ff7900;" +
+    "border-radius:18px;" +
+    "padding:16px;" +
+    "margin-bottom:12px;" +
+    "min-width:0;";
 
+const expenseContent = document.createElement("div");
 
-        
+expenseContent.style.cssText =
+    "background:#242424;" +
+    "border:1px solid #444;" +
+    "border-radius:14px;" +
+    "padding:16px;" +
+    "flex:1;min-width:0;";
 
-const title = document.createElement("div");
-
-title.style.cssText =
-    "width:100%;display:flex;align-items:center;" +
-    "justify-content:space-between;gap:12px;" +
-    "background:#252525;border:1px solid #444;" +
-    "border-radius:12px;padding:15px;" +
-"color:white;cursor:default;text-align:left;" +    "transition:all 0.2s ease;";
 
 const left = document.createElement("div");
 left.style.cssText =
