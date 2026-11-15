@@ -3350,7 +3350,8 @@ max-width:100%;
     </select>
 </div>
 
-
+	
+<div class="mq-expenses-dashboard">
     <div class="mq-expenses-summary">
         <strong>📊 Resumo da Viagem</strong>
         <p style="color:#aaa;font-size:12px;">
@@ -3378,8 +3379,8 @@ max-width:100%;
         </div>
     </div>
 </div>
-
-<style>
+</div>
+	<style>
 .mq-expenses-chart-layout {
     display:flex;
     justify-content:center;
@@ -24832,6 +24833,49 @@ div:has(> .mq-fuel-top) {
         transform: translateX(-120px);
     }
 }	
+
+/* MOTOQUEST — RESUMO E GRAFICO LADO A LADO */
+
+.mq-expenses-dashboard {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 240px;
+    gap: 16px;
+    align-items: stretch;
+    margin-top: 20px;
+}
+
+.mq-expenses-dashboard .mq-expenses-summary {
+    margin-top: 0;
+    min-width: 0;
+}
+
+.mq-expenses-dashboard .mq-expenses-chart-layout {
+    margin-top: 0;
+    padding: 18px;
+    background: #202020;
+    border: 1px solid #444;
+    border-radius: 14px;
+    box-sizing: border-box;
+    min-width: 0;
+}
+
+.mq-expenses-dashboard .mq-expenses-donut {
+    flex-shrink: 0;
+}
+
+/* TELEMOVEL — GRAFICO POR BAIXO DO RESUMO */
+
+@media (max-width: 700px) {
+    .mq-expenses-dashboard {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .mq-expenses-dashboard .mq-expenses-chart-layout {
+        padding: 20px;
+    }
+}
+	
 </style>
 <!-- FIM TITULOS IGUAIS AO DESTINO FINAL -->
 
