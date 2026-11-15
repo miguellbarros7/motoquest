@@ -10590,11 +10590,14 @@ const fuelIntervalsSafe =
                interval <= fuelSafetyLimitKm;
     });
 
+
 if (savedCount > 0 && fuelIntervalsSafe) {
     success.textContent =
-        `✅ A rota tem ${savedCount} ` +
-        `paragem(ns) de abastecimento guardada(s). ` +
-        `Não são necessárias paragens adicionais.`;
+        `✅ ${savedCount} ` +
+        `${savedCount === 1 ? "abastecimento planeado" : "abastecimentos planeados"}. ` +
+        `Autonomia estimada suficiente para completar a rota ` +
+        `com a margem de segurança definida.`;
+
 } else if (km <= fuelSafetyLimitKm && savedCount === 0) {
     success.textContent =
         "✅ A autonomia de segurança é suficiente " +
