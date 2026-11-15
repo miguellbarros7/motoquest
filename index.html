@@ -17085,13 +17085,18 @@ mqExpenseEl("mqExpenseForm").addEventListener(
             mqExpenseMessage("✅ Gasto guardado com sucesso!");
             await mqLoadExpenses();
 
-        } catch (error) {
-            console.error("Erro ao guardar gasto:", error);
-            mqExpenseMessage(
-                "Não foi possível guardar o gasto. Verifica a ligação ao Supabase.",
-                true
-            );
-        } finally {
+   
+} catch (error) {
+    console.error("MotoQuest — erro ao guardar gasto:", error);
+
+    const detalhes = error?.message || "Erro desconhecido";
+
+    mqExpenseMessage(
+        "⚠️ Erro ao guardar: " + detalhes,
+        true
+    );
+}
+} finally {
             submit.disabled = false;
         }
     }
