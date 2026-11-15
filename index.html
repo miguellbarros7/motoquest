@@ -17086,6 +17086,22 @@ function mqRenderExpenses() {
     const selectedRoute =
         mqExpenseEl("mqExpensesRouteFilter").value;
 
+	
+const filteredExpenses = mqExpenseRecords.filter(expense => {
+    let matchesRoute;
+
+    if (selectedRoute === "all") {
+        matchesRoute = true;
+    } else if (selectedRoute === "none") {
+        matchesRoute = !expense.rota_id;
+    } else {
+        matchesRoute = String(expense.rota_id) === selectedRoute;
+    }
+
+    return matchesRoute && mqExpenseMatchesPeriod(expense);
+});
+
+
     const filteredExpenses = mqExpenseRecords.filter(expense => {
         if (selectedRoute === "all") return true;
         if (selectedRoute === "none") return !expense.rota_id;
