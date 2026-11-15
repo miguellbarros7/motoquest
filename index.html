@@ -6176,6 +6176,19 @@ const container = $("myRoutesList");
     }
 
  
+data.forEach(route => {
+    const card = document.createElement("div");
+
+    card.dataset.routeId = String(route.id);
+
+    card.style.cssText =
+        "background:#181818;" +
+        "border:1px solid #ff7900;" +
+        "border-radius:18px;" +
+        "padding:18px;" +
+        "margin-bottom:14px;" +
+        "min-width:0;";
+
 
 
 
