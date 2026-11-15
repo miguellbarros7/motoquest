@@ -11283,8 +11283,6 @@ top.append(
     distanceBadge
 );
 
-item.appendChild(top);
-item.appendChild(recommendation);
     const mapButton = document.createElement("a");
     mapButton.textContent = "📍 VER NO MAPA";
     mapButton.href =
@@ -12612,8 +12610,8 @@ addToRouteButton.style.flex = "0 0 auto";
 
 buttonRow.append(mapButton, addToRouteButton);
 
-item.append(top, buttonRow);
-stationResults.appendChild(item);
+item.append(top, recommendation, buttonRow);
+		stationResults.appendChild(item);
 });    
             }
         } catch (error) {
