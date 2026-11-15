@@ -3351,6 +3351,46 @@ max-width:100%;
 </div>
 
 	
+<!-- MOTOQUEST — FILTRO DE GASTOS POR PERÍODO -->
+
+<div class="mq-expenses-period-filter">
+
+    <div class="mq-expenses-period-title">
+        <span>📅 Período dos gastos</span>
+    </div>
+
+    <div class="mq-expenses-period-buttons">
+        <button type="button" class="active" data-period="all">
+            Tudo
+        </button>
+
+        <button type="button" data-period="month">
+            Este mês
+        </button>
+
+        <button type="button" data-period="year">
+            Este ano
+        </button>
+
+        <button type="button" data-period="custom">
+            Personalizar
+        </button>
+    </div>
+
+    <div id="mqExpensesCustomDates" hidden>
+        <div>
+            <label for="mqExpensesDateFrom">De</label>
+            <input type="date" id="mqExpensesDateFrom">
+        </div>
+
+        <div>
+            <label for="mqExpensesDateTo">Até</label>
+            <input type="date" id="mqExpensesDateTo">
+        </div>
+    </div>
+
+</div>
+
 <div class="mq-expenses-dashboard">
     <div class="mq-expenses-summary">
         <strong>📊 Resumo da Viagem</strong>
