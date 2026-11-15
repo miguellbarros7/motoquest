@@ -17393,9 +17393,15 @@ remove.setAttribute("aria-label", "Eliminar gasto");
             await mqLoadExpenses();
         });
 
-        actions.append(edit, remove);
-        card.append(info, actions);
-        list.appendChild(card);
+      
+actions.append(edit, remove);
+
+expenseContent.appendChild(info);
+
+card.append(expenseContent, actions);
+
+list.appendChild(card);
+
     });
 }
 
