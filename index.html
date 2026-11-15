@@ -10035,94 +10035,29 @@ function fuelNameEvidence(station, record) {
     return { shared: [...a].filter(token => b.has(token)).length, localityMatch };
 }
 
+
 function matchFuelStationPrice(station, records) {
-    const lat = Number(station.latitude);
-    const lng = Number(station.longitude);
-    if (station.latitude == null || station.longitude == null ||
-        !Number.isFinite(lat) || !Number.isFinite(lng)) return null;
+    const officialId = station.official_station_id;
 
-    const matches = [];
-    for (const record of records || []) {
-        const rLat = Number(record.location?.lat);
-        const rLng = Number(record.location?.lng);
-        const price = Number(record.price_eur);
-        if (record.station_id == null || record.location?.lat == null ||
-            record.location?.lng == null || !Number.isFinite(rLat) ||
-            !Number.isFinite(rLng) || !Number.isFinite(price) || price <= 0 ||
-            !fuelBrandCompatible(station, record)) continue;
-
-        const distance = fuelStationDistanceMeters(lat, lng, rLat, rLng);
-        // Coordenadas de fontes distintas podem representar pontos diferentes
-        // do mesmo terreno, mas não se deve aceitar um vizinho por engano.
-        if (distance > 175) continue;
-        const evidence = fuelNameEvidence(station, record);
-        const sameBrand = normalizeFuelBrand(station.brand) ===
-            normalizeFuelBrand(record.brand);
-        const nameConfirmed = evidence.shared > 0 || evidence.localityMatch;
-        // Só permitir alguma tolerância sem nome coincidente quando a marca
-        // coincide e o ponto geográfico é praticamente idêntico.
-        if (!nameConfirmed && !(sameBrand && distance <= 30)) continue;
-        matches.push({ ...record, distanceMeters: distance,
-            matchStrength: (evidence.shared > 0 ? 3 : 0) +
-                (evidence.localityMatch ? 2 : 0) + (sameBrand ? 1 : 0) });
-    }
-    if (!matches.length) return null;
-    // Havendo mais de um identificador oficial elegível, não escolher o
-    // primeiro por acaso: mantemos o preço indisponível.
-    if (new Set(matches.map(item => String(item.station_id))).size !== 1) {
+    if (officialId == null || !Array.isArray(records)) {
         return null;
     }
-    return matches.sort((a,b) => a.distanceMeters - b.distanceMeters)[0];
+
+    const matches = records.filter(record =>
+        record.station_id != null &&
+        String(record.station_id) === String(officialId) &&
+        Number.isFinite(Number(record.price_eur)) &&
+        Number(record.price_eur) > 0
+    );
+
+    if (matches.length === 0) return null;
+
+    return matches.sort((a, b) =>
+        new Date(b.updated_at || 0) -
+        new Date(a.updated_at || 0)
+    )[0];
 }
 
-async function fetchFuelPricePage(fuel, page) {
-    const params = new URLSearchParams({
-        fuel,
-        limit: "100",
-        page: String(page)
-    });
-
-    const url =
-        `https://api.apiaberta.pt/v1/fuel/stations?${params}`;
-
-    for (let attempt = 0; attempt < 3; attempt++) {
-        try {
-            const controller = new AbortController();
-            const timeout = setTimeout(
-                () => controller.abort(),
-                15000
-            );
-
-            let response;
-
-            try {
-                response = await fetch(url, {
-                    signal: controller.signal
-                });
-            } finally {
-                clearTimeout(timeout);
-            }
-
-            if (!response.ok) {
-                throw new Error(`HTTP ${response.status}`);
-            }
-
-            const result = await response.json();
-
-            if (!Array.isArray(result.data)) {
-                throw new Error("Resposta inválida da API");
-            }
-
-            return result;
-        } catch (error) {
-            if (attempt === 2) throw error;
-
-            await new Promise(resolve =>
-                setTimeout(resolve, 700 * (attempt + 1))
-            );
-        }
-    }
-}
 
 async function fetchFuelPricesByDistrict(district, fuel) {
 	    // MotoQuest: consultar primeiro a tabela semanal do GitHub.
