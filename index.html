@@ -8628,7 +8628,32 @@ const tripWeatherSchedule = [];
 const tripStartDate = route.trip_plan?.trip_date;
 const tripStartTime =
     route.trip_plan?.departure_time || "09:00";
+	
 
+/* MOTOQUEST — METEOROLOGIA INTELIGENTE */
+
+const getLocalDateKey = (date) => {
+    return [
+        date.getFullYear(),
+        String(date.getMonth() + 1).padStart(2, "0"),
+        String(date.getDate()).padStart(2, "0")
+    ].join("-");
+};
+
+const todayWeatherKey = getLocalDateKey(new Date());
+
+const routeWeatherDate = String(
+    tripStartDate || ""
+).trim();
+
+// Sem data: mostrar o botão para permitir
+// consultar o aviso de data em falta.
+// Data passada: esconder a meteorologia.
+const showRouteWeather =
+    !routeWeatherDate ||
+    routeWeatherDate >= todayWeatherKey;
+
+/* FIM METEOROLOGIA INTELIGENTE */
 if (tripStartDate && tripRouteStops.length > 0) {
     const departureDate = new Date(
         `${tripStartDate}T${tripStartTime}:00`
@@ -9193,10 +9218,14 @@ makeAdventureTile(
     
 routeInfo.append(distanceLine, durationLine);
 
-routeInfo.append(
-    tripWeatherButton,
-    tripWeatherPanel
-);
+
+if (showRouteWeather) {
+    routeInfo.append(
+        tripWeatherButton,
+        tripWeatherPanel
+    );
+}
+
 
 // ABASTECIMENTOS GUARDADOS NA ROTA
 const savedFuelCard = document.createElement("div");
@@ -12733,8 +12762,19 @@ fuelPlanner.style.display = "";
 // quando existem
 savedFuelCard.style.display =
     routeFuelStops.length > 0 ? "" : "none";
-routeInfo.insertBefore(tripWeatherButton, savedFuelCard);
-routeInfo.insertBefore(tripWeatherPanel, savedFuelCard);
+
+if (showRouteWeather) {
+    routeInfo.insertBefore(
+        tripWeatherButton,
+        savedFuelCard
+    );
+
+    routeInfo.insertBefore(
+        tripWeatherPanel,
+        savedFuelCard
+    );
+}
+
         try {
     const fuel = bike.fuelType === "gasolina98" ? "98" : "95";
 
