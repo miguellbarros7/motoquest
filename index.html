@@ -17541,8 +17541,10 @@ remove.addEventListener("click", async () => {
                 return;
             }
 
-            mqExpenseMessage("Gasto eliminado.");
-            await mqLoadExpenses();
+          
+mqExpenseMessage("");
+await mqLoadExpenses();
+
         });
 
       
