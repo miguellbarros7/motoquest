@@ -24078,6 +24078,49 @@ div:has(> .mq-fuel-top) {
     }
 }
 
+/* MOTOQUEST — BOTOES DAS ROTAS SEMPRE NA VERTICAL */
+
+.mq-route-circle-controls {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 10px !important;
+    flex-shrink: 0 !important;
+}
+
+.mq-route-circle-controls > button {
+    width: 44px !important;
+    height: 44px !important;
+    min-width: 44px !important;
+    padding: 0 !important;
+    margin: 0 !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    background: transparent !important;
+    border: 1px solid #ff7900 !important;
+    border-radius: 50% !important;
+    color: #999 !important;
+
+    box-sizing: border-box !important;
+    flex-shrink: 0 !important;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+}
+
+.mq-route-circle-controls > button:hover {
+    background: rgba(255, 121, 0, 0.12) !important;
+    color: #ff7900 !important;
+}
+
+.mq-route-circle-controls > button svg {
+    width: 18px;
+    height: 18px;
+}
+	
 </style>
 <!-- FIM TITULOS IGUAIS AO DESTINO FINAL -->
 
