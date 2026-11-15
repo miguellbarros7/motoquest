@@ -8323,11 +8323,16 @@ tripPlannerDescription.style.cssText = `
 `;
 
 
-// Ocultar o resumo visual do planeamento.
-// Os dados da viagem continuam disponíveis.
-summaryPanel.appendChild(tripPlannerCard);
+/* MOTOQUEST — REMOVER CARTÃO VAZIO */
+
+// O planeamento continua guardado em route.trip_plan.
+// Não adicionar o cartão visual sem conteúdo.
+
 routeInfo.className = "mq-trip-stats";
 summaryPanel.appendChild(routeInfo);
+
+/* FIM REMOVER CARTÃO VAZIO */
+
 
 routeInfo.textContent = "⏳ A calcular o percurso por estrada...";
 
