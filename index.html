@@ -23862,6 +23862,109 @@ label[for="routeTripTime"] {
     }
 }
 
+
+/* ==========================================
+   MOTOQUEST — MINIMAL PRO COMPACTO
+   ========================================== */
+
+/* Cartão mais compacto, borda cinzenta */
+#stationResults > div:has(.mq-fuel-top),
+div:has(> .mq-fuel-top) {
+    border-color: #444 !important;
+    padding: 12px 14px !important;
+    gap: 8px !important;
+}
+
+/* Cabeçalho alinhado */
+.mq-fuel-top {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 0;
+    width: 100%;
+}
+
+/* Nome do posto */
+.mq-fuel-info {
+    flex: 1 1 150px !important;
+    min-width: 0;
+}
+
+/* Preços centrados */
+.mq-fuel-prices {
+    display: flex;
+    flex: 2 1 auto;
+    align-items: center;
+    justify-content: center;
+    min-width: 0;
+    gap: 0;
+    margin: 0;
+}
+
+/* Cada combustível */
+.mq-fuel-price-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    flex: 1 1 0;
+    min-width: 0;
+    padding: 4px 12px;
+    border-left: 1px solid #505050;
+    white-space: nowrap;
+}
+
+/* Identificação 95 / 98 */
+.mq-fuel-price-label {
+    color: #e8e8e8;
+    font-size: 12px;
+    font-weight: 800;
+}
+
+/* Preço em destaque */
+.mq-fuel-price-value {
+    color: #ff7900;
+    font-size: 17px;
+    font-weight: 900;
+    letter-spacing: -0.3px;
+}
+
+/* Quando não existe preço */
+.mq-fuel-price-value.unavailable {
+    color: #a0a0a0;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0;
+}
+
+/* Telemóvel */
+@media (max-width: 760px) {
+    .mq-fuel-top {
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    .mq-fuel-prices {
+        order: 3;
+        flex: 1 0 100%;
+        justify-content: flex-start;
+    }
+
+    .mq-fuel-price-item {
+        padding: 7px 8px;
+        gap: 6px;
+    }
+
+    .mq-fuel-price-value {
+        font-size: 14px;
+    }
+
+    .mq-fuel-price-value.unavailable {
+        white-space: normal;
+        overflow-wrap: anywhere;
+    }
+}
+
 </style>
 <!-- FIM TITULOS IGUAIS AO DESTINO FINAL -->
 
