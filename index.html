@@ -3401,6 +3401,17 @@ max-width:100%;
             0,00 €
         </div>
         <div id="mqExpensesCategories"></div>
+
+<div id="mqExpensesEmptyMessage"
+     style="
+         display:none;
+         margin-top:18px;
+         color:#888;
+         font-size:13px;
+         font-style:italic;
+     ">
+    📅 Sem despesas neste período.
+</div>
     </div>
 
 
@@ -17122,6 +17133,11 @@ const routeNames = new Map(
     );
 
     mqExpenseEl("mqExpensesTotal").textContent = mqEuro(total);
+
+	
+mqExpenseEl("mqExpensesEmptyMessage").style.display =
+    filteredExpenses.length === 0 ? "block" : "none";
+
 
 mqExpenseEl("mqExpensesDonutTotal").innerHTML =
     filteredExpenses.length > 0
