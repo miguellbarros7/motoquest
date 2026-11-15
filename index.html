@@ -16453,11 +16453,12 @@ await loadRedemptions();
 /* ASSISTENTE — MOSTRAR APENAS UM PAINEL */
 
 function abrirPainelAssistente(painelSelecionado) {
-    const paineis = [
-        "assistantWeatherPanel",
-        "assistantFuelPanel",
-        "assistantSOSPanel"
-    ];
+  const paineis = [
+    "assistantWeatherPanel",
+    "assistantFuelPanel",
+    "assistantSOSPanel",
+    "assistantExpensesPanel"
+];
 
     const painel = document.getElementById(painelSelecionado);
     const estavaAberto = !painel.classList.contains("hidden");
@@ -16792,6 +16793,312 @@ resultado.appendChild(painelAlertas);
 $("assistantFuelBtn").addEventListener("click", () => {
 abrirPainelAssistente("assistantFuelPanel");
 });
+
+	
+/* =========================================================
+   MOTOQUEST — GASTOS DA VIAGEM
+   Registar, consultar, editar e eliminar despesas
+========================================================= */
+
+const mqExpenseCategories = {
+    combustivel: "⛽ Combustível",
+    portagens: "🛣️ Portagens",
+    alojamento: "🛏️ Alojamento",
+    refeicoes: "🍽️ Refeições",
+    atividades: "📸 Atividades",
+    estacionamento: "🅿️ Estacionamento",
+    outros: "📦 Outros"
+};
+
+let mqExpenseEditingId = null;
+let mqExpenseRecords = [];
+
+const mqEuro = value =>
+    Number(value || 0).toLocaleString("pt-PT", {
+        style: "currency",
+        currency: "EUR"
+    });
+
+const mqExpenseEl = id => document.getElementById(id);
+
+function mqExpenseMessage(message, isError = false) {
+    const element = mqExpenseEl("mqExpenseMessage");
+    element.textContent = message;
+    element.style.color = isError ? "#ff7777" : "#75ed91";
+}
+
+function mqExpenseResetForm() {
+    mqExpenseEl("mqExpenseForm").reset();
+    mqExpenseEl("mqExpenseDate").value =
+        new Date().toLocaleDateString("en-CA");
+
+    mqExpenseEditingId = null;
+
+    const submit = mqExpenseEl("mqExpenseForm")
+        .querySelector('button[type="submit"]');
+
+    submit.textContent = "＋ Adicionar gasto";
+}
+
+async function mqLoadExpenseRoutes() {
+    const select = mqExpenseEl("mqExpenseRoute");
+    select.replaceChildren(new Option("Sem rota associada", ""));
+
+    if (!currentUser) return;
+
+    const { data, error } = await supabaseClient
+        .from("routes")
+        .select("id, name")
+        .eq("user_id", currentUser.id)
+        .eq("route_type", "personal")
+        .order("created_at", { ascending: false });
+
+    if (error) {
+        console.error("Erro ao carregar rotas:", error);
+        return;
+    }
+
+    (data || []).forEach(route => {
+        select.add(new Option(route.name || "Rota sem nome", route.id));
+    });
+}
+
+async function mqLoadExpenses() {
+    if (!currentUser) {
+        mqExpenseMessage("Inicia sessão para consultar os teus gastos.", true);
+        return;
+    }
+
+    const { data, error } = await supabaseClient
+        .from("mq_despesas_viagem")
+        .select("id, rota_id, categoria, valor, data_despesa, nota")
+        .eq("user_id", currentUser.id)
+        .order("data_despesa", { ascending: false });
+
+    if (error) {
+        console.error("Erro ao carregar despesas:", error);
+        mqExpenseMessage("Não foi possível carregar os gastos.", true);
+        return;
+    }
+
+    mqExpenseRecords = data || [];
+    mqRenderExpenses();
+}
+
+function mqRenderExpenses() {
+    const list = mqExpenseEl("mqExpensesList");
+    const categoriesBox = mqExpenseEl("mqExpensesCategories");
+
+    list.replaceChildren();
+    categoriesBox.replaceChildren();
+
+    const total = mqExpenseRecords.reduce(
+        (sum, expense) => sum + Number(expense.valor), 0
+    );
+
+    mqExpenseEl("mqExpensesTotal").textContent = mqEuro(total);
+
+    const totalsByCategory = {};
+
+    mqExpenseRecords.forEach(expense => {
+        totalsByCategory[expense.categoria] =
+            (totalsByCategory[expense.categoria] || 0)
+            + Number(expense.valor);
+    });
+
+    Object.entries(totalsByCategory).forEach(([category, amount]) => {
+        const line = document.createElement("div");
+        line.style.cssText =
+            "display:flex;justify-content:space-between;gap:12px;" +
+            "padding:9px 0;border-bottom:1px solid #333;font-size:13px;";
+
+        const label = document.createElement("span");
+        label.textContent = mqExpenseCategories[category] || category;
+
+        const value = document.createElement("strong");
+        value.textContent = mqEuro(amount);
+        value.style.color = "#ff7900";
+
+        line.append(label, value);
+        categoriesBox.appendChild(line);
+    });
+
+    if (!mqExpenseRecords.length) {
+        list.textContent = "Ainda não existem despesas registadas.";
+        return;
+    }
+
+    mqExpenseRecords.forEach(expense => {
+        const card = document.createElement("div");
+
+        card.style.cssText =
+            "background:#202020;border:1px solid #444;" +
+            "border-radius:12px;padding:13px;margin-bottom:10px;" +
+            "display:flex;justify-content:space-between;" +
+            "align-items:center;gap:12px;flex-wrap:wrap;";
+
+        const info = document.createElement("div");
+        info.style.cssText = "display:flex;flex-direction:column;gap:5px;";
+
+        const title = document.createElement("strong");
+        title.textContent =
+            mqExpenseCategories[expense.categoria] || expense.categoria;
+
+        const details = document.createElement("span");
+        details.style.color = "#aaa";
+        details.textContent =
+            expense.data_despesa.split("-").reverse().join("/") +
+            (expense.nota ? " · " + expense.nota : "");
+
+        const amount = document.createElement("strong");
+        amount.style.color = "#ff7900";
+        amount.textContent = mqEuro(expense.valor);
+
+        info.append(title, details, amount);
+
+        const actions = document.createElement("div");
+        actions.style.cssText = "display:flex;gap:8px;";
+
+        const edit = document.createElement("button");
+        edit.type = "button";
+        edit.textContent = "✏️";
+        edit.title = "Editar gasto";
+
+        const remove = document.createElement("button");
+        remove.type = "button";
+        remove.textContent = "🗑️";
+        remove.title = "Eliminar gasto";
+
+        [edit, remove].forEach(button => {
+            button.style.cssText =
+                "background:#151515;color:#fff;" +
+                "border:1px solid #ff7900;border-radius:9px;" +
+                "padding:9px;cursor:pointer;";
+        });
+
+        edit.addEventListener("click", () => {
+            mqExpenseEditingId = expense.id;
+
+            mqExpenseEl("mqExpenseRoute").value = expense.rota_id || "";
+            mqExpenseEl("mqExpenseCategory").value = expense.categoria;
+            mqExpenseEl("mqExpenseAmount").value = expense.valor;
+            mqExpenseEl("mqExpenseDate").value = expense.data_despesa;
+            mqExpenseEl("mqExpenseNote").value = expense.nota || "";
+
+            mqExpenseEl("mqExpenseForm")
+                .querySelector('button[type="submit"]')
+                .textContent = "💾 Guardar alterações";
+
+            mqExpenseEl("mqExpenseForm")
+                .scrollIntoView({ behavior: "smooth", block: "center" });
+        });
+
+        remove.addEventListener("click", async () => {
+            if (!confirm("Queres eliminar este gasto?")) return;
+
+            const { error } = await supabaseClient
+                .from("mq_despesas_viagem")
+                .delete()
+                .eq("id", expense.id)
+                .eq("user_id", currentUser.id);
+
+            if (error) {
+                mqExpenseMessage("Erro ao eliminar o gasto.", true);
+                return;
+            }
+
+            mqExpenseMessage("Gasto eliminado.");
+            await mqLoadExpenses();
+        });
+
+        actions.append(edit, remove);
+        card.append(info, actions);
+        list.appendChild(card);
+    });
+}
+
+mqExpenseEl("assistantExpensesBtn").addEventListener(
+    "click",
+    async () => {
+        abrirPainelAssistente("assistantExpensesPanel");
+
+        if (mqExpenseEl("assistantExpensesPanel")
+            .classList.contains("hidden")) return;
+
+        mqExpenseResetForm();
+        mqExpenseMessage("");
+
+        await mqLoadExpenseRoutes();
+        await mqLoadExpenses();
+    }
+);
+
+mqExpenseEl("mqExpenseForm").addEventListener(
+    "submit",
+    async event => {
+        event.preventDefault();
+
+        if (!currentUser) {
+            mqExpenseMessage("Tens de iniciar sessão.", true);
+            return;
+        }
+
+        const amount = Number(mqExpenseEl("mqExpenseAmount").value);
+
+        if (!Number.isFinite(amount) || amount <= 0) {
+            mqExpenseMessage("Introduz um valor válido.", true);
+            return;
+        }
+
+        const expense = {
+            user_id: currentUser.id,
+            rota_id: mqExpenseEl("mqExpenseRoute").value || null,
+            categoria: mqExpenseEl("mqExpenseCategory").value,
+            valor: amount,
+            data_despesa: mqExpenseEl("mqExpenseDate").value,
+            nota: mqExpenseEl("mqExpenseNote").value.trim()
+        };
+
+        const submit = event.currentTarget
+            .querySelector('button[type="submit"]');
+
+        submit.disabled = true;
+
+        try {
+            let result;
+
+            if (mqExpenseEditingId) {
+                result = await supabaseClient
+                    .from("mq_despesas_viagem")
+                    .update(expense)
+                    .eq("id", mqExpenseEditingId)
+                    .eq("user_id", currentUser.id);
+            } else {
+                result = await supabaseClient
+                    .from("mq_despesas_viagem")
+                    .insert(expense);
+            }
+
+            if (result.error) throw result.error;
+
+            mqExpenseResetForm();
+            mqExpenseMessage("✅ Gasto guardado com sucesso!");
+            await mqLoadExpenses();
+
+        } catch (error) {
+            console.error("Erro ao guardar gasto:", error);
+            mqExpenseMessage(
+                "Não foi possível guardar o gasto. Verifica a ligação ao Supabase.",
+                true
+            );
+        } finally {
+            submit.disabled = false;
+        }
+    }
+);
+
+/* FIM — GASTOS DA VIAGEM */
+
 
 
 /* SOS MOTARD — LOCALIZAÇÃO GPS */
