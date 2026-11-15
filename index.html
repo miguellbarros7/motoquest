@@ -10617,6 +10617,17 @@ if (savedCount > 0 && fuelIntervalsSafe) {
         font-weight:700;
     `;
 
+	
+if (
+    !fuelIntervalsSafe &&
+    !(km <= fuelSafetyLimitKm && savedCount === 0)
+) {
+    success.style.background = "#302014";
+    success.style.borderColor = "#ff7900";
+    success.style.color = "#ffb366";
+}
+
+
     fuelPlanner.appendChild(success);
 } else {
     plannedStops.forEach((distance, index) => {
