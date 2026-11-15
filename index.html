@@ -17102,12 +17102,7 @@ const filteredExpenses = mqExpenseRecords.filter(expense => {
 });
 
 
-    const filteredExpenses = mqExpenseRecords.filter(expense => {
-        if (selectedRoute === "all") return true;
-        if (selectedRoute === "none") return !expense.rota_id;
-        return String(expense.rota_id) === selectedRoute;
-    });
-
+  
 /* Nomes das rotas disponíveis no seletor */
 const routeNames = new Map(
     [...mqExpenseEl("mqExpenseRoute").options]
