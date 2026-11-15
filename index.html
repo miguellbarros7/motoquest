@@ -10567,9 +10567,45 @@ if (repositionCount > 0) {
 
 if (plannedStops.length === 0) {
     const success = document.createElement("div");
+  
+const savedCount = savedFuelStopsForReview.length;
+
+// Verificar os intervalos entre a partida,
+// os abastecimentos e o destino.
+const fuelCheckPoints = [
+    0,
+    ...orderedFuelStops.map(stop => stop.km),
+    km
+];
+
+const fuelIntervalsSafe =
+    fuelStopsWithUnknownPosition.length === 0 &&
+    fuelCheckPoints.every((point, index) => {
+        if (index === 0) return true;
+
+        const interval =
+            point - fuelCheckPoints[index - 1];
+
+        return interval >= 0 &&
+               interval <= fuelSafetyLimitKm;
+    });
+
+if (savedCount > 0 && fuelIntervalsSafe) {
     success.textContent =
-        "✅ Não são necessárias paragens planeadas " +
-        "para abastecer nesta rota.";
+        `✅ A rota tem ${savedCount} ` +
+        `paragem(ns) de abastecimento guardada(s). ` +
+        `Não são necessárias paragens adicionais.`;
+} else if (km <= fuelSafetyLimitKm && savedCount === 0) {
+    success.textContent =
+        "✅ A autonomia de segurança é suficiente " +
+        "para completar esta rota sem abastecer.";
+} else {
+    success.textContent =
+        "⚠️ Não foram geradas novas paragens, " +
+        "mas os abastecimentos guardados " +
+        "precisam de ser verificados.";
+}
+
 
     success.style.cssText = `
         background:#102619;
