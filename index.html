@@ -17431,6 +17431,44 @@ mqExpenseEl("mqExpenseForm").addEventListener(
 mqExpenseEl("mqExpensesRouteFilter")
     .addEventListener("change", mqRenderExpenses);
 
+/* MOTOQUEST — BOTÕES DO FILTRO POR PERÍODO */
+
+document.querySelectorAll(
+    ".mq-expenses-period-buttons button"
+).forEach(button => {
+
+    button.addEventListener("click", () => {
+
+        mqExpensesPeriod = button.dataset.period;
+
+        document.querySelectorAll(
+            ".mq-expenses-period-buttons button"
+        ).forEach(item => {
+            item.classList.toggle(
+                "active",
+                item === button
+            );
+        });
+
+        mqExpenseEl("mqExpensesCustomDates").hidden =
+            mqExpensesPeriod !== "custom";
+
+        mqRenderExpenses();
+    });
+
+});
+
+/* Atualizar ao alterar as datas personalizadas */
+
+["mqExpensesDateFrom", "mqExpensesDateTo"].forEach(id => {
+    mqExpenseEl(id).addEventListener("change", () => {
+        if (mqExpensesPeriod === "custom") {
+            mqRenderExpenses();
+        }
+    });
+});
+	
+
 /* FIM — GASTOS DA VIAGEM */
 
 
