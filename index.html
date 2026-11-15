@@ -11134,12 +11134,8 @@ const distanceKm = station.roadDistanceKm;
 // Limite para substituir uma bomba por outra na mesma rota
 const FUEL_REPLACEMENT_RADIUS_KM = 5;    
 
-    const top = document.createElement("div");
-    top.style.cssText = `
-        display:flex;
-        align-items:center;
-        gap:12px;
-    `;
+   const top = document.createElement("div");
+top.className = "mq-fuel-top";
 
     const fuelIcon = document.createElement("div");
     fuelIcon.textContent = "⛽";
@@ -11199,97 +11195,64 @@ recommendation.style.cssText = `
 `;
 
 
-const fuelPricesBox = document.createElement("div");
 
-fuelPricesBox.style.cssText = `
-    display:grid;
-    grid-template-columns:repeat(2,minmax(0,1fr));
-    gap:8px;
-    margin-top:10px;
-`;
+const fuelPricesBox = document.createElement("div");
+fuelPricesBox.className = "mq-fuel-prices";
 
 function createFuelPriceItem(label, fuelData) {
     const item = document.createElement("div");
+    item.className = "mq-fuel-price-item";
 
-    item.style.cssText = `
-        background:#303030;
-        border:1px solid #484848;
-        border-radius:8px;
-        padding:9px;
-        min-width:0;
-    `;
+    const fuelLabel = document.createElement("span");
+    fuelLabel.className = "mq-fuel-price-label";
+    fuelLabel.textContent = "⛽ " + label;
 
-    const title = document.createElement("div");
-    title.textContent = label;
-    title.style.cssText = `
-        color:#bbb;
-        font-size:10px;
-        font-weight:700;
-    `;
-
-    const price = document.createElement("div");
+    const price = document.createElement("span");
+    price.className = "mq-fuel-price-value";
 
     const validPrice =
         fuelData &&
         Number.isFinite(Number(fuelData.price)) &&
         Number(fuelData.price) > 0;
 
-    price.textContent = validPrice
-        ? Number(fuelData.price).toLocaleString("pt-PT", {
-            minimumFractionDigits: 3,
-            maximumFractionDigits: 3
-        }) + " €/L"
-        : "Preço indisponível";
-
-    price.style.cssText = `
-        color:${validPrice ? "#ff7900" : "#999"};
-        font-size:13px;
-        font-weight:900;
-        margin-top:4px;
-    `;
-
-    item.append(title, price);
+    if (validPrice) {
+        price.textContent =
+            Number(fuelData.price).toLocaleString("pt-PT", {
+                minimumFractionDigits: 3,
+                maximumFractionDigits: 3
+            }) + " €/L";
+    } else {
+        price.textContent = "Preço indisponível";
+        price.classList.add("unavailable");
+    }
 
     if (validPrice && fuelData.updatedAt) {
         const updated = new Date(fuelData.updatedAt);
 
         if (!Number.isNaN(updated.getTime())) {
-            const date = document.createElement("div");
-
-            date.textContent =
+            item.title =
                 "Atualizado: " +
                 updated.toLocaleDateString("pt-PT");
-
-            date.style.cssText = `
-                color:#999;
-                font-size:9px;
-                margin-top:5px;
-            `;
-
-            item.appendChild(date);
         }
     }
 
+    item.append(fuelLabel, price);
     return item;
 }
 
 fuelPricesBox.append(
     createFuelPriceItem(
-        "⛽ Gasolina 95",
+        "95",
         station.fuelPrices?.gasoline95
     ),
     createFuelPriceItem(
-        "⛽ Gasolina 98",
+        "98",
         station.fuelPrices?.gasoline98
     )
 );
 
-info.append(
-    name,
-    subtitle,
-    recommendation,
-    fuelPricesBox
-);
+
+info.append(name, subtitle);
 
 
     const distanceBadge = document.createElement("div");
@@ -11313,8 +11276,15 @@ info.append(
     `;
     distanceBadge.appendChild(distanceLabel);
 
-    top.append(fuelIcon, info, distanceBadge);
+top.append(
+    fuelIcon,
+    info,
+    fuelPricesBox,
+    distanceBadge
+);
 
+item.appendChild(top);
+item.appendChild(recommendation);
     const mapButton = document.createElement("a");
     mapButton.textContent = "📍 VER NO MAPA";
     mapButton.href =
@@ -23792,7 +23762,108 @@ label[for="routeTripTime"] {
     }
 }
 
-    
+
+/* MOTOQUEST — COMBUSTÍVEL MINIMAL PRO */
+
+.mq-fuel-top {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    min-width: 0;
+}
+
+.mq-fuel-info {
+    flex: 1 1 160px;
+    min-width: 0;
+}
+
+.mq-fuel-prices {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 2 1 auto;
+    min-width: 0;
+}
+
+.mq-fuel-price-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    min-width: 0;
+    padding: 5px 14px;
+    border-left: 1px solid #555;
+    white-space: nowrap;
+}
+
+.mq-fuel-price-label {
+    color: #f5f5f5;
+    font-size: 12px;
+    font-weight: 800;
+}
+
+.mq-fuel-price-value {
+    color: #ff7900;
+    font-size: 16px;
+    font-weight: 900;
+    letter-spacing: -0.3px;
+}
+
+.mq-fuel-price-value.unavailable {
+    color: #999;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0;
+}
+
+/* Ecrãs pequenos */
+@media (max-width: 760px) {
+    .mq-fuel-top {
+        flex-wrap: wrap;
+    }
+
+    .mq-fuel-info {
+        flex: 1;
+    }
+
+    .mq-fuel-prices {
+        order: 3;
+        flex: 1 0 100%;
+        justify-content: flex-start;
+        padding-left: 0;
+    }
+
+    .mq-fuel-price-item {
+        flex: 1;
+        padding: 7px 10px;
+    }
+
+    .mq-fuel-price-value {
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 390px) {
+    .mq-fuel-price-item {
+        gap: 5px;
+        padding: 6px;
+    }
+
+    .mq-fuel-price-label {
+        font-size: 10px;
+    }
+
+    .mq-fuel-price-value {
+        font-size: 12px;
+    }
+
+    .mq-fuel-price-value.unavailable {
+        font-size: 10px;
+        white-space: normal;
+    }
+}
+
 </style>
 <!-- FIM TITULOS IGUAIS AO DESTINO FINAL -->
 
