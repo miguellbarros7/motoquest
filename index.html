@@ -3172,7 +3172,58 @@ max-width:100%;
 
 <!-- MOTOQUEST — PAINEL DE GASTOS DA VIAGEM -->
 
+<div id="mqDeleteExpenseModal"
+	style="
+       position:fixed;
+       inset:0;
+       z-index:99999;
+       background:rgba(0,0,0,.8);
+       display:none;
+       align-items:center;
+       justify-content:center;
+       padding:20px;
+     ">
+
+  <div style="
+       width:100%;
+       max-width:380px;
+       background:#171717;
+       border:1px solid #ff7900;
+       border-radius:18px;
+       padding:26px;
+       text-align:center;
+       box-shadow:0 15px 50px #0009;
+  ">
+    <div style="font-size:32px;margin-bottom:12px;">🗑️</div>
+
+    <h3 style="color:#fff;margin:0 0 12px;">
+      Eliminar gasto?
+    </h3>
+
+    <p style="color:#aaa;font-size:14px;line-height:1.5;">
+      Tens a certeza de que queres eliminar este gasto?
+      Esta ação não pode ser anulada.
+    </p>
+
+    <div style="display:flex;gap:10px;margin-top:22px;">
+      <button type="button" id="mqCancelDeleteExpense"
+        style="flex:1;background:#292929;color:#fff;
+               border:1px solid #444;border-radius:10px;
+               padding:12px;cursor:pointer;">
+        Cancelar
+      </button>
+
+      <button type="button" id="mqConfirmDeleteExpense"
+        style="flex:1;background:#ff7900;color:#111;
+               border:0;border-radius:10px;
+               padding:12px;font-weight:800;cursor:pointer;">
+        Eliminar
+      </button>
+    </div>
+  </div>
+</div>
 <section
+	
     id="assistantExpensesPanel"
     class="hidden"
     style="
