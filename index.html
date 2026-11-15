@@ -8258,6 +8258,17 @@ summaryBtn.style.cssText =
     "letter-spacing:.3px;white-space:nowrap;" +
     "cursor:pointer;flex-shrink:0;";
 
+const expensesRouteBtn = document.createElement("button");
+expensesRouteBtn.type = "button";
+expensesRouteBtn.textContent = "💶 GASTOS";
+
+expensesRouteBtn.style.cssText =
+    "width:auto;margin:0;padding:8px 11px;" +
+    "background:#252525;color:#ff7900;" +
+    "border:1px solid #ff7900;" +
+    "border-radius:8px;font-size:10px;font-weight:800;" +
+    "letter-spacing:.3px;white-space:nowrap;" +
+    "cursor:pointer;flex-shrink:0;";
 
 const summaryPanel = document.createElement("div");
 summaryPanel.className = "hidden mq-trip-summary";
@@ -13388,7 +13399,10 @@ makeAdventureTile(
 };
 
 
+
 routeActionButtons.insertBefore(summaryBtn, arrow);
+routeActionButtons.insertBefore(expensesRouteBtn, arrow);
+
 
         
 
