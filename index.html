@@ -17648,6 +17648,16 @@ document.getElementById("mqExpenseSuccessModal").style.display = "flex";
     }
 );
 
+	
+/* MOTOQUEST — FECHAR JANELA DE GASTO GUARDADO */
+
+document.getElementById("mqExpenseSuccessOK")
+    .addEventListener("click", () => {
+        document.getElementById("mqExpenseSuccessModal")
+            .style.display = "none";
+    });
+
+
 /* Atualizar resumo e gráfico ao mudar de rota */
 
 mqExpenseEl("mqExpensesRouteFilter")
