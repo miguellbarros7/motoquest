@@ -10390,11 +10390,9 @@ async function getFuelDistrict(latitude, longitude) {
 }
 
 
-
-
 async function findFuelStations(latitude, longitude) {
     const { data, error } = await supabaseClient.rpc(
-        "find_nearby_fuel_stations",
+        "find_nearby_fuel_stations_v2",
         {
             p_latitude: latitude,
             p_longitude: longitude,
@@ -10407,14 +10405,17 @@ async function findFuelStations(latitude, longitude) {
         throw error;
     }
 
-return (data || []).map(station => ({
-    name: station.name || station.brand || "Posto de combustível",
-    brand: station.brand || "",
-    locality: station.locality || "",
-    latitude: Number(station.latitude),
-    longitude: Number(station.longitude)
-}));
+    return (data || []).map(station => ({
+        name: station.name || station.brand || "Posto de combustível",
+        brand: station.brand || "",
+        locality: station.locality || "",
+        latitude: Number(station.latitude),
+        longitude: Number(station.longitude),
+        official_station_id: station.official_station_id || null
+    }));
 }
+
+
         async function getRoadDistanceKm(
     fromLatitude,
     fromLongitude,
