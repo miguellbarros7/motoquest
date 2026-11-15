@@ -16926,23 +16926,21 @@ function mqExpenseResetForm() {
     submit.textContent = "＋ Adicionar gasto";
 }
 
+
 async function mqLoadExpenseRoutes() {
     const select = mqExpenseEl("mqExpenseRoute");
-    select.replaceChildren(new Option("Sem rota 
-const select = mqExpenseEl("mqExpenseRoute");
-const filter = mqExpenseEl("mqExpensesRouteFilter");
+    const filter = mqExpenseEl("mqExpensesRouteFilter");
 
-const previousFilter = filter.value;
+    const previousFilter = filter.value;
 
-select.replaceChildren(
-    new Option("Sem rota associada", "")
-);
+    select.replaceChildren(
+        new Option("Sem rota associada", "")
+    );
 
-filter.replaceChildren(
-    new Option("Todas as viagens", "all"),
-    new Option("Sem rota associada", "none")
-);
-", ""));
+    filter.replaceChildren(
+        new Option("Todas as viagens", "all"),
+        new Option("Sem rota associada", "none")
+    );
 
     if (!currentUser) return;
 
@@ -16955,23 +16953,25 @@ filter.replaceChildren(
 
     if (error) {
         console.error("Erro ao carregar rotas:", error);
+        mqExpenseMessage(
+            "Não foi possível carregar as rotas.",
+            true
+        );
         return;
     }
 
-   
-(data || []).forEach(route => {
-    const name = route.name || "Rota sem nome";
+    (data || []).forEach(route => {
+        const name = route.name || "Rota sem nome";
 
-    select.add(new Option(name, route.id));
-    filter.add(new Option(name, route.id));
-});
+        select.add(new Option(name, String(route.id)));
+        filter.add(new Option(name, String(route.id)));
+    });
 
-if ([...filter.options].some(
-    option => option.value === previousFilter
-)) {
-    filter.value = previousFilter;
-}
-
+    if ([...filter.options].some(
+        option => option.value === previousFilter
+    )) {
+        filter.value = previousFilter;
+    }
 }
 
 async function mqLoadExpenses() {
@@ -16997,66 +16997,82 @@ async function mqLoadExpenses() {
 }
 
 function mqRenderExpenses() {
+    const selectedRoute =
+        mqExpenseEl("mqExpensesRouteFilter").value;
 
-	
-const selectedRoute =
-    mqExpenseEl("mqExpensesRouteFilter").value;
-
-const filteredExpenses = mqExpenseRecords.filter(expense => {
-    if (selectedRoute === "all") return true;
-
-    if (selectedRoute === "none") {
-        return !expense.rota_id;
-    }
-
-    return String(expense.rota_id) === selectedRoute;
-});
+    const filteredExpenses = mqExpenseRecords.filter(expense => {
+        if (selectedRoute === "all") return true;
+        if (selectedRoute === "none") return !expense.rota_id;
+        return String(expense.rota_id) === selectedRoute;
+    });
 
     const list = mqExpenseEl("mqExpensesList");
     const categoriesBox = mqExpenseEl("mqExpensesCategories");
+    const donut = mqExpenseEl("mqExpensesDonut");
 
     list.replaceChildren();
     categoriesBox.replaceChildren();
 
-    const total = mqExpenseRecords.reduce(
+    const total = filteredExpenses.reduce(
         (sum, expense) => sum + Number(expense.valor), 0
     );
 
     mqExpenseEl("mqExpensesTotal").textContent = mqEuro(total);
-	
-mqExpenseEl("mqExpensesDonutTotal").textContent = mqEuro(total);
-	
-	const totalsByCategory = {};
+    mqExpenseEl("mqExpensesDonutTotal").textContent = mqEuro(total);
 
-    mqExpenseRecords.forEach(expense => {
+    const totalsByCategory = {};
+
+    filteredExpenses.forEach(expense => {
         totalsByCategory[expense.categoria] =
-            (totalsByCategory[expense.categoria] || 0)
-            + Number(expense.valor);
+            (totalsByCategory[expense.categoria] || 0) +
+            Number(expense.valor);
     });
+
+    const segments = [];
+    let position = 0;
 
     Object.entries(totalsByCategory).forEach(([category, amount]) => {
         const line = document.createElement("div");
+
         line.style.cssText =
-            "display:flex;justify-content:space-between;gap:12px;" +
-            "padding:9px 0;border-bottom:1px solid #333;font-size:13px;";
+            "display:flex;justify-content:space-between;" +
+            "gap:12px;padding:9px 0;" +
+            "border-bottom:1px solid #333;font-size:13px;";
 
         const label = document.createElement("span");
-        label.textContent = mqExpenseCategories[category] || category;
+        label.textContent =
+            mqExpenseCategories[category] || category;
 
         const value = document.createElement("strong");
         value.textContent = mqEuro(amount);
-        value.style.color = "#ff7900";
+        value.style.color = mqExpenseColors[category] || "#ff7900";
 
         line.append(label, value);
         categoriesBox.appendChild(line);
+
+        if (total > 0) {
+            const next = position + (amount / total) * 100;
+            const color = mqExpenseColors[category] || "#999";
+
+            segments.push(
+                `${color} ${position}% ${next}%`
+            );
+
+            position = next;
+        }
     });
 
-    if (!mqExpenseRecords.length) {
-        list.textContent = "Ainda não existem despesas registadas.";
+    donut.style.background = segments.length
+        ? `conic-gradient(${segments.join(", ")})`
+        : "#333";
+
+    if (!filteredExpenses.length) {
+        list.textContent =
+            "Não existem despesas para o filtro selecionado.";
         return;
     }
 
-    mqExpenseRecords.forEach(expense => {
+    filteredExpenses.forEach(expense => {
         const card = document.createElement("div");
 
         card.style.cssText =
@@ -17066,11 +17082,13 @@ mqExpenseEl("mqExpensesDonutTotal").textContent = mqEuro(total);
             "align-items:center;gap:12px;flex-wrap:wrap;";
 
         const info = document.createElement("div");
-        info.style.cssText = "display:flex;flex-direction:column;gap:5px;";
+        info.style.cssText =
+            "display:flex;flex-direction:column;gap:5px;";
 
         const title = document.createElement("strong");
         title.textContent =
-            mqExpenseCategories[expense.categoria] || expense.categoria;
+            mqExpenseCategories[expense.categoria] ||
+            expense.categoria;
 
         const details = document.createElement("span");
         details.style.color = "#aaa";
@@ -17107,22 +17125,34 @@ mqExpenseEl("mqExpensesDonutTotal").textContent = mqEuro(total);
         edit.addEventListener("click", () => {
             mqExpenseEditingId = expense.id;
 
-            mqExpenseEl("mqExpenseRoute").value = expense.rota_id || "";
-            mqExpenseEl("mqExpenseCategory").value = expense.categoria;
-            mqExpenseEl("mqExpenseAmount").value = expense.valor;
-            mqExpenseEl("mqExpenseDate").value = expense.data_despesa;
-            mqExpenseEl("mqExpenseNote").value = expense.nota || "";
+            mqExpenseEl("mqExpenseRoute").value =
+                expense.rota_id || "";
+            mqExpenseEl("mqExpenseCategory").value =
+                expense.categoria;
+            mqExpenseEl("mqExpenseAmount").value =
+                expense.valor;
+            mqExpenseEl("mqExpenseDate").value =
+                expense.data_despesa;
+            mqExpenseEl("mqExpenseNote").value =
+                expense.nota || "";
 
             mqExpenseEl("mqExpenseForm")
                 .querySelector('button[type="submit"]')
                 .textContent = "💾 Guardar alterações";
 
-            mqExpenseEl("mqExpenseForm")
-                .scrollIntoView({ behavior: "smooth", block: "center" });
+            mqExpenseEl("mqExpenseForm").scrollIntoView({
+                behavior: "smooth",
+                block: "center"
+            });
         });
 
         remove.addEventListener("click", async () => {
             if (!confirm("Queres eliminar este gasto?")) return;
+
+            if (!currentUser) {
+                mqExpenseMessage("Inicia sessão.", true);
+                return;
+            }
 
             const { error } = await supabaseClient
                 .from("mq_despesas_viagem")
@@ -17131,7 +17161,10 @@ mqExpenseEl("mqExpensesDonutTotal").textContent = mqEuro(total);
                 .eq("user_id", currentUser.id);
 
             if (error) {
-                mqExpenseMessage("Erro ao eliminar o gasto.", true);
+                mqExpenseMessage(
+                    "Erro ao eliminar: " + error.message,
+                    true
+                );
                 return;
             }
 
@@ -17144,6 +17177,7 @@ mqExpenseEl("mqExpensesDonutTotal").textContent = mqEuro(total);
         list.appendChild(card);
     });
 }
+
 
 mqExpenseEl("assistantExpensesBtn").addEventListener(
     "click",
@@ -17229,6 +17263,11 @@ mqExpenseEl("mqExpenseForm").addEventListener(
         }
     }
 );
+
+/* Atualizar resumo e gráfico ao mudar de rota */
+
+mqExpenseEl("mqExpensesRouteFilter")
+    .addEventListener("change", mqRenderExpenses);
 
 /* FIM — GASTOS DA VIAGEM */
 
