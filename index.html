@@ -17047,6 +17047,41 @@ async function mqLoadExpenses() {
     mqRenderExpenses();
 }
 
+
+/* MOTOQUEST — PERÍODO DOS GASTOS */
+
+let mqExpensesPeriod = "all";
+
+function mqExpenseMatchesPeriod(expense) {
+    if (mqExpensesPeriod === "all") return true;
+
+    const date = String(expense.data_despesa || "").slice(0, 10);
+    if (!date) return false;
+
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, "0");
+
+    if (mqExpensesPeriod === "month") {
+        return date.startsWith(`${year}-${month}`);
+    }
+
+    if (mqExpensesPeriod === "year") {
+        return date.startsWith(`${year}-`);
+    }
+
+    if (mqExpensesPeriod === "custom") {
+        const from = mqExpenseEl("mqExpensesDateFrom").value;
+        const to = mqExpenseEl("mqExpensesDateTo").value;
+
+        return (!from || date >= from) &&
+               (!to || date <= to);
+    }
+
+    return true;
+}
+
+	
 function mqRenderExpenses() {
     const selectedRoute =
         mqExpenseEl("mqExpensesRouteFilter").value;
