@@ -3193,11 +3193,170 @@ max-width:100%;
         Regista e acompanha as despesas das tuas aventuras.
     </p>
 
-    <div id="mqExpensesApp">
-        <p style="color:#aaa;">
-            A preparar o teu registo de despesas...
+
+<div id="mqExpensesApp" class="mq-expenses-app">
+
+    <style>
+        .mq-expenses-app {
+            color: #fff;
+        }
+
+        .mq-expenses-form {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 12px;
+            margin-top: 18px;
+        }
+
+        .mq-expenses-field {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            min-width: 0;
+        }
+
+        .mq-expenses-field label {
+            color: #bbb;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .mq-expenses-field input,
+        .mq-expenses-field select {
+            width: 100%;
+            box-sizing: border-box;
+            background: #202020;
+            border: 1px solid #555;
+            border-radius: 9px;
+            padding: 12px;
+            color: #fff;
+            font-size: 14px;
+        }
+
+        .mq-expenses-full {
+            grid-column: 1 / -1;
+        }
+
+        .mq-expenses-submit {
+            background: #ff7900;
+            border: 0;
+            border-radius: 10px;
+            padding: 13px 18px;
+            color: #111;
+            font-weight: 900;
+            cursor: pointer;
+        }
+
+        .mq-expenses-summary {
+            margin-top: 20px;
+            padding: 18px;
+            background: #202020;
+            border: 1px solid #444;
+            border-radius: 14px;
+        }
+
+        .mq-expenses-total {
+            color: #ff7900;
+            font-size: 30px;
+            font-weight: 900;
+        }
+
+        .mq-expenses-list {
+            margin-top: 20px;
+        }
+
+        @media (max-width: 600px) {
+            .mq-expenses-form {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+
+    <form id="mqExpenseForm" class="mq-expenses-form">
+
+        <div class="mq-expenses-field">
+            <label for="mqExpenseRoute">Rota (opcional)</label>
+            <select id="mqExpenseRoute">
+                <option value="">Sem rota associada</option>
+            </select>
+        </div>
+
+        <div class="mq-expenses-field">
+            <label for="mqExpenseCategory">Categoria</label>
+            <select id="mqExpenseCategory" required>
+                <option value="combustivel">⛽ Combustível</option>
+                <option value="portagens">🛣️ Portagens</option>
+                <option value="alojamento">🛏️ Alojamento</option>
+                <option value="refeicoes">🍽️ Refeições</option>
+                <option value="atividades">📸 Atividades</option>
+                <option value="estacionamento">🅿️ Estacionamento</option>
+                <option value="outros">📦 Outros</option>
+            </select>
+        </div>
+
+        <div class="mq-expenses-field">
+            <label for="mqExpenseAmount">Valor (€)</label>
+            <input
+                id="mqExpenseAmount"
+                type="number"
+                min="0.01"
+                step="0.01"
+                placeholder="Ex.: 48,30"
+                required
+            >
+        </div>
+
+        <div class="mq-expenses-field">
+            <label for="mqExpenseDate">Data</label>
+            <input
+                id="mqExpenseDate"
+                type="date"
+                required
+            >
+        </div>
+
+        <div class="mq-expenses-field mq-expenses-full">
+            <label for="mqExpenseNote">Nota (opcional)</label>
+            <input
+                id="mqExpenseNote"
+                type="text"
+                maxlength="250"
+                placeholder="Ex.: Abastecimento em Chaves"
+            >
+        </div>
+
+        <div class="mq-expenses-full">
+            <button type="submit" class="mq-expenses-submit">
+                ＋ Adicionar gasto
+            </button>
+        </div>
+
+    </form>
+
+    <div id="mqExpenseMessage" role="status"
+         style="margin-top:12px;font-size:13px;"></div>
+
+    <div class="mq-expenses-summary">
+        <strong>📊 Resumo da Viagem</strong>
+        <p style="color:#aaa;font-size:12px;">
+            Total de despesas registadas
         </p>
+        <div id="mqExpensesTotal" class="mq-expenses-total">
+            0,00 €
+        </div>
+        <div id="mqExpensesCategories"></div>
     </div>
+
+    <div class="mq-expenses-list">
+        <h3 style="color:#ff7900;">Registos da viagem</h3>
+        <div id="mqExpensesList"
+             style="color:#aaa;font-size:13px;">
+            Ainda não existem despesas registadas.
+        </div>
+    </div>
+
+</div>
+
 </section>
 
 <div class="assistant-card" id="assistantSOSBtn">
