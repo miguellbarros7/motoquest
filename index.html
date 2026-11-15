@@ -12761,12 +12761,30 @@ fuelPlanner.appendChild(plannerNote);
         }
 
 
+
+/* MOTOQUEST — AVISO DE AUTONOMIA INTELIGENTE */
+
 warningLine.className = "mq-trip-warning";
 
-if (km > estimatedRange) {
-    warningLine.classList.add("mq-alert");
+// Verificar se a rota já tem abastecimentos
+// guardados e se respeitam a autonomia segura.
+const hideFuelWarning =
+    savedFuelStopsAreSafe &&
+    plannedStops.length === 0;
+
+// Esconder apenas o aviso de autonomia
+// quando os abastecimentos são suficientes.
+if (hideFuelWarning) {
+    warningLine.style.display = "none";
+} else {
+    warningLine.style.display = "";
+
+    if (km > estimatedRange) {
+        warningLine.classList.add("mq-alert");
+    }
 }
 
+/* FIM AVISO DE AUTONOMIA INTELIGENTE */
 
 makeAdventureTile(
     fuelLine, "⛽", "CONSUMO",
