@@ -3172,6 +3172,68 @@ max-width:100%;
 
 <!-- MOTOQUEST — PAINEL DE GASTOS DA VIAGEM -->
 
+<div id="mqExpenseSuccessModal"
+     style="
+       display:none;
+       position:fixed;
+       inset:0;
+       z-index:100000;
+       background:rgba(0,0,0,.8);
+       align-items:center;
+       justify-content:center;
+       padding:20px;
+     ">
+
+  <div style="
+       width:100%;
+       max-width:380px;
+       background:#171717;
+       border:1px solid #ff7900;
+       border-radius:18px;
+       padding:26px;
+       text-align:center;
+       box-shadow:0 15px 50px #0009;
+  ">
+
+    <div style="
+         width:58px;height:58px;
+         margin:0 auto 16px;
+         border-radius:50%;
+         background:#173525;
+         display:flex;
+         align-items:center;
+         justify-content:center;
+         color:#40d878;
+         font-size:30px;
+    ">✓</div>
+
+    <h3 style="color:#fff;margin:0 0 12px;">
+      Gasto guardado!
+    </h3>
+
+    <p style="color:#aaa;font-size:14px;line-height:1.5;">
+      O teu gasto foi registado com sucesso na MotoQuest.
+    </p>
+
+    <button type="button"
+            id="mqExpenseSuccessOK"
+            style="
+              width:100%;
+              margin-top:18px;
+              padding:12px;
+              background:#ff7900;
+              color:#111;
+              border:0;
+              border-radius:10px;
+              font-weight:800;
+              cursor:pointer;
+    ">
+      OK
+    </button>
+
+  </div>
+</div>
+
 <div id="mqDeleteExpenseModal"
 	style="
        position:fixed;
@@ -17434,8 +17496,31 @@ remove.setAttribute("aria-label", "Eliminar gasto");
             });
         });
 
-        remove.addEventListener("click", async () => {
-            if (!confirm("Queres eliminar este gasto?")) return;
+        
+remove.addEventListener("click", async () => {
+    const confirmado = await new Promise(resolve => {
+        const modal = document.getElementById("mqDeleteExpenseModal");
+        const cancelar = document.getElementById("mqCancelDeleteExpense");
+        const eliminar = document.getElementById("mqConfirmDeleteExpense");
+
+        modal.style.display = "flex";
+
+        const fechar = resultado => {
+            modal.style.display = "none";
+            cancelar.removeEventListener("click", cancelarAcao);
+            eliminar.removeEventListener("click", eliminarAcao);
+            resolve(resultado);
+        };
+
+        const cancelarAcao = () => fechar(false);
+        const eliminarAcao = () => fechar(true);
+
+        cancelar.addEventListener("click", cancelarAcao);
+        eliminar.addEventListener("click", eliminarAcao);
+    });
+
+    if (!confirmado) return;
+
 
             if (!currentUser) {
                 mqExpenseMessage("Inicia sessão.", true);
@@ -17537,9 +17622,14 @@ mqExpenseEl("mqExpenseForm").addEventListener(
 
             if (result.error) throw result.error;
 
-            mqExpenseResetForm();
-            mqExpenseMessage("✅ Gasto guardado com sucesso!");
-            await mqLoadExpenses();
+          
+mqExpenseResetForm();
+mqExpenseMessage("");
+
+await mqLoadExpenses();
+
+document.getElementById("mqExpenseSuccessModal").style.display = "flex";
+
 
    
 } catch (error) {
