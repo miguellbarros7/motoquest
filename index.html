@@ -17314,16 +17314,28 @@ remove.innerHTML = `
 
        
 
+
 [edit, remove].forEach(button => {
     button.style.cssText =
         "width:44px;height:44px;" +
         "display:flex;align-items:center;justify-content:center;" +
-        "background:#111;color:#ff7900;" +
+        "background:#111;" +
+        "color:#aaa;" +
         "border:1px solid #ff7900;" +
         "border-radius:50%;" +
         "cursor:pointer;" +
         "padding:0;flex-shrink:0;" +
-        "transition:background .2s ease;";
+        "transition:background .2s ease,color .2s ease;";
+
+    button.addEventListener("mouseenter", () => {
+        button.style.background = "#282828";
+        button.style.color = "#fff";
+    });
+
+    button.addEventListener("mouseleave", () => {
+        button.style.background = "#111";
+        button.style.color = "#aaa";
+    });
 });
 
 
