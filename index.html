@@ -3336,6 +3336,21 @@ max-width:100%;
     <div id="mqExpenseMessage" role="status"
          style="margin-top:12px;font-size:13px;"></div>
 
+	
+<!-- MOTOQUEST — FILTRO DE DESPESAS POR ROTA -->
+
+<div class="mq-expenses-field" style="margin-top:22px;">
+    <label for="mqExpensesRouteFilter">
+        🏍️ Consultar gastos de
+    </label>
+
+    <select id="mqExpensesRouteFilter">
+        <option value="all">Todas as viagens</option>
+        <option value="none">Sem rota associada</option>
+    </select>
+</div>
+
+
     <div class="mq-expenses-summary">
         <strong>📊 Resumo da Viagem</strong>
         <p style="color:#aaa;font-size:12px;">
@@ -3347,6 +3362,65 @@ max-width:100%;
         <div id="mqExpensesCategories"></div>
     </div>
 
+
+<!-- MOTOQUEST — GRÁFICO DE DESPESAS -->
+
+<div class="mq-expenses-chart-layout">
+    <div
+        id="mqExpensesDonut"
+        class="mq-expenses-donut"
+        role="img"
+        aria-label="Distribuição de despesas por categoria"
+    >
+        <div class="mq-expenses-donut-center">
+            <strong id="mqExpensesDonutTotal">0,00 €</strong>
+            <span>Total</span>
+        </div>
+    </div>
+</div>
+
+<style>
+.mq-expenses-chart-layout {
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    margin-top:22px;
+}
+
+.mq-expenses-donut {
+    width:190px;
+    height:190px;
+    border-radius:50%;
+    background:#333;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.mq-expenses-donut-center {
+    width:132px;
+    height:132px;
+    background:#202020;
+    border-radius:50%;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:5px;
+    text-align:center;
+}
+
+.mq-expenses-donut-center strong {
+    color:#ff7900;
+    font-size:19px;
+}
+
+.mq-expenses-donut-center span {
+    color:#aaa;
+    font-size:12px;
+}
+</style>
+	
     <div class="mq-expenses-list">
         <h3 style="color:#ff7900;">Registos da viagem</h3>
         <div id="mqExpensesList"
@@ -16810,6 +16884,18 @@ const mqExpenseCategories = {
     outros: "📦 Outros"
 };
 
+	
+const mqExpenseColors = {
+    combustivel: "#ff7900",
+    portagens: "#ffc247",
+    alojamento: "#5f9dff",
+    refeicoes: "#45c77b",
+    atividades: "#ba7cff",
+    estacionamento: "#ff6584",
+    outros: "#999999"
+};
+
+
 let mqExpenseEditingId = null;
 let mqExpenseRecords = [];
 
@@ -16842,7 +16928,21 @@ function mqExpenseResetForm() {
 
 async function mqLoadExpenseRoutes() {
     const select = mqExpenseEl("mqExpenseRoute");
-    select.replaceChildren(new Option("Sem rota associada", ""));
+    select.replaceChildren(new Option("Sem rota 
+const select = mqExpenseEl("mqExpenseRoute");
+const filter = mqExpenseEl("mqExpensesRouteFilter");
+
+const previousFilter = filter.value;
+
+select.replaceChildren(
+    new Option("Sem rota associada", "")
+);
+
+filter.replaceChildren(
+    new Option("Todas as viagens", "all"),
+    new Option("Sem rota associada", "none")
+);
+", ""));
 
     if (!currentUser) return;
 
@@ -16858,9 +16958,20 @@ async function mqLoadExpenseRoutes() {
         return;
     }
 
-    (data || []).forEach(route => {
-        select.add(new Option(route.name || "Rota sem nome", route.id));
-    });
+   
+(data || []).forEach(route => {
+    const name = route.name || "Rota sem nome";
+
+    select.add(new Option(name, route.id));
+    filter.add(new Option(name, route.id));
+});
+
+if ([...filter.options].some(
+    option => option.value === previousFilter
+)) {
+    filter.value = previousFilter;
+}
+
 }
 
 async function mqLoadExpenses() {
@@ -16886,6 +16997,21 @@ async function mqLoadExpenses() {
 }
 
 function mqRenderExpenses() {
+
+	
+const selectedRoute =
+    mqExpenseEl("mqExpensesRouteFilter").value;
+
+const filteredExpenses = mqExpenseRecords.filter(expense => {
+    if (selectedRoute === "all") return true;
+
+    if (selectedRoute === "none") {
+        return !expense.rota_id;
+    }
+
+    return String(expense.rota_id) === selectedRoute;
+});
+
     const list = mqExpenseEl("mqExpensesList");
     const categoriesBox = mqExpenseEl("mqExpensesCategories");
 
@@ -16897,8 +17023,10 @@ function mqRenderExpenses() {
     );
 
     mqExpenseEl("mqExpensesTotal").textContent = mqEuro(total);
-
-    const totalsByCategory = {};
+	
+mqExpenseEl("mqExpensesDonutTotal").textContent = mqEuro(total);
+	
+	const totalsByCategory = {};
 
     mqExpenseRecords.forEach(expense => {
         totalsByCategory[expense.categoria] =
