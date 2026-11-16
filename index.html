@@ -4903,22 +4903,24 @@ transform:translateX(38px);
 </div>
 
 
-      <button
-        id="useSuggestLocationBtn"
-        class="secondary-btn full-btn"
-        type="button"
-      >
-        📍 Usar a minha localização
-      </button>
+   
+<div class="field">
+    <label>Link Google Maps</label>
+    <input
+        id="suggestMaps"
+        readonly
+        placeholder="Será gerado automaticamente"
+    >
+</div>
 
-      <div class="field">
-        <label>Link Google Maps</label>
-        <input
-          id="suggestMaps"
-          readonly
-          placeholder="Será gerado automaticamente"
-        >
-      </div>
+<button
+    id="useSuggestLocationBtn"
+    class="secondary-btn full-btn"
+    type="button"
+>
+    📍 Usar a minha localização
+</button>
+
 
       <button class="primary-btn full-btn" type="submit">
         Enviar sugestão
@@ -25664,6 +25666,139 @@ filter: blur(12px) brightness(.85);
 }
 
 
+/* ==========================================
+   MOTOQUEST — SUGERIR LOCAL | DESIGN FINAL
+========================================== */
+
+#suggestSection .profile-card {
+    background: #141414;
+    border: 1px solid #ff7900;
+    border-radius: 16px;
+    padding: 18px;
+    box-sizing: border-box;
+}
+
+#suggestSection #suggestForm {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+#suggestSection #suggestForm .field {
+    margin: 0;
+    min-width: 0;
+}
+
+#suggestSection #suggestForm .field label {
+    display: block;
+    color: #ddd;
+    font-size: 13px;
+    font-weight: 500;
+    margin-bottom: 7px;
+}
+
+#suggestSection #suggestForm input:not([type="file"]),
+#suggestSection #suggestForm select,
+#suggestSection #suggestForm textarea {
+    display: block;
+    width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+    background: #0d0d0d;
+    color: #fff;
+    border: 1px solid #383838;
+    border-radius: 12px;
+    padding: 13px 14px;
+    font-size: 14px;
+    outline: none;
+}
+
+#suggestSection #suggestForm textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+#suggestSection #suggestForm input:focus,
+#suggestSection #suggestForm select:focus,
+#suggestSection #suggestForm textarea:focus {
+    border-color: #ff7900;
+}
+
+#suggestSection #suggestForm input::placeholder,
+#suggestSection #suggestForm textarea::placeholder {
+    color: #777;
+}
+
+/* Fotografia */
+
+#suggestSection #suggestImage {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    background: #0d0d0d;
+    color: #aaa;
+    border: 1px solid #383838;
+    border-radius: 12px;
+    padding: 12px;
+    font-size: 13px;
+}
+
+#suggestSection #suggestImage::file-selector-button {
+    background: #292929;
+    color: #fff;
+    border: 0;
+    border-radius: 8px;
+    padding: 10px 14px;
+    margin-right: 12px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+/* Coordenadas lado a lado */
+
+#suggestSection #suggestForm .mq-coordinates {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+    width: 100%;
+}
+
+/* Botão GPS */
+
+#suggestSection #useSuggestLocationBtn {
+    width: 100%;
+    background: #202020;
+    color: #fff;
+    border: 1px solid #383838;
+    border-radius: 12px;
+    padding: 14px;
+    font-weight: 700;
+}
+
+/* Botão enviar */
+
+#suggestSection #suggestForm button[type="submit"] {
+    width: 100%;
+    background: #ff7900;
+    color: #fff;
+    border: none;
+    border-radius: 12px;
+    padding: 15px;
+    font-weight: 800;
+    cursor: pointer;
+}
+
+/* Telemóveis */
+
+@media (max-width: 480px) {
+    #suggestSection .profile-card {
+        padding: 15px;
+    }
+
+    #suggestSection #suggestForm .mq-coordinates {
+        grid-template-columns: 1fr;
+    }
+}
 
 	
 </style>
