@@ -9033,7 +9033,149 @@ summaryPanel.appendChild(routeInfo);
 
 
 /* FIM MOTOQUEST ROUTING */
-routeInfo.textContent = "⏳ A calcular o percurso por estrada...";
+
+/* MOTOQUEST — CARREGAMENTO GPS */
+routeInfo.innerHTML = `
+    <div class="mq-gps-loading" role="status" aria-live="polite">
+        <div class="mq-gps-loading-top">
+            <div class="mq-gps-loading-icon">🗺️</div>
+
+            <div class="mq-gps-loading-text">
+                <strong>A desenhar o teu percurso</strong>
+                <span>A ligar os pontos da tua aventura...</span>
+            </div>
+
+            <div class="mq-gps-spinner"></div>
+        </div>
+
+        <svg class="mq-gps-path"
+             viewBox="0 0 310 55"
+             aria-hidden="true">
+            <path class="mq-gps-road"
+                  d="M18 37 C65 37 54 10 110 16 S174 49 218 30 S269 15 294 17"/>
+            <path class="mq-gps-route"
+                  d="M18 37 C65 37 54 10 110 16 S174 49 218 30 S269 15 294 17"/>
+            <circle cx="18" cy="37" r="6" fill="#ff7900"/>
+            <circle cx="294" cy="17" r="6"
+                    fill="#181818" stroke="#ff7900"
+                    stroke-width="2"/>
+        </svg>
+
+        <div class="mq-gps-loading-footer">
+            A calcular a melhor ligação entre paragens
+        </div>
+    </div>
+`;
+
+if (!document.getElementById("mq-gps-loading-style")) {
+    const gpsStyle = document.createElement("style");
+    gpsStyle.id = "mq-gps-loading-style";
+    gpsStyle.textContent = `
+        .mq-gps-loading {
+            box-sizing: border-box;
+            width: 100%;
+            padding: 18px;
+            background: #181818;
+            border: 1px solid #454545;
+            border-radius: 14px;
+            color: #fff;
+            font-family: inherit;
+        }
+
+        .mq-gps-loading-top {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .mq-gps-loading-icon {
+            display: grid;
+            place-items: center;
+            flex-shrink: 0;
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            background: #2c2117;
+            font-size: 24px;
+        }
+
+        .mq-gps-loading-text {
+            display: flex;
+            flex: 1;
+            min-width: 0;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .mq-gps-loading-text strong {
+            font-size: 14px;
+            color: #fff;
+        }
+
+        .mq-gps-loading-text span,
+        .mq-gps-loading-footer {
+            font-size: 12px;
+            color: #aaa;
+        }
+
+        .mq-gps-spinner {
+            width: 20px;
+            height: 20px;
+            flex-shrink: 0;
+            border: 2px solid #444;
+            border-top-color: #ff7900;
+            border-radius: 50%;
+            animation: mqGpsSpin 1s linear infinite;
+        }
+
+        .mq-gps-path {
+            display: block;
+            width: 100%;
+            height: 65px;
+            margin: 12px 0 4px;
+        }
+
+        .mq-gps-road,
+        .mq-gps-route {
+            fill: none;
+            stroke-linecap: round;
+            stroke-width: 5;
+        }
+
+        .mq-gps-road {
+            stroke: #383838;
+        }
+
+        .mq-gps-route {
+            stroke: #ff7900;
+            stroke-width: 4;
+            stroke-dasharray: 8 8;
+            animation: mqGpsTravel 1.2s linear infinite;
+        }
+
+        .mq-gps-loading-footer {
+            text-align: center;
+        }
+
+        @keyframes mqGpsSpin {
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes mqGpsTravel {
+            to { stroke-dashoffset: -32; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .mq-gps-spinner,
+            .mq-gps-route {
+                animation: none;
+            }
+        }
+    `;
+    document.head.appendChild(gpsStyle);
+}
+/* FIM CARREGAMENTO GPS */
+
 
 try {
     const ids = Array.isArray(route.location_ids)
