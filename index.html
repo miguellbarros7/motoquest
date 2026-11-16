@@ -12253,17 +12253,14 @@ addToRouteButton.disabled = true;
 addToRouteButton.textContent = "⏳ A CALCULAR...";
 
 try {
-    const response = await fetch(
-        `https://router.project-osrm.org/route/v1/driving/${newCoordinates}` +
-        "?overview=full&geometries=geojson&steps=false"
-    );
+  
+const result = await motoquestCalculateRoute(
+    newCoordinates,
+    route.trip_plan,
+    true
+);
 
-    if (!response.ok) {
-        throw new Error("O serviço de percursos não respondeu.");
-    }
-
-    const result = await response.json();
-    const newRoute = result.routes?.[0];
+const newRoute = result.routes?.[0];
 
     if (result.code !== "Ok" || !newRoute) {
         throw new Error("Não foi possível calcular o desvio.");
