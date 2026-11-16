@@ -9292,12 +9292,7 @@ const result = await motoquestCalculateRoute(
 const calculatedRoute = result.routes?.[0];
 
 
-    if (!response.ok) {
-        throw new Error("O serviço de percursos não respondeu.");
-    }
-
-    const result = await response.json();
-    const calculatedRoute = result.routes?.[0];
+   
 
 const routePath = calculatedRoute?.geometry?.coordinates;
 
