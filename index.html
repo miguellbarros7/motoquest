@@ -15685,40 +15685,9 @@ function getTypeLabel(type) {
 }
 
 
+
 function buildPhotoCredit(item) {
-
-    if (!item?.image_url) {
-        return "";
-    }
-
-    const photographer =
-        item.image_photographer ||
-        item.image_credit ||
-        "";
-
-    const photographerUrl =
-        item.image_photographer_url ||
-        "https://www.pexels.com/";
-
-    return `
-        <div class="photo-credit">
-            Foto:
-            ${
-                photographer
-                    ? `<a
-                        href="${escapeHtml(photographerUrl)}"
-                        target="_blank"
-                        rel="noopener"
-                    >${escapeHtml(photographer)}</a>`
-                    : "Pexels"
-            }
-            · <a
-                href="https://www.pexels.com/"
-                target="_blank"
-                rel="noopener"
-            >Pexels</a>
-        </div>
-    `;
+    return "";
 }
 
 /* FILTRO TODOS / FAVORITOS */
