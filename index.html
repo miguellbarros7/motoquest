@@ -12427,9 +12427,23 @@ const newRoute = result.routes?.[0];
         throw new Error("Não foi possível calcular o desvio.");
     }
 
-    const originalKm = calculatedRoute.distance / 1000;
-    const newKm = newRoute.distance / 1000;
-    const differenceKm = newKm - originalKm;
+   
+const originalKm = Number(calculatedRoute.distance) / 1000;
+const newKm = Number(newRoute.distance) / 1000;
+
+if (
+    !Number.isFinite(originalKm) ||
+    !Number.isFinite(newKm) ||
+    originalKm <= 0 ||
+    newKm <= 0
+) {
+    throw new Error(
+        "Não foi possível validar a distância da rota. Tenta novamente."
+    );
+}
+
+const differenceKm = newKm - originalKm;
+
 
     const confirmFuelSave = (message) => new Promise(resolve => {
     const overlay = document.createElement("div");
