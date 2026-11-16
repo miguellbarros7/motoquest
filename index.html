@@ -11748,15 +11748,15 @@ const checkCandidateRoute = async (station, fuelToReplace) => {
         `${Number(stop.longitude)},${Number(stop.latitude)}`
     ).join(";");
 
-    const response = await fetch(
-        `https://router.project-osrm.org/route/v1/driving/${coordinates}` +
-        "?overview=false&steps=false"
-    );
+   
+const result = await motoquestCalculateRoute(
+    coordinates,
+    route.trip_plan,
+    false
+);
 
-    if (!response.ok) throw new Error("OSRM indisponível");
+const legs = result.routes?.[0]?.legs;
 
-    const result = await response.json();
-    const legs = result.routes?.[0]?.legs;
 
     if (
         result.code !== "Ok" ||
