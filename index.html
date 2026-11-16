@@ -22793,8 +22793,17 @@ $("mqLocationSuccessClose").addEventListener(
         $("mqLocationSuccessModal").style.display = "none";
     }
 );
-	
-    
+	/* MOTOQUEST — FECHAR JANELA DE SUGESTÃO */
+
+document.getElementById("mqSuggestionSuccessClose")
+    .addEventListener("click", function () {
+
+        document.getElementById("mqSuggestionSuccessModal")
+            .style.display = "none";
+
+    });
+
+   
 </script>    
 
     
@@ -25649,14 +25658,7 @@ filter: blur(12px) brightness(.85);
 }
 
 
-/* MOTOQUEST — FECHAR JANELA DE SUGESTÃO */
 
-$("mqSuggestionSuccessClose").addEventListener(
-    "click",
-    () => {
-        $("mqSuggestionSuccessModal").style.display = "none";
-    }
-);
 	
 </style>
 <!-- FIM TITULOS IGUAIS AO DESTINO FINAL -->
