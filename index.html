@@ -4753,6 +4753,55 @@ transform:translateX(38px);
 
   </div>
 </div>
+
+			
+<!-- MOTOQUEST — SUGESTÃO ENVIADA -->
+<div id="mqSuggestionSuccessModal"
+     style="display:none;position:fixed;inset:0;
+            z-index:100000;background:rgba(0,0,0,.8);
+            align-items:center;justify-content:center;
+            padding:20px;">
+
+  <div role="dialog" aria-modal="true"
+       aria-labelledby="mqSuggestionSuccessTitle"
+       style="width:100%;max-width:380px;
+              background:#171717;
+              border:1px solid #ff7900;
+              border-radius:18px;padding:26px;
+              text-align:center;
+              box-shadow:0 15px 50px #0009;">
+
+    <div style="width:58px;height:58px;
+                margin:0 auto 16px;
+                border-radius:50%;
+                background:#173525;color:#40d878;
+                display:flex;align-items:center;
+                justify-content:center;font-size:30px;">
+      ✓
+    </div>
+
+    <h3 id="mqSuggestionSuccessTitle"
+        style="color:#fff;margin:0 0 12px;">
+      Sugestão enviada!
+    </h3>
+
+    <p style="color:#aaa;font-size:14px;line-height:1.5;">
+      Obrigado por partilhares um novo local
+      com a comunidade MotoQuest.
+    </p>
+
+    <button type="button"
+            id="mqSuggestionSuccessClose"
+            style="width:100%;background:#ff7900;
+                   color:#111;border:0;border-radius:10px;
+                   padding:13px;font-weight:800;
+                   cursor:pointer;">
+      Continuar
+    </button>
+
+  </div>
+</div>
+
        <section id="suggestSection" class="section">
   <div class="section-header">
     <div>
@@ -19259,12 +19308,8 @@ $("suggestForm").addEventListener(
             $("suggestMaps").value = "";
 
 
-            showMessage(
-                "suggestMessage",
-                "Sugestão enviada com fotografia. Obrigado!",
-                "success"
-            );
-
+          $("suggestMessage").textContent = "";
+$("mqSuggestionSuccessModal").style.display = "flex";
 
         } catch (error) {
 
@@ -25603,6 +25648,15 @@ filter: blur(12px) brightness(.85);
     box-sizing: border-box;
 }
 
+
+/* MOTOQUEST — FECHAR JANELA DE SUGESTÃO */
+
+$("mqSuggestionSuccessClose").addEventListener(
+    "click",
+    () => {
+        $("mqSuggestionSuccessModal").style.display = "none";
+    }
+);
 	
 </style>
 <!-- FIM TITULOS IGUAIS AO DESTINO FINAL -->
