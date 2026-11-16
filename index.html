@@ -15050,8 +15050,9 @@ function fillRouteFilter(select, field, allLabel) {
     values.forEach(value => {
         const option = document.createElement("option");
         option.value = value;
-        option.textContent = value;
-        select.appendChild(option);
+option.textContent =
+    value.charAt(0).toLocaleUpperCase("pt-PT") + value.slice(1);
+		select.appendChild(option);
     });
 
     select.value = values.includes(previousValue)
