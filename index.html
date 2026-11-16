@@ -15051,7 +15051,9 @@ function fillRouteFilter(select, field, allLabel) {
         const option = document.createElement("option");
         option.value = value;
 option.textContent =
-    value.charAt(0).toLocaleUpperCase("pt-PT") + value.slice(1);
+    value.toLowerCase() === "baloico"
+        ? "Baloiço"
+        : value.charAt(0).toLocaleUpperCase("pt-PT") + value.slice(1);
 		select.appendChild(option);
     });
 
