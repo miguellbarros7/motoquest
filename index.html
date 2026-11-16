@@ -11135,7 +11135,8 @@ return (data || []).map(station => ({
     longitude: Number(station.longitude)
 }));
 }
-        async function getRoadDistanceKm(
+       
+async function getRoadDistanceKm(
     fromLatitude,
     fromLongitude,
     toLatitude,
@@ -11145,23 +11146,24 @@ return (data || []).map(station => ({
         `${fromLongitude},${fromLatitude};` +
         `${toLongitude},${toLatitude}`;
 
-    const response = await fetch(
-        `https://router.project-osrm.org/route/v1/driving/${coordinates}` +
-        "?overview=false&steps=false"
+    const result = await motoquestCalculateRoute(
+        coordinates,
+        route.trip_plan,
+        false
     );
 
-    if (!response.ok) {
-        throw new Error("Erro ao calcular distância por estrada.");
-    }
-
-    const result = await response.json();
-
-    if (result.code !== "Ok" || !result.routes?.[0]) {
-        throw new Error("Não existe percurso rodoviário disponível.");
+    if (
+        result.code !== "Ok" ||
+        !Number.isFinite(result.routes?.[0]?.distance)
+    ) {
+        throw new Error(
+            "Não existe percurso rodoviário disponível."
+        );
     }
 
     return result.routes[0].distance / 1000;
 }
+
 const fuelPlanner = document.createElement("div");
         fuelPlanner.id = "mq-fuel-planner";
 
