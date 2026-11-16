@@ -25437,6 +25437,9 @@ div:has(> .mq-fuel-top) {
 filter: blur(12px) brightness(.85);
 }
 
+
+/* MOTOQUEST — FOTOGRAFIAS COM TRANSIÇÃO SUAVE */
+
 .location-card .location-image {
     position: relative;
     z-index: 1;
@@ -25446,6 +25449,22 @@ filter: blur(12px) brightness(.85);
     object-position: center;
     background: transparent;
     display: block;
+
+    -webkit-mask-image: linear-gradient(
+        to right,
+        transparent 0%,
+        black 12%,
+        black 88%,
+        transparent 100%
+    );
+
+    mask-image: linear-gradient(
+        to right,
+        transparent 0%,
+        black 12%,
+        black 88%,
+        transparent 100%
+    );
 }
 
 	
