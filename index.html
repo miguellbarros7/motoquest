@@ -13011,10 +13011,22 @@ const updateFuelReplacementPreview = async () => {
 const replacementPreview =
     await calculateFuelReplacementPreview();
 
+
 const replacementKm = replacementPreview.distanceKm;
 
+if (requestId !== previewRequestId) return;
 
-        if (requestId !== previewRequestId) return;
+if (
+    !Number.isFinite(replacementKm) ||
+    replacementKm <= 0 ||
+    !Number.isFinite(originalKm) ||
+    originalKm <= 0
+) {
+    throw new Error(
+        "Não foi possível calcular uma distância válida para esta opção."
+    );
+}
+
 
         const replacementDifference = replacementKm - originalKm;
 		
