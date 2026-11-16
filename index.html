@@ -13184,17 +13184,15 @@ const finalCoordinates = finalRouteStops.map(loc =>
     `${Number(loc.longitude)},${Number(loc.latitude)}`
 ).join(";");    
 
-    const finalResponse = await fetch(
-    `https://router.project-osrm.org/route/v1/driving/${finalCoordinates}` +
-    "?overview=false&steps=false"
+    
+const finalResult = await motoquestCalculateRoute(
+    finalCoordinates,
+    route.trip_plan,
+    false
 );
 
-if (!finalResponse.ok) {
-    throw new Error("Não foi possível calcular a rota final.");
-}
-
-const finalResult = await finalResponse.json();
 const finalRoute = finalResult.routes?.[0];
+
 
 if (finalResult.code !== "Ok" || !finalRoute) {
     throw new Error("O serviço não devolveu uma rota final válida.");
