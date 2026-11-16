@@ -13593,8 +13593,11 @@ makeAdventureTile(
 
     console.warn("Preço da gasolina:", error);
 
-    costLine.textContent =
-        "💶 Custo: preço temporariamente indisponível";
+  
+costLine.textContent =
+    "💶 Erro no custo: " +
+    (error?.message || "Erro desconhecido");
+
 
     priceSource.textContent =
         "Não foi possível consultar a média nacional. " +
