@@ -11841,6 +11841,7 @@ recommendation.textContent =
         : "ADICIONAR SEM SUBSTITUIR");
 
 recommendation.style.cssText = `
+display:none;
     color:#ffb15c;
     font-size:11px;
     font-weight:800;
@@ -12925,19 +12926,11 @@ const isBetter =
 
 
 previewNotice.textContent =
-    fuelComparisonMessage + "\n\n" +
-    fuelSafetyComparisonMessage + "\n\n" +
-    fuelSafetyDetailsMessage + "\n\n" +
-
-    (replacementPreview.fuelIsSafe
-
-        ? "✅ Todos os intervalos respeitam a autonomia de segurança."
-        : "⚠️ Esta opção ainda deixa " +
-          replacementPreview.missingCount +
-          (replacementPreview.missingCount === 1
-              ? " abastecimento adicional necessário."
-              : " abastecimentos adicionais necessários.") +
-          " A rota continua com autonomia insuficiente.");
+    !comparisonDataIsValid
+        ? "⚠️ Não foi possível validar a autonomia."
+        : replacementPreview.fuelIsSafe
+            ? "✅ Autonomia segura\nA nova bomba permite cumprir a autonomia definida."
+            : "⚠️ Autonomia insuficiente\nEsta opção ainda exige mais abastecimentos.";
 
 previewNotice.style.whiteSpace = "pre-line";
 
