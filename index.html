@@ -9071,10 +9071,13 @@ if (!document.getElementById("mq-gps-loading-style")) {
     const gpsStyle = document.createElement("style");
     gpsStyle.id = "mq-gps-loading-style";
     gpsStyle.textContent = `
-        .mq-gps-loading {
-            box-sizing: border-box;
-            width: 100%;
-            padding: 18px;
+      
+.mq-gps-loading {
+    box-sizing: border-box;
+    width: 100%;
+    grid-column: 1 / -1;
+    padding: 18px;
+
             background: #181818;
             border: 1px solid #454545;
             border-radius: 14px;
