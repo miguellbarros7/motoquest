@@ -15350,13 +15350,20 @@ function renderLocations() {
             return `
                 <article class="location-card">
 
-                    <img
-                        class="location-image"
-                        src="${escapeHtml(image)}"
-                        alt="${escapeHtml(location.name || "Local")}"
-                        loading="lazy"
-						decoding="async"
-                    >
+                   
+<div class="location-photo-frame"
+     style="--photo-url: url('${escapeHtml(image)}');">
+
+    <img
+        class="location-image"
+        src="${escapeHtml(image)}"
+        alt="${escapeHtml(location.name || "Local")}"
+        loading="lazy"
+        decoding="async"
+    >
+
+</div>
+
 
                     <button
                         class="favorite-btn"
@@ -25409,16 +25416,38 @@ div:has(> .mq-fuel-top) {
     }
 }
 
-/* MOTOQUEST — FOTOGRAFIAS DOS LOCAIS */
+
+
+/* MOTOQUEST — FOTOGRAFIAS ENQUADRADAS */
+
+.location-card .location-photo-frame {
+    position: relative;
+    height: 220px;
+    overflow: hidden;
+    background: #171717;
+}
+
+.location-card .location-photo-frame::before {
+    content: "";
+    position: absolute;
+    inset: -15px;
+    background-image: var(--photo-url);
+    background-size: cover;
+    background-position: center;
+    filter: blur(18px) brightness(.65);
+}
 
 .location-card .location-image {
+    position: relative;
+    z-index: 1;
     width: 100%;
     height: 220px;
     object-fit: contain;
-    object-position: center center;
-    background: #171717;
+    object-position: center;
+    background: transparent;
     display: block;
 }
+
 	
 </style>
 <!-- FIM TITULOS IGUAIS AO DESTINO FINAL -->
