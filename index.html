@@ -7466,41 +7466,55 @@ return;
 
 console.log("🗺️ Leaflet disponível para gerar o mapa da rota");
 
+  
     // Obter o percurso rodoviário real entre as paragens
-let roadCoordinates = [];
+    let roadCoordinates = [];
 
-if (routeCoordinates.length >= 2) {
-    try {
-        const coordinates = routeCoordinates
-            .map(point => `${point.lng},${point.lat}`)
-            .join(";");
+    if (routeCoordinates.length >= 2) {
+        try {
+            const coordinates = routeCoordinates
+                .map(point => `${point.lng},${point.lat}`)
+                .join(";");
 
-        const url =
-            `https://router.project-osrm.org/route/v1/driving/${coordinates}` +
-            `?overview=full&geometries=geojson`;
+            const result = await motoquestCalculateRoute(
+                coordinates,
+                route.trip_plan,
+                true
+            );
 
-        const response = await fetch(url);
+            const geometry =
+                result.routes?.[0]?.geometry?.coordinates;
 
-        if (!response.ok) {
-            throw new Error(`OSRM respondeu com ${response.status}`);
-        }
+            if (!Array.isArray(geometry) || geometry.length < 2) {
+                throw new Error(
+                    "Não foi possível obter o traçado do percurso."
+                );
+            }
 
-        const result = await response.json();
-
-        if (result.code === "Ok" && result.routes?.[0]?.geometry?.coordinates) {
-            roadCoordinates = result.routes[0].geometry.coordinates.map(
+            roadCoordinates = geometry.map(
                 ([lng, lat]) => ({ lat, lng })
             );
-        }
 
-        console.log(
-            "🛣️ Pontos do percurso rodoviário:",
-            roadCoordinates.length
-        );
-    } catch (error) {
-        console.warn("Não foi possível obter o percurso rodoviário:", error);
+            console.log(
+                "🛣️ Pontos do percurso rodoviário:",
+                roadCoordinates.length
+            );
+
+        } catch (error) {
+            console.error(
+                "MotoQuest — erro ao calcular o mapa:",
+                error
+            );
+
+            await showMQAlert(
+                "Não foi possível gerar o mapa com as opções de percurso selecionadas.",
+                "error"
+            );
+
+            return;
+        }
     }
-}
+
 // Carregar imagens externas para o canvas
 const loadMapImage = (url) => {
     return new Promise((resolve, reject) => {
