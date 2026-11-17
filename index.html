@@ -12463,10 +12463,17 @@ const checkCandidateRoute = async (
         return { status: "unverified" };
     }
 
-    const candidateFuel = {
-        ...station,
-        insertion_index: candidateInsertionIndex
-    };
+ const stationInsertionIndex =
+    Number.isInteger(Number(station.insertion_index)) &&
+    Number(station.insertion_index) >= 0 &&
+    Number(station.insertion_index) <= ordered.length
+        ? Number(station.insertion_index)
+        : candidateInsertionIndex;
+
+const candidateFuel = {
+    ...station,
+    insertion_index: stationInsertionIndex
+};
 
   // Se a rota mudou, não confiar nas posições
 // dos abastecimentos antigos.
