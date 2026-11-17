@@ -12895,14 +12895,35 @@ if (
     window.motoquestFuelPairs.length > 0
 ) {
 
-// Testar primeiras bombas diferentes, sem aumentar os cálculos.
-const fuelPairsForTest = window.motoquestFuelPairs
-    .filter((pair, index, pairs) =>
-        pairs.findIndex(other =>
-            other.primeira === pair.primeira
-        ) === index
-    )
-    .slice(0, 5);	// Diagnóstico: distância em linha reta entre as segundas bombas.
+// Distribuir os testes por primeiras e segundas bombas diferentes.
+const fuelPairsForTest = [];
+const primeirasUsadas = new Set();
+const segundasUsadas = new Set();
+
+for (const pair of window.motoquestFuelPairs) {
+    if (fuelPairsForTest.length >= 5) break;
+
+    const primeiraId =
+        `${pair.primeira.latitude},${pair.primeira.longitude}`;
+
+    const segundaId =
+        `${pair.segunda.latitude},${pair.segunda.longitude}`;
+
+    // Não usar a mesma estação nas duas paragens.
+    if (primeiraId === segundaId) continue;
+
+    // Preferir primeiras e segundas bombas ainda não utilizadas.
+    if (
+        primeirasUsadas.has(primeiraId) ||
+        segundasUsadas.has(segundaId)
+    ) continue;
+
+    fuelPairsForTest.push(pair);
+    primeirasUsadas.add(primeiraId);
+    segundasUsadas.add(segundaId);
+}	
+	
+	// Diagnóstico: distância em linha reta entre as segundas bombas.
 const fuelDistanceMeters = (a, b) => {
     const rad = Math.PI / 180;
     const lat1 = Number(a.latitude) * rad;
