@@ -12434,8 +12434,11 @@ return Math.max(
 
 const candidateInsertionIndex = getCandidateInsertionIndex();
 
-const checkCandidateRoute = async (station, fuelToReplace) => {
-
+const checkCandidateRoute = async (
+    station,
+    fuelToReplace,
+    additionalFuelStops = []
+) => {
     // Não validar candidatos com abastecimentos
     // associados à ordem antiga da rota.
     if (fuelRouteReviewPending) {
