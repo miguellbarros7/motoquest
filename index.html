@@ -6858,6 +6858,17 @@ fuelReviewNeeded = orderChanged;
 
 let fuelReviewNeeded = false;
 
+	const optimizeRouteBtn = document.createElement("button");
+optimizeRouteBtn.type = "button";
+optimizeRouteBtn.textContent = "⚡ Otimizar rota";
+
+optimizeRouteBtn.style.cssText =
+    "display:block;width:fit-content;margin:10px auto 0;" +
+    "padding:8px 14px;background:#292929;" +
+    "border:1px solid #ff7900;border-radius:7px;" +
+    "color:#ff7900;font-family:inherit;" +
+    "font-size:12px;font-weight:600;cursor:pointer;";
+
 
 const renderStops = () => {
     stopsPanel.innerHTML = "";
@@ -7216,6 +7227,7 @@ if (stopsLoaded) {
     stopsPanel.append(
         addStopBtn,
         addStopSelect,
+        optimizeRouteBtn,
         googleRouteOptions,
         saveOrderBtn
     );
