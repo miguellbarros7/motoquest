@@ -11918,6 +11918,24 @@ plannerInfo.textContent =
 
 fuelPlanner.appendChild(plannerInfo);
 
+	if (fuelRouteReviewPending) {
+    const pendingFuelWarning = document.createElement("div");
+
+    pendingFuelWarning.textContent =
+        "⚠️ A ordem desta rota foi alterada. " +
+        "Os abastecimentos guardados ainda não foram " +
+        "validados para o novo percurso. " +
+        "Confirma a autonomia antes de viajar.";
+
+    pendingFuelWarning.style.cssText =
+        "padding:12px;margin:12px 0;" +
+        "background:#302014;color:#ffb347;" +
+        "border:1px solid #ff7900;border-radius:9px;" +
+        "font-size:12px;line-height:1.6;";
+
+    fuelPlanner.appendChild(pendingFuelWarning);
+}
+
 	
 if (plannedStops.length > 0) {
     const missingStopsNotice = document.createElement("div");
