@@ -12888,7 +12888,36 @@ if (
         "MotoQuest — pares de abastecimento preparados:",
         window.motoquestFuelPairs.length
     );
-}	const testFuelStation =
+}// Diagnóstico: preparar o primeiro par para cálculo rodoviário.
+if (
+    Number(distance) > fuelSafetyLimitKm &&
+    Array.isArray(window.motoquestFuelPairs) &&
+    window.motoquestFuelPairs.length > 0
+) {
+    const firstPair = window.motoquestFuelPairs[0];
+
+    const firstIndex =
+        getCandidateInsertionIndex(firstPair.primeira.routeKm);
+
+    const secondIndex =
+        getCandidateInsertionIndex(firstPair.segunda.routeKm);
+
+    console.log("MotoQuest — primeiro par para cálculo:", {
+        primeiraBomba: firstPair.primeira.name,
+        primeiroKm: firstPair.primeira.routeKm,
+        primeiroIndice: firstIndex,
+        segundaBomba: firstPair.segunda.name,
+        segundoKm: firstPair.segunda.routeKm,
+        segundoIndice: secondIndex,
+        ordemCorreta:
+            firstIndex !== null &&
+            secondIndex !== null &&
+            firstIndex <= secondIndex,
+        validado: false
+    });
+}
+	
+	const testFuelStation =
     Number(distance) <= fuelSafetyLimitKm
         ? earlyFuelCandidates[0] ||
           fuelCandidatesOnRoute.find(station =>
