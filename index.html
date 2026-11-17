@@ -12834,6 +12834,25 @@ if (
     fuelStopIndex > 0 &&
     fuelStopIndex < testStops.length - 1
 ) {
+// Diagnóstico: distância acumulada desde a partida
+// até à bomba, incluindo todas as paragens intermédias.
+const distanceFromStartKm = testLegs
+    .slice(0, fuelStopIndex)
+    .reduce(
+        (total, leg) => total + Number(leg.distance) / 1000,
+        0
+    );
+
+console.log("MotoQuest — autonomia até à bomba:", {
+    bomba: testFuelStation.name,
+    distanciaDesdePartidaKm: distanceFromStartKm,
+    limiteSegurancaKm: fuelSafetyLimitKm,
+    dentroDaAutonomia:
+        Number.isFinite(distanceFromStartKm) &&
+        Number.isFinite(fuelSafetyLimitKm) &&
+        distanceFromStartKm <= fuelSafetyLimitKm,
+    validado: false
+});	
     const beforeFuelKm =
         Number(testLegs[fuelStopIndex - 1]?.distance) / 1000;
 
