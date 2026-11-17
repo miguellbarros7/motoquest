@@ -7196,53 +7196,75 @@ console.log("MotoQuest — matriz de otimização:", {
     })),
     matrix
 });
-// Segurança: ainda não otimizar viagens com pontos especiais
-const tripPlan = route.trip_plan || {};
-
-const hasCustomDeparture =
-    tripPlan.departure_type !== "first" &&
-    !!(tripPlan.departure_location || "").trim();
-
-const hasMeeting = tripPlan.meeting_enabled === true;
-
-const hasCustomDestination =
-    tripPlan.end_type === "other";
-
-const hasFuel =
-    Array.isArray(route.fuel_stops) &&
+// Proteger abastecimentos até serem integrados
+const hasFuel = Array.isArray(route.fuel_stops) &&
     route.fuel_stops.length > 0;
 
-if (
-    hasCustomDeparture ||
-    hasMeeting ||
-    hasCustomDestination ||
-    hasFuel
-) {
+if (hasFuel) {
     throw new Error(
-        "Esta rota tem partida, encontro, destino ou abastecimento " +
-        "especial. Vamos acrescentar esse suporte no próximo passo."
+        "Esta rota tem abastecimentos. " +
+        "Vamos integrar a sua reavaliação no próximo passo."
     );
 }
 
-// Manter a primeira e a última paragens fixas
-const first = 0;
-const last = ids.length - 1;
-
-const middle = Array.from(
-    { length: Math.max(0, ids.length - 2) },
-    (_, index) => index + 1
+const stopOffset = optimizationPoints.findIndex(
+    point => point.type === "stop"
 );
 
-// Calcular o custo de uma ordem
+if (stopOffset < 0) {
+    throw new Error("Não foram encontradas paragens.");
+}
+
+// Índices das paragens turísticas na matriz completa
+const stopIndexes = ids.map(
+    (_, index) => stopOffset + index
+);
+
+const hasFixedStart =
+    !!fixedCoordinates.departure ||
+    !!fixedCoordinates.meeting;
+
+const hasFixedEnd =
+    !!fixedCoordinates.destination;
+
+// Sem partida personalizada, manter a primeira paragem.
+// Sem destino personalizado, manter a última.
+const movableIndexes = stopIndexes.filter(
+    (_, index) =>
+        (hasFixedStart || index !== 0) &&
+        (hasFixedEnd || index !== ids.length - 1)
+);
+
+if (movableIndexes.length > 8) {
+    throw new Error(
+        "Esta versão permite otimizar até 8 paragens móveis."
+    );
+}
+
+const prefix = [
+    ...(fixedCoordinates.departure ? [0] : []),
+    ...(fixedCoordinates.meeting
+        ? [fixedCoordinates.departure ? 1 : 0]
+        : []),
+    ...(!hasFixedStart ? [stopIndexes[0]] : [])
+];
+
+const suffix = [
+    ...(!hasFixedEnd
+        ? [stopIndexes[stopIndexes.length - 1]]
+        : []),
+    ...(hasFixedEnd
+        ? [optimizationPoints.length - 1]
+        : [])
+];
+
 const calculateCost = order => {
     let total = 0;
 
     for (let i = 0; i < order.length - 1; i++) {
         const value = matrix[order[i]]?.[order[i + 1]];
 
-        if (!Number.isFinite(value)) {
-            return Infinity;
-        }
+        if (!Number.isFinite(value)) return Infinity;
 
         total += value;
     }
@@ -7250,13 +7272,23 @@ const calculateCost = order => {
     return total;
 };
 
-let bestOrder = [first, ...middle, last];
+const originalOrder = [
+    ...prefix,
+    ...movableIndexes,
+    ...suffix
+];
+
+let bestOrder = [...originalOrder];
 let bestCost = calculateCost(bestOrder);
 
-// Testar todas as combinações das paragens intermédias
 const searchOrders = (remaining, current) => {
     if (remaining.length === 0) {
-        const candidate = [first, ...current, last];
+        const candidate = [
+            ...prefix,
+            ...current,
+            ...suffix
+        ];
+
         const cost = calculateCost(candidate);
 
         if (cost < bestCost) {
@@ -7275,7 +7307,7 @@ const searchOrders = (remaining, current) => {
     });
 };
 
-searchOrders(middle, []);
+searchOrders(movableIndexes, []);
 
 if (!Number.isFinite(bestCost)) {
     throw new Error(
@@ -7283,7 +7315,10 @@ if (!Number.isFinite(bestCost)) {
     );
 }
 
-const optimizedIds = bestOrder.map(index => ids[index]);
+// Recuperar apenas os IDs dos locais turísticos
+const optimizedIds = bestOrder
+    .filter(index => stopIndexes.includes(index))
+    .map(index => ids[index - stopOffset]);
 
 const changed = optimizedIds.some(
     (id, index) => String(id) !== String(ids[index])
