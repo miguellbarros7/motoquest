@@ -12407,6 +12407,25 @@ if (fuelRouteReviewPending) {
 
 const originalLegDistances = calculatedRoute.legs || [];
 
+// Quilómetros acumulados em cada ponto da rota.
+const routeCumulativeKm = [0];
+
+for (const leg of originalLegDistances) {
+    const legKm = Number(leg.distance) / 1000;
+
+    if (!Number.isFinite(legKm) || legKm < 0) {
+        routeCumulativeKm.push(NaN);
+        continue;
+    }
+
+    const previousKm =
+        routeCumulativeKm[routeCumulativeKm.length - 1];
+
+    routeCumulativeKm.push(previousKm + legKm);
+}
+
+	
+
 const getCandidateInsertionIndex = (targetDistanceKm) => {
 	let accumulatedKm = 0;
 
