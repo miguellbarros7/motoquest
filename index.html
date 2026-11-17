@@ -13189,6 +13189,28 @@ const bestFuelPair = [...window.motoquestFuelPairResults]
 desvioKm: bestFuelPair?.desvioKm ?? null,
 validado: false
     });
+// Preparar o melhor par para apresentação, sem guardar.
+if (
+    bestFuelPair &&
+    Array.isArray(bestFuelPair.intervalos) &&
+    bestFuelPair.intervalos.length === 3 &&
+    bestFuelPair.primeiraBomba &&
+    bestFuelPair.segundaBomba
+) {
+    window.motoquestBestFuelDisplay = {
+        bombas: [
+            { ...bestFuelPair.primeiraBomba },
+            { ...bestFuelPair.segundaBomba }
+        ],
+        intervalos: bestFuelPair.intervalos.map(
+            intervalo => ({ ...intervalo })
+        ),
+        limiteKm: fuelSafetyLimitKm,
+        margemMinimaKm: bestFuelPair.margemMinimaKm,
+        desvioKm: bestFuelPair.desvioKm,
+        validado: false
+    };
+}	
 }
 const testFuelStation =
     Number(distance) <= fuelSafetyLimitKm
