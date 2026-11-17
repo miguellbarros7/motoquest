@@ -12227,6 +12227,9 @@ searchButton.textContent =
     searchButton.onclick = async () => {
         searchButton.disabled = true;
         stationResults.textContent = "🔎 A procurar postos próximos...";
+		// Identificar a versão do planeador desta pesquisa.
+const fuelSearchGeneration =
+    window.motoquestFuelGeneration;
 		// Invalidar a proposta anterior ao iniciar nova pesquisa.
 window.motoquestFuelProposal = null;
 
