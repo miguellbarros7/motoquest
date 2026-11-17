@@ -12949,6 +12949,31 @@ for (const pair of fuelPairsOrdered) {
     primeirasUsadas.add(primeiraId);
     segundasUsadas.add(segundaId);
 }	
+
+	// Completar os testes com pares de boa margem estimada,
+// mesmo quando partilham uma das bombas.
+for (const pair of fuelPairsOrdered) {
+    if (fuelPairsForTest.length >= 8) break;
+
+    const primeiraId =
+        `${pair.primeira.latitude},${pair.primeira.longitude}`;
+
+    const segundaId =
+        `${pair.segunda.latitude},${pair.segunda.longitude}`;
+
+    // Nunca usar a mesma estação nas duas paragens.
+    if (primeiraId === segundaId) continue;
+
+    // Não repetir combinações já selecionadas.
+    if (fuelPairsForTest.includes(pair)) continue;
+
+    fuelPairsForTest.push(pair);
+}
+
+console.log(
+    "MotoQuest — pares escolhidos para teste rodoviário:",
+    fuelPairsForTest.length
+);
 	
 	// Diagnóstico: distância em linha reta entre as segundas bombas.
 const fuelDistanceMeters = (a, b) => {
