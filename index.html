@@ -12916,36 +12916,6 @@ if (
         validado: false
     });
 }
-	
-	const testFuelStation =
-    Number(distance) <= fuelSafetyLimitKm
-        ? earlyFuelCandidates[0] ||
-          fuelCandidatesOnRoute.find(station =>
-              Number.isFinite(station.routeKm) &&
-              station.routeKm < fuelSafetyLimitKm
-          )
-        : fuelCandidatesOnRoute[0];
-
-// Diagnóstico temporário: guardar a primeira bomba
-// apenas na memória desta página.
-if (
-    Number(distance) <= fuelSafetyLimitKm &&
-    testFuelStation &&
-    Number.isFinite(Number(testFuelStation.latitude)) &&
-    Number.isFinite(Number(testFuelStation.longitude))
-) {
-      window.motoquestTestFirstFuel = {
-        name: testFuelStation.name,
-        latitude: Number(testFuelStation.latitude),
-        longitude: Number(testFuelStation.longitude),
-        routeKm: Number(testFuelStation.routeKm)
-    };
-
-    console.log(
-        "MotoQuest — primeira bomba preparada:",
-        window.motoquestTestFirstFuel
-    );
-}
 // Preparar a rota completa com o primeiro par.
 if (
     firstIndex !== null &&
@@ -12979,7 +12949,38 @@ if (
             .map(stop => stop.name),
         validado: false
     });
-}if (
+}	
+	
+	const testFuelStation =
+    Number(distance) <= fuelSafetyLimitKm
+        ? earlyFuelCandidates[0] ||
+          fuelCandidatesOnRoute.find(station =>
+              Number.isFinite(station.routeKm) &&
+              station.routeKm < fuelSafetyLimitKm
+          )
+        : fuelCandidatesOnRoute[0];
+
+// Diagnóstico temporário: guardar a primeira bomba
+// apenas na memória desta página.
+if (
+    Number(distance) <= fuelSafetyLimitKm &&
+    testFuelStation &&
+    Number.isFinite(Number(testFuelStation.latitude)) &&
+    Number.isFinite(Number(testFuelStation.longitude))
+) {
+      window.motoquestTestFirstFuel = {
+        name: testFuelStation.name,
+        latitude: Number(testFuelStation.latitude),
+        longitude: Number(testFuelStation.longitude),
+        routeKm: Number(testFuelStation.routeKm)
+    };
+
+    console.log(
+        "MotoQuest — primeira bomba preparada:",
+        window.motoquestTestFirstFuel
+    );
+}
+if (
     testFuelStation &&
     Number.isFinite(testFuelStation.routeKm)
 ) {
