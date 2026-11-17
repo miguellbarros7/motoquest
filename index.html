@@ -12407,6 +12407,23 @@ if (fuelRouteReviewPending) {
 
 const originalLegDistances = calculatedRoute.legs || [];
 
+// Preparar a geometria GPS do percurso.
+const routeGeometry = calculatedRoute.geometry || null;
+
+const hasRouteGeometry =
+    routeGeometry !== null &&
+    (
+        (Array.isArray(routeGeometry.coordinates) &&
+         routeGeometry.coordinates.length >= 2) ||
+        (typeof routeGeometry === "string" &&
+         routeGeometry.length > 0)
+    );
+
+console.log(
+    "MotoQuest — geometria GPS disponível:",
+    hasRouteGeometry
+);	
+
 // Quilómetros acumulados em cada ponto da rota.
 const routeCumulativeKm = [0];
 
