@@ -7209,6 +7209,15 @@ console.log("⛽ MotoQuest — abastecimentos existentes:", {
     hasFuel,
     fuelStops: originalFuelStops
 });
+
+		// Proteção temporária dos abastecimentos
+if (hasFuel) {
+    throw new Error(
+        "Esta rota tem abastecimentos guardados. " +
+        "A otimização ficará disponível depois de " +
+        "integrarmos o recálculo das bombas."
+    );
+}
 const stopOffset = optimizationPoints.findIndex(
     point => point.type === "stop"
 );
