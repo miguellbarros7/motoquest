@@ -12549,6 +12549,25 @@ const getCandidateInsertionIndex = (targetDistanceKm) => {
     );
 };
 
+	// Medir a proximidade de cada bomba ao traçado GPS.
+const fuelCandidatesOnRoute = nearbyFuelCandidates.map(station => {
+    const nearestPoint = findNearestRoutePoint(station);
+
+    return {
+        ...station,
+        nearestRoutePointIndex: nearestPoint?.index ?? null,
+        distanceToRouteKm: nearestPoint?.distanceKm ?? null
+    };
+});
+
+console.table(
+    fuelCandidatesOnRoute.map(station => ({
+        bomba: station.name,
+        distanciaAteRotaKm: station.distanceToRouteKm,
+        indiceGPS: station.nearestRoutePointIndex
+    }))
+);
+
 const candidateInsertionIndex =
     getCandidateInsertionIndex(distance);
 const checkCandidateRoute = async (
