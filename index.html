@@ -12573,7 +12573,13 @@ for (const station of nearbyFuelCandidates.slice(0, 8)) {
 let bestEvaluation = addEvaluation;
 let bestFuelToReplace = null;
 
-for (const fuel of (route.fuel_stops || [])) {
+// Só considerar substituições quando os
+// abastecimentos existentes estão validados.
+const replaceableFuelStops = fuelRouteReviewPending
+    ? []
+    : (route.fuel_stops || []);
+
+for (const fuel of replaceableFuelStops) {
     const replacementEvaluation =
         await checkCandidateRoute(station, fuel);
 
