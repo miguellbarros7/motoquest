@@ -12471,10 +12471,15 @@ const hasValidRouteKm =
     stationRouteKm >= 0 &&
     stationRouteKm <= km;
 
-const stationInsertionIndex =
+const hasValidInsertionIndex =
+    station.insertion_index != null &&
+    station.insertion_index !== "" &&
     Number.isInteger(Number(station.insertion_index)) &&
     Number(station.insertion_index) >= 0 &&
-    Number(station.insertion_index) <= ordered.length
+    Number(station.insertion_index) <= ordered.length;
+
+const stationInsertionIndex =
+    hasValidInsertionIndex
         ? Number(station.insertion_index)
         : hasValidRouteKm
             ? getCandidateInsertionIndex(stationRouteKm)
