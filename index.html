@@ -6953,8 +6953,37 @@ optimizeRouteBtn.style.cssText =
                 "Existem paragens sem coordenadas GPS válidas."
             );
         }
+		
+// Preparar partida e ponto de encontro
+const optimizationTripPlan = route.trip_plan || {};
 
-      // Verificar as restrições atualmente selecionadas
+const optimizationDeparture = {
+    type: optimizationTripPlan.departure_type || "first",
+    address: (
+        optimizationTripPlan.departure_location || ""
+    ).trim()
+};
+
+const optimizationMeeting = {
+    enabled: optimizationTripPlan.meeting_enabled === true,
+    address: (
+        optimizationTripPlan.meeting_location || ""
+    ).trim()
+};
+
+const optimizationDestination = {
+    type: optimizationTripPlan.end_type || "last",
+    address: (
+        optimizationTripPlan.end_location || ""
+    ).trim(),
+    confirmed: optimizationTripPlan.end_confirmed || null
+};
+
+console.log("🏁 MotoQuest — pontos fixos:", {
+    departure: optimizationDeparture,
+    meeting: optimizationMeeting,
+    destination: optimizationDestination
+});      // Verificar as restrições atualmente selecionadas
 const avoidHighways = avoidHighwaysCheckbox.checked;
 const avoidTolls = avoidTollsCheckbox.checked;
 
