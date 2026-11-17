@@ -6857,8 +6857,7 @@ const updateFuelReviewNeeded = () => {
 };
 
 
-let fuelReviewNeeded = false;
-
+let fuelReviewNeeded = originalFuelReviewPending;
 	const optimizeRouteBtn = document.createElement("button");
 optimizeRouteBtn.type = "button";
 optimizeRouteBtn.textContent = "⚡ Otimizar rota";
