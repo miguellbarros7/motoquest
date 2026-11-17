@@ -12727,7 +12727,22 @@ distanciaRodoviariaKm:
     Number.isFinite(station.roadDistanceKm)
         ? station.roadDistanceKm.toFixed(2)
         : "—",
-indiceGPS: station.nearestRoutePointIndex    }))
+
+regressoRodoviarioKm:
+    Number.isFinite(station.returnRoadDistanceKm)
+        ? station.returnRoadDistanceKm.toFixed(2)
+        : "—",
+
+idaERegressoKm:
+    Number.isFinite(station.roadDistanceKm) &&
+    Number.isFinite(station.returnRoadDistanceKm)
+        ? (
+            station.roadDistanceKm +
+            station.returnRoadDistanceKm
+        ).toFixed(2)
+        : "—",
+
+indiceGPS: station.nearestRoutePointIndex  }))
 );
 
 const candidateInsertionIndex =
