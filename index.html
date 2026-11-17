@@ -12809,6 +12809,38 @@ if (
     const testInsertionIndex =
         getCandidateInsertionIndex(testFuelStation.routeKm);
 
+	// Diagnóstico: preparar a ordem das duas bombas.
+const firstFuelForTest = window.motoquestTestFirstFuel;
+
+if (
+    Number(distance) > fuelSafetyLimitKm &&
+    firstFuelForTest &&
+    Number.isFinite(firstFuelForTest.routeKm)
+) {
+    const firstFuelIndex =
+        getCandidateInsertionIndex(firstFuelForTest.routeKm);
+
+    const secondFuelIndex =
+        getCandidateInsertionIndex(testFuelStation.routeKm);
+
+    const fuelOrderCorrect =
+        firstFuelForTest.routeKm < testFuelStation.routeKm &&
+        firstFuelIndex !== null &&
+        secondFuelIndex !== null &&
+        firstFuelIndex <= secondFuelIndex;
+
+    console.log("MotoQuest — ordem das duas bombas:", {
+        primeiraBomba: firstFuelForTest.name,
+        primeiroKm: firstFuelForTest.routeKm,
+        primeiroIndice: firstFuelIndex,
+        segundaBomba: testFuelStation.name,
+        segundoKm: testFuelStation.routeKm,
+        segundoIndice: secondFuelIndex,
+        ordemCorreta: fuelOrderCorrect,
+        validado: false
+    });
+}
+
     if (testInsertionIndex !== null) {
 
 		// Diagnóstico: identificar o troço onde a bomba será inserida.
