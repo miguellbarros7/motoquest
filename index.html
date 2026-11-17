@@ -12895,6 +12895,8 @@ if (
     window.motoquestFuelPairs.length > 0
 ) {
 const fuelPairsForTest = window.motoquestFuelPairs.slice(0, 3);
+	// Resultados temporários desta comparação.
+window.motoquestFuelPairResults = [];
 
 // Testar os pares sequencialmente, sem sobrecarregar o serviço.
 for (const firstPair of fuelPairsForTest) {
@@ -13012,6 +13014,19 @@ if (
             )
         }
     ];
+	// Guardar o resultado deste par apenas em memória.
+const pairMaxKm = Math.max(
+    ...pairIntervals.map(interval => interval.distanciaKm)
+);
+
+window.motoquestFuelPairResults.push({
+    primeira: firstPair.primeira.name,
+    segunda: firstPair.segunda.name,
+    maiorIntervaloKm: pairMaxKm,
+    margemMinimaKm: fuelSafetyLimitKm - pairMaxKm,
+    dentroDoLimite: pairMaxKm <= fuelSafetyLimitKm,
+    validado: false
+});
 
     console.table(pairIntervals.map(interval => ({
         percurso: interval.percurso,
