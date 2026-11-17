@@ -7004,9 +7004,109 @@ console.log("MotoQuest — matriz de otimização:", {
     matrix
 });
 
+// Segurança: ainda não otimizar viagens com pontos especiais
+const tripPlan = route.trip_plan || {};
+
+const hasCustomDeparture =
+    tripPlan.departure_type !== "first" &&
+    !!(tripPlan.departure_location || "").trim();
+
+const hasMeeting = tripPlan.meeting_enabled === true;
+
+const hasCustomDestination =
+    tripPlan.end_type === "other";
+
+const hasFuel =
+    Array.isArray(route.fuel_stops) &&
+    route.fuel_stops.length > 0;
+
+if (
+    hasCustomDeparture ||
+    hasMeeting ||
+    hasCustomDestination ||
+    hasFuel
+) {
+    throw new Error(
+        "Esta rota tem partida, encontro, destino ou abastecimento " +
+        "especial. Vamos acrescentar esse suporte no próximo passo."
+    );
+}
+
+// Manter a primeira e a última paragens fixas
+const first = 0;
+const last = ids.length - 1;
+
+const middle = Array.from(
+    { length: Math.max(0, ids.length - 2) },
+    (_, index) => index + 1
+);
+
+// Calcular o custo de uma ordem
+const calculateCost = order => {
+    let total = 0;
+
+    for (let i = 0; i < order.length - 1; i++) {
+        const value = matrix[order[i]]?.[order[i + 1]];
+
+        if (!Number.isFinite(value)) {
+            return Infinity;
+        }
+
+        total += value;
+    }
+
+    return total;
+};
+
+let bestOrder = [first, ...middle, last];
+let bestCost = calculateCost(bestOrder);
+
+// Testar todas as combinações das paragens intermédias
+const searchOrders = (remaining, current) => {
+    if (remaining.length === 0) {
+        const candidate = [first, ...current, last];
+        const cost = calculateCost(candidate);
+
+        if (cost < bestCost) {
+            bestCost = cost;
+            bestOrder = candidate;
+        }
+
+        return;
+    }
+
+    remaining.forEach((point, index) => {
+        searchOrders(
+            remaining.filter((_, i) => i !== index),
+            [...current, point]
+        );
+    });
+};
+
+searchOrders(middle, []);
+
+if (!Number.isFinite(bestCost)) {
+    throw new Error(
+        "Não foi possível encontrar um percurso válido."
+    );
+}
+
+const optimizedIds = bestOrder.map(index => ids[index]);
+
+const changed = optimizedIds.some(
+    (id, index) => String(id) !== String(ids[index])
+);
+
+if (changed) {
+    ids.splice(0, ids.length, ...optimizedIds);
+    updateFuelReviewNeeded();
+    renderStops();
+}
+
 await showMQAlert(
-    `Cálculo concluído para ${orderedLocations.length} locais. ` +
-    "Os tempos e distâncias já estão disponíveis.",
+    changed
+        ? "⚡ Paragens reorganizadas! Clica em Guardar nova ordem para confirmar."
+        : "Esta já é a melhor ordem encontrada para as paragens.",
     "info"
 );
 
