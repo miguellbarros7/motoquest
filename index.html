@@ -12937,23 +12937,29 @@ if (
                 0
             );
 
-    const fuelIntervals = [
-        {
-            percurso: "Partida → Galp",
-            distanciaKm: sumLegsKm(0, fuelIndexes[0])
-        },
-        {
-            percurso: "Galp → Freitas",
-            distanciaKm: sumLegsKm(fuelIndexes[0], fuelIndexes[1])
-        },
-        {
-            percurso: "Freitas → Destino",
-            distanciaKm: sumLegsKm(
-                fuelIndexes[1],
-                twoFuelLegs.length
-            )
-        }
-    ];
+   const firstFuelName = firstFuelForTest.name;
+const secondFuelName = testFuelStation.name;
+
+const fuelIntervals = [
+    {
+        percurso: `Partida → ${firstFuelName}`,
+        distanciaKm: sumLegsKm(0, fuelIndexes[0])
+    },
+    {
+        percurso: `${firstFuelName} → ${secondFuelName}`,
+        distanciaKm: sumLegsKm(
+            fuelIndexes[0],
+            fuelIndexes[1]
+        )
+    },
+    {
+        percurso: `${secondFuelName} → Destino`,
+        distanciaKm: sumLegsKm(
+            fuelIndexes[1],
+            twoFuelLegs.length
+        )
+    }
+];
 
     console.table(fuelIntervals.map(interval => ({
         percurso: interval.percurso,
