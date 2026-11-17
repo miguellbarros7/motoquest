@@ -13015,8 +13015,10 @@ const fuelProposalSafe = fuelIntervals.every(
     interval => interval.distanciaKm <= fuelSafetyLimitKm
 );
 
-if (fuelProposalSafe) {
-    window.motoquestFuelProposal = {
+if (
+    fuelProposalSafe &&
+    fuelSearchGeneration === window.motoquestFuelGeneration
+) {    window.motoquestFuelProposal = {
         bombas: [
             {
                 name: firstFuelForTest.name,
