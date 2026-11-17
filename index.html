@@ -13497,15 +13497,34 @@ if (proposalBox) {
         `${intervalo.percurso}: ${intervalo.distanciaKm.toFixed(1)} km`
     );
 
+	// Verificar a margem adicional de autonomia.
+const maiorIntervaloKm = Math.max(
+    ...proposal.intervalos.map(intervalo =>
+        Number(intervalo.distanciaKm)
+    )
+);
+
+const margemRestanteKm =
+    Number(proposal.limiteKm) - maiorIntervaloKm;
+
+const margemConfortavelKm = 20;
+
+const avisoMargem =
+    margemRestanteKm >= margemConfortavelKm
+        ? `✅ Margem adicional: ${margemRestanteKm.toFixed(1)} km`
+        : `⚠️ Margem adicional reduzida: ${margemRestanteKm.toFixed(1)} km (referência: ${margemConfortavelKm} km)`;
+
     proposalBox.textContent = [
         "⛽ PROPOSTA DE ABASTECIMENTO — EM TESTE",
         "",
         ...fuelLines,
         "",
-        "✅ Intervalos dentro da autonomia de segurança:",
-        ...intervalLines,
-        "",
-        "⚠️ Proposta ainda não validada nem guardada."
+       "✅ Intervalos dentro da autonomia de segurança:",
+...intervalLines,
+"",
+avisoMargem,
+"",
+"⚠️ Proposta ainda não validada nem guardada."
     ].join("\n");
 
     proposalBox.style.whiteSpace = "pre-line";
