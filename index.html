@@ -12819,7 +12819,15 @@ const fuelStopIndex =
     testInsertionIndex +
     (tripDeparturePoint ? 1 : 0) +
     (tripMeetingPoint ? 1 : 0);
-
+console.log("MotoQuest — diagnóstico dos troços:", {
+    totalTrocosRecebidos: Array.isArray(testLegs)
+        ? testLegs.length
+        : null,
+    totalTrocosEsperados: testStops.length - 1,
+    indiceDaBomba: fuelStopIndex,
+    totalParagens: testStops.length,
+    indiceInsercao: testInsertionIndex
+});					
 if (
     Array.isArray(testLegs) &&
     testLegs.length === testStops.length - 1 &&
