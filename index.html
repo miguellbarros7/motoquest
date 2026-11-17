@@ -7522,16 +7522,14 @@ downBtn.title = "Descer paragem";
 upBtn.disabled = index === 0;
 downBtn.disabled = index === ids.length - 1;
 
-upBtn.onclick = event => {
+uupBtn.onclick = event => {
     event.stopPropagation();
 
     [ids[index - 1], ids[index]] =
         [ids[index], ids[index - 1]];
 
- 
-updateFuelReviewNeeded();
-
-    
+    updateFuelReviewNeeded();
+    renderStops();
 };
 
   
