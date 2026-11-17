@@ -12895,6 +12895,21 @@ if (
     window.motoquestFuelPairs.length > 0
 ) {
 const fuelPairsForTest = window.motoquestFuelPairs.slice(0, 5);
+
+// Diagnóstico: verificar a localização dos postos testados.
+console.table(
+    fuelPairsForTest.map((pair, index) => ({
+        par: index + 1,
+        primeira: pair.primeira.name,
+        primeiraLat: pair.primeira.latitude,
+        primeiraLon: pair.primeira.longitude,
+        segunda: pair.segunda.name,
+        segundaLat: pair.segunda.latitude,
+        segundaLon: pair.segunda.longitude
+    }))
+);
+
+	
 	// Resultados temporários desta comparação.
 window.motoquestFuelPairResults = [];
 
