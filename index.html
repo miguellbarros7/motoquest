@@ -7328,7 +7328,15 @@ const changed = optimizedIds.some(
 
 if (changed) {
     ids.splice(0, ids.length, ...optimizedIds);
+
     updateFuelReviewNeeded();
+
+    if (hasFuel) {
+        console.log(
+            "⛽ MotoQuest — abastecimento precisa de reavaliação."
+        );
+    }
+
     renderStops();
 }
 
