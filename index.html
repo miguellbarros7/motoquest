@@ -12282,14 +12282,36 @@ const availableStations = uniqueStations.filter(station => {
 const stationsWithRoadDistance = await Promise.all(
     availableStations.map(async station => {
         try {
-            const roadDistanceKm = await getRoadDistanceKm(
-                searchLatitude,
-                searchLongitude,
-                station.latitude,
-                station.longitude
-            );
+          const roadDistanceKm = await getRoadDistanceKm(
+    searchLatitude,
+    searchLongitude,
+    station.latitude,
+    station.longitude
+);
 
-            return { ...station, roadDistanceKm };
+// Calcular também o regresso da bomba ao ponto da rota.
+let returnRoadDistanceKm = null;
+
+try {
+    returnRoadDistanceKm = await getRoadDistanceKm(
+        station.latitude,
+        station.longitude,
+        searchLatitude,
+        searchLongitude
+    );
+} catch (returnError) {
+    console.warn(
+        "MotoQuest — regresso à rota não calculado:",
+        station.name,
+        returnError
+    );
+}
+
+return {
+    ...station,
+    roadDistanceKm,
+    returnRoadDistanceKm
+};
         } catch (error) {
             console.error(
                 "Erro ao calcular distância:",
