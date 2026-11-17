@@ -12816,8 +12816,31 @@ const earlyFuelCandidates = fuelCandidatesOnRoute
         station.routeKm <= Number(distance)
     )
     .sort((a, b) => a.routeKm - b.routeKm);
+	
+// Preparar candidatas para futura comparação de combinações.
+if (Number(distance) <= fuelSafetyLimitKm) {
+    window.motoquestFirstFuelCandidates =
+        fuelCandidatesOnRoute
+            .filter(station =>
+                Number.isFinite(station.routeKm) &&
+                Number.isFinite(Number(station.latitude)) &&
+                Number.isFinite(Number(station.longitude)) &&
+                station.routeKm >= 0 &&
+                station.routeKm < fuelSafetyLimitKm
+            )
+            .slice(0, 10)
+            .map(station => ({
+                name: station.name,
+                latitude: Number(station.latitude),
+                longitude: Number(station.longitude),
+                routeKm: station.routeKm
+            }));
 
-const testFuelStation =
+    console.log(
+        "MotoQuest — candidatas para combinação:",
+        window.motoquestFirstFuelCandidates.length
+    );
+}const testFuelStation =
     Number(distance) <= fuelSafetyLimitKm
         ? earlyFuelCandidates[0] ||
           fuelCandidatesOnRoute.find(station =>
