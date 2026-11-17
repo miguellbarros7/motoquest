@@ -12772,8 +12772,14 @@ if (Number(distance) <= fuelSafetyLimitKm) {
 }
 
 	// Diagnóstico: medir o desvio real da primeira bomba candidata.
-const testFuelStation = fuelCandidatesOnRoute[0];
-
+const testFuelStation =
+    Number(distance) <= fuelSafetyLimitKm
+        ? fuelCandidatesOnRoute.find(station =>
+            station.name?.toLowerCase().includes("galp") &&
+            Number.isFinite(station.routeKm) &&
+            station.routeKm < fuelSafetyLimitKm
+        )
+        : fuelCandidatesOnRoute[0];
 if (
     testFuelStation &&
     Number.isFinite(testFuelStation.routeKm)
