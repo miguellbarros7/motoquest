@@ -12423,7 +12423,25 @@ for (const leg of originalLegDistances) {
 
     routeCumulativeKm.push(previousKm + legKm);
 }
+// Identificar o troço correspondente a um
+// quilómetro acumulado da rota.
+const getRouteLegIndex = (targetKm) => {
+    if (
+        !Number.isFinite(targetKm) ||
+        targetKm < 0 ||
+        !routeCumulativeKm.every(Number.isFinite)
+    ) {
+        return null;
+    }
 
+    for (let i = 1; i < routeCumulativeKm.length; i++) {
+        if (targetKm <= routeCumulativeKm[i]) {
+            return i - 1;
+        }
+    }
+
+    return null;
+};
 	
 
 const getCandidateInsertionIndex = (targetDistanceKm) => {
