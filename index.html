@@ -6983,7 +6983,105 @@ console.log("🏁 MotoQuest — pontos fixos:", {
     departure: optimizationDeparture,
     meeting: optimizationMeeting,
     destination: optimizationDestination
-});      // Verificar as restrições atualmente selecionadas
+});    
+
+		// Obter coordenadas dos pontos fixos
+const findOptimizationPoint = async address => {
+    if (!address) return null;
+
+    const url = new URL(
+        "https://nominatim.openstreetmap.org/search"
+    );
+
+    url.searchParams.set("q", address);
+    url.searchParams.set("format", "json");
+    url.searchParams.set("limit", "1");
+    url.searchParams.set("countrycodes", "pt");
+
+    const response = await fetch(url.toString());
+
+    if (!response.ok) {
+        throw new Error("Erro ao localizar: " + address);
+    }
+
+    const results = await response.json();
+    const point = results[0];
+
+    if (!point) {
+        throw new Error("Localização não encontrada: " + address);
+    }
+
+    const latitude = Number(point.lat);
+    const longitude = Number(point.lon);
+
+    if (
+        !Number.isFinite(latitude) ||
+        !Number.isFinite(longitude)
+    ) {
+        throw new Error("Coordenadas inválidas: " + address);
+    }
+
+    return {
+        name: point.display_name,
+        latitude,
+        longitude
+    };
+};
+
+const fixedCoordinates = {
+    departure: null,
+    meeting: null,
+    destination: null
+};
+
+if (
+    optimizationDeparture.type !== "first" &&
+    optimizationDeparture.address
+) {
+    fixedCoordinates.departure =
+        await findOptimizationPoint(
+            optimizationDeparture.address
+        );
+}
+
+if (optimizationMeeting.enabled) {
+    fixedCoordinates.meeting =
+        await findOptimizationPoint(
+            optimizationMeeting.address
+        );
+}
+
+if (optimizationDestination.type === "other") {
+    const confirmed = optimizationDestination.confirmed;
+
+    if (
+        confirmed &&
+        Number.isFinite(Number(confirmed.latitude)) &&
+        Number.isFinite(Number(confirmed.longitude)) &&
+        confirmed.latitude !== null &&
+        confirmed.longitude !== null
+    ) {
+        fixedCoordinates.destination = {
+            name: confirmed.name ||
+                optimizationDestination.address,
+            latitude: Number(confirmed.latitude),
+            longitude: Number(confirmed.longitude)
+        };
+    } else {
+        fixedCoordinates.destination =
+            await findOptimizationPoint(
+                optimizationDestination.address
+            );
+    }
+}
+
+console.log(
+    "📍 MotoQuest — coordenadas dos pontos fixos:",
+    fixedCoordinates
+);
+		
+		
+		// Verificar as restrições atualmente selecionadas
 const avoidHighways = avoidHighwaysCheckbox.checked;
 const avoidTolls = avoidTollsCheckbox.checked;
 
