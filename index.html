@@ -6869,6 +6869,64 @@ optimizeRouteBtn.style.cssText =
     "color:#ff7900;font-family:inherit;" +
     "font-size:12px;font-weight:600;cursor:pointer;";
 
+	optimizeRouteBtn.onclick = event => {
+    event.stopPropagation();
+
+    const existingPanel =
+        stopsPanel.querySelector("#mq-optimize-panel");
+
+    if (existingPanel) {
+        existingPanel.remove();
+        return;
+    }
+
+    const panel = document.createElement("div");
+    panel.id = "mq-optimize-panel";
+
+    panel.style.cssText =
+        "margin:12px 0;padding:12px;" +
+        "background:#252525;border:1px solid #ff7900;" +
+        "border-radius:9px;color:white;font-size:12px;";
+
+    panel.innerHTML = `
+        <div style="color:#ff7900;font-weight:bold;margin-bottom:12px;">
+            ⚡ Como queres otimizar a rota?
+        </div>
+
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+            <button type="button" id="mq-optimize-fast"
+                style="flex:1;padding:10px;background:#302318;
+                color:#ffb366;border:1px solid #ff7900;
+                border-radius:7px;cursor:pointer;">
+                ⚡ Mais rápida
+            </button>
+
+            <button type="button" id="mq-optimize-short"
+                style="flex:1;padding:10px;background:#302318;
+                color:#ffb366;border:1px solid #ff7900;
+                border-radius:7px;cursor:pointer;">
+                📏 Menos quilómetros
+            </button>
+        </div>
+    `;
+
+    optimizeRouteBtn.insertAdjacentElement("afterend", panel);
+
+    panel.querySelector("#mq-optimize-fast").onclick = () => {
+        showMQAlert(
+            "Modo Mais rápida selecionado. O cálculo será implementado a seguir.",
+            "info"
+        );
+    };
+
+    panel.querySelector("#mq-optimize-short").onclick = () => {
+        showMQAlert(
+            "Modo Menos quilómetros selecionado. O cálculo será implementado a seguir.",
+            "info"
+        );
+    };
+};
+
 
 const renderStops = () => {
     stopsPanel.innerHTML = "";
