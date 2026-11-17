@@ -13105,6 +13105,10 @@ console.log("MotoQuest — desvio total do par:", {
 window.motoquestFuelPairResults.push({
     primeira: firstPair.primeira.name,
     segunda: firstPair.segunda.name,
+
+    primeiraBomba: { ...firstPair.primeira },
+    segundaBomba: { ...firstPair.segunda },
+
     maiorIntervaloKm: pairMaxKm,
     margemMinimaKm: fuelSafetyLimitKm - pairMaxKm,
     dentroDoLimite: pairMaxKm <= fuelSafetyLimitKm,
