@@ -11876,8 +11876,11 @@ async function getRoadDistanceKm(
 
     return result.routes[0].distance / 1000;
 }
-// Invalidar propostas anteriores ao reconstruir o planeador.
+// Invalidar propostas e pesquisas anteriores.
 window.motoquestFuelProposal = null;
+
+window.motoquestFuelGeneration =
+    (window.motoquestFuelGeneration || 0) + 1;
 		const fuelPlanner = document.createElement("div");
         fuelPlanner.id = "mq-fuel-planner";
 
