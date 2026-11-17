@@ -13108,9 +13108,10 @@ window.motoquestFuelPairResults.push({
     maiorIntervaloKm: pairMaxKm,
     margemMinimaKm: fuelSafetyLimitKm - pairMaxKm,
     dentroDoLimite: pairMaxKm <= fuelSafetyLimitKm,
+    desvioKm: pairExtraKm,
+    distanciaTotalKm: pairTotalKm,
     validado: false
 });
-
     console.table(pairIntervals.map(interval => ({
         percurso: interval.percurso,
         distanciaKm: interval.distanciaKm.toFixed(1),
