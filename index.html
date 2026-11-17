@@ -12463,12 +12463,22 @@ const checkCandidateRoute = async (
         return { status: "unverified" };
     }
 
- const stationInsertionIndex =
+const stationRouteKm = Number(station.routeKm);
+
+const hasValidRouteKm =
+    station.routeKm != null &&
+    Number.isFinite(stationRouteKm) &&
+    stationRouteKm >= 0 &&
+    stationRouteKm <= km;
+
+const stationInsertionIndex =
     Number.isInteger(Number(station.insertion_index)) &&
     Number(station.insertion_index) >= 0 &&
     Number(station.insertion_index) <= ordered.length
         ? Number(station.insertion_index)
-        : candidateInsertionIndex;
+        : hasValidRouteKm
+            ? getCandidateInsertionIndex(stationRouteKm)
+            : candidateInsertionIndex;
 
 const candidateFuel = {
     ...station,
