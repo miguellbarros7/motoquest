@@ -13066,6 +13066,24 @@ window.motoquestFuelPairResults.push({
 	}
 }
 }
+
+	// Identificar o melhor par calculado, apenas para diagnóstico.
+if (
+    Array.isArray(window.motoquestFuelPairResults) &&
+    window.motoquestFuelPairResults.length > 0
+) {
+    const bestFuelPair = [...window.motoquestFuelPairResults]
+        .filter(pair => pair.dentroDoLimite === true)
+        .sort((a, b) => b.margemMinimaKm - a.margemMinimaKm)[0];
+
+    console.log("MotoQuest — melhor par de abastecimento:", {
+        primeira: bestFuelPair?.primeira ?? null,
+        segunda: bestFuelPair?.segunda ?? null,
+        maiorIntervaloKm: bestFuelPair?.maiorIntervaloKm ?? null,
+        margemMinimaKm: bestFuelPair?.margemMinimaKm ?? null,
+        validado: false
+    });
+}
 const testFuelStation =
     Number(distance) <= fuelSafetyLimitKm
         ? earlyFuelCandidates[0] ||
