@@ -12839,6 +12839,57 @@ if (
         ordemCorreta: fuelOrderCorrect,
         validado: false
     });
+	// Diagnóstico: preparar as duas bombas na ordem correta.
+if (fuelOrderCorrect) {
+    const twoFuelStops = [...ordered];
+
+    const fuelPoints = [
+        {
+            ...firstFuelForTest,
+            insertionIndex: firstFuelIndex
+        },
+        {
+            ...testFuelStation,
+            insertionIndex: secondFuelIndex
+        }
+    ];
+
+    // Inserir de trás para a frente para preservar os índices.
+    fuelPoints
+        .sort((a, b) => b.insertionIndex - a.insertionIndex)
+        .forEach(fuel => {
+            twoFuelStops.splice(fuel.insertionIndex, 0, {
+                latitude: Number(fuel.latitude),
+                longitude: Number(fuel.longitude),
+                isFuelStop: true,
+                name: fuel.name
+            });
+        });
+
+    if (tripMeetingPoint) {
+        twoFuelStops.unshift(tripMeetingPoint);
+    }
+
+    if (tripDeparturePoint) {
+        twoFuelStops.unshift(tripDeparturePoint);
+    }
+
+    if (tripEndPoint) {
+        twoFuelStops.push(tripEndPoint);
+    }
+
+    console.log("MotoQuest — duas bombas na rota:", {
+        totalPontos: twoFuelStops.length,
+        bombas: twoFuelStops
+            .map((stop, index) => ({
+                nome: stop.name,
+                indice: index,
+                abastecimento: stop.isFuelStop === true
+            }))
+            .filter(stop => stop.abastecimento),
+        validado: false
+    });
+}
 }
 
     if (testInsertionIndex !== null) {
