@@ -12460,6 +12460,49 @@ console.log(
     "km"
 );
 
+// Diagnóstico: comparar o ponto pesquisado com o GPS da rota.
+const totalGpsKm = routePointKm[routePointKm.length - 1];
+
+if (
+    stopLocation &&
+    Number.isFinite(totalGpsKm) &&
+    totalGpsKm > 0 &&
+    Number.isFinite(km) &&
+    km > 0
+) {
+    const targetGpsKm = distance * totalGpsKm / km;
+
+    let targetIndex = 0;
+
+    for (let i = 1; i < routePointKm.length; i++) {
+        if (
+            Math.abs(routePointKm[i] - targetGpsKm) <
+            Math.abs(routePointKm[targetIndex] - targetGpsKm)
+        ) {
+            targetIndex = i;
+        }
+    }
+
+    const targetPoint = routeCoordinates[targetIndex];
+
+    console.log("MotoQuest — comparação GPS abastecimento:", {
+        objetivoKm: distance,
+        coordenadaPesquisa: stopLocation,
+        coordenadaRota: targetPoint
+            ? {
+                latitude: targetPoint[1],
+                longitude: targetPoint[0]
+            }
+            : null,
+        distanciaEntrePontosKm: targetPoint
+            ? gpsDistanceKm(
+                [stopLocation.longitude, stopLocation.latitude],
+                targetPoint
+            )
+            : null
+    });
+}
+
 	// Encontrar o ponto GPS da rota mais próximo de uma bomba.
 const findNearestRoutePoint = (station) => {
     const stationLat = Number(station.latitude);
