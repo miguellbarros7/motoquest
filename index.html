@@ -12424,6 +12424,16 @@ console.log(
     hasRouteGeometry
 );	
 
+	console.log(
+    "MotoQuest — formato da geometria GPS:",
+    typeof routeGeometry,
+    Array.isArray(routeGeometry?.coordinates)
+        ? "GeoJSON"
+        : typeof routeGeometry === "string"
+            ? "Polyline codificada"
+            : "Outro formato"
+);
+
 // Quilómetros acumulados em cada ponto da rota.
 const routeCumulativeKm = [0];
 
