@@ -12807,12 +12807,23 @@ if (Number(distance) <= fuelSafetyLimitKm) {
 }
 
 	// Diagnóstico: medir o desvio real da primeira bomba candidata.
+// Teste: preferir abastecer um pouco mais cedo.
+const earlyFuelCandidates = fuelCandidatesOnRoute
+    .filter(station =>
+        Number.isFinite(station.routeKm) &&
+        station.routeKm < fuelSafetyLimitKm &&
+        station.routeKm >= Number(distance) - 30 &&
+        station.routeKm <= Number(distance)
+    )
+    .sort((a, b) => a.routeKm - b.routeKm);
+
 const testFuelStation =
     Number(distance) <= fuelSafetyLimitKm
-        ? fuelCandidatesOnRoute.find(station =>
-            Number.isFinite(station.routeKm) &&
-            station.routeKm < fuelSafetyLimitKm
-        )
+        ? earlyFuelCandidates[0] ||
+          fuelCandidatesOnRoute.find(station =>
+              Number.isFinite(station.routeKm) &&
+              station.routeKm < fuelSafetyLimitKm
+          )
         : fuelCandidatesOnRoute[0];
 
 // Diagnóstico temporário: guardar a primeira bomba
