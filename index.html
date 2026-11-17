@@ -7528,8 +7528,13 @@ fuelReviewNeeded = Array.isArray(route.fuel_stops) &&
 
 renderStops();
     
-stopsPanel.append(addStopBtn, addStopSelect, googleRouteOptions, saveOrderBtn);
-    addStopSelect.value = "";
+stopsPanel.append(
+    addStopBtn,
+    addStopSelect,
+    optimizeRouteBtn,
+    googleRouteOptions,
+    saveOrderBtn
+);    addStopSelect.value = "";
     addStopSelect.style.display = "none";
 
     saveOrderBtn.textContent = "💾 Guardar nova ordem";
