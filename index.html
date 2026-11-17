@@ -13015,6 +13015,20 @@ const fuelProposalSafe = fuelIntervals.every(
     interval => interval.distanciaKm <= fuelSafetyLimitKm
 );
 
+
+	// Diagnóstico: detetar pesquisas de versões antigas.
+if (
+    fuelProposalSafe &&
+    fuelSearchGeneration !== window.motoquestFuelGeneration
+) {
+    console.warn(
+        "MotoQuest — proposta antiga rejeitada:",
+        {
+            versaoPesquisa: fuelSearchGeneration,
+            versaoAtual: window.motoquestFuelGeneration
+        }
+    );
+}
 if (
     fuelProposalSafe &&
     fuelSearchGeneration === window.motoquestFuelGeneration
