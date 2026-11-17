@@ -7522,8 +7522,8 @@ downBtn.title = "Descer paragem";
 upBtn.disabled = index === 0;
 downBtn.disabled = index === ids.length - 1;
 
-uupBtn.onclick = event => {
-    event.stopPropagation();
+upBtn.onclick = event => {
+	event.stopPropagation();
 
     [ids[index - 1], ids[index]] =
         [ids[index], ids[index - 1]];
