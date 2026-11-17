@@ -12061,8 +12061,9 @@ if (
         const stop = document.createElement("div");
 
         
-const stopLocation = getPointAtKm(distance);
-console.log("MotoQuest — localização do abastecimento:", distance, stopLocation);        
+// TESTE TEMPORÁRIO: procurar a primeira bomba mais cedo.
+const searchKm = index === 0 ? 270 : distance;
+const stopLocation = getPointAtKm(searchKm);console.log("MotoQuest — localização do abastecimento:", distance, stopLocation);        
 
 if (stopLocation) {
     stop.dataset.latitude = String(stopLocation.latitude);
