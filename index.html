@@ -12407,15 +12407,15 @@ if (fuelRouteReviewPending) {
 
 const originalLegDistances = calculatedRoute.legs || [];
 
-const getCandidateInsertionIndex = () => {
-    let accumulatedKm = 0;
+const getCandidateInsertionIndex = (targetDistanceKm) => {
+	let accumulatedKm = 0;
 
     for (let i = 0; i < originalLegDistances.length; i++) {
         accumulatedKm +=
             Number(originalLegDistances[i].distance) / 1000;
 
-        if (distance <= accumulatedKm) {
-            const count = tripRouteStops
+if (targetDistanceKm <= accumulatedKm) {
+	const count = tripRouteStops
                 .slice(0, i + 1)
                 .filter(stop => ordered.includes(stop))
                 .length;
@@ -12432,8 +12432,8 @@ return Math.max(
     return null;
 };
 
-const candidateInsertionIndex = getCandidateInsertionIndex();
-
+const candidateInsertionIndex =
+    getCandidateInsertionIndex(distance);
 const checkCandidateRoute = async (
     station,
     fuelToReplace,
