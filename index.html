@@ -7079,6 +7079,54 @@ console.log(
     "📍 MotoQuest — coordenadas dos pontos fixos:",
     fixedCoordinates
 );
+
+// Preparar a sequência completa para a otimização
+const optimizationPoints = [];
+
+// Partida personalizada
+if (fixedCoordinates.departure) {
+    optimizationPoints.push({
+        ...fixedCoordinates.departure,
+        type: "departure",
+        fixed: true
+    });
+}
+
+// Ponto de encontro
+if (fixedCoordinates.meeting) {
+    optimizationPoints.push({
+        ...fixedCoordinates.meeting,
+        type: "meeting",
+        fixed: true
+    });
+}
+
+// Locais turísticos
+orderedLocations.forEach(location => {
+    optimizationPoints.push({
+        ...location,
+        type: "stop",
+        fixed: false
+    });
+});
+
+// Destino personalizado
+if (fixedCoordinates.destination) {
+    optimizationPoints.push({
+        ...fixedCoordinates.destination,
+        type: "destination",
+        fixed: true
+    });
+});
+
+console.log(
+    "🏍️ MotoQuest — sequência completa:",
+    optimizationPoints.map(point => ({
+        name: point.name,
+        type: point.type,
+        fixed: point.fixed
+    }))
+);		
 		
 		
 		// Verificar as restrições atualmente selecionadas
