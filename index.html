@@ -6846,13 +6846,14 @@ const originalFuelReviewPending =
 const updateFuelReviewNeeded = () => {
     const orderChanged =
         ids.length !== originalStopIds.length ||
-        ids.some((id, index) => id !== originalStopIds[index]);
+        ids.some(
+            (id, index) =>
+                String(id) !== String(originalStopIds[index])
+        );
 
-    
-
-fuelReviewNeeded = orderChanged;
-
-
+    fuelReviewNeeded =
+        originalFuelReviewPending ||
+        (hasFuelStops && orderChanged);
 };
 
 
