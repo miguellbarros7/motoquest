@@ -7603,6 +7603,22 @@ updateFuelReviewNeeded();
 arrows.append(upBtn, downBtn, removeBtn);
 row.append(number, name, arrows);
 stopsPanel.appendChild(row);
+
+	if (fuelReviewNeeded && index === 0) {
+    const fuelWarning = document.createElement("div");
+
+    fuelWarning.textContent =
+        "⛽ A ordem das paragens foi alterada. " +
+        "Os abastecimentos precisam de ser revistos.";
+
+    fuelWarning.style.cssText =
+        "padding:10px;margin:8px 0;" +
+        "background:#302417;color:#ffb347;" +
+        "border:1px solid #805020;border-radius:8px;" +
+        "font-size:12px;";
+
+    stopsPanel.appendChild(fuelWarning);
+}
 		
 // Mostrar abastecimentos apenas quando a ordem é válida
 const fuelStopsHere =
