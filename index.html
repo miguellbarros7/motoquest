@@ -11917,8 +11917,25 @@ plannerInfo.textContent =
     safeRange.toFixed(0) + " km.";
 
 fuelPlanner.appendChild(plannerInfo);
+		
+// Área reservada para a proposta de abastecimento.
+const fuelProposalBox = document.createElement("div");
 
-	if (fuelRouteReviewPending) {
+fuelProposalBox.id = "mq-fuel-proposal";
+
+fuelProposalBox.style.cssText = `
+    display:none;
+    background:#173025;
+    border:1px solid #32a36b;
+    border-radius:10px;
+    padding:14px;
+    margin:12px 0;
+    color:#d8ffe8;
+    font-size:12px;
+    line-height:1.7;
+`;
+
+fuelPlanner.appendChild(fuelProposalBox);	if (fuelRouteReviewPending) {
     const pendingFuelWarning = document.createElement("div");
 
     pendingFuelWarning.textContent =
