@@ -12889,6 +12889,50 @@ if (fuelOrderCorrect) {
             .filter(stop => stop.abastecimento),
         validado: false
     });
+// Diagnóstico: calcular a rota completa com as duas bombas.
+const validTwoFuelStops = twoFuelStops.every(stop =>
+    Number.isFinite(Number(stop.latitude)) &&
+    Number.isFinite(Number(stop.longitude)) &&
+    stop.latitude != null &&
+    stop.longitude != null
+);
+
+if (validTwoFuelStops) {
+    try {
+        const twoFuelCoordinates = twoFuelStops
+            .map(stop =>
+                `${Number(stop.longitude)},${Number(stop.latitude)}`
+            )
+            .join(";");
+
+        const twoFuelResult = await motoquestCalculateRoute(
+            twoFuelCoordinates,
+            route.trip_plan,
+            false
+        );
+
+        const twoFuelLegs = twoFuelResult.routes?.[0]?.legs;
+
+        console.log("MotoQuest — cálculo das duas bombas:", {
+            codigo: twoFuelResult.code,
+            totalPontos: twoFuelStops.length,
+            trocosEsperados: twoFuelStops.length - 1,
+            trocosRecebidos: Array.isArray(twoFuelLegs)
+                ? twoFuelLegs.length
+                : null,
+            distanciaTotalKm:
+                Number(twoFuelResult.routes?.[0]?.distance) / 1000,
+            validado: false
+        });
+
+    } catch (error) {
+        console.warn(
+            "MotoQuest — erro no cálculo das duas bombas:",
+            error
+        );
+    }
+}
+	
 }
 }
 
