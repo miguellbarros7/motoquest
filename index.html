@@ -12894,8 +12894,13 @@ if (
     Array.isArray(window.motoquestFuelPairs) &&
     window.motoquestFuelPairs.length > 0
 ) {
-const firstPair = window.motoquestFuelPairs[1];
-    const firstIndex =
+const fuelPairsForTest = window.motoquestFuelPairs.slice(0, 3);
+const firstPair = fuelPairsForTest[0];
+
+console.log(
+    "MotoQuest — pares selecionados para comparação:",
+    fuelPairsForTest.length
+);    const firstIndex =
         getCandidateInsertionIndex(firstPair.primeira.routeKm);
 
     const secondIndex =
