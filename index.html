@@ -6912,19 +6912,79 @@ optimizeRouteBtn.style.cssText =
 
     optimizeRouteBtn.insertAdjacentElement("afterend", panel);
 
-    panel.querySelector("#mq-optimize-fast").onclick = () => {
-        showMQAlert(
-            "Modo Mais rápida selecionado. O cálculo será implementado a seguir.",
-            "info"
-        );
-    };
+  const prepareOptimization = async mode => {
+    const buttons = panel.querySelectorAll("button");
 
-    panel.querySelector("#mq-optimize-short").onclick = () => {
-        showMQAlert(
-            "Modo Menos quilómetros selecionado. O cálculo será implementado a seguir.",
+    buttons.forEach(button => {
+        button.disabled = true;
+        button.style.opacity = "0.5";
+    });
+
+    try {
+        const { data, error } = await supabaseClient
+            .from("locations")
+            .select("id, name, latitude, longitude")
+            .in("id", ids);
+
+        if (error || !data) {
+            throw new Error("Não foi possível carregar os locais.");
+        }
+
+        const orderedLocations = ids.map(id =>
+            data.find(location =>
+                String(location.id) === String(id)
+            )
+        );
+
+        const valid = orderedLocations.every(location =>
+            location &&
+            location.latitude !== null &&
+            location.longitude !== null &&
+            location.latitude !== "" &&
+            location.longitude !== "" &&
+            Number.isFinite(Number(location.latitude)) &&
+            Number.isFinite(Number(location.longitude)) &&
+            Math.abs(Number(location.latitude)) <= 90 &&
+            Math.abs(Number(location.longitude)) <= 180
+        );
+
+        if (!valid) {
+            throw new Error(
+                "Existem paragens sem coordenadas GPS válidas."
+            );
+        }
+
+        console.log("MotoQuest — otimização preparada:", {
+            mode,
+            locations: orderedLocations
+        });
+
+        await showMQAlert(
+            `Preparação concluída: ${orderedLocations.length} locais encontrados. ` +
+            "Ainda não foi alterada nenhuma rota.",
             "info"
         );
-    };
+
+    } catch (error) {
+        console.error("Erro na preparação da otimização:", error);
+
+        await showMQAlert(error.message, "error");
+
+    } finally {
+        buttons.forEach(button => {
+            button.disabled = false;
+            button.style.opacity = "1";
+        });
+    }
+};
+
+panel.querySelector("#mq-optimize-fast").onclick = () => {
+    prepareOptimization("fastest");
+};
+
+panel.querySelector("#mq-optimize-short").onclick = () => {
+    prepareOptimization("shortest");
+};
 };
 
 
