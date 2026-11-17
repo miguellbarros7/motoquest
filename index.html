@@ -12701,8 +12701,11 @@ console.table(
         : "—",
         distanciaAteRotaKm:
             station.distanceToRouteKm?.toFixed(2) ?? "—",
-        indiceGPS: station.nearestRoutePointIndex
-    }))
+distanciaRodoviariaKm:
+    Number.isFinite(station.roadDistanceKm)
+        ? station.roadDistanceKm.toFixed(2)
+        : "—",
+indiceGPS: station.nearestRoutePointIndex    }))
 );
 
 const candidateInsertionIndex =
