@@ -12947,11 +12947,10 @@ if (
         bombas: pairStops
             .filter(stop => stop.isFuelStop === true)
             .map(stop => stop.name),
-        validado: false
+               validado: false
     });
 
-	
-}	// Teste: calcular a rota rodoviária do primeiro par.
+// Teste: calcular a rota rodoviária do primeiro par.
 try {
     const pairCoordinates = pairStops
         .map(stop =>
