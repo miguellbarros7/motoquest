@@ -12410,6 +12410,18 @@ const originalLegDistances = calculatedRoute.legs || [];
 // Preparar a geometria GPS do percurso.
 const routeGeometry = calculatedRoute.geometry || null;
 
+	// Coordenadas GPS da estrada no formato GeoJSON.
+// Cada ponto contém [longitude, latitude].
+const routeCoordinates =
+    Array.isArray(routeGeometry?.coordinates)
+        ? routeGeometry.coordinates.filter(point =>
+            Array.isArray(point) &&
+            point.length >= 2 &&
+            Number.isFinite(Number(point[0])) &&
+            Number.isFinite(Number(point[1]))
+        )
+        : [];
+
 const hasRouteGeometry =
     routeGeometry !== null &&
     (
