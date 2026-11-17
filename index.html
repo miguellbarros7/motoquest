@@ -7196,17 +7196,19 @@ console.log("MotoQuest — matriz de otimização:", {
     })),
     matrix
 });
-// Proteger abastecimentos até serem integrados
+// Identificar abastecimentos que precisam de reavaliação
 const hasFuel = Array.isArray(route.fuel_stops) &&
     route.fuel_stops.length > 0;
 
-if (hasFuel) {
-    throw new Error(
-        "Esta rota tem abastecimentos. " +
-        "Vamos integrar a sua reavaliação no próximo passo."
-    );
-}
+// Ainda não alterar os abastecimentos guardados
+const originalFuelStops = hasFuel
+    ? route.fuel_stops.map(fuel => ({ ...fuel }))
+    : [];
 
+console.log("⛽ MotoQuest — abastecimentos existentes:", {
+    hasFuel,
+    fuelStops: originalFuelStops
+});
 const stopOffset = optimizationPoints.findIndex(
     point => point.type === "stop"
 );
