@@ -12946,8 +12946,40 @@ if (
         window.motoquestTestFirstFuel
     );
 }
-
+// Preparar a rota completa com o primeiro par.
 if (
+    firstIndex !== null &&
+    secondIndex !== null &&
+    firstIndex <= secondIndex
+) {
+    const pairStops = [...ordered];
+
+    [
+        { ...firstPair.primeira, index: firstIndex },
+        { ...firstPair.segunda, index: secondIndex }
+    ]
+        .sort((a, b) => b.index - a.index)
+        .forEach(station => {
+            pairStops.splice(station.index, 0, {
+                name: station.name,
+                latitude: station.latitude,
+                longitude: station.longitude,
+                isFuelStop: true
+            });
+        });
+
+    if (tripMeetingPoint) pairStops.unshift(tripMeetingPoint);
+    if (tripDeparturePoint) pairStops.unshift(tripDeparturePoint);
+    if (tripEndPoint) pairStops.push(tripEndPoint);
+
+    console.log("MotoQuest — rota do primeiro par preparada:", {
+        pontos: pairStops.length,
+        bombas: pairStops
+            .filter(stop => stop.isFuelStop === true)
+            .map(stop => stop.name),
+        validado: false
+    });
+}if (
     testFuelStation &&
     Number.isFinite(testFuelStation.routeKm)
 ) {
