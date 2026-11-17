@@ -12894,9 +12894,15 @@ if (
     Array.isArray(window.motoquestFuelPairs) &&
     window.motoquestFuelPairs.length > 0
 ) {
-const fuelPairsForTest = window.motoquestFuelPairs.slice(0, 5);
 
-	// Diagnóstico: distância em linha reta entre as segundas bombas.
+// Testar primeiras bombas diferentes, sem aumentar os cálculos.
+const fuelPairsForTest = window.motoquestFuelPairs
+    .filter((pair, index, pairs) =>
+        pairs.findIndex(other =>
+            other.primeira === pair.primeira
+        ) === index
+    )
+    .slice(0, 5);	// Diagnóstico: distância em linha reta entre as segundas bombas.
 const fuelDistanceMeters = (a, b) => {
     const rad = Math.PI / 180;
     const lat1 = Number(a.latitude) * rad;
