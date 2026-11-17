@@ -12905,13 +12905,20 @@ if (
     Number.isFinite(Number(testFuelStation.latitude)) &&
     Number.isFinite(Number(testFuelStation.longitude))
 ) {
-    window.motoquestTestFirstFuel = {
+      window.motoquestTestFirstFuel = {
         name: testFuelStation.name,
         latitude: Number(testFuelStation.latitude),
         longitude: Number(testFuelStation.longitude),
         routeKm: Number(testFuelStation.routeKm)
     };
 
+    console.log(
+        "MotoQuest — primeira bomba preparada:",
+        window.motoquestTestFirstFuel
+    );
+}
+
+if (
     testFuelStation &&
     Number.isFinite(testFuelStation.routeKm)
 ) {
