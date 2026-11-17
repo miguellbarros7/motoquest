@@ -12781,6 +12781,27 @@ const testFuelStation =
             station.routeKm < fuelSafetyLimitKm
         )
         : fuelCandidatesOnRoute[0];
+
+// Diagnóstico temporário: guardar a primeira bomba
+// apenas na memória desta página.
+if (
+    Number(distance) <= fuelSafetyLimitKm &&
+    testFuelStation &&
+    Number.isFinite(Number(testFuelStation.latitude)) &&
+    Number.isFinite(Number(testFuelStation.longitude))
+) {
+    window.motoquestTestFirstFuel = {
+        name: testFuelStation.name,
+        latitude: Number(testFuelStation.latitude),
+        longitude: Number(testFuelStation.longitude),
+        routeKm: Number(testFuelStation.routeKm)
+    };
+
+    console.log(
+        "MotoQuest — primeira bomba preparada:",
+        window.motoquestTestFirstFuel
+    );
+}
 if (
     testFuelStation &&
     Number.isFinite(testFuelStation.routeKm)
