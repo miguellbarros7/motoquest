@@ -12422,6 +12422,44 @@ const routeCoordinates =
         )
         : [];
 
+	// Quilómetros acumulados ao longo do traçado GPS.
+const routePointKm = [0];
+
+const gpsDistanceKm = (pointA, pointB) => {
+    const toRad = degrees => degrees * Math.PI / 180;
+    const earthRadiusKm = 6371;
+
+    const lat1 = toRad(Number(pointA[1]));
+    const lat2 = toRad(Number(pointB[1]));
+    const dLat = lat2 - lat1;
+    const dLon = toRad(Number(pointB[0]) - Number(pointA[0]));
+
+    const a =
+        Math.sin(dLat / 2) ** 2 +
+        Math.cos(lat1) * Math.cos(lat2) *
+        Math.sin(dLon / 2) ** 2;
+
+    return 2 * earthRadiusKm *
+        Math.asin(Math.sqrt(Math.min(1, a)));
+};
+
+for (let i = 1; i < routeCoordinates.length; i++) {
+    const segmentKm = gpsDistanceKm(
+        routeCoordinates[i - 1],
+        routeCoordinates[i]
+    );
+
+    routePointKm.push(
+        routePointKm[i - 1] + segmentKm
+    );
+}
+
+console.log(
+    "MotoQuest — comprimento do traçado GPS:",
+    routePointKm[routePointKm.length - 1],
+    "km"
+);
+
 	// Encontrar o ponto GPS da rota mais próximo de uma bomba.
 const findNearestRoutePoint = (station) => {
     const stationLat = Number(station.latitude);
