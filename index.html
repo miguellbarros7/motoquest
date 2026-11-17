@@ -12614,7 +12614,9 @@ return {
 console.table(
     fuelCandidatesOnRoute.map(station => ({
         bomba: station.name,
-        distanciaAteRotaKm: station.distanceToRouteKm,
+        kmNaRota: station.routeKm?.toFixed(1) ?? "—",
+        distanciaAteRotaKm:
+            station.distanceToRouteKm?.toFixed(2) ?? "—",
         indiceGPS: station.nearestRoutePointIndex
     }))
 );
