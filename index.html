@@ -12745,6 +12745,32 @@ idaERegressoKm:
 indiceGPS: station.nearestRoutePointIndex  }))
 );
 
+	// Diagnóstico: identificar candidatos para o primeiro abastecimento.
+if (Number(distance) <= fuelSafetyLimitKm) {
+    console.table(
+        fuelCandidatesOnRoute.map(station => ({
+            bomba: station.name,
+            kmNaRota:
+                Number.isFinite(station.routeKm)
+                    ? station.routeKm.toFixed(1)
+                    : "—",
+            margemAntesDoLimiteKm:
+                Number.isFinite(station.routeKm)
+                    ? (fuelSafetyLimitKm - station.routeKm).toFixed(1)
+                    : "—",
+            distanciaAteRotaKm:
+                Number.isFinite(station.distanceToRouteKm)
+                    ? station.distanceToRouteKm.toFixed(2)
+                    : "—",
+            candidataPreliminar:
+                Number.isFinite(station.routeKm) &&
+                station.routeKm < fuelSafetyLimitKm
+                    ? "SIM — verificar"
+                    : "NÃO"
+        }))
+    );
+}
+
 	// Diagnóstico: medir o desvio real da primeira bomba candidata.
 const testFuelStation = fuelCandidatesOnRoute[0];
 
