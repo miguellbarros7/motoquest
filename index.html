@@ -12223,6 +12223,16 @@ searchButton.textContent =
     searchButton.onclick = async () => {
         searchButton.disabled = true;
         stationResults.textContent = "🔎 A procurar postos próximos...";
+		// Invalidar a proposta anterior ao iniciar nova pesquisa.
+window.motoquestFuelProposal = null;
+
+const previousProposalBox =
+    document.getElementById("mq-fuel-proposal");
+
+if (previousProposalBox) {
+    previousProposalBox.textContent = "";
+    previousProposalBox.style.display = "none";
+}
 
         try {
            const searchLatitude = Number(stopLocation.latitude);
