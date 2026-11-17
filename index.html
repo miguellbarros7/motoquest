@@ -6954,16 +6954,61 @@ optimizeRouteBtn.style.cssText =
             );
         }
 
-        console.log("MotoQuest — otimização preparada:", {
-            mode,
-            locations: orderedLocations
-        });
+      // Verificar as restrições atualmente selecionadas
+const avoidHighways = avoidHighwaysCheckbox.checked;
+const avoidTolls = avoidTollsCheckbox.checked;
 
-        await showMQAlert(
-            `Preparação concluída: ${orderedLocations.length} locais encontrados. ` +
-            "Ainda não foi alterada nenhuma rota.",
-            "info"
-        );
+if (avoidHighways || avoidTolls) {
+    throw new Error(
+        "O cálculo com restrições será ligado ao OpenRouteService no próximo passo."
+    );
+}
+
+// Preparar coordenadas para o OSRM
+const coordinates = orderedLocations.map(location =>
+    `${Number(location.longitude)},${Number(location.latitude)}`
+).join(";");
+
+// Pedir tempos e distâncias reais pelas estradas
+const response = await fetch(
+    `https://router.project-osrm.org/table/v1/driving/${coordinates}` +
+    "?annotations=duration,distance"
+);
+
+if (!response.ok) {
+    throw new Error(
+        "Não foi possível consultar as estradas."
+    );
+}
+
+const result = await response.json();
+
+if (
+    result.code !== "Ok" ||
+    !Array.isArray(result.durations) ||
+    !Array.isArray(result.distances)
+) {
+    throw new Error(
+        "Não foi possível calcular os tempos e distâncias."
+    );
+}
+
+// Escolher a matriz conforme o botão
+const matrix = mode === "fastest"
+    ? result.durations
+    : result.distances;
+
+console.log("MotoQuest — matriz de otimização:", {
+    mode,
+    locations: orderedLocations.map(location => location.name),
+    matrix
+});
+
+await showMQAlert(
+    `Cálculo concluído para ${orderedLocations.length} locais. ` +
+    "Os tempos e distâncias já estão disponíveis.",
+    "info"
+);
 
     } catch (error) {
         console.error("Erro na preparação da otimização:", error);
