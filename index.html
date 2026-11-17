@@ -12756,6 +12756,26 @@ if (
         getCandidateInsertionIndex(testFuelStation.routeKm);
 
     if (testInsertionIndex !== null) {
+
+		// Diagnóstico: identificar o troço onde a bomba será inserida.
+const testLegIndex =
+    getRouteLegIndex(testFuelStation.routeKm);
+
+console.log("MotoQuest — posição da bomba na rota:", {
+    bomba: testFuelStation.name,
+    kmDaBomba: testFuelStation.routeKm,
+    indiceTroco: testLegIndex,
+    inicioTrocoKm:
+        testLegIndex !== null
+            ? routeCumulativeKm[testLegIndex]
+            : null,
+    fimTrocoKm:
+        testLegIndex !== null
+            ? routeCumulativeKm[testLegIndex + 1]
+            : null,
+    indiceInsercao: testInsertionIndex,
+    totalParagensTuristicas: ordered.length
+});
         const testStops = [...ordered];
 
         testStops.splice(testInsertionIndex, 0, {
