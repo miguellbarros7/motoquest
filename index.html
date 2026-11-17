@@ -12886,7 +12886,31 @@ if (
         longitude: Number(testFuelStation.longitude),
         routeKm: Number(testFuelStation.routeKm)
     };
+// Preparar pares de bombas pela ordem do percurso.
+if (
+    Number(distance) > fuelSafetyLimitKm &&
+    Array.isArray(window.motoquestFirstFuelCandidates) &&
+    Array.isArray(window.motoquestSecondFuelCandidates)
+) {
+    window.motoquestFuelPairs =
+        window.motoquestFirstFuelCandidates.flatMap(first =>
+            window.motoquestSecondFuelCandidates
+                .filter(second =>
+                    second.routeKm > first.routeKm
+                )
+                .map(second => ({
+                    primeira: first,
+                    segunda: second,
+                    distanciaEntreKm:
+                        second.routeKm - first.routeKm
+                }))
+        );
 
+    console.log(
+        "MotoQuest — pares de abastecimento preparados:",
+        window.motoquestFuelPairs.length
+    );
+}
     console.log(
         "MotoQuest — primeira bomba preparada:",
         window.motoquestTestFirstFuel
