@@ -12895,8 +12895,9 @@ if (
     window.motoquestFuelPairs.length > 0
 ) {
 const fuelPairsForTest = window.motoquestFuelPairs.slice(0, 3);
-const firstPair = fuelPairsForTest[0];
 
+// Testar os pares sequencialmente, sem sobrecarregar o serviço.
+for (const firstPair of fuelPairsForTest) {
 console.log(
     "MotoQuest — pares selecionados para comparação:",
     fuelPairsForTest.length
@@ -13047,6 +13048,7 @@ if (
         error
     );
 }
+	}
 }
 }
 const testFuelStation =
