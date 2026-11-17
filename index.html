@@ -13004,8 +13004,20 @@ const fuelIntervals = [
         )
     }
 ];
+// Diagnóstico: margem de segurança da combinação.
+const longestFuelIntervalKm = Math.max(
+    ...fuelIntervals.map(interval => interval.distanciaKm)
+);
 
-    console.table(fuelIntervals.map(interval => ({
+const fuelCombinationMarginKm =
+    fuelSafetyLimitKm - longestFuelIntervalKm;
+
+console.log("MotoQuest — margem da combinação:", {
+    maiorIntervaloKm: longestFuelIntervalKm.toFixed(1),
+    limiteKm: fuelSafetyLimitKm.toFixed(1),
+    margemMinimaKm: fuelCombinationMarginKm.toFixed(1),
+    dentroDoLimite: fuelCombinationMarginKm >= 0
+});    console.table(fuelIntervals.map(interval => ({
         percurso: interval.percurso,
         distanciaKm: interval.distanciaKm.toFixed(2),
         limiteKm: fuelSafetyLimitKm.toFixed(2),
