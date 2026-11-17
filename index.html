@@ -12965,8 +12965,68 @@ try {
     );
 
     const pairLegs = pairResult.routes?.[0]?.legs;
+// Diagnóstico: medir os intervalos reais do primeiro par.
+const pairFuelIndexes = pairStops
+    .map((stop, index) => stop.isFuelStop === true ? index : -1)
+    .filter(index => index >= 0);
 
-    console.log("MotoQuest — cálculo rodoviário do primeiro par:", {
+if (
+    pairResult.code === "Ok" &&
+    Array.isArray(pairLegs) &&
+    pairLegs.length === pairStops.length - 1 &&
+    pairFuelIndexes.length === 2 &&
+    pairFuelIndexes[0] < pairFuelIndexes[1] &&
+    pairLegs.every(leg =>
+        Number.isFinite(Number(leg.distance)) &&
+        Number(leg.distance) >= 0
+    )
+) {
+    const pairDistanceKm = (start, end) =>
+        pairLegs.slice(start, end).reduce(
+            (total, leg) => total + Number(leg.distance) / 1000,
+            0
+        );
+
+    const pairIntervals = [
+        {
+            percurso: `Partida → ${firstPair.primeira.name}`,
+            distanciaKm: pairDistanceKm(0, pairFuelIndexes[0])
+        },
+        {
+            percurso: `${firstPair.primeira.name} → ${firstPair.segunda.name}`,
+            distanciaKm: pairDistanceKm(
+                pairFuelIndexes[0],
+                pairFuelIndexes[1]
+            )
+        },
+        {
+            percurso: `${firstPair.segunda.name} → Destino`,
+            distanciaKm: pairDistanceKm(
+                pairFuelIndexes[1],
+                pairLegs.length
+            )
+        }
+    ];
+
+    console.table(pairIntervals.map(interval => ({
+        percurso: interval.percurso,
+        distanciaKm: interval.distanciaKm.toFixed(1),
+        dentroDoLimite:
+            interval.distanciaKm <= fuelSafetyLimitKm
+    })));
+
+    console.log("MotoQuest — intervalos reais do primeiro par:", {
+        intervalos: pairIntervals,
+        maiorIntervaloKm: Math.max(
+            ...pairIntervals.map(interval => interval.distanciaKm)
+        ).toFixed(1),
+        margemMinimaKm: (
+            fuelSafetyLimitKm -
+            Math.max(...pairIntervals.map(interval => interval.distanciaKm))
+        ).toFixed(1),
+        validado: false
+    });
+}    console.log("MotoQuest — cálculo rodoviário do primeiro par:", {
         codigo: pairResult.code,
         pontos: pairStops.length,
         trocosEsperados: pairStops.length - 1,
