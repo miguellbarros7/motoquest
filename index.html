@@ -13207,8 +13207,9 @@ if (
         ),
         limiteKm: fuelSafetyLimitKm,
         margemMinimaKm: bestFuelPair.margemMinimaKm,
-        desvioKm: bestFuelPair.desvioKm,
-        validado: false
+       desvioKm: bestFuelPair.desvioKm,
+geracao: fuelSearchGeneration,
+validado: false
     };
 }	
 }
@@ -13479,7 +13480,14 @@ if (
 const proposalBox = document.getElementById("mq-fuel-proposal");
 
 if (proposalBox) {
-    const proposal = window.motoquestFuelProposal;
+    const bestDisplay = window.motoquestBestFuelDisplay;
+
+    const proposal = (
+        bestDisplay &&
+        bestDisplay.geracao === window.motoquestFuelGeneration
+    )
+        ? bestDisplay
+        : window.motoquestFuelProposal;
 
     const fuelLines = proposal.bombas.map((bomba, index) =>
         `${index + 1}. ${bomba.name} — km ${Number(bomba.routeKm).toFixed(0)}`
