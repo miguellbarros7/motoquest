@@ -12420,10 +12420,12 @@ const getCandidateInsertionIndex = () => {
                 .filter(stop => ordered.includes(stop))
                 .length;
 
-            return Math.max(
-                1,
-                Math.min(ordered.length - 1, count)
-            );
+         // Permitir abastecimentos antes da primeira
+// e depois da última paragem turística.
+return Math.max(
+    0,
+    Math.min(ordered.length, count)
+);
         }
     }
 
