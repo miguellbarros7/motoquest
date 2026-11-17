@@ -12422,6 +12422,54 @@ const routeCoordinates =
         )
         : [];
 
+	// Encontrar o ponto GPS da rota mais próximo de uma bomba.
+const findNearestRoutePoint = (station) => {
+    const stationLat = Number(station.latitude);
+    const stationLon = Number(station.longitude);
+
+    if (
+        !Number.isFinite(stationLat) ||
+        !Number.isFinite(stationLon) ||
+        routeCoordinates.length < 2
+    ) {
+        return null;
+    }
+
+    const toRad = degrees => degrees * Math.PI / 180;
+    const earthRadiusKm = 6371;
+
+    let nearest = null;
+
+    routeCoordinates.forEach((point, index) => {
+        const lon = Number(point[0]);
+        const lat = Number(point[1]);
+
+        const dLat = toRad(lat - stationLat);
+        const dLon = toRad(lon - stationLon);
+
+        const a =
+            Math.sin(dLat / 2) ** 2 +
+            Math.cos(toRad(stationLat)) *
+            Math.cos(toRad(lat)) *
+            Math.sin(dLon / 2) ** 2;
+
+        const distanceKm =
+            2 * earthRadiusKm *
+            Math.asin(Math.sqrt(Math.min(1, a)));
+
+        if (!nearest || distanceKm < nearest.distanceKm) {
+            nearest = {
+                index,
+                latitude: lat,
+                longitude: lon,
+                distanceKm
+            };
+        }
+    });
+
+    return nearest;
+};
+
 const hasRouteGeometry =
     routeGeometry !== null &&
     (
