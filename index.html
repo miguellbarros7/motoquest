@@ -12810,7 +12810,6 @@ if (Number(distance) <= fuelSafetyLimitKm) {
 const testFuelStation =
     Number(distance) <= fuelSafetyLimitKm
         ? fuelCandidatesOnRoute.find(station =>
-            station.name?.toLowerCase().includes("galp") &&
             Number.isFinite(station.routeKm) &&
             station.routeKm < fuelSafetyLimitKm
         )
