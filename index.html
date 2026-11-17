@@ -12811,6 +12811,35 @@ console.log("MotoQuest — posição da bomba na rota:", {
                     testResult.code === "Ok" &&
                     Number.isFinite(testDistanceKm)
                 ) {
+
+	// Diagnóstico: distâncias dos troços antes e depois da bomba.
+const testLegs = testResult.routes?.[0]?.legs;
+
+const fuelStopIndex =
+    testInsertionIndex +
+    (tripDeparturePoint ? 1 : 0) +
+    (tripMeetingPoint ? 1 : 0);
+
+if (
+    Array.isArray(testLegs) &&
+    testLegs.length === testStops.length - 1 &&
+    fuelStopIndex > 0 &&
+    fuelStopIndex < testStops.length - 1
+) {
+    const beforeFuelKm =
+        Number(testLegs[fuelStopIndex - 1]?.distance) / 1000;
+
+    const afterFuelKm =
+        Number(testLegs[fuelStopIndex]?.distance) / 1000;
+
+    console.log("MotoQuest — troços junto à bomba:", {
+        bomba: testFuelStation.name,
+        distanciaAntesDaBombaKm: beforeFuelKm,
+        distanciaDepoisDaBombaKm: afterFuelKm,
+        somaDosDoisTrocosKm: beforeFuelKm + afterFuelKm,
+        validado: false
+    });
+}
                     console.log(
                         "MotoQuest — diagnóstico desvio real:",
                         {
