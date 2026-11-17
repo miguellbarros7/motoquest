@@ -12949,7 +12949,41 @@ if (
             .map(stop => stop.name),
         validado: false
     });
-}	
+
+	
+}	// Teste: calcular a rota rodoviária do primeiro par.
+try {
+    const pairCoordinates = pairStops
+        .map(stop =>
+            `${Number(stop.longitude)},${Number(stop.latitude)}`
+        )
+        .join(";");
+
+    const pairResult = await motoquestCalculateRoute(
+        pairCoordinates,
+        route.trip_plan,
+        false
+    );
+
+    const pairLegs = pairResult.routes?.[0]?.legs;
+
+    console.log("MotoQuest — cálculo rodoviário do primeiro par:", {
+        codigo: pairResult.code,
+        pontos: pairStops.length,
+        trocosEsperados: pairStops.length - 1,
+        trocosRecebidos: Array.isArray(pairLegs)
+            ? pairLegs.length
+            : null,
+        distanciaTotalKm:
+            Number(pairResult.routes?.[0]?.distance) / 1000,
+        validado: false
+    });
+} catch (error) {
+    console.warn(
+        "MotoQuest — erro no cálculo do primeiro par:",
+        error
+    );
+}
 	}
 	const testFuelStation =
     Number(distance) <= fuelSafetyLimitKm
