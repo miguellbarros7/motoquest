@@ -7140,9 +7140,24 @@ if (avoidHighways || avoidTolls) {
 }
 
 // Preparar coordenadas para o OSRM
-const coordinates = orderedLocations.map(location =>
-    `${Number(location.longitude)},${Number(location.latitude)}`
-).join(";");
+// Preparar coordenadas de toda a viagem para o OSRM
+const coordinates = optimizationPoints.map(point => {
+    const latitude = Number(point.latitude);
+    const longitude = Number(point.longitude);
+
+    if (
+        !Number.isFinite(latitude) ||
+        !Number.isFinite(longitude) ||
+        Math.abs(latitude) > 90 ||
+        Math.abs(longitude) > 180
+    ) {
+        throw new Error(
+            "Coordenadas inválidas no ponto: " + point.name
+        );
+    }
+
+    return `${longitude},${latitude}`;
+}).join(";");
 
 // Pedir tempos e distâncias reais pelas estradas
 const response = await fetch(
@@ -7175,10 +7190,12 @@ const matrix = mode === "fastest"
 
 console.log("MotoQuest — matriz de otimização:", {
     mode,
-    locations: orderedLocations.map(location => location.name),
+    locations: optimizationPoints.map(point => ({
+        name: point.name,
+        type: point.type
+    })),
     matrix
 });
-
 // Segurança: ainda não otimizar viagens com pontos especiais
 const tripPlan = route.trip_plan || {};
 
