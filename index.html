@@ -13156,9 +13156,25 @@ if (
     Array.isArray(window.motoquestFuelPairResults) &&
     window.motoquestFuelPairResults.length > 0
 ) {
-    const bestFuelPair = [...window.motoquestFuelPairResults]
-        .filter(pair => pair.dentroDoLimite === true)
-        .sort((a, b) => b.margemMinimaKm - a.margemMinimaKm)[0];
+   // Comparar autonomia e desvio rodoviário.
+const bestFuelPair = [...window.motoquestFuelPairResults]
+    .filter(pair =>
+        pair.dentroDoLimite === true &&
+        Number.isFinite(pair.margemMinimaKm) &&
+        Number.isFinite(pair.desvioKm)
+    )
+    .sort((a, b) => {
+        // Margens com diferença até 1 km são consideradas equivalentes.
+        const diferencaMargem =
+            b.margemMinimaKm - a.margemMinimaKm;
+
+        if (Math.abs(diferencaMargem) > 1) {
+            return diferencaMargem;
+        }
+
+        // Com margens semelhantes, preferir o menor desvio.
+        return a.desvioKm - b.desvioKm;
+    })[0];
 
     console.log("MotoQuest — melhor par de abastecimento:", {
         primeira: bestFuelPair?.primeira ?? null,
