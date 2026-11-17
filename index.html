@@ -12526,19 +12526,31 @@ const legs = result.routes?.[0]?.legs;
         return { status: "unverified" };
     }
 
-    const intervals = [];
-    let sinceFuel = 0;
+   const intervals = [];
+let sinceFuel = 0;
+let invalidDistance = false;
 
-    legs.forEach((leg, index) => {
-        sinceFuel += Number(leg.distance) / 1000;
+legs.forEach((leg, index) => {
+    const legKm = Number(leg.distance) / 1000;
 
-        if (stops[index + 1].isFuelStop) {
-            intervals.push(sinceFuel);
-            sinceFuel = 0;
-        }
-    });
+    if (!Number.isFinite(legKm) || legKm < 0) {
+        invalidDistance = true;
+        return;
+    }
 
-    intervals.push(sinceFuel);
+    sinceFuel += legKm;
+
+    if (stops[index + 1].isFuelStop) {
+        intervals.push(sinceFuel);
+        sinceFuel = 0;
+    }
+});
+
+if (invalidDistance) {
+    return { status: "unverified" };
+}
+
+intervals.push(sinceFuel);
 
     return evaluateFuelCandidate(
         intervals,
