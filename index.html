@@ -12976,6 +12976,39 @@ const fuelIntervals = [
         ),
         validado: false
     });
+	// Preparar uma proposta de abastecimento, sem guardar.
+const fuelProposalSafe = fuelIntervals.every(
+    interval => interval.distanciaKm <= fuelSafetyLimitKm
+);
+
+if (fuelProposalSafe) {
+    window.motoquestFuelProposal = {
+        bombas: [
+            {
+                name: firstFuelForTest.name,
+                latitude: Number(firstFuelForTest.latitude),
+                longitude: Number(firstFuelForTest.longitude),
+                routeKm: firstFuelForTest.routeKm,
+                insertion_index: firstFuelIndex
+            },
+            {
+                name: testFuelStation.name,
+                latitude: Number(testFuelStation.latitude),
+                longitude: Number(testFuelStation.longitude),
+                routeKm: testFuelStation.routeKm,
+                insertion_index: secondFuelIndex
+            }
+        ],
+        intervalos: fuelIntervals,
+        limiteKm: fuelSafetyLimitKm,
+        validado: false
+    };
+
+    console.log(
+        "MotoQuest — proposta de abastecimento preparada:",
+        window.motoquestFuelProposal
+    );
+}
 }
 
         console.log("MotoQuest — cálculo das duas bombas:", {
