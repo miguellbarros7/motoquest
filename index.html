@@ -12389,14 +12389,21 @@ console.log(
 
 
 const currentFuelIntervals = [];
-let previousFuelKm = 0;
 
-orderedFuelStops.forEach(item => {
-    currentFuelIntervals.push(item.km - previousFuelKm);
-    previousFuelKm = item.km;
-});
+if (fuelRouteReviewPending) {
+    // Os abastecimentos antigos ainda não estão validados.
+    // Considerar a rota sem abastecimentos confirmados.
+    currentFuelIntervals.push(km);
+} else {
+    let previousFuelKm = 0;
 
-currentFuelIntervals.push(km - previousFuelKm);
+    orderedFuelStops.forEach(item => {
+        currentFuelIntervals.push(item.km - previousFuelKm);
+        previousFuelKm = item.km;
+    });
+
+    currentFuelIntervals.push(km - previousFuelKm);
+}
 
 const originalLegDistances = calculatedRoute.legs || [];
 
