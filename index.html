@@ -12899,9 +12899,36 @@ if (
 const fuelPairsForTest = [];
 const primeirasUsadas = new Set();
 const segundasUsadas = new Set();
+// Ordenar os pares pela margem de autonomia estimada.
+// As distâncias reais por estrada serão verificadas depois.
+const fuelPairsOrdered = [...window.motoquestFuelPairs]
+    .map(pair => {
+        const primeiroKm = Number(pair.primeira.routeKm);
+        const segundoKm = Number(pair.segunda.routeKm);
+        const totalKm = Number(distance);
 
-for (const pair of window.motoquestFuelPairs) {
-    if (fuelPairsForTest.length >= 5) break;
+        const maiorIntervaloEstimado = Math.max(
+            primeiroKm,
+            segundoKm - primeiroKm,
+            totalKm - segundoKm
+        );
+
+        return {
+            ...pair,
+            margemEstimadaKm:
+                fuelSafetyLimitKm - maiorIntervaloEstimado
+        };
+    })
+    .filter(pair =>
+        Number.isFinite(pair.margemEstimadaKm)
+    )
+    .sort((a, b) =>
+        b.margemEstimadaKm - a.margemEstimadaKm
+    );
+
+for (const pair of fuelPairsOrdered) {
+
+	if (fuelPairsForTest.length >= 5) break;
 
     const primeiraId =
         `${pair.primeira.latitude},${pair.primeira.longitude}`;
