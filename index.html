@@ -12426,6 +12426,18 @@ const getCandidateInsertionIndex = () => {
 const candidateInsertionIndex = getCandidateInsertionIndex();
 
 const checkCandidateRoute = async (station, fuelToReplace) => {
+
+    // Não validar candidatos com abastecimentos
+    // associados à ordem antiga da rota.
+    if (fuelRouteReviewPending) {
+        console.warn(
+            "⛽ Validação suspensa: é necessário " +
+            "recalcular as posições dos abastecimentos."
+        );
+
+        return { status: "unverified" };
+    }
+	
     if (
         candidateInsertionIndex === null ||
         !Number.isFinite(fuelSafetyLimitKm) ||
