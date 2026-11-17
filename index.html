@@ -12615,6 +12615,12 @@ console.table(
     fuelCandidatesOnRoute.map(station => ({
         bomba: station.name,
         kmNaRota: station.routeKm?.toFixed(1) ?? "—",
+
+		diferencaAoObjetivoKm:
+    station.routeKm != null &&
+    Number.isFinite(Number(distance))
+        ? Math.abs(station.routeKm - Number(distance)).toFixed(1)
+        : "—",
         distanciaAteRotaKm:
             station.distanceToRouteKm?.toFixed(2) ?? "—",
         indiceGPS: station.nearestRoutePointIndex
