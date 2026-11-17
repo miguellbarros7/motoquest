@@ -12913,6 +12913,65 @@ if (validTwoFuelStops) {
 
         const twoFuelLegs = twoFuelResult.routes?.[0]?.legs;
 
+		// Diagnóstico: medir os três intervalos entre abastecimentos.
+const fuelIndexes = twoFuelStops
+    .map((stop, index) => stop.isFuelStop === true ? index : -1)
+    .filter(index => index >= 0);
+
+if (
+    twoFuelResult.code === "Ok" &&
+    Array.isArray(twoFuelLegs) &&
+    twoFuelLegs.length === twoFuelStops.length - 1 &&
+    fuelIndexes.length === 2 &&
+    fuelIndexes[0] < fuelIndexes[1] &&
+    twoFuelLegs.every(leg =>
+        Number.isFinite(Number(leg.distance)) &&
+        Number(leg.distance) >= 0
+    )
+) {
+    const sumLegsKm = (start, end) =>
+        twoFuelLegs
+            .slice(start, end)
+            .reduce(
+                (total, leg) => total + Number(leg.distance) / 1000,
+                0
+            );
+
+    const fuelIntervals = [
+        {
+            percurso: "Partida → Galp",
+            distanciaKm: sumLegsKm(0, fuelIndexes[0])
+        },
+        {
+            percurso: "Galp → Freitas",
+            distanciaKm: sumLegsKm(fuelIndexes[0], fuelIndexes[1])
+        },
+        {
+            percurso: "Freitas → Destino",
+            distanciaKm: sumLegsKm(
+                fuelIndexes[1],
+                twoFuelLegs.length
+            )
+        }
+    ];
+
+    console.table(fuelIntervals.map(interval => ({
+        percurso: interval.percurso,
+        distanciaKm: interval.distanciaKm.toFixed(2),
+        limiteKm: fuelSafetyLimitKm.toFixed(2),
+        dentroDaAutonomia:
+            interval.distanciaKm <= fuelSafetyLimitKm
+    })));
+
+    console.log("MotoQuest — autonomia das duas bombas:", {
+        intervalos: fuelIntervals,
+        todosDentroDaAutonomia: fuelIntervals.every(
+            interval => interval.distanciaKm <= fuelSafetyLimitKm
+        ),
+        validado: false
+    });
+}
+
         console.log("MotoQuest — cálculo das duas bombas:", {
             codigo: twoFuelResult.code,
             totalPontos: twoFuelStops.length,
