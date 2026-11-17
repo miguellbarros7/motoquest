@@ -12611,6 +12611,26 @@ return {
 };
 });
 
+	// Ordenar candidatos pelo quilómetro pretendido.
+// Candidatos sem posição GPS válida ficam no fim.
+fuelCandidatesOnRoute.sort((a, b) => {
+    const targetKm = Number(distance);
+
+    const differenceA =
+        Number.isFinite(a.routeKm) &&
+        Number.isFinite(targetKm)
+            ? Math.abs(a.routeKm - targetKm)
+            : Infinity;
+
+    const differenceB =
+        Number.isFinite(b.routeKm) &&
+        Number.isFinite(targetKm)
+            ? Math.abs(b.routeKm - targetKm)
+            : Infinity;
+
+    return differenceA - differenceB;
+});
+
 console.table(
     fuelCandidatesOnRoute.map(station => ({
         bomba: station.name,
