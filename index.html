@@ -12082,8 +12082,8 @@ if (
         const stop = document.createElement("div");
 
         
-// TESTE TEMPORÁRIO: procurar a primeira bomba mais cedo.
-const searchKm = index === 0 ? 270 : 540;
+// Usar a distância sugerida pelo planeador para cada paragem.
+const searchKm = Number(distance);
 		const stopLocation = getPointAtKm(searchKm);console.log("MotoQuest — localização do abastecimento:", distance, stopLocation);        
 
 if (stopLocation) {
