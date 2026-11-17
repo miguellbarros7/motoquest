@@ -12504,8 +12504,8 @@ if (
 }
 
 	// Encontrar o ponto GPS da rota mais próximo de uma bomba.
-const findNearestRoutePoint = (station) => {
-    const stationLat = Number(station.latitude);
+const findNearestRoutePoint = (station, targetKm = null, windowKm = 30) => {
+	const stationLat = Number(station.latitude);
     const stationLon = Number(station.longitude);
 
     if (
@@ -12521,9 +12521,25 @@ const findNearestRoutePoint = (station) => {
 
     let nearest = null;
 
-    routeCoordinates.forEach((point, index) => {
-        const lon = Number(point[0]);
-        const lat = Number(point[1]);
+ routeCoordinates.forEach((point, index) => {
+    // Se houver um quilómetro pretendido, analisar
+    // apenas os pontos próximos dessa fase da viagem.
+    if (Number.isFinite(targetKm)) {
+        const totalGpsKm = routePointKm[routePointKm.length - 1];
+
+        if (!Number.isFinite(totalGpsKm) || totalGpsKm <= 0) {
+            return;
+        }
+
+        const pointRouteKm = routePointKm[index] * (km / totalGpsKm);
+
+        if (Math.abs(pointRouteKm - targetKm) > windowKm) {
+            return;
+        }
+    }
+
+    const lon = Number(point[0]);
+    const lat = Number(point[1]);
 
         const dLat = toRad(lat - stationLat);
         const dLon = toRad(lon - stationLon);
