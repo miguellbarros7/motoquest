@@ -13002,7 +13002,12 @@ if (
             .map(stop => stop.name),
                validado: false
     });
+// Referência rodoviária sem bombas, com os mesmos pontos-base.
+const originalStopsForPair = [...ordered];
 
+if (tripMeetingPoint) originalStopsForPair.unshift(tripMeetingPoint);
+if (tripDeparturePoint) originalStopsForPair.unshift(tripDeparturePoint);
+if (tripEndPoint) originalStopsForPair.push(tripEndPoint);
 // Teste: calcular a rota rodoviária do primeiro par.
 try {
     const pairCoordinates = pairStops
@@ -13066,8 +13071,21 @@ const pairMaxKm = Math.max(
 );
 	// Comparar a rota com bombas com a rota original.
 const pairTotalKm = Number(pairResult.routes?.[0]?.distance) / 1000;
-const originalRouteKm = Number(distance);
+const originalCoordinates = originalStopsForPair
+    .map(stop => `${Number(stop.longitude)},${Number(stop.latitude)}`)
+    .join(";");
 
+const originalResult = await motoquestCalculateRoute(
+    originalCoordinates,
+    route.trip_plan,
+    false
+);
+
+const originalRouteKm =
+    originalResult.code === "Ok" &&
+    Number.isFinite(Number(originalResult.routes?.[0]?.distance))
+        ? Number(originalResult.routes[0].distance) / 1000
+        : NaN;
 const pairExtraKm = (
     Number.isFinite(pairTotalKm) &&
     Number.isFinite(originalRouteKm)
