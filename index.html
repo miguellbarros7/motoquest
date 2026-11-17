@@ -12863,30 +12863,8 @@ if (Number(distance) > fuelSafetyLimitKm) {
         "MotoQuest — segundas candidatas para combinação:",
         window.motoquestSecondFuelCandidates.length
     );
-}	const testFuelStation =
-    Number(distance) <= fuelSafetyLimitKm
-        ? earlyFuelCandidates[0] ||
-          fuelCandidatesOnRoute.find(station =>
-              Number.isFinite(station.routeKm) &&
-              station.routeKm < fuelSafetyLimitKm
-          )
-        : fuelCandidatesOnRoute[0];
-
-// Diagnóstico temporário: guardar a primeira bomba
-// apenas na memória desta página.
-if (
-    Number(distance) <= fuelSafetyLimitKm &&
-    testFuelStation &&
-    Number.isFinite(Number(testFuelStation.latitude)) &&
-    Number.isFinite(Number(testFuelStation.longitude))
-) {
-    window.motoquestTestFirstFuel = {
-        name: testFuelStation.name,
-        latitude: Number(testFuelStation.latitude),
-        longitude: Number(testFuelStation.longitude),
-        routeKm: Number(testFuelStation.routeKm)
-    };
-// Preparar pares de bombas pela ordem do percurso.
+}	
+	// Preparar pares de bombas pela ordem do percurso.
 if (
     Number(distance) > fuelSafetyLimitKm &&
     Array.isArray(window.motoquestFirstFuelCandidates) &&
@@ -12910,13 +12888,30 @@ if (
         "MotoQuest — pares de abastecimento preparados:",
         window.motoquestFuelPairs.length
     );
-}
-    console.log(
-        "MotoQuest — primeira bomba preparada:",
-        window.motoquestTestFirstFuel
-    );
-}
+}	const testFuelStation =
+    Number(distance) <= fuelSafetyLimitKm
+        ? earlyFuelCandidates[0] ||
+          fuelCandidatesOnRoute.find(station =>
+              Number.isFinite(station.routeKm) &&
+              station.routeKm < fuelSafetyLimitKm
+          )
+        : fuelCandidatesOnRoute[0];
+
+// Diagnóstico temporário: guardar a primeira bomba
+// apenas na memória desta página.
 if (
+    Number(distance) <= fuelSafetyLimitKm &&
+    testFuelStation &&
+    Number.isFinite(Number(testFuelStation.latitude)) &&
+    Number.isFinite(Number(testFuelStation.longitude))
+) {
+    window.motoquestTestFirstFuel = {
+        name: testFuelStation.name,
+        latitude: Number(testFuelStation.latitude),
+        longitude: Number(testFuelStation.longitude),
+        routeKm: Number(testFuelStation.routeKm)
+    };
+
     testFuelStation &&
     Number.isFinite(testFuelStation.routeKm)
 ) {
