@@ -12745,6 +12745,78 @@ idaERegressoKm:
 indiceGPS: station.nearestRoutePointIndex  }))
 );
 
+	// Diagnóstico: medir o desvio real da primeira bomba candidata.
+const testFuelStation = fuelCandidatesOnRoute[0];
+
+if (
+    testFuelStation &&
+    Number.isFinite(testFuelStation.routeKm)
+) {
+    const testInsertionIndex =
+        getCandidateInsertionIndex(testFuelStation.routeKm);
+
+    if (testInsertionIndex !== null) {
+        const testStops = [...ordered];
+
+        testStops.splice(testInsertionIndex, 0, {
+            latitude: Number(testFuelStation.latitude),
+            longitude: Number(testFuelStation.longitude)
+        });
+
+        if (tripMeetingPoint) testStops.unshift(tripMeetingPoint);
+        if (tripDeparturePoint) testStops.unshift(tripDeparturePoint);
+        if (tripEndPoint) testStops.push(tripEndPoint);
+
+        const validTestStops = testStops.every(stop =>
+            Number.isFinite(Number(stop.latitude)) &&
+            Number.isFinite(Number(stop.longitude))
+        );
+
+        if (validTestStops) {
+            try {
+                const testCoordinates = testStops.map(stop =>
+                    `${Number(stop.longitude)},${Number(stop.latitude)}`
+                ).join(";");
+
+                const testResult = await motoquestCalculateRoute(
+                    testCoordinates,
+                    route.trip_plan,
+                    false
+                );
+
+                const testDistanceKm =
+                    Number(testResult.routes?.[0]?.distance) / 1000;
+
+                if (
+                    testResult.code === "Ok" &&
+                    Number.isFinite(testDistanceKm)
+                ) {
+                    console.log(
+                        "MotoQuest — diagnóstico desvio real:",
+                        {
+                            bomba: testFuelStation.name,
+                            kmDaBomba: testFuelStation.routeKm,
+                            distanciaOriginalKm: km,
+                            distanciaComBombaKm: testDistanceKm,
+                            diferencaKm: testDistanceKm - km,
+                            validado: false
+                        }
+                    );
+                } else {
+                    console.warn(
+                        "MotoQuest — não foi possível calcular o desvio."
+                    );
+                }
+            } catch (error) {
+                console.warn(
+                    "MotoQuest — erro no diagnóstico do desvio:",
+                    error
+                );
+            }
+        }
+    }
+}
+
 const candidateInsertionIndex =
     getCandidateInsertionIndex(distance);
 const checkCandidateRoute = async (
