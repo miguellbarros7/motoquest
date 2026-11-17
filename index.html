@@ -12591,11 +12591,24 @@ const getCandidateInsertionIndex = (targetDistanceKm) => {
 const fuelCandidatesOnRoute = nearbyFuelCandidates.map(station => {
     const nearestPoint = findNearestRoutePoint(station);
 
-    return {
-        ...station,
-        nearestRoutePointIndex: nearestPoint?.index ?? null,
-        distanceToRouteKm: nearestPoint?.distanceKm ?? null
-    };
+   const gpsIndex = nearestPoint?.index ?? null;
+
+const totalGpsKm =
+    routePointKm[routePointKm.length - 1];
+
+const routeKm =
+    gpsIndex !== null &&
+    Number.isFinite(totalGpsKm) &&
+    totalGpsKm > 0
+        ? routePointKm[gpsIndex] * (km / totalGpsKm)
+        : null;
+
+return {
+    ...station,
+    nearestRoutePointIndex: gpsIndex,
+    distanceToRouteKm: nearestPoint?.distanceKm ?? null,
+    routeKm
+};
 });
 
 console.table(
