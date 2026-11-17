@@ -13064,6 +13064,25 @@ if (
 const pairMaxKm = Math.max(
     ...pairIntervals.map(interval => interval.distanciaKm)
 );
+	// Comparar a rota com bombas com a rota original.
+const pairTotalKm = Number(pairResult.routes?.[0]?.distance) / 1000;
+const originalRouteKm = Number(distance);
+
+const pairExtraKm = (
+    Number.isFinite(pairTotalKm) &&
+    Number.isFinite(originalRouteKm)
+)
+    ? pairTotalKm - originalRouteKm
+    : null;
+
+console.log("MotoQuest — desvio total do par:", {
+    primeira: firstPair.primeira.name,
+    segunda: firstPair.segunda.name,
+    rotaOriginalKm: originalRouteKm.toFixed(1),
+    rotaComBombasKm: pairTotalKm.toFixed(1),
+    diferencaKm: pairExtraKm?.toFixed(1) ?? null,
+    validado: false
+});
 
 window.motoquestFuelPairResults.push({
     primeira: firstPair.primeira.name,
