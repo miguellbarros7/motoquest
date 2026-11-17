@@ -13161,15 +13161,33 @@ if (
     Array.isArray(window.motoquestFuelPairResults) &&
     window.motoquestFuelPairResults.length > 0
 ) {
-   // Comparar autonomia e desvio rodoviário.
-const bestFuelPair = [...window.motoquestFuelPairResults]
+// Comparar autonomia, margem adicional e desvio rodoviário.
+const margemConfortavelKm = 20;
+
+const paresDentroDoLimite = window.motoquestFuelPairResults
     .filter(pair =>
         pair.dentroDoLimite === true &&
         Number.isFinite(pair.margemMinimaKm) &&
         Number.isFinite(pair.desvioKm)
-    )
+    );
+
+const paresConfortaveis = paresDentroDoLimite.filter(pair =>
+    pair.margemMinimaKm >= margemConfortavelKm
+);
+
+// Preferir pares confortáveis, quando existirem.
+const paresParaComparar = paresConfortaveis.length > 0
+    ? paresConfortaveis
+    : paresDentroDoLimite;
+
+const bestFuelPair = [...paresParaComparar]
     .sort((a, b) => {
-        // Margens com diferença até 1 km são consideradas equivalentes.
+        if (paresConfortaveis.length > 0) {
+            // Com margem confortável, preferir o menor desvio.
+            return a.desvioKm - b.desvioKm;
+        }
+
+        // Sem margem confortável, procurar a maior margem.
         const diferencaMargem =
             b.margemMinimaKm - a.margemMinimaKm;
 
