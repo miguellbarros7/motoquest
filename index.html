@@ -12465,12 +12465,18 @@ const checkCandidateRoute = async (station, fuelToReplace) => {
         insertion_index: candidateInsertionIndex
     };
 
-    const fuelStops = [
-        ...(route.fuel_stops || []).filter(
-            fuel => fuel !== fuelToReplace
-        ),
-        candidateFuel
-    ];
+  // Se a rota mudou, não confiar nas posições
+// dos abastecimentos antigos.
+const existingFuelStops = fuelRouteReviewPending
+    ? []
+    : (route.fuel_stops || []).filter(
+        fuel => fuel !== fuelToReplace
+    );
+
+const fuelStops = [
+    ...existingFuelStops,
+    candidateFuel
+];
 
     const stops = [...ordered];
 
