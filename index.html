@@ -12445,28 +12445,21 @@ const getRouteLegIndex = (targetKm) => {
 	
 
 const getCandidateInsertionIndex = (targetDistanceKm) => {
-	let accumulatedKm = 0;
+    const legIndex = getRouteLegIndex(targetDistanceKm);
 
-    for (let i = 0; i < originalLegDistances.length; i++) {
-        accumulatedKm +=
-            Number(originalLegDistances[i].distance) / 1000;
-
-if (targetDistanceKm <= accumulatedKm) {
-	const count = tripRouteStops
-                .slice(0, i + 1)
-                .filter(stop => ordered.includes(stop))
-                .length;
-
-         // Permitir abastecimentos antes da primeira
-// e depois da última paragem turística.
-return Math.max(
-    0,
-    Math.min(ordered.length, count)
-);
-        }
+    if (legIndex === null) {
+        return null;
     }
 
-    return null;
+    const count = tripRouteStops
+        .slice(0, legIndex + 1)
+        .filter(stop => ordered.includes(stop))
+        .length;
+
+    return Math.max(
+        0,
+        Math.min(ordered.length, count)
+    );
 };
 
 const candidateInsertionIndex =
