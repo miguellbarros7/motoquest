@@ -7041,7 +7041,7 @@ upBtn.onclick = event => {
  
 updateFuelReviewNeeded();
 
-    renderStops();
+    
 };
 
   
@@ -7236,6 +7236,10 @@ if (stopsLoaded) {
 
 
 renderStops();
+
+const addStopBtn = document.createElement("button");
+addStopBtn.type = "button";
+addStopBtn.textContent = "+ Adicionar paragem";
 
 addStopBtn.style.cssText =
     "display:block;width:fit-content;margin:12px auto 0;" +
