@@ -13025,6 +13025,34 @@ if (fuelProposalSafe) {
         "MotoQuest — proposta de abastecimento preparada:",
         window.motoquestFuelProposal
     );
+	// Mostrar a proposta no planeador, sem guardar.
+const proposalBox = document.getElementById("mq-fuel-proposal");
+
+if (proposalBox) {
+    const proposal = window.motoquestFuelProposal;
+
+    const fuelLines = proposal.bombas.map((bomba, index) =>
+        `${index + 1}. ${bomba.name} — km ${Number(bomba.routeKm).toFixed(0)}`
+    );
+
+    const intervalLines = proposal.intervalos.map(intervalo =>
+        `${intervalo.percurso}: ${intervalo.distanciaKm.toFixed(1)} km`
+    );
+
+    proposalBox.textContent = [
+        "⛽ PROPOSTA DE ABASTECIMENTO — EM TESTE",
+        "",
+        ...fuelLines,
+        "",
+        "✅ Intervalos dentro da autonomia de segurança:",
+        ...intervalLines,
+        "",
+        "⚠️ Proposta ainda não validada nem guardada."
+    ].join("\n");
+
+    proposalBox.style.whiteSpace = "pre-line";
+    proposalBox.style.display = "block";
+}
 }
 }
 
