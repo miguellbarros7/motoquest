@@ -12840,7 +12840,30 @@ if (Number(distance) <= fuelSafetyLimitKm) {
         "MotoQuest — candidatas para combinação:",
         window.motoquestFirstFuelCandidates.length
     );
-}const testFuelStation =
+}
+	// Preparar candidatas para o segundo abastecimento.
+if (Number(distance) > fuelSafetyLimitKm) {
+    window.motoquestSecondFuelCandidates =
+        fuelCandidatesOnRoute
+            .filter(station =>
+                Number.isFinite(station.routeKm) &&
+                Number.isFinite(Number(station.latitude)) &&
+                Number.isFinite(Number(station.longitude)) &&
+                station.routeKm > fuelSafetyLimitKm
+            )
+            .slice(0, 10)
+            .map(station => ({
+                name: station.name,
+                latitude: Number(station.latitude),
+                longitude: Number(station.longitude),
+                routeKm: station.routeKm
+            }));
+
+    console.log(
+        "MotoQuest — segundas candidatas para combinação:",
+        window.motoquestSecondFuelCandidates.length
+    );
+}	const testFuelStation =
     Number(distance) <= fuelSafetyLimitKm
         ? earlyFuelCandidates[0] ||
           fuelCandidatesOnRoute.find(station =>
