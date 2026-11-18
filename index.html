@@ -13863,7 +13863,11 @@ window.motoquestFuelProposal.intervalos.every(intervalo =>
     : null
         );
 
-if (!proposal) {
+if (
+    !proposal ||
+    !Array.isArray(proposal.bombas) ||
+    proposal.bombas.length !== 2
+) {
     proposalBox.style.display = "none";
     return;
 }
