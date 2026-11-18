@@ -29884,6 +29884,48 @@ filter: blur(12px) brightness(.85);
 
 	
 </style>
+
+<script>
+/* MOTOQUEST — FILTROS DOS GASTOS DO PERFIL */
+
+(() => {
+    const container = document.getElementById("mqProfileExpenses");
+    if (!container) return;
+
+    const buttons = container.querySelectorAll(
+        ".mq-profile-period-btn"
+    );
+
+    const customDates = document.getElementById(
+        "mqProfileCustomDates"
+    );
+
+    let selectedPeriod = "all";
+
+    function selectPeriod(period) {
+        selectedPeriod = period;
+
+        buttons.forEach(button => {
+            button.classList.toggle(
+                "active",
+                button.dataset.period === period
+            );
+        });
+
+        customDates.style.display =
+            period === "custom" ? "flex" : "none";
+    }
+
+    buttons.forEach(button => {
+        button.addEventListener("click", () => {
+            selectPeriod(button.dataset.period);
+        });
+    });
+
+    selectPeriod(selectedPeriod);
+})();
+</script>
+	
 <!-- FIM TITULOS IGUAIS AO DESTINO FINAL -->
 
 
