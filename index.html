@@ -51,7 +51,12 @@ if (sharedRouteData) {
 
             content.appendChild(list);
 
-    
+        } catch (error) {
+            console.error("Erro ao apresentar rota partilhada:", error);
+            content.textContent = "Não foi possível apresentar a rota partilhada.";
+        }
+    });
+}
 </script>
     
     
