@@ -9145,6 +9145,47 @@ expensesRouteBtn.style.cssText =
     "letter-spacing:.3px;white-space:nowrap;" +
     "cursor:pointer;flex-shrink:0;";
 
+	
+expensesRouteBtn.addEventListener("click", async () => {
+    const panel = document.getElementById("assistantExpensesPanel");
+    const routesPanel = document.getElementById("historyRoutesPanel");
+
+    if (!panel || !routesPanel) {
+        console.error("Painel de gastos não encontrado.");
+        return;
+    }
+
+    // Aproveitar o painel existente dentro das Rotas
+    routesPanel.appendChild(panel);
+    panel.classList.remove("hidden");
+
+    // Preparar os dados da rota selecionada
+    mqExpenseResetForm();
+    mqExpenseMessage("");
+
+    await mqLoadExpenseRoutes();
+
+    const routeId = expensesRouteBtn.dataset.routeId;
+    const filter = document.getElementById("mqExpensesRouteFilter");
+    const routeSelect = document.getElementById("mqExpenseRoute");
+
+    if ([...filter.options].some(option => option.value === routeId)) {
+        filter.value = routeId;
+    }
+
+    if ([...routeSelect.options].some(option => option.value === routeId)) {
+        routeSelect.value = routeId;
+    }
+
+    await mqLoadExpenses();
+    mqRenderExpenses();
+
+    panel.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+    });
+});
+
 const summaryPanel = document.createElement("div");
 summaryPanel.className = "hidden mq-trip-summary";
 summaryPanel.style.cssText =
