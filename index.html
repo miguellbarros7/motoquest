@@ -13754,6 +13754,25 @@ if (proposta.prontaParaConfirmacao) {
 
 botao.onclick = () => {
     const atual = window.motoquestFuelProposal;
+	
+if (botao.dataset.confirmacaoEmCurso === "true") {
+    return;
+}
+
+if (
+    !Array.isArray(atual?.bombas) ||
+    atual.bombas.length !== 2 ||
+    !Array.isArray(atual?.intervalos) ||
+    atual.intervalos.length !== 3 ||
+    atual.verificacaoConjunta !== true
+) {
+    alert(
+        "⚠️ A proposta não está completa.\n\n" +
+        "Pesquisa novamente os postos."
+    );
+    return;
+}
+
 
     if (
         !atual ||
