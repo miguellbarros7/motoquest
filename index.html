@@ -15295,8 +15295,8 @@ bombasParaGuardar: bombasParaGuardar.map(bomba => ({ ...bomba })),
                 .eq("id", route.id)
                 .eq("user_id", currentUser.id)
                 .eq("route_type", "personal")
-                .is("fuel_stops", null)
-                .select("id");
+.or("fuel_stops.is.null,fuel_stops.eq.[]")
+			.select("id");
 
         if (erroGuardar) {
             throw erroGuardar;
