@@ -12018,7 +12018,9 @@ fuelProposalBox.style.cssText = `
     line-height:1.7;
 `;
 
-fuelPlanner.appendChild(fuelProposalBox);	if (fuelRouteReviewPending) {
+fuelPlanner.appendChild(fuelProposalBox);
+		
+		if (fuelRouteReviewPending) {
     const pendingFuelWarning = document.createElement("div");
 
     pendingFuelWarning.textContent =
@@ -12034,6 +12036,32 @@ fuelPlanner.appendChild(fuelProposalBox);	if (fuelRouteReviewPending) {
         "font-size:12px;line-height:1.6;";
 
     fuelPlanner.appendChild(pendingFuelWarning);
+
+	
+if (podeRevalidarBombasGuardadas) {
+    const revalidateFuelBtn = document.createElement("button");
+    revalidateFuelBtn.type = "button";
+    revalidateFuelBtn.textContent = "🔄 REVALIDAR ABASTECIMENTOS";
+
+    revalidateFuelBtn.style.cssText =
+        "display:block;width:100%;margin-top:10px;" +
+        "padding:10px;background:#ff7900;color:#111;" +
+        "border:none;border-radius:8px;" +
+        "font-size:12px;font-weight:800;cursor:pointer;";
+
+    revalidateFuelBtn.onclick = () => {
+        console.log("MotoQuest — pedido de revalidação:", {
+            routeId: route.id,
+            bombas: route.fuel_stops.map(bomba => ({
+                nome: bomba.name,
+                posicao: bomba.insertion_index
+            }))
+        });
+    };
+
+    pendingFuelWarning.appendChild(revalidateFuelBtn);
+}
+
 }
 
 	
