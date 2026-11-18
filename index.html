@@ -9874,11 +9874,14 @@ sortedFuelStops.forEach(fuel => {
         index >= ordered.length
     ) return;
 
-    routeStops.splice(index, 0, {
-        name: fuel.name,
-        latitude,
-        longitude
-    });
+  
+routeStops.splice(index, 0, {
+    name: fuel.name,
+    latitude,
+    longitude,
+    isFuelStop: true
+});
+
 });
 
 const tripRouteStops = [...routeStops];
