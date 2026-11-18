@@ -13044,7 +13044,11 @@ if (
         window.motoquestFirstFuelCandidates.flatMap(first =>
             window.motoquestSecondFuelCandidates
 .filter(second =>
-    second.routeKm > first.routeKm
+    second.routeKm > first.routeKm &&
+    !(
+        Number(second.latitude) === Number(first.latitude) &&
+        Number(second.longitude) === Number(first.longitude)
+    )
 )
 
                 .map(second => ({
