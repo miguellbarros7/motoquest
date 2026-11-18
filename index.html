@@ -10047,7 +10047,50 @@ if (!Array.isArray(routePath) || routePath.length < 2) {
 const fuelKmByStop = new Map();
 
 const routeLegs = calculatedRoute.legs || [];
+
+	
     
+const intervalosBombasGuardadasKm = [];
+let distanciaDesdeUltimoAbastecimentoKm = 0;
+
+if (
+    Array.isArray(routeLegs) &&
+    routeLegs.length === tripRouteStops.length - 1
+) {
+    for (let i = 0; i < routeLegs.length; i++) {
+        const distanciaTrocoKm =
+            Number(routeLegs[i].distance) / 1000;
+
+        if (
+            !Number.isFinite(distanciaTrocoKm) ||
+            distanciaTrocoKm < 0
+        ) {
+            intervalosBombasGuardadasKm.length = 0;
+            break;
+        }
+
+        distanciaDesdeUltimoAbastecimentoKm += distanciaTrocoKm;
+
+        if (tripRouteStops[i + 1].isFuelStop === true) {
+            intervalosBombasGuardadasKm.push(
+                distanciaDesdeUltimoAbastecimentoKm
+            );
+            distanciaDesdeUltimoAbastecimentoKm = 0;
+        }
+    }
+
+    if (intervalosBombasGuardadasKm.length === 2) {
+        intervalosBombasGuardadasKm.push(
+            distanciaDesdeUltimoAbastecimentoKm
+        );
+    }
+}
+
+console.log("MotoQuest — intervalos rodoviários guardados:", {
+    routeId: route.id,
+    intervalosKm: intervalosBombasGuardadasKm,
+    limiteKm: (Number(bike?.tank) / Number(bike?.consumption)) * 80
+});
 
 /* MOTOQUEST — HORÁRIOS AUTOMÁTICOS DA ROTA */
 const tripWeatherSchedule = [];
