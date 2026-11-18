@@ -12746,6 +12746,16 @@ console.log(
             : "Outro formato"
 );
 
+	console.log(
+    "MotoQuest — detalhes da geometria GPS:",
+    {
+        tipo: routeGeometry?.type,
+        quantidadePontos: routeGeometry?.coordinates?.length ?? 0,
+        primeiroPonto: routeGeometry?.coordinates?.[0] ?? null,
+        ultimoPonto: routeGeometry?.coordinates?.at(-1) ?? null
+    }
+);
+
 // Quilómetros acumulados em cada ponto da rota.
 const routeCumulativeKm = [0];
 
