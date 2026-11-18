@@ -12977,8 +12977,8 @@ if (Number(distance) <= fuelSafetyLimitKm) {
                 Number.isFinite(station.routeKm) &&
                 Number.isFinite(Number(station.latitude)) &&
                 Number.isFinite(Number(station.longitude)) &&
-               station.routeKm >= 0 &&
-station.routeKm < fuelSafetyLimitKm
+              station.routeKm >= 0 &&
+station.routeKm <= fuelSafetyLimitKm - 20
 )
 .sort((a, b) => {
     // Procurar abastecimento cerca de 30 km antes do limite.
