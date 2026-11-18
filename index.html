@@ -29918,13 +29918,73 @@ filter: blur(12px) brightness(.85);
 
     buttons.forEach(button => {
         button.addEventListener("click", () => {
-            selectPeriod(button.dataset.period);
-        });
-    });
-
+       
     selectPeriod(selectedPeriod);
+
+    async function loadProfileExpenses() {
+        const summary = document.getElementById(
+            "mqProfileExpensesSummary"
+        );
+
+        summary.textContent = "A carregar gastos...";
+
+        if (!currentUser) {
+            summary.textContent =
+                "Inicia sessão para consultar os teus gastos.";
+            return;
+        }
+
+        const { data, error } = await supabaseClient
+            .from("mq_despesas_viagem")
+            .select("valor, data_despesa, categoria, rota_id")
+            .eq("user_id", currentUser.id);
+
+        if (error) {
+            console.error("Erro nos gastos do Perfil:", error);
+            summary.textContent =
+                "Não foi possível carregar os gastos.";
+            return;
+        }
+
+        const total = (data || []).reduce(
+            (sum, expense) => sum + Number(expense.valor || 0),
+            0
+        );
+
+        summary.innerHTML = `
+            <div style="
+                background:#202020;
+                border:1px solid #383838;
+                border-radius:14px;
+                padding:20px;
+                margin-top:16px;
+            ">
+                <div style="
+                    color:#aaa;
+                    font-size:12px;
+                    font-weight:800;
+                    margin-bottom:8px;
+                ">
+                    TOTAL DE GASTOS
+                </div>
+                <div style="
+                    color:#ff7900;
+                    font-size:30px;
+                    font-weight:900;
+                ">
+                    ${total.toLocaleString("pt-PT", {
+                        style:"currency",
+                        currency:"EUR"
+                    })}
+                </div>
+            </div>
+        `;
+    }
+
+    loadProfileExpenses();
 })();
 </script>
+
 	
 <!-- FIM TITULOS IGUAIS AO DESTINO FINAL -->
 
