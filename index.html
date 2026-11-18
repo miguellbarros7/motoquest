@@ -30103,8 +30103,13 @@ async function mqLoadProfileRouteOptions() {
         `;
     }
 
+
 mqLoadProfileRouteOptions();
-loadProfileExpenses();})();
+loadProfileExpenses();
+
+document.getElementById("mqProfileRouteFilter")
+    .addEventListener("change", loadProfileExpenses);
+
 </script>
 
 
