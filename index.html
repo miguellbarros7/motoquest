@@ -6768,9 +6768,12 @@ routeTitle.style.cssText =
 
 const date = document.createElement("small");
 
+
 date.style.cssText =
-    "display:flex;align-items:center;gap:5px;" +
-    "color:#999;margin-top:5px;font-size:12px;";
+    "display:flex;align-items:center;gap:6px;" +
+    "color:#999;margin-top:6px;font-size:12px;" +
+    "width:100%;text-align:left;justify-content:flex-start;";
+
 
 if (route.created_at) {
     date.innerHTML =
@@ -6839,9 +6842,12 @@ stopsText.textContent = stopsCount === 1
 stops.appendChild(stopsText);
 
 
+
 stops.style.cssText =
-    "display:flex;align-items:center;gap:5px;" +
-    "color:#999;font-size:12px;";
+    "display:flex;align-items:center;gap:6px;" +
+    "color:#999;font-size:12px;" +
+    "width:100%;text-align:left;justify-content:flex-start;";
+
 const subtitle = document.createElement("small");
 subtitle.textContent = "Ver percurso no Google Maps";
 subtitle.style.cssText =
