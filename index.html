@@ -13528,7 +13528,10 @@ bestFuelPair.segundaBomba &&
 ) &&
 Number.isInteger(bestFuelPair.primeiraBomba.insertion_index) &&
 Number.isInteger(bestFuelPair.segundaBomba.insertion_index) &&
+
 bestFuelPair.primeiraBomba.insertion_index >= 0 &&
+bestFuelPair.primeiraBomba.insertion_index <= ordered.length &&
+bestFuelPair.segundaBomba.insertion_index <= ordered.length &&
 bestFuelPair.segundaBomba.insertion_index >=
     bestFuelPair.primeiraBomba.insertion_index &&
 Number.isFinite(bestFuelPair.distanciaTotalKm) &&
