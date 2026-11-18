@@ -12862,8 +12862,14 @@ fuelCandidatesOnRoute.sort((a, b) => {
             ? Math.abs(b.routeKm - targetKm)
             : Infinity;
 
+if (Math.abs(differenceA - differenceB) > 1) {
     return differenceA - differenceB;
-});
+}
+
+return (
+    (Number.isFinite(a.distanceToRouteKm) ? a.distanceToRouteKm : Infinity) -
+    (Number.isFinite(b.distanceToRouteKm) ? b.distanceToRouteKm : Infinity)
+);});
 
 console.table(
     fuelCandidatesOnRoute.map(station => ({
