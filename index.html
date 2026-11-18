@@ -15030,6 +15030,62 @@ insertion_index: getCandidateInsertionIndex(Number(distance)),
     if (tripEndPoint) {
         paragensComBombas.push(tripEndPoint);
     }
+	
+    let resultadoRodoviario;
+
+    try {
+        const coordenadas = paragensComBombas
+            .map(paragem =>
+                `${Number(paragem.longitude)},${Number(paragem.latitude)}`
+            )
+            .join(";");
+
+        resultadoRodoviario = await motoquestCalculateRoute(
+            coordenadas,
+            route.trip_plan,
+            false
+        );
+
+        const trocos = resultadoRodoviario?.routes?.[0]?.legs;
+
+        if (
+            resultadoRodoviario?.code !== "Ok" ||
+            !Array.isArray(trocos) ||
+            trocos.length !== paragensComBombas.length - 1 ||
+            trocos.some(t =>
+                !Number.isFinite(Number(t.distance)) ||
+                Number(t.distance) < 0
+            )
+        ) {
+            throw new Error(
+                "O cálculo rodoviário não devolveu todos os troços."
+            );
+        }
+
+        console.log("MotoQuest — cálculo das bombas escolhidas:", {
+            primeira: primeira.name,
+            segunda: segunda.name,
+            totalParagens: paragensComBombas.length,
+            totalTrocos: trocos.length,
+            distanciaTotalKm:
+                Number(resultadoRodoviario.routes[0].distance) / 1000,
+            validado: false,
+            gravado: false
+        });
+
+    } catch (erro) {
+        console.error(
+            "MotoQuest — erro na rota das bombas escolhidas:",
+            erro
+        );
+
+        alert(
+            "⚠️ Não foi possível calcular a rota com as duas bombas.\n" +
+            erro.message
+        );
+        return;
+    }
+
 
     console.log("MotoQuest — rota das bombas escolhidas:", {
         paragens: paragensComBombas.length,
