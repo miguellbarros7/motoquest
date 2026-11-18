@@ -12876,10 +12876,21 @@ if (Math.abs(differenceA - differenceB) > 1) {
     return differenceA - differenceB;
 }
 
-return (
-    (Number.isFinite(a.distanceToRouteKm) ? a.distanceToRouteKm : Infinity) -
-    (Number.isFinite(b.distanceToRouteKm) ? b.distanceToRouteKm : Infinity)
-);});
+const distanciaA = Number.isFinite(a.distanceToRouteKm)
+    ? a.distanceToRouteKm
+    : Infinity;
+
+const distanciaB = Number.isFinite(b.distanceToRouteKm)
+    ? b.distanceToRouteKm
+    : Infinity;
+
+if (distanciaA === distanciaB) {
+    return differenceA - differenceB;
+}
+
+return distanciaA - distanciaB;
+
+});
 
 console.table(
     fuelCandidatesOnRoute.map(station => ({
