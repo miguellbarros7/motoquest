@@ -15197,6 +15197,24 @@ return;
         return;
     }
 
+    const confirmarDuasBombas = confirm(
+        "⛽ GUARDAR DUAS BOMBAS\n\n" +
+        "1.ª bomba: " + primeira.name + "\n" +
+        "2.ª bomba: " + segunda.name + "\n\n" +
+        "Intervalos rodoviários:\n" +
+        intervalosReais.map((km, i) =>
+            "Troço " + (i + 1) + ": " + km.toFixed(1) + " km"
+        ).join("\n") +
+        "\n\nAutonomia segura: " +
+        fuelSafetyLimitKm.toFixed(1) + " km\n\n" +
+        "Confirmas que queres guardar estas duas bombas?"
+    );
+
+    if (!confirmarDuasBombas) {
+        window.motoquestDuasBombasValidadas = null;
+        return;
+    }
+
 	
     const bombasParaGuardar = [primeira, segunda].map(bomba => ({
         name: bomba.name,
