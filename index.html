@@ -30005,6 +30005,46 @@ filter: blur(12px) brightness(.85);
 
     selectPeriod(selectedPeriod);
 
+	
+async function mqLoadProfileRouteOptions() {
+    const select = document.getElementById(
+        "mqProfileRouteFilter"
+    );
+
+    if (!select) return;
+
+    select.replaceChildren(
+        new Option("Todas as rotas", "all")
+    );
+
+    if (!currentUser) return;
+
+    const { data, error } = await supabaseClient
+        .from("routes")
+        .select("id, name")
+        .eq("user_id", currentUser.id)
+        .eq("route_type", "personal")
+        .order("created_at", { ascending: false });
+
+    if (error) {
+        console.error(
+            "Erro ao carregar rotas do Perfil:",
+            error
+        );
+        return;
+    }
+
+    (data || []).forEach(route => {
+        select.add(
+            new Option(
+                route.name || "Rota sem nome",
+                String(route.id)
+            )
+        );
+    });
+}
+
+
     async function loadProfileExpenses() {
         const summary = document.getElementById(
             "mqProfileExpensesSummary"
