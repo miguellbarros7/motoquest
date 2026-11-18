@@ -3865,7 +3865,59 @@ max-width:100%;
         Consulta os gastos de todas as tuas viagens.
     </p>
 
-    <div id="mqProfileExpensesContent"></div>
+
+<div id="mqProfileExpensesContent">
+
+    <div style="margin-bottom:18px;">
+        <label style="
+            display:block;
+            color:#ccc;
+            font-size:13px;
+            font-weight:700;
+            margin-bottom:12px;
+        ">
+            📅 Período dos gastos
+        </label>
+
+        <div style="
+            display:flex;
+            flex-wrap:wrap;
+            gap:8px;
+        ">
+            <button type="button" class="mq-profile-period-btn"
+                data-period="all">Tudo</button>
+
+            <button type="button" class="mq-profile-period-btn"
+                data-period="month">Este mês</button>
+
+            <button type="button" class="mq-profile-period-btn"
+                data-period="year">Este ano</button>
+
+            <button type="button" class="mq-profile-period-btn"
+                data-period="custom">Personalizar</button>
+        </div>
+
+        <div id="mqProfileCustomDates"
+            class="hidden"
+            style="margin-top:14px;display:none;gap:12px;flex-wrap:wrap;">
+
+            <label style="font-size:12px;color:#ccc;">
+                Data inicial
+                <input type="date" id="mqProfileDateFrom">
+            </label>
+
+            <label style="font-size:12px;color:#ccc;">
+                Data final
+                <input type="date" id="mqProfileDateTo">
+            </label>
+        </div>
+    </div>
+
+    <div id="mqProfileExpensesSummary"></div>
+    <div id="mqProfileExpensesChart"></div>
+    <div id="mqProfileExpensesList"></div>
+
+</div>
 </div>
 
 
