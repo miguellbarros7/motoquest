@@ -12250,6 +12250,13 @@ const stations = await findFuelStations(
     searchLongitude
 );
 
+			// Diagnóstico da pesquisa de postos.
+console.log("MotoQuest — origem da pesquisa de postos:", {
+    paragemPretendidaKm: Number(distance),
+    latitudePesquisa: searchLatitude,
+    longitudePesquisa: searchLongitude,
+    postosEncontrados: stations.length
+});
 stationResults.replaceChildren();
 
 if (stations.length === 0) {
