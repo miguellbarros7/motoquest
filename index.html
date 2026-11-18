@@ -6774,6 +6774,47 @@ stopsBtn.style.cssText =
 const stopsPanel = document.createElement("div");
 stopsPanel.className = "mq-responsive-stops-panel";
 
+	
+if (!document.getElementById("mq-responsive-stops-css")) {
+    const responsiveStopsStyle = document.createElement("style");
+    responsiveStopsStyle.id = "mq-responsive-stops-css";
+
+    responsiveStopsStyle.textContent = `
+        .mq-responsive-stops-panel {
+            container-type: inline-size;
+        }
+
+        .mq-responsive-stop-row {
+            width: 100%;
+            min-width: 0;
+        }
+
+        @container (max-width: 340px) {
+            .mq-responsive-stop-row {
+                display: grid !important;
+                grid-template-columns: 23px minmax(0, 1fr);
+                gap: 7px 9px;
+                align-items: start !important;
+            }
+
+            .mq-responsive-stop-row > :nth-child(2) {
+                min-width: 0;
+                overflow-wrap: anywhere;
+            }
+
+            .mq-responsive-stop-actions {
+                grid-column: 2;
+                width: 100%;
+                margin-left: 0 !important;
+                justify-content: flex-start !important;
+            }
+        }
+    `;
+
+    document.head.appendChild(responsiveStopsStyle);
+}
+
+
 stopsPanel.style.cssText =
     "display:none;margin-top:9px;padding:10px;" +
     "width:100%;min-width:0;max-width:100%;" +
