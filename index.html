@@ -14175,14 +14175,12 @@ const checkCandidateRoute = async (
 ) => {
     // Não validar candidatos com abastecimentos
     // associados à ordem antiga da rota.
-    if (fuelRouteReviewPending) {
-        console.warn(
-            "⛽ Validação suspensa: é necessário " +
-            "recalcular as posições dos abastecimentos."
-        );
-
-        return { status: "unverified" };
-    }
+  if (fuelRouteReviewPending) {
+    console.info(
+        "⛽ Abastecimentos antigos ignorados. " +
+        "A validar novos candidatos na ordem atual da rota."
+    );
+}
 	
     if (
         candidateInsertionIndex === null ||
