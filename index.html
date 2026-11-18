@@ -1920,14 +1920,22 @@ body:has(#resetPasswordScreen:not(.hidden)) #authScreen {
             <span>pts</span>
         </button>
 
-        <button
-            id="topMenuBtn"
-            class="top-menu-btn"
-            type="button"
-            aria-label="Abrir menu"
-        >
-            ⋮
-        </button>
+      
+<button
+    id="topMenuBtn"
+    class="top-menu-btn"
+    type="button"
+    aria-label="Abrir menu"
+    style="
+        background-size:cover;
+        background-position:center;
+        background-repeat:no-repeat;
+        overflow:hidden;
+        flex-shrink:0;
+    "
+>
+    ⋮
+</button>
 
         <div
             id="topMenu"
