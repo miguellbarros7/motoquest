@@ -9528,6 +9528,17 @@ summaryBtn.onclick = async () => {
 
     summaryPanel.classList.toggle("hidden");
 
+	
+    // Fechar Gastos quando abrimos o Resumo da Rota
+    const expensesPanel = document.getElementById(
+        "assistantExpensesPanel"
+    );
+
+    if (expensesPanel) {
+        expensesPanel.classList.add("hidden");
+    }
+
+
     if (!isHidden) return;
 
   const bike = loadMyBike();
