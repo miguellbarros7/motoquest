@@ -13924,12 +13924,18 @@ if (
         Number(i.distanciaKm) <= Number(melhorParAtual.limiteKm) - 20
     )
 ) {
-    window.motoquestFuelProposal = {
-        ...melhorParAtual,
-        bombas: melhorParAtual.bombas.map(b => ({ ...b })),
-        intervalos: melhorParAtual.intervalos.map(i => ({ ...i })),
-        validado: false
-    };
+   
+window.motoquestFuelProposal = {
+    ...melhorParAtual,
+    bombas: melhorParAtual.bombas.map(b => ({ ...b })),
+    intervalos: melhorParAtual.intervalos.map(i => ({ ...i })),
+    calculoRodoviarioConfirmado:
+        melhorParAtual.calculoRodoviarioConfirmado === true,
+    intervalosDentroDaAutonomia:
+        melhorParAtual.intervalosDentroDaAutonomia === true,
+    validado: false
+};
+
 }
 	// Mostrar a proposta no planeador, sem guardar.
 const proposalBox = document.getElementById("mq-fuel-proposal");
