@@ -13888,6 +13888,38 @@ validado: false
         "MotoQuest — proposta de abastecimento preparada:",
         window.motoquestFuelProposal
     );
+
+   // Sincronizar a proposta interna com o melhor par rodoviário.
+const melhorParAtual = window.motoquestBestFuelDisplay;
+if (
+    melhorParAtual &&
+    String(melhorParAtual.routeId) === String(route.id) &&
+    melhorParAtual.geracao === fuelSearchGeneration &&
+    Array.isArray(melhorParAtual.bombas) &&
+    melhorParAtual.bombas.length === 2 &&
+    melhorParAtual.bombas.every(b =>
+        Number.isFinite(Number(b.latitude)) &&
+        Number.isFinite(Number(b.longitude)) &&
+        Number.isFinite(Number(b.routeKm)) &&
+        Number.isInteger(Number(b.insertion_index))
+    ) &&
+    Number(melhorParAtual.bombas[0].routeKm) <
+        Number(melhorParAtual.bombas[1].routeKm) &&
+    Array.isArray(melhorParAtual.intervalos) &&
+    melhorParAtual.intervalos.length === 3 &&
+    melhorParAtual.intervalos.every(i =>
+        Number.isFinite(Number(i.distanciaKm)) &&
+        Number(i.distanciaKm) >= 0 &&
+        Number(i.distanciaKm) <= Number(melhorParAtual.limiteKm) - 20
+    )
+) {
+    window.motoquestFuelProposal = {
+        ...melhorParAtual,
+        bombas: melhorParAtual.bombas.map(b => ({ ...b })),
+        intervalos: melhorParAtual.intervalos.map(i => ({ ...i })),
+        validado: false
+    };
+}
 	// Mostrar a proposta no planeador, sem guardar.
 const proposalBox = document.getElementById("mq-fuel-proposal");
 
