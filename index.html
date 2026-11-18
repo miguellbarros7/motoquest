@@ -12996,7 +12996,8 @@ station.routeKm < fuelSafetyLimitKm
 }
 	// Preparar candidatas para o segundo abastecimento.
 if (Number(distance) > fuelSafetyLimitKm) {
-    window.motoquestSecondFuelCandidates =
+	station.routeKm > fuelSafetyLimitKm &&
+station.routeKm < km - 20   
         fuelCandidatesOnRoute
             .filter(station =>
                 Number.isFinite(station.routeKm) &&
