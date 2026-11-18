@@ -15177,6 +15177,26 @@ return;
         return;
     }
 
+    if (
+        primeira.routeId !== route.id ||
+        segunda.routeId !== route.id ||
+        primeira.geracao !== window.motoquestFuelGeneration ||
+        segunda.geracao !== window.motoquestFuelGeneration
+    ) {
+        window.motoquestDuasBombasValidadas = null;
+        window.motoquestPrimeiraBombaEscolhida = null;
+        window.motoquestSegundaBombaEscolhida = null;
+
+        alert(
+            "⚠️ SELEÇÃO DESATUALIZADA\n\n" +
+            "A rota ou a pesquisa de abastecimentos foi alterada.\n\n" +
+            "Escolhe novamente as duas bombas para garantir " +
+            "que a validação corresponde à rota atual.\n\n" +
+            "Nenhuma alteração foi guardada."
+        );
+        return;
+    }
+
 	
     const bombasParaGuardar = [primeira, segunda].map(bomba => ({
         name: bomba.name,
