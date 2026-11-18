@@ -30307,14 +30307,22 @@ document.getElementById("mqProfileRouteFilter")
     .addEventListener("change", loadProfileExpenses);
 
 	
+
 buttons.forEach(button => {
-    button.addEventListener("click", loadProfileExpenses);
+    button.addEventListener(
+        "click",
+        window.mqRefreshProfileExpenses
+    );
 });
 
 ["mqProfileDateFrom", "mqProfileDateTo"].forEach(id => {
     document.getElementById(id)
-        ?.addEventListener("change", loadProfileExpenses);
+        ?.addEventListener(
+            "change",
+            window.mqRefreshProfileExpenses
+        );
 });
+
 
 
 })();
