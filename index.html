@@ -13750,7 +13750,112 @@ if (proposta.prontaParaConfirmacao) {
         cursor:pointer;
     `;
 
-    botao.onclick = () => {
+
+botao.onclick = async () => {
+    const atual = window.motoquestFuelProposal;
+
+    if (
+        !atual ||
+        atual !== proposta ||
+        atual.prontaParaConfirmacao !== true ||
+        atual.verificacaoConjunta !== true ||
+        atual.validado !== false ||
+        atual.geracao !== window.motoquestFuelGeneration ||
+        String(atual.routeId) !== String(route.id)
+    ) {
+        alert(
+            "⚠️ A proposta deixou de estar atualizada.\n\n" +
+            "Pesquisa novamente os postos."
+        );
+        return;
+    }
+
+    const referenciaAtual = JSON.stringify({
+        routeId: route.id,
+        locationIds: route.location_ids,
+        tripPlan: route.trip_plan
+    });
+
+    if (atual.referenciaRota !== referenciaAtual) {
+        alert(
+            "⚠️ A rota foi alterada.\n\n" +
+            "É necessário recalcular os abastecimentos."
+        );
+        return;
+    }
+
+    botao.disabled = true;
+    botao.textContent = "⏳ A VERIFICAR A ROTA...";
+
+    try {
+        const { data: rotaGuardada, error } =
+            await supabaseClient
+                .from("routes")
+                .select(
+                    "id, location_ids, trip_plan, fuel_stops"
+                )
+                .eq("id", route.id)
+                .eq("user_id", currentUser.id)
+                .eq("route_type", "personal")
+                .single();
+
+        if (error) throw error;
+
+        if (!rotaGuardada) {
+            throw new Error(
+                "A rota já não está disponível."
+            );
+        }
+
+        const mesmaOrdem =
+            JSON.stringify(rotaGuardada.location_ids) ===
+            JSON.stringify(route.location_ids);
+
+        const mesmoPlano =
+            JSON.stringify(rotaGuardada.trip_plan) ===
+            JSON.stringify(route.trip_plan);
+
+        if (!mesmaOrdem || !mesmoPlano) {
+            throw new Error(
+                "A rota foi modificada no Supabase. " +
+                "Pesquisa novamente os postos."
+            );
+        }
+
+        console.log(
+            "MotoQuest — confirmação conjunta:",
+            {
+                rota: rotaGuardada.id,
+                bombas: atual.bombas.map(b => b.name),
+                rotaAtualizada: true,
+                prontaParaRecalculo: true,
+                gravado: false
+            }
+        );
+
+        alert(
+            "✅ Rota confirmada no Supabase.\n\n" +
+            "Bombas: " +
+            atual.bombas.map(b => b.name).join(" → ") +
+            "\n\nFalta executar a validação rodoviária " +
+            "final antes da gravação."
+        );
+
+    } catch (erro) {
+        console.error(
+            "MotoQuest — erro na confirmação:",
+            erro
+        );
+
+        alert("⚠️ " + erro.message);
+
+    } finally {
+        botao.disabled = false;
+        botao.textContent =
+            "⛽ CONFIRMAR 2 ABASTECIMENTOS";
+    }
+};
+
         const atual = window.motoquestFuelProposal;
 
         if (
