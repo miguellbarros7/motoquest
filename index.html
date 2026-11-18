@@ -12311,6 +12311,25 @@ const stations = await findFuelStations(
     searchLatitude,
     searchLongitude
 );
+
+// TESTE: procurar postos intermédios no km 520.
+if (index === 1) {
+    const pontoIntermedio = getPointAtKm(520);
+
+    if (pontoIntermedio) {
+        const bombasIntermedias = await findFuelStations(
+            Number(pontoIntermedio.latitude),
+            Number(pontoIntermedio.longitude)
+        );
+
+        stations.push(...bombasIntermedias);
+
+        console.log("MotoQuest — pesquisa intermédia km 520:", {
+            encontradas: bombasIntermedias.length,
+            nomes: bombasIntermedias.map(bomba => bomba.name)
+        });
+    }
+}	
 // TESTE: procurar bombas 30 km antes do limite de autonomia.
 if (index === 0) {
     const alvoTesteKm = Math.max(0, fuelSafetyLimitKm - 30);
