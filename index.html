@@ -13865,8 +13865,13 @@ window.motoquestFuelProposal.intervalos.every(intervalo =>
 
 if (
     !proposal ||
-    !Array.isArray(proposal.bombas) ||
-    proposal.bombas.length !== 2
+   !Array.isArray(proposal.bombas) ||
+proposal.bombas.length !== 2 ||
+!proposal.bombas.every(bomba =>
+    Number.isFinite(Number(bomba.routeKm)) &&
+    bomba.routeKm != null &&
+    Number(bomba.routeKm) >= 0
+)
 ) {
     proposalBox.style.display = "none";
     return;
