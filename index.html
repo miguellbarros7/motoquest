@@ -13735,7 +13735,7 @@ if (proposta.prontaParaConfirmacao) {
     const botao = document.createElement("button");
     botao.id = "mq-confirmar-duas-bombas";
     botao.type = "button";
-    botao.textContent = "⛽ CONFIRMAR 2 ABASTECIMENTOS";
+    
 
     botao.style.cssText = `
         display:block;
@@ -13836,8 +13836,7 @@ if (
     } finally {
         botao.dataset.confirmacaoEmCurso = "false";
         botao.disabled = false;
-        botao.textContent = "⛽ CONFIRMAR 2 ABASTECIMENTOS";
-    }
+botao.textContent = "⛽ ESCOLHER 1.ª BOMBA";    }
 
 };
 
