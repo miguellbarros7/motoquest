@@ -15315,8 +15315,16 @@ bombasParaGuardar: bombasParaGuardar.map(bomba => ({ ...bomba })),
             );
         }
 
-        route.fuel_stops = bombasParaGuardar.map(bomba => ({ ...bomba }));
-        window.motoquestDuasBombasValidadas.gravado = true;
+     
+route.fuel_stops = bombasParaGuardar.map(bomba => ({ ...bomba }));
+
+route.trip_plan = {
+    ...(route.trip_plan || {}),
+    fuel_review_pending: false
+};
+
+window.motoquestDuasBombasValidadas.gravado = true;
+
 
         console.log("MotoQuest — duas bombas guardadas:", {
             routeId: route.id,
