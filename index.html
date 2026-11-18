@@ -15264,6 +15264,65 @@ bombasParaGuardar: bombasParaGuardar.map(bomba => ({ ...bomba })),
         window.motoquestDuasBombasValidadas
     );
 
+	
+    try {
+        const { data: rotasAtualizadas, error: erroGuardar } =
+            await supabaseClient
+                .from("routes")
+                .update({
+                    fuel_stops: bombasParaGuardar
+                })
+                .eq("id", route.id)
+                .eq("user_id", currentUser.id)
+                .eq("route_type", "personal")
+                .is("fuel_stops", null)
+                .select("id");
+
+        if (erroGuardar) {
+            throw erroGuardar;
+        }
+
+        if (!Array.isArray(rotasAtualizadas) ||
+            rotasAtualizadas.length !== 1) {
+            throw new Error(
+                "A rota não foi atualizada. Verifica se já tem abastecimentos guardados."
+            );
+        }
+
+        route.fuel_stops = bombasParaGuardar.map(bomba => ({ ...bomba }));
+        window.motoquestDuasBombasValidadas.gravado = true;
+
+        console.log("MotoQuest — duas bombas guardadas:", {
+            routeId: route.id,
+            bombas: bombasParaGuardar,
+            gravado: true
+        });
+
+        alert(
+            "✅ DUAS BOMBAS GUARDADAS\n\n" +
+            primeira.name + "\n" +
+            segunda.name + "\n\n" +
+            "Os dois abastecimentos foram guardados juntos no Supabase."
+        );
+
+        return;
+
+    } catch (erroGuardarBombas) {
+        console.error(
+            "MotoQuest — erro ao guardar as duas bombas:",
+            erroGuardarBombas
+        );
+
+        alert(
+            "❌ NÃO FOI POSSÍVEL GUARDAR\n\n" +
+            "As duas bombas não foram confirmadas como guardadas.\n\n" +
+            "Detalhe: " + erroGuardarBombas.message
+        );
+
+        return;
+    }
+
+
     console.log("MotoQuest — rota das bombas escolhidas:", {
         paragens: paragensComBombas.length,
         ordem: paragensComBombas.map(p => p.name || "Paragem"),
