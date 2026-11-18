@@ -6536,9 +6536,13 @@ title.style.cssText =
     "transition:all 0.2s ease;";
 
 
+
 const left = document.createElement("div");
 left.style.cssText =
-    "display:flex;align-items:center;gap:12px;";
+    "display:flex;align-items:flex-start;gap:12px;" +
+    "flex:1 1 100%;min-width:0;width:100%;" +
+    "box-sizing:border-box;";
+
 
 const icon = document.createElement("span");
 
