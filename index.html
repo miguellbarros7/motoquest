@@ -13583,8 +13583,15 @@ if (fuelOrderCorrect) {
 
     // Inserir de trás para a frente para preservar os índices.
     fuelPoints
-        .sort((a, b) => b.insertionIndex - a.insertionIndex)
-        .forEach(fuel => {
+		
+.sort((a, b) => {
+    if (a.insertionIndex !== b.insertionIndex) {
+        return b.insertionIndex - a.insertionIndex;
+    }
+
+    return b.routeKm - a.routeKm;
+})        
+		.forEach(fuel => {
             twoFuelStops.splice(fuel.insertionIndex, 0, {
                 latitude: Number(fuel.latitude),
                 longitude: Number(fuel.longitude),
