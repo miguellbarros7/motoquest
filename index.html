@@ -30079,11 +30079,48 @@ const selectedRoute = routeFilter
     ? routeFilter.value
     : "all";
 
-const filteredExpenses = (data || []).filter(expense => {
-    if (selectedRoute === "all") return true;
 
-    return String(expense.rota_id || "") === selectedRoute;
+const dateFrom = document.getElementById("mqProfileDateFrom")?.value;
+const dateTo = document.getElementById("mqProfileDateTo")?.value;
+
+const today = new Date();
+const currentYear = today.getFullYear();
+const currentMonth = String(today.getMonth() + 1).padStart(2, "0");
+
+const filteredExpenses = (data || []).filter(expense => {
+    const matchesRoute =
+        selectedRoute === "all" ||
+        String(expense.rota_id || "") === selectedRoute;
+
+    if (!matchesRoute) return false;
+
+    if (selectedPeriod === "all") return true;
+
+    const expenseDate = String(expense.data_despesa || "")
+        .slice(0, 10);
+
+    if (!expenseDate) return false;
+
+    if (selectedPeriod === "month") {
+        return expenseDate.startsWith(
+            `${currentYear}-${currentMonth}`
+        );
+    }
+
+    if (selectedPeriod === "year") {
+        return expenseDate.startsWith(
+            `${currentYear}-`
+        );
+    }
+
+    if (selectedPeriod === "custom") {
+        if (dateFrom && expenseDate < dateFrom) return false;
+        if (dateTo && expenseDate > dateTo) return false;
+    }
+
+    return true;
 });
+
 
 const total = filteredExpenses.reduce(
     (sum, expense) => sum + Number(expense.valor || 0),
