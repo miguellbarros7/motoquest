@@ -12322,7 +12322,12 @@ if (index === 1) {
             Number(pontoIntermedio.longitude)
         );
 
-        stations.push(...bombasIntermedias);
+     stations.push(
+    ...bombasIntermedias.map(bomba => ({
+        ...bomba,
+        fuelSearchTargetKm: 520
+    }))
+);
 
         console.log("MotoQuest — pesquisa intermédia km 520:", {
             encontradas: bombasIntermedias.length,
