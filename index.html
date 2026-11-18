@@ -12958,8 +12958,9 @@ const earlyFuelCandidates = fuelCandidatesOnRoute
     .filter(station =>
         Number.isFinite(station.routeKm) &&
         station.routeKm < fuelSafetyLimitKm &&
-        station.routeKm >= Number(distance) - 30 &&
-        station.routeKm <= Number(distance)
+		
+       station.routeKm >= Number(searchKm) - 30 &&
+station.routeKm <= Number(searchKm)
     )
     .sort((a, b) => a.routeKm - b.routeKm);
 	
