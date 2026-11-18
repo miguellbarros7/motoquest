@@ -30012,6 +30012,7 @@ if (willOpen) {
     selectPeriod(selectedPeriod);
 
 	
+
 async function mqLoadProfileRouteOptions() {
     const select = document.getElementById(
         "mqProfileRouteFilter"
@@ -30019,28 +30020,80 @@ async function mqLoadProfileRouteOptions() {
 
     if (!select) return;
 
+    const previousRoute = select.value;
+
     select.replaceChildren(
         new Option("Todas as rotas", "all")
     );
 
     if (!currentUser) return;
 
-    const { data, error } = await supabaseClient
-        .from("routes")
-        .select("id, name")
-        .eq("user_id", currentUser.id)
-        .eq("route_type", "personal")
-        .order("created_at", { ascending: false });
+    const [routesResult, expensesResult] = await Promise.all([
+        supabaseClient
+            .from("routes")
+            .select("id, name")
+            .eq("user_id", currentUser.id)
+            .eq("route_type", "personal")
+            .order("created_at", { ascending: false }),
 
-    if (error) {
+        supabaseClient
+            .from("mq_despesas_viagem")
+            .select("rota_id, data_despesa")
+            .eq("user_id", currentUser.id)
+    ]);
+
+    if (routesResult.error || expensesResult.error) {
         console.error(
-            "Erro ao carregar rotas do Perfil:",
-            error
+            "Erro ao carregar rotas e despesas:",
+            routesResult.error || expensesResult.error
         );
         return;
     }
 
-    (data || []).forEach(route => {
+    const today = new Date();
+    const year = String(today.getFullYear());
+    const month = String(today.getMonth() + 1).padStart(2, "0");
+
+    const dateFrom = document.getElementById(
+        "mqProfileDateFrom"
+    )?.value;
+
+    const dateTo = document.getElementById(
+        "mqProfileDateTo"
+    )?.value;
+
+    const routeIds = new Set(
+        (expensesResult.data || [])
+            .filter(expense => {
+                const date = String(
+                    expense.data_despesa || ""
+                ).slice(0, 10);
+
+                if (selectedPeriod === "all") return true;
+                if (!date) return false;
+
+                if (selectedPeriod === "month") {
+                    return date.startsWith(`${year}-${month}`);
+                }
+
+                if (selectedPeriod === "year") {
+                    return date.startsWith(`${year}-`);
+                }
+
+                if (selectedPeriod === "custom") {
+                    if (dateFrom && date < dateFrom) return false;
+                    if (dateTo && date > dateTo) return false;
+                }
+
+                return true;
+            })
+            .map(expense => String(expense.rota_id || ""))
+            .filter(Boolean)
+    );
+
+    (routesResult.data || []).forEach(route => {
+        if (!routeIds.has(String(route.id))) return;
+
         select.add(
             new Option(
                 route.name || "Rota sem nome",
@@ -30048,7 +30101,14 @@ async function mqLoadProfileRouteOptions() {
             )
         );
     });
+
+    if ([...select.options].some(
+        option => option.value === previousRoute
+    )) {
+        select.value = previousRoute;
+    }
 }
+
 
 
     async function loadProfileExpenses() {
