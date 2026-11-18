@@ -15229,6 +15229,23 @@ return;
     }
 
 	
+    const { data: estadoAtualRota, error: erroConsultaRota } =
+        await supabaseClient
+            .from("routes")
+            .select("id, fuel_stops, route_type")
+            .eq("id", route.id)
+            .eq("user_id", currentUser.id)
+            .maybeSingle();
+
+    console.log("MotoQuest — estado da rota antes de guardar:", {
+        rota: estadoAtualRota,
+        erro: erroConsultaRota,
+        fuelStopsEhNull: estadoAtualRota?.fuel_stops === null,
+        fuelStopsEhArray: Array.isArray(estadoAtualRota?.fuel_stops)
+    });
+
+
+	
     const bombasParaGuardar = [primeira, segunda].map(bomba => ({
         name: bomba.name,
         locality: bomba.locality || "",
