@@ -19928,6 +19928,20 @@ function renderHistory() {
 
     const container = $("historyList");
 
+	
+const hiddenVisitsKey =
+    "mq-hidden-visits-" + String(currentUser?.id || "");
+
+const hiddenVisitIds = new Set(
+    JSON.parse(localStorage.getItem(hiddenVisitsKey) || "[]")
+        .map(String)
+);
+
+const visibleHistory = history.filter(
+    visit => !hiddenVisitIds.has(String(visit.id))
+);
+
+
     if (!history.length) {
         container.innerHTML = `
             <div class="empty">
