@@ -12113,6 +12113,44 @@ revalidateFuelBtn.onclick = () => {
         bombas: bombasGuardadas,
         limiteKm: fuelSafetyLimitKm
     });
+
+
+const intervalosValidos =
+    intervalosBombasGuardadasKm.length === 3 &&
+    Number.isFinite(fuelSafetyLimitKm) &&
+    fuelSafetyLimitKm > 0 &&
+    intervalosBombasGuardadasKm.every(distancia =>
+        Number.isFinite(distancia) &&
+        distancia >= 0 &&
+        distancia <= fuelSafetyLimitKm
+    );
+
+console.log("MotoQuest — resultado da revalidação:", {
+    routeId: route.id,
+    intervalosKm: [...intervalosBombasGuardadasKm],
+    limiteKm: fuelSafetyLimitKm,
+    autonomiaValida: intervalosValidos
+});
+
+if (intervalosValidos) {
+    alert(
+        "✅ Autonomia validada por estrada!\n\n" +
+        intervalosBombasGuardadasKm
+            .map((km, i) =>
+                "Troço " + (i + 1) + ": " +
+                km.toFixed(2) + " km"
+            )
+            .join("\n") +
+        "\n\nLimite: " +
+        fuelSafetyLimitKm.toFixed(2) + " km."
+    );
+} else {
+    alert(
+        "⚠️ Não foi possível validar os três troços " +
+        "dentro da autonomia de segurança."
+    );
+}
+
 };
 
 
