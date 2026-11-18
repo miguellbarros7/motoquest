@@ -14934,6 +14934,29 @@ addToRouteButton.onclick = async () => {
         alert("Escolhe uma bomba diferente da primeira.");
         return;
     }
+	
+    const kmPrimeira = Number(primeira.routeKm);
+    const kmSegunda = Number(station.routeKm);
+
+    if (
+        !Number.isFinite(kmPrimeira) ||
+        !Number.isFinite(kmSegunda)
+    ) {
+        alert(
+            "⚠️ Não foi possível confirmar a posição das bombas. " +
+            "Pesquisa novamente."
+        );
+        return;
+    }
+
+    if (kmSegunda <= kmPrimeira) {
+        alert(
+            "⚠️ A segunda bomba tem de ficar depois " +
+            "da primeira no percurso."
+        );
+        return;
+    }
+
 
     window.motoquestSegundaBombaEscolhida = {
         name: station.name,
