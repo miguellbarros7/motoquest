@@ -13849,9 +13849,10 @@ bestDisplay.geracao === window.motoquestFuelGeneration
     )
         ? bestDisplay
                : (
-            String(window.motoquestFuelProposal?.routeId) === String(route.id)
-                ? window.motoquestFuelProposal
-                : null
+            String(window.motoquestFuelProposal?.routeId) === String(route.id) &&
+window.motoquestFuelProposal?.geracao === window.motoquestFuelGeneration
+    ? window.motoquestFuelProposal
+    : null
         );
 
 if (!proposal) {
