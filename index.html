@@ -13725,6 +13725,55 @@ console.log("MotoQuest — proposta preparada:", {
     validado: proposta.validado
 });
 
+	
+if (proposta.prontaParaConfirmacao) {
+    const botaoAnterior =
+        document.getElementById("mq-confirmar-duas-bombas");
+
+    if (botaoAnterior) botaoAnterior.remove();
+
+    const botao = document.createElement("button");
+    botao.id = "mq-confirmar-duas-bombas";
+    botao.type = "button";
+    botao.textContent = "⛽ CONFIRMAR 2 ABASTECIMENTOS";
+
+    botao.style.cssText = `
+        display:block;
+        width:100%;
+        padding:14px;
+        margin:12px 0;
+        background:#ff7900;
+        color:#111;
+        border:none;
+        border-radius:10px;
+        font-weight:900;
+        cursor:pointer;
+    `;
+
+    botao.onclick = () => {
+        const atual = window.motoquestFuelProposal;
+
+        if (
+            !atual ||
+            atual !== proposta ||
+            atual.prontaParaConfirmacao !== true ||
+            atual.geracao !== window.motoquestFuelGeneration
+        ) {
+            alert("A proposta mudou. Pesquisa novamente os postos.");
+            return;
+        }
+
+        alert(
+            "⛽ Proposta preparada:\n\n" +
+            atual.bombas.map(b => b.name).join(" → ") +
+            "\n\nA gravação conjunta ainda não está ativada."
+        );
+    };
+
+    searchButton.insertAdjacentElement("afterend", botao);
+}
+
+
 
 console.log("MotoQuest — verificação conjunta:", {
     bombas: proposta.bombas.map(b => b.name),
