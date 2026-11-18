@@ -13020,8 +13020,8 @@ window.motoquestSecondFuelCandidates =
                 Number.isFinite(station.routeKm) &&
                 Number.isFinite(Number(station.latitude)) &&
                 Number.isFinite(Number(station.longitude)) &&
-                station.routeKm > fuelSafetyLimitKm &&
-station.routeKm < km
+               station.routeKm > fuelSafetyLimitKm &&
+station.routeKm < km - 60
             )
             .slice(0, 10)
             .map(station => ({
