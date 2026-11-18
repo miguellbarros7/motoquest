@@ -12824,7 +12824,7 @@ const getCandidateInsertionIndex = (targetDistanceKm) => {
 
 	// Medir a proximidade de cada bomba ao traçado GPS.
 const fuelCandidatesOnRoute = nearbyFuelCandidates.map(station => {
-const nearestPoint = findNearestRoutePoint(station, Number(searchKm), 30);
+const nearestPoint = findNearestRoutePoint(station, null, 30);
 	const gpsIndex = nearestPoint?.index ?? null;
 
 const totalGpsKm =
