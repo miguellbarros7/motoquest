@@ -29916,9 +29916,13 @@ filter: blur(12px) brightness(.85);
             period === "custom" ? "flex" : "none";
     }
 
+ 
     buttons.forEach(button => {
         button.addEventListener("click", () => {
-       
+            selectPeriod(button.dataset.period);
+        });
+    });
+
     selectPeriod(selectedPeriod);
 
     async function loadProfileExpenses() {
@@ -29973,8 +29977,8 @@ filter: blur(12px) brightness(.85);
                     font-weight:900;
                 ">
                     ${total.toLocaleString("pt-PT", {
-                        style:"currency",
-                        currency:"EUR"
+                        style: "currency",
+                        currency: "EUR"
                     })}
                 </div>
             </div>
@@ -29984,6 +29988,7 @@ filter: blur(12px) brightness(.85);
     loadProfileExpenses();
 })();
 </script>
+
 
 	
 <!-- FIM TITULOS IGUAIS AO DESTINO FINAL -->
