@@ -13004,7 +13004,7 @@ if (Number(distance) > fuelSafetyLimitKm) {
                 Number.isFinite(Number(station.latitude)) &&
                 Number.isFinite(Number(station.longitude)) &&
                 station.routeKm > fuelSafetyLimitKm &&
-                station.routeKm < km - 20
+station.routeKm < km
             )
             .slice(0, 10)
             .map(station => ({
