@@ -9219,6 +9219,16 @@ expensesRouteBtn.addEventListener("click", async () => {
 
     routeSelect.style.cursor = "default";
     filter.style.cursor = "default";
+	
+    // Remover as setas dos menus de rota bloqueados
+    routeSelect.style.appearance = "none";
+    routeSelect.style.webkitAppearance = "none";
+    routeSelect.style.backgroundImage = "none";
+
+    filter.style.appearance = "none";
+    filter.style.webkitAppearance = "none";
+    filter.style.backgroundImage = "none";
+
 
     await mqLoadExpenses();
     mqRenderExpenses();
