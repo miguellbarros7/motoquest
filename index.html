@@ -15289,9 +15289,15 @@ bombasParaGuardar: bombasParaGuardar.map(bomba => ({ ...bomba })),
         const { data: rotasAtualizadas, error: erroGuardar } =
             await supabaseClient
                 .from("routes")
-                .update({
-                    fuel_stops: bombasParaGuardar
-                })
+               
+.update({
+    fuel_stops: bombasParaGuardar,
+    trip_plan: {
+        ...(route.trip_plan || {}),
+        fuel_review_pending: false
+    }
+})
+
                 .eq("id", route.id)
                 .eq("user_id", currentUser.id)
                 .eq("route_type", "personal")
