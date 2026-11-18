@@ -12267,6 +12267,15 @@ if (index === 0) {
             bombasEncontradas: bombasTeste.length,
             nomes: bombasTeste.map(bomba => bomba.name)
         });
+		// Juntar as bombas da pesquisa antecipada aos candidatos.
+// A remoção de duplicados e os cálculos rodoviários
+// continuam a ser feitos pelo código existente.
+stations.push(...bombasTeste);
+
+console.log(
+    "MotoQuest — total de postos das duas pesquisas:",
+    stations.length
+);
     }
 }
 	
