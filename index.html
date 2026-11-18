@@ -12957,8 +12957,7 @@ if (Number(distance) <= fuelSafetyLimitKm) {
 const earlyFuelCandidates = fuelCandidatesOnRoute
     .filter(station =>
         Number.isFinite(station.routeKm) &&
-        station.routeKm < fuelSafetyLimitKm &&
-		
+station.routeKm <= fuelSafetyLimitKm - 20 &&		
        station.routeKm >= Number(searchKm) - 30 &&
 station.routeKm <= Number(searchKm)
     )
