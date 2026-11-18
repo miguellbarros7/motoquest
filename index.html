@@ -11028,6 +11028,23 @@ const savedFuelStopsForReview =
 const fuelRouteReviewPending =
     route.trip_plan?.fuel_review_pending === true;
 
+	
+console.log("MotoQuest — revisão pendente na rota:", {
+    routeId: route.id,
+    revisaoPendente: fuelRouteReviewPending,
+    paragensAtuais: Array.isArray(route.location_ids)
+        ? [...route.location_ids]
+        : [],
+    bombasGuardadas: Array.isArray(route.fuel_stops)
+        ? route.fuel_stops.map(bomba => ({
+            name: bomba.name,
+            insertion_index: bomba.insertion_index,
+            routeKm: bomba.routeKm
+        }))
+        : []
+});
+
+
 console.log("MotoQuest — diagnóstico da revisão da rota:", {
     routeId: route.id,
     revisaoPendente: fuelRouteReviewPending,
