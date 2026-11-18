@@ -12862,6 +12862,16 @@ fuelCandidatesOnRoute.sort((a, b) => {
             ? Math.abs(b.routeKm - targetKm)
             : Infinity;
 
+// Bombas sem posição válida ficam sempre no fim.
+if (!Number.isFinite(differenceA)) {
+    return Number.isFinite(differenceB) ? 1 : 0;
+}
+
+if (!Number.isFinite(differenceB)) {
+    return -1;
+}
+
+// Priorizar a proximidade ao quilómetro pretendido.
 if (Math.abs(differenceA - differenceB) > 1) {
     return differenceA - differenceB;
 }
