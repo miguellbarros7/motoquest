@@ -13841,8 +13841,9 @@ if (proposalBox) {
     const bestDisplay = window.motoquestBestFuelDisplay;
 
     const proposal = (
-        bestDisplay &&
-        bestDisplay.geracao === window.motoquestFuelGeneration
+       bestDisplay &&
+String(bestDisplay.routeId) === String(route.id) &&
+bestDisplay.geracao === window.motoquestFuelGeneration
     )
         ? bestDisplay
         : window.motoquestFuelProposal;
