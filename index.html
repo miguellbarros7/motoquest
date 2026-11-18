@@ -6568,9 +6568,16 @@ icon.style.cssText =
     "flex-shrink:0;background:#3d2918;" +
     "border-radius:10px;color:#ff7900;";
 
+
 const textBox = document.createElement("div");
 
+textBox.style.cssText =
+    "flex:1 1 auto;min-width:0;width:100%;" +
+    "box-sizing:border-box;";
+
 const routeTitle = document.createElement("strong");
+
+
 routeTitle.textContent = route.name;
 routeTitle.style.cssText =
     "display:block;font-size:15px;color:white;";
