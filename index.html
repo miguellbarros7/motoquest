@@ -13516,7 +13516,12 @@ if (
     Array.isArray(bestFuelPair.intervalos) &&
     bestFuelPair.intervalos.length === 3 &&
     bestFuelPair.primeiraBomba &&
-    bestFuelPair.segundaBomba
+bestFuelPair.segundaBomba &&
+Number.isInteger(bestFuelPair.primeiraBomba.insertion_index) &&
+Number.isInteger(bestFuelPair.segundaBomba.insertion_index) &&
+bestFuelPair.primeiraBomba.insertion_index >= 0 &&
+bestFuelPair.segundaBomba.insertion_index >=
+    bestFuelPair.primeiraBomba.insertion_index
 ) {
     window.motoquestBestFuelDisplay = {
         bombas: [
