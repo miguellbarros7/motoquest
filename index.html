@@ -7500,9 +7500,15 @@ stopsPanel.appendChild(meetingRow);
             item => String(item.id) === String(id)
         );
 
-        const row = document.createElement("div");
-        row.style.cssText =
-            "display:flex;align-items:center;gap:9px;padding:6px 0;";
+       
+const row = document.createElement("div");
+row.className = "mq-responsive-stop-row";
+
+row.style.cssText =
+    "display:flex;align-items:center;gap:9px;" +
+    "padding:6px 0;min-width:0;width:100%;" +
+    "box-sizing:border-box;flex-wrap:wrap;";
+
 
         const number = document.createElement("span");
        number.textContent = ++routeStepNumber;
