@@ -13647,6 +13647,62 @@ if (
         "MotoQuest — melhor par sincronizado com a proposta:",
         window.motoquestFuelProposal
     );
+
+	
+const proposta = window.motoquestFuelProposal;
+
+const bombasValidas =
+    Array.isArray(proposta?.bombas) &&
+    proposta.bombas.length === 2 &&
+    proposta.bombas.every(b =>
+        b.latitude != null &&
+        b.longitude != null &&
+        Number.isFinite(Number(b.latitude)) &&
+        Number.isFinite(Number(b.longitude)) &&
+        Math.abs(Number(b.latitude)) <= 90 &&
+        Math.abs(Number(b.longitude)) <= 180 &&
+        Number.isFinite(Number(b.routeKm)) &&
+        Number.isInteger(Number(b.insertion_index)) &&
+        Number(b.insertion_index) >= 0 &&
+        Number(b.insertion_index) <= ordered.length
+    ) &&
+    Number(proposta.bombas[0].routeKm) <
+        Number(proposta.bombas[1].routeKm) &&
+    Number(proposta.bombas[0].insertion_index) <=
+        Number(proposta.bombas[1].insertion_index);
+
+const intervalosValidos =
+    Array.isArray(proposta?.intervalos) &&
+    proposta.intervalos.length === 3 &&
+    Number.isFinite(Number(proposta.limiteKm)) &&
+    Number(proposta.limiteKm) > 0 &&
+    proposta.intervalos.every(i =>
+        i.distanciaKm != null &&
+        Number.isFinite(Number(i.distanciaKm)) &&
+        Number(i.distanciaKm) >= 0 &&
+        Number(i.distanciaKm) <=
+            Number(proposta.limiteKm)
+    );
+
+const verificacaoConjunta =
+    String(proposta?.routeId) === String(route.id) &&
+    proposta?.geracao === fuelSearchGeneration &&
+    fuelSearchGeneration === window.motoquestFuelGeneration &&
+    proposta?.calculoRodoviarioConfirmado === true &&
+    proposta?.intervalosDentroDaAutonomia === true &&
+    bombasValidas &&
+    intervalosValidos;
+
+proposta.verificacaoConjunta = verificacaoConjunta;
+
+console.log("MotoQuest — verificação conjunta:", {
+    bombas: proposta.bombas.map(b => b.name),
+    bombasValidas,
+    intervalosValidos,
+    verificacaoConjunta,
+    validado: proposta.validado
+});
+
 }
 
 }
