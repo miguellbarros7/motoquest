@@ -12189,6 +12189,30 @@ text.textContent =
         
 stop.append(icon, text);
 
+	if (index === 1) {
+    const kmInput = document.createElement("input");
+
+    kmInput.type = "number";
+    kmInput.min = "0";
+    kmInput.max = String(Math.floor(km));
+    kmInput.step = "10";
+    kmInput.value = String(Math.round(searchKm));
+    kmInput.title = "Quilómetro para procurar abastecimento";
+
+    kmInput.style.cssText = `
+        width:65px;
+        padding:8px 5px;
+        background:#171717;
+        color:#fff;
+        border:1px solid #ff7900;
+        border-radius:7px;
+        font-size:12px;
+        text-align:center;
+    `;
+
+    stop.appendChild(kmInput);
+}
+
 
 
 if (stopLocation) {
