@@ -13753,93 +13753,95 @@ botao.textContent = "⛽ ESCOLHER 1.ª BOMBA";
 
 
 
-botao.onclick = async () => {
-	const atual = window.motoquestFuelProposal;
-	
-if (botao.dataset.confirmacaoEmCurso === "true") {
-    return;
-}
 
-if (
-    !Array.isArray(atual?.bombas) ||
-    atual.bombas.length !== 2 ||
-    !Array.isArray(atual?.intervalos) ||
-    atual.intervalos.length !== 3 ||
-    atual.verificacaoConjunta !== true
-) {
-    alert(
-        "⚠️ A proposta não está completa.\n\n" +
-        "Pesquisa novamente os postos."
-    );
-    return;
-}
-
+botao.onclick = () => {
+    const atual = window.motoquestFuelProposal;
 
     if (
         !atual ||
         atual !== proposta ||
-        atual.prontaParaConfirmacao !== true ||
         atual.geracao !== window.motoquestFuelGeneration
     ) {
-        alert("A proposta mudou. Pesquisa novamente os postos.");
+        alert("A pesquisa mudou. Pesquisa novamente os postos.");
         return;
     }
 
-   
-    botao.dataset.confirmacaoEmCurso = "true";
-    botao.disabled = true;
-    botao.textContent = "⏳ A VERIFICAR ROTA...";
+    const pares = Array.isArray(window.motoquestFuelPairResults)
+        ? window.motoquestFuelPairResults
+        : [];
 
-    try {
-        const { data, error } = await supabaseClient
-            .from("routes")
-            .select("id, location_ids, trip_plan")
-            .eq("id", route.id)
-            .eq("user_id", currentUser.id)
-            .eq("route_type", "personal")
-            .single();
+    const primeiras = new Map();
 
-        if (error) throw error;
-        if (!data) throw new Error("Rota não encontrada.");
+    for (const par of pares) {
+        const bomba = par.primeiraBomba;
+        if (!bomba) continue;
 
-        const referenciaGuardada = JSON.stringify({
-            routeId: data.id,
-            locationIds: data.location_ids,
-            tripPlan: data.trip_plan
-        });
+        const lat = Number(bomba.latitude);
+        const lon = Number(bomba.longitude);
 
-        if (
-            atual.referenciaRota !== referenciaGuardada ||
-            atual !== window.motoquestFuelProposal ||
-            atual.geracao !== window.motoquestFuelGeneration
-        ) {
-            throw new Error(
-                "A rota ou a proposta mudou. Pesquisa novamente."
-            );
+        if (!Number.isFinite(lat) || !Number.isFinite(lon)) {
+            continue;
         }
 
-        console.log("MotoQuest — rota confirmada:", {
-            rota: data.id,
-            bombas: atual.bombas.map(b => b.name),
-            gravado: false
-        });
+        const chave = `${lat},${lon}`;
 
-        alert(
-            "✅ Rota confirmada no Supabase.\n\n" +
-            atual.bombas.map(b => b.name).join(" → ") +
-            "\n\nFalta validar o percurso final antes de guardar."
-        );
+        if (!primeiras.has(chave)) {
+            primeiras.set(chave, bomba);
+        }
+    }
 
-    } catch (erro) {
-        console.error("MotoQuest — confirmação:", erro);
-        alert("⚠️ " + erro.message);
+    const opcoes = [...primeiras.values()]
+        .sort((a, b) => Number(a.routeKm) - Number(b.routeKm));
 
-    } finally {
-        botao.dataset.confirmacaoEmCurso = "false";
-        botao.disabled = false;
-botao.textContent = "⛽ ESCOLHER 1.ª BOMBA";    }
+    if (opcoes.length === 0) {
+        alert("Não foram encontradas opções para a primeira bomba.");
+        return;
+    }
 
+    const mensagem = opcoes.map((bomba, indice) =>
+        `${indice + 1}. ${bomba.name} — km ${Number(bomba.routeKm).toFixed(1)}`
+    ).join("\n");
+
+    const resposta = prompt(
+        "⛽ ESCOLHER A PRIMEIRA BOMBA\n\n" +
+        mensagem +
+        "\n\nEscreve o número da bomba:",
+        "1"
+    );
+
+    if (resposta === null) return;
+
+    const numero = Number(resposta);
+
+    if (
+        !Number.isInteger(numero) ||
+        numero < 1 ||
+        numero > opcoes.length
+    ) {
+        alert("Escolhe um número válido.");
+        return;
+    }
+
+    const primeira = { ...opcoes[numero - 1] };
+
+    window.motoquestPrimeiraBombaEscolhida = {
+        ...primeira,
+        routeId: route.id,
+        geracao: fuelSearchGeneration
+    };
+
+    console.log(
+        "MotoQuest — primeira bomba escolhida:",
+        window.motoquestPrimeiraBombaEscolhida
+    );
+
+    alert(
+        "✅ PRIMEIRA BOMBA ESCOLHIDA\n\n" +
+        primeira.name +
+        "\n\nAinda não foi guardada."
+    );
 };
+
 
 searchButton.insertAdjacentElement("afterend", botao);
 }
