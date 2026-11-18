@@ -18143,6 +18143,11 @@ if (avatarPath) {
             }
 
             
+avatar.style.backgroundImage =
+    `url("${data.signedUrl}")`;
+
+avatar.textContent = "";
+
 if (topMenuBtn) {
     topMenuBtn.style.backgroundImage =
         `url("${data.signedUrl}")`;
