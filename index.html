@@ -14887,6 +14887,36 @@ addToRouteButton.style.cssText = `
     cursor:pointer;
 `;
 addToRouteButton.onclick = async () => {
+
+
+    if (!window.motoquestPrimeiraBombaEscolhida) {
+        window.motoquestPrimeiraBombaEscolhida = {
+            name: station.name,
+            locality: station.locality || "",
+            latitude: Number(station.latitude),
+            longitude: Number(station.longitude),
+            routeId: route.id,
+            geracao: window.motoquestFuelGeneration
+        };
+
+        alert(
+            "✅ PRIMEIRA BOMBA ESCOLHIDA\n\n" +
+            station.name +
+            "\n\nAinda não foi guardada.\n" +
+            "A seguir vamos escolher a segunda bomba."
+        );
+
+        console.log(
+            "MotoQuest — primeira bomba selecionada:",
+            window.motoquestPrimeiraBombaEscolhida
+        );
+
+        return;
+    }
+
+
+
+	
     const placeName = station.locality
         ? station.name + " — " + station.locality
         : station.name;
