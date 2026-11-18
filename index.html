@@ -12825,11 +12825,18 @@ if (Number(distance) <= fuelSafetyLimitKm) {
                 Number.isFinite(station.routeKm) &&
                 Number.isFinite(Number(station.latitude)) &&
                 Number.isFinite(Number(station.longitude)) &&
-                station.routeKm >= 0 &&
-                station.routeKm < fuelSafetyLimitKm
-            )
-            .slice(0, 10)
-            .map(station => ({
+               station.routeKm >= 0 &&
+station.routeKm < fuelSafetyLimitKm
+)
+.sort((a, b) => {
+    // Procurar abastecimento cerca de 30 km antes do limite.
+    const alvoKm = fuelSafetyLimitKm - 30;
+
+    return Math.abs(a.routeKm - alvoKm) -
+           Math.abs(b.routeKm - alvoKm);
+})
+.slice(0, 10)
+.map(station => ({
                 name: station.name,
                 latitude: Number(station.latitude),
                 longitude: Number(station.longitude),
