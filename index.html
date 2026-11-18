@@ -14980,7 +14980,66 @@ insertion_index: getCandidateInsertionIndex(Number(distance)),
         routeId: route.id,
         geracao: window.motoquestFuelGeneration
     };
+	
 
+    const segunda = window.motoquestSegundaBombaEscolhida;
+
+    const bombas = [primeira, segunda];
+
+    const indicesValidos = bombas.every(bomba =>
+        Number.isInteger(Number(bomba.insertion_index)) &&
+        Number(bomba.insertion_index) >= 0 &&
+        Number(bomba.insertion_index) <= ordered.length &&
+        Number.isFinite(Number(bomba.latitude)) &&
+        Number.isFinite(Number(bomba.longitude))
+    );
+
+    if (!indicesValidos) {
+        alert("⚠️ Não foi possível posicionar as bombas na rota.");
+        return;
+    }
+
+    const paragensComBombas = [...ordered];
+
+    [...bombas]
+        .sort((a, b) =>
+            Number(b.insertion_index) - Number(a.insertion_index) ||
+            Number(b.routeKm) - Number(a.routeKm)
+        )
+        .forEach(bomba => {
+            paragensComBombas.splice(
+                Number(bomba.insertion_index),
+                0,
+                {
+                    name: bomba.name,
+                    latitude: Number(bomba.latitude),
+                    longitude: Number(bomba.longitude),
+                    isFuelStop: true
+                }
+            );
+        });
+
+    if (tripMeetingPoint) {
+        paragensComBombas.unshift(tripMeetingPoint);
+    }
+
+    if (tripDeparturePoint) {
+        paragensComBombas.unshift(tripDeparturePoint);
+    }
+
+    if (tripEndPoint) {
+        paragensComBombas.push(tripEndPoint);
+    }
+
+    console.log("MotoQuest — rota das bombas escolhidas:", {
+        paragens: paragensComBombas.length,
+        ordem: paragensComBombas.map(p => p.name || "Paragem"),
+        bombas: paragensComBombas
+            .filter(p => p.isFuelStop)
+            .map(p => p.name),
+        validado: false,
+        gravado: false
+    });
     console.log("MotoQuest — duas bombas escolhidas:", {
         primeira,
         segunda: window.motoquestSegundaBombaEscolhida,
