@@ -11064,6 +11064,24 @@ const fuelRouteReviewPending =
     route.trip_plan?.fuel_review_pending === true;
 
 	
+const podeRevalidarBombasGuardadas =
+    fuelRouteReviewPending &&
+    Array.isArray(route.fuel_stops) &&
+    route.fuel_stops.length === 2 &&
+    route.fuel_stops.every(bomba =>
+        Number.isFinite(Number(bomba.latitude)) &&
+        Number.isFinite(Number(bomba.longitude)) &&
+        Number.isInteger(Number(bomba.insertion_index))
+    );
+
+console.log("MotoQuest — condições para revalidação:", {
+    routeId: route.id,
+    podeRevalidarBombasGuardadas,
+    revisaoPendente: fuelRouteReviewPending
+});
+
+
+	
 console.log("MotoQuest — revisão pendente na rota:", {
     routeId: route.id,
     revisaoPendente: fuelRouteReviewPending,
