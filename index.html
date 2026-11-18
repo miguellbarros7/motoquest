@@ -14915,13 +14915,51 @@ addToRouteButton.onclick = async () => {
     }
 
 
+  
+    const primeira = window.motoquestPrimeiraBombaEscolhida;
+
+    if (
+        String(primeira.routeId) !== String(route.id) ||
+        primeira.geracao !== window.motoquestFuelGeneration
+    ) {
+        window.motoquestPrimeiraBombaEscolhida = null;
+        alert("A rota mudou. Escolhe novamente a primeira bomba.");
+        return;
+    }
+
+    if (
+        Number(primeira.latitude) === Number(station.latitude) &&
+        Number(primeira.longitude) === Number(station.longitude)
+    ) {
+        alert("Escolhe uma bomba diferente da primeira.");
+        return;
+    }
+
+    window.motoquestSegundaBombaEscolhida = {
+        name: station.name,
+        locality: station.locality || "",
+        latitude: Number(station.latitude),
+        longitude: Number(station.longitude),
+        routeId: route.id,
+        geracao: window.motoquestFuelGeneration
+    };
+
+    console.log("MotoQuest — duas bombas escolhidas:", {
+        primeira,
+        segunda: window.motoquestSegundaBombaEscolhida,
+        validado: false,
+        gravado: false
+    });
+
     alert(
-        "⛽ Primeira bomba escolhida: " +
-        window.motoquestPrimeiraBombaEscolhida.name +
-        "\n\nA escolha da segunda bomba ainda está a ser preparada." +
+        "⛽ BOMBAS ESCOLHIDAS\n\n" +
+        "1.ª " + primeira.name + "\n" +
+        "2.ª " + station.name +
+        "\n\nAinda falta verificar a ordem e a autonomia." +
         "\nNenhuma bomba foi guardada."
     );
     return;
+
 
 	
     const placeName = station.locality
