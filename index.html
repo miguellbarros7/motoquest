@@ -12686,6 +12686,16 @@ const findNearestRoutePoint = (station, targetKm = null, windowKm = 30) => {
             return;
         }
 
+	if (index === 0) {
+    console.log("MotoQuest — diagnóstico GPS:", {
+        km,
+        totalGpsKm,
+        quantidadePontos: routePointKm.length,
+        targetKm,
+        windowKm
+    });
+}
+
         const pointRouteKm = routePointKm[index] * (km / totalGpsKm);
 
         if (Math.abs(pointRouteKm - targetKm) > windowKm) {
