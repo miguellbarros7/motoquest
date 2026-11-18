@@ -7821,7 +7821,6 @@ saveOrderBtn.onclick = async event => {
 .eq("id", route.id)
 .eq("user_id", currentUser.id)
 .eq("route_type", "personal")
-.or("fuel_stops.is.null,fuel_stops.eq.[]")
 .select("id");
 
 
