@@ -12084,7 +12084,10 @@ if (
         
 // Usar a distância sugerida pelo planeador para cada paragem.
 let searchKm = Number(distance);
-		const stopLocation = getPointAtKm(searchKm);console.log("MotoQuest — localização do abastecimento:", distance, stopLocation);        
+		
+	let stopLocation = getPointAtKm(searchKm);
+		
+		console.log("MotoQuest — localização do abastecimento:", distance, stopLocation);        
 
 if (stopLocation) {
     stop.dataset.latitude = String(stopLocation.latitude);
@@ -12211,6 +12214,41 @@ stop.append(icon, text);
     `;
 
     stop.appendChild(kmInput);
+		kmInput.onchange = () => {
+    const novoKm = Number(kmInput.value);
+
+    if (
+        !Number.isFinite(novoKm) ||
+        novoKm < 0 ||
+        novoKm > km
+    ) {
+        kmInput.value = String(Math.round(searchKm));
+        return;
+    }
+
+    const novaPosicao = getPointAtKm(novoKm);
+
+    if (!novaPosicao) {
+        kmInput.value = String(Math.round(searchKm));
+        return;
+    }
+
+    searchKm = novoKm;
+    stopLocation = novaPosicao;
+
+    stop.dataset.latitude = String(novaPosicao.latitude);
+    stop.dataset.longitude = String(novaPosicao.longitude);
+
+    text.textContent =
+        "Paragem 2 · Procurar abastecimento por volta do km " +
+        Math.round(searchKm);
+
+    console.log(
+        "MotoQuest — novo km de pesquisa:",
+        searchKm,
+        stopLocation
+    );
+};
 }
 
 
