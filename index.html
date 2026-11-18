@@ -13381,6 +13381,20 @@ const paresConfortaveis = paresDentroDoLimite.filter(pair =>
     pair.margemMinimaKm >= margemConfortavelKm
 );
 
+// Diagnóstico: distinguir pares seguros de pares confortáveis.
+console.log("MotoQuest — qualidade dos pares:", {
+    paresCalculados: window.motoquestFuelPairResults.length,
+    paresDentroDoLimite: paresDentroDoLimite.length,
+    paresConfortaveis: paresConfortaveis.length,
+    melhorMargemKm: paresDentroDoLimite.length
+        ? Math.max(
+            ...paresDentroDoLimite.map(pair => pair.margemMinimaKm)
+        ).toFixed(1)
+        : null,
+    margemConfortavelPretendidaKm: margemConfortavelKm,
+    validado: false
+});
+
 // Preferir pares confortáveis, quando existirem.
 const paresParaComparar = paresConfortaveis.length > 0
     ? paresConfortaveis
