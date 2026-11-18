@@ -12958,11 +12958,13 @@ if (Number(distance) > fuelSafetyLimitKm) {
             )
             .slice(0, 10)
             .map(station => ({
-                name: station.name,
-                latitude: Number(station.latitude),
-                longitude: Number(station.longitude),
-                routeKm: station.routeKm
-            }));
+    name: station.name,
+    latitude: Number(station.latitude),
+    longitude: Number(station.longitude),
+    routeKm: station.routeKm,
+    nearestRoutePointIndex: station.nearestRoutePointIndex,
+    distanceToRouteKm: station.distanceToRouteKm
+}));
 
     console.log(
         "MotoQuest — segundas candidatas para combinação:",
