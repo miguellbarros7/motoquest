@@ -15086,6 +15086,58 @@ insertion_index: getCandidateInsertionIndex(Number(distance)),
         return;
     }
 
+    const trocosReais = resultadoRodoviario.routes[0].legs;
+    const intervalosReais = [];
+    let distanciaSemAbastecer = 0;
+
+    for (let i = 0; i < trocosReais.length; i++) {
+        distanciaSemAbastecer +=
+            Number(trocosReais[i].distance) / 1000;
+
+        if (paragensComBombas[i + 1].isFuelStop === true) {
+            intervalosReais.push(distanciaSemAbastecer);
+            distanciaSemAbastecer = 0;
+        }
+    }
+
+    intervalosReais.push(distanciaSemAbastecer);
+
+    const autonomiaValida =
+        intervalosReais.length === 3 &&
+        Number.isFinite(fuelSafetyLimitKm) &&
+        fuelSafetyLimitKm > 0 &&
+        intervalosReais.every(km =>
+            Number.isFinite(km) &&
+            km >= 0 &&
+            km <= fuelSafetyLimitKm
+        );
+
+    console.log("MotoQuest — autonomia das bombas escolhidas:", {
+        primeira: primeira.name,
+        segunda: segunda.name,
+        intervalosKm: intervalosReais.map(km =>
+            Number(km.toFixed(2))
+        ),
+        limiteKm: fuelSafetyLimitKm,
+        autonomiaValida,
+        gravado: false
+    });
+
+    if (!autonomiaValida) {
+        alert(
+            "⚠️ AUTONOMIA INSUFICIENTE\n\n" +
+            intervalosReais.map((km, i) =>
+                `Troço ${i + 1}: ${km.toFixed(1)} km`
+            ).join("\n") +
+            "\n\nLimite seguro: " +
+            fuelSafetyLimitKm.toFixed(1) +
+            " km\n\nEscolhe outra segunda bomba."
+        );
+
+        window.motoquestSegundaBombaEscolhida = null;
+        return;
+    }
+
 
     console.log("MotoQuest — rota das bombas escolhidas:", {
         paragens: paragensComBombas.length,
