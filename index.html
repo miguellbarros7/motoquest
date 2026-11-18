@@ -12994,32 +12994,34 @@ station.routeKm < fuelSafetyLimitKm
         window.motoquestFirstFuelCandidates.length
     );
 }
-	// Preparar candidatas para o segundo abastecimento.
+	
+// Preparar candidatas para o segundo abastecimento.
 if (Number(distance) > fuelSafetyLimitKm) {
-	station.routeKm > fuelSafetyLimitKm &&
-station.routeKm < km - 20   
+    window.motoquestSecondFuelCandidates =
         fuelCandidatesOnRoute
             .filter(station =>
                 Number.isFinite(station.routeKm) &&
                 Number.isFinite(Number(station.latitude)) &&
                 Number.isFinite(Number(station.longitude)) &&
-                station.routeKm > fuelSafetyLimitKm
+                station.routeKm > fuelSafetyLimitKm &&
+                station.routeKm < km - 20
             )
             .slice(0, 10)
             .map(station => ({
-    name: station.name,
-    latitude: Number(station.latitude),
-    longitude: Number(station.longitude),
-    routeKm: station.routeKm,
-    nearestRoutePointIndex: station.nearestRoutePointIndex,
-    distanceToRouteKm: station.distanceToRouteKm
-}));
+                name: station.name,
+                latitude: Number(station.latitude),
+                longitude: Number(station.longitude),
+                routeKm: station.routeKm,
+                nearestRoutePointIndex: station.nearestRoutePointIndex,
+                distanceToRouteKm: station.distanceToRouteKm
+            }));
 
     console.log(
         "MotoQuest — segundas candidatas para combinação:",
         window.motoquestSecondFuelCandidates.length
     );
-}	
+}
+
 	// Preparar pares de bombas pela ordem do percurso.
 if (
     Number(distance) > fuelSafetyLimitKm &&
