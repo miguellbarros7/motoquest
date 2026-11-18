@@ -13008,9 +13008,13 @@ if (Number(distance) > fuelSafetyLimitKm) {
 
 	if (!Array.isArray(window.motoquestFirstFuelCandidates)) {
     window.motoquestFirstFuelCandidates = [];
-		}    window.motoquestSecondFuelCandidates =
-        fuelCandidatesOnRoute
-            .filter(station =>
+
+	
+}
+
+window.motoquestSecondFuelCandidates =       
+		fuelCandidatesOnRoute
+		            .filter(station =>
                 Number.isFinite(station.routeKm) &&
                 Number.isFinite(Number(station.latitude)) &&
                 Number.isFinite(Number(station.longitude)) &&
