@@ -9209,6 +9209,16 @@ expensesRouteBtn.addEventListener("click", async () => {
         );
     }
 
+    // Bloquear a troca de rota nos Gastos
+    routeSelect.disabled = true;
+    filter.disabled = true;
+
+    // Manter a rota selecionada com aspeto normal
+    routeSelect.style.opacity = "1";
+    filter.style.opacity = "1";
+
+    routeSelect.style.cursor = "default";
+    filter.style.cursor = "default";
 
     await mqLoadExpenses();
     mqRenderExpenses();
