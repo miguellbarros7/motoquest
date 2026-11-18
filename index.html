@@ -13032,8 +13032,7 @@ const fuelPairsOrdered = [...window.motoquestFuelPairs]
     .map(pair => {
         const primeiroKm = Number(pair.primeira.routeKm);
         const segundoKm = Number(pair.segunda.routeKm);
-        const totalKm = Number(distance);
-
+const totalKm = Number(km);
         const maiorIntervaloEstimado = Math.max(
             primeiroKm,
             segundoKm - primeiroKm,
