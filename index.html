@@ -14572,7 +14572,13 @@ stationResults.textContent =
 
 const approvedFuelCandidates = [];
 
-for (const station of nearbyFuelCandidates.slice(0, 8)) {
+
+for (const station of fuelCandidatesOnRoute
+    .filter(bomba =>
+        Number.isFinite(bomba.routeKm) &&
+        getCandidateInsertionIndex(bomba.routeKm) !== null
+    )
+    .slice(0, 8)) {
     try {
         const addEvaluation =
             await checkCandidateRoute(station, null);
