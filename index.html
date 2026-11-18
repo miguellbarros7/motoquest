@@ -6848,6 +6848,19 @@ const hasFuelStops =
 const originalFuelReviewPending =
     route.trip_plan?.fuel_review_pending === true;
 
+
+console.log("MotoQuest — diagnóstico da revisão da rota:", {
+    routeId: route.id,
+    revisaoPendente: fuelRouteReviewPending,
+    quantidadeBombas: Array.isArray(route.fuel_stops)
+        ? route.fuel_stops.length
+        : 0,
+    bombas: Array.isArray(route.fuel_stops)
+        ? route.fuel_stops.map(bomba => bomba.name)
+        : []
+});
+	
+
 const updateFuelReviewNeeded = () => {
     const orderChanged =
         ids.length !== originalStopIds.length ||
