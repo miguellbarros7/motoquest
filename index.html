@@ -13846,7 +13846,11 @@ String(bestDisplay.routeId) === String(route.id) &&
 bestDisplay.geracao === window.motoquestFuelGeneration
     )
         ? bestDisplay
-        : window.motoquestFuelProposal;
+               : (
+            String(window.motoquestFuelProposal?.routeId) === String(route.id)
+                ? window.motoquestFuelProposal
+                : null
+        );
 
     const fuelLines = proposal.bombas.map((bomba, index) =>
         `${index + 1}. ${bomba.name} — km ${Number(bomba.routeKm).toFixed(0)}`
