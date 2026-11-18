@@ -7817,10 +7817,13 @@ saveOrderBtn.onclick = async event => {
     fuel_review_pending: fuelReviewNeeded
 }
 })
-        .eq("id", route.id)
-        .eq("user_id", currentUser.id)
-        .eq("route_type", "personal")
-        .select("id");
+       
+.eq("id", route.id)
+.eq("user_id", currentUser.id)
+.eq("route_type", "personal")
+.or("fuel_stops.is.null,fuel_stops.eq.[]")
+.select("id");
+
 
     if (error || !data || data.length === 0) {
         console.error(error);
