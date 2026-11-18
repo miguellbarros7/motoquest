@@ -13626,6 +13626,29 @@ intervalosDentroDaAutonomia: bestFuelPair.intervalos.every(
 
     };
 }	
+	
+if (
+    window.motoquestBestFuelDisplay &&
+    window.motoquestBestFuelDisplay.routeId === route.id &&
+    window.motoquestBestFuelDisplay.geracao === fuelSearchGeneration &&
+    window.motoquestBestFuelDisplay.calculoRodoviarioConfirmado === true &&
+    window.motoquestBestFuelDisplay.intervalosDentroDaAutonomia === true
+) {
+    const melhorPar = window.motoquestBestFuelDisplay;
+
+    window.motoquestFuelProposal = {
+        ...melhorPar,
+        bombas: melhorPar.bombas.map(b => ({ ...b })),
+        intervalos: melhorPar.intervalos.map(i => ({ ...i })),
+        validado: false
+    };
+
+    console.log(
+        "MotoQuest — melhor par sincronizado com a proposta:",
+        window.motoquestFuelProposal
+    );
+}
+
 }
 const testFuelStation =
     Number(distance) <= fuelSafetyLimitKm
