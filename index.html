@@ -15152,6 +15152,20 @@ window.motoquestSegundaBombaEscolhida = null;
 return;
     }
 
+    window.motoquestDuasBombasValidadas = {
+        routeId: route.id,
+        primeira: { ...primeira },
+        segunda: { ...segunda },
+        intervalosKm: [...intervalosReais],
+        limiteKm: fuelSafetyLimitKm,
+        validado: true,
+        gravado: false
+    };
+
+    console.log(
+        "MotoQuest — par validado e pronto para guardar:",
+        window.motoquestDuasBombasValidadas
+    );
 
     console.log("MotoQuest — rota das bombas escolhidas:", {
         paragens: paragensComBombas.length,
