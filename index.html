@@ -12872,8 +12872,8 @@ console.table(
 
 		diferencaAoObjetivoKm:
     station.routeKm != null &&
-    Number.isFinite(Number(distance))
-        ? Math.abs(station.routeKm - Number(distance)).toFixed(1)
+    Number.isFinite(Number(searchKm))
+        ? Math.abs(station.routeKm - Number(searchKm)).toFixed(1)
         : "—",
         distanciaAteRotaKm:
             station.distanceToRouteKm?.toFixed(2) ?? "—",
