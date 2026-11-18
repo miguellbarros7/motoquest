@@ -29958,12 +29958,18 @@ filter: blur(12px) brightness(.85);
         panel.classList.toggle("hidden", !willOpen);
         button.setAttribute("aria-expanded", String(willOpen));
 
-        if (willOpen) {
-            panel.scrollIntoView({
-                behavior: "smooth",
-                block: "nearest"
-            });
-        }
+        
+if (willOpen) {
+    if (typeof window.mqRefreshProfileExpenses === "function") {
+        window.mqRefreshProfileExpenses();
+    }
+
+    panel.scrollIntoView({
+        behavior: "smooth",
+        block: "nearest"
+    });
+}
+
     });
 })();
 
@@ -30224,6 +30230,12 @@ const total = filteredExpenses.reduce(
             });
         }
     }
+
+	
+window.mqRefreshProfileExpenses = async function () {
+    await mqLoadProfileRouteOptions();
+    await loadProfileExpenses();
+};
 
 
 mqLoadProfileRouteOptions();
