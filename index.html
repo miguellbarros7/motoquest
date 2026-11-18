@@ -13784,11 +13784,61 @@ if (
         return;
     }
 
-    alert(
-        "⛽ Proposta preparada:\n\n" +
-        atual.bombas.map(b => b.name).join(" → ") +
-        "\n\nA gravação conjunta ainda não está ativada."
-    );
+   
+    botao.dataset.confirmacaoEmCurso = "true";
+    botao.disabled = true;
+    botao.textContent = "⏳ A VERIFICAR ROTA...";
+
+    try {
+        const { data, error } = await supabaseClient
+            .from("routes")
+            .select("id, location_ids, trip_plan")
+            .eq("id", route.id)
+            .eq("user_id", currentUser.id)
+            .eq("route_type", "personal")
+            .single();
+
+        if (error) throw error;
+        if (!data) throw new Error("Rota não encontrada.");
+
+        const referenciaGuardada = JSON.stringify({
+            routeId: data.id,
+            locationIds: data.location_ids,
+            tripPlan: data.trip_plan
+        });
+
+        if (
+            atual.referenciaRota !== referenciaGuardada ||
+            atual !== window.motoquestFuelProposal ||
+            atual.geracao !== window.motoquestFuelGeneration
+        ) {
+            throw new Error(
+                "A rota ou a proposta mudou. Pesquisa novamente."
+            );
+        }
+
+        console.log("MotoQuest — rota confirmada:", {
+            rota: data.id,
+            bombas: atual.bombas.map(b => b.name),
+            gravado: false
+        });
+
+        alert(
+            "✅ Rota confirmada no Supabase.\n\n" +
+            atual.bombas.map(b => b.name).join(" → ") +
+            "\n\nFalta validar o percurso final antes de guardar."
+        );
+
+    } catch (erro) {
+        console.error("MotoQuest — confirmação:", erro);
+        alert("⚠️ " + erro.message);
+
+    } finally {
+        botao.dataset.confirmacaoEmCurso = "false";
+        botao.disabled = false;
+        botao.textContent = "⛽ CONFIRMAR 2 ABASTECIMENTOS";
+    }
+
 };
 
 searchButton.insertAdjacentElement("afterend", botao);
