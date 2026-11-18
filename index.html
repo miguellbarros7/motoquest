@@ -13218,7 +13218,15 @@ if (
         { ...firstPair.primeira, index: firstIndex },
         { ...firstPair.segunda, index: secondIndex }
     ]
-        .sort((a, b) => b.index - a.index)
+
+.sort((a, b) => {
+    if (a.index !== b.index) {
+        return b.index - a.index;
+    }
+
+    return b.routeKm - a.routeKm;
+})
+		
         .forEach(station => {
             pairStops.splice(station.index, 0, {
                 name: station.name,
