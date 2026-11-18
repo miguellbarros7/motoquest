@@ -9115,7 +9115,27 @@ summaryBtn.style.cssText =
 
 const expensesRouteBtn = document.createElement("button");
 expensesRouteBtn.type = "button";
-expensesRouteBtn.textContent = "💶 GASTOS";
+
+expensesRouteBtn.innerHTML = `
+    <svg width="15" height="15" viewBox="0 0 24 24"
+        fill="none" stroke="currentColor"
+        stroke-width="1.8" stroke-linecap="round"
+        stroke-linejoin="round"
+        style="vertical-align:middle;margin-right:5px;"
+        aria-hidden="true">
+        <rect x="2" y="5" width="20" height="14" rx="2"/>
+        <circle cx="12" cy="12" r="3"/>
+        <path d="M6 9h.01M18 15h.01"/>
+    </svg>GASTOS`;
+
+	
+expensesRouteBtn.dataset.routeId = String(route.id);
+expensesRouteBtn.title = "Consultar e registar gastos desta rota";
+expensesRouteBtn.setAttribute(
+    "aria-label",
+    "Consultar gastos da rota"
+);
+
 
 expensesRouteBtn.style.cssText =
     "width:auto;margin:0;padding:8px 11px;" +
