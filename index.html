@@ -13850,7 +13850,15 @@ bestDisplay.geracao === window.motoquestFuelGeneration
         ? bestDisplay
                : (
             String(window.motoquestFuelProposal?.routeId) === String(route.id) &&
-window.motoquestFuelProposal?.geracao === window.motoquestFuelGeneration
+window.motoquestFuelProposal?.geracao === window.motoquestFuelGeneration &&
+Array.isArray(window.motoquestFuelProposal?.intervalos) &&
+window.motoquestFuelProposal.intervalos.length === 3 &&
+window.motoquestFuelProposal.intervalos.every(intervalo =>
+    Number.isFinite(Number(intervalo.distanciaKm)) &&
+    Number(intervalo.distanciaKm) >= 0 &&
+    Number(intervalo.distanciaKm) <=
+        Number(window.motoquestFuelProposal.limiteKm) - 20
+)
     ? window.motoquestFuelProposal
     : null
         );
