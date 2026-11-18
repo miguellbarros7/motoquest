@@ -13515,8 +13515,17 @@ if (
     bestFuelPair &&
     Array.isArray(bestFuelPair.intervalos) &&
     bestFuelPair.intervalos.length === 3 &&
-    bestFuelPair.primeiraBomba &&
+    
+	bestFuelPair.primeiraBomba &&
 bestFuelPair.segundaBomba &&
+[bestFuelPair.primeiraBomba, bestFuelPair.segundaBomba].every(bomba =>
+    bomba.latitude != null &&
+    bomba.longitude != null &&
+    Number.isFinite(Number(bomba.latitude)) &&
+    Number.isFinite(Number(bomba.longitude)) &&
+    Math.abs(Number(bomba.latitude)) <= 90 &&
+    Math.abs(Number(bomba.longitude)) <= 180
+) &&
 Number.isInteger(bestFuelPair.primeiraBomba.insertion_index) &&
 Number.isInteger(bestFuelPair.segundaBomba.insertion_index) &&
 bestFuelPair.primeiraBomba.insertion_index >= 0 &&
