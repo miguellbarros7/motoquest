@@ -15183,15 +15183,19 @@ return;
         gravado: false
     });
 
-    alert(
-        "⛽ BOMBAS ESCOLHIDAS\n\n" +
-        "1.ª " + primeira.name + "\n" +
-        "2.ª " + station.name +
-        "\n\nAinda falta verificar a ordem e a autonomia." +
-        "\nNenhuma bomba foi guardada."
-    );
-    return;
-
+   
+alert(
+    "✅ AUTONOMIA VALIDADA\n\n" +
+    "1.ª bomba: " + primeira.name + "\n" +
+    "2.ª bomba: " + segunda.name + "\n\n" +
+    "Partida → 1.ª: " + intervalosReais[0].toFixed(1) + " km\n" +
+    "1.ª → 2.ª: " + intervalosReais[1].toFixed(1) + " km\n" +
+    "2.ª → Destino: " + intervalosReais[2].toFixed(1) + " km\n\n" +
+    "Limite seguro: " + fuelSafetyLimitKm.toFixed(1) + " km\n\n" +
+    "As duas bombas estão validadas.\n" +
+    "Ainda não foram guardadas no Supabase."
+);
+return;
 
 	
     const placeName = station.locality
