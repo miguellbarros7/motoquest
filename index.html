@@ -11033,10 +11033,22 @@ const savedFuelStopsForReview =
 
 	// A ordem da rota mudou e os abastecimentos
 // ainda precisam de ser validados novamente.
+
 const fuelRouteReviewPending =
     route.trip_plan?.fuel_review_pending === true;
 
+console.log("MotoQuest — diagnóstico da revisão da rota:", {
+    routeId: route.id,
+    revisaoPendente: fuelRouteReviewPending,
+    quantidadeBombas: Array.isArray(route.fuel_stops)
+        ? route.fuel_stops.length
+        : 0,
+    bombas: Array.isArray(route.fuel_stops)
+        ? route.fuel_stops.map(bomba => bomba.name)
+        : []
+});
 
+if (fuelRouteReviewPending) {
     console.warn(
         "⛽ MotoQuest: abastecimentos pendentes de revisão " +
         "após alteração da ordem da rota."
