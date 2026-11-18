@@ -12625,8 +12625,9 @@ if (
     Number.isFinite(km) &&
     km > 0
 ) {
-    const targetGpsKm = distance * totalGpsKm / km;
+const targetGpsKm = searchKm * totalGpsKm / km;
 
+	
     let targetIndex = 0;
 
     for (let i = 1; i < routePointKm.length; i++) {
