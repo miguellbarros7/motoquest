@@ -30118,11 +30118,79 @@ const total = filteredExpenses.reduce(
                     })}
                 </div>
             </div>
+       
         `;
+
+        const categoryList = document.getElementById(
+            "mqProfileExpensesList"
+        );
+
+        if (categoryList) {
+            categoryList.replaceChildren();
+
+            const categories = {};
+
+            filteredExpenses.forEach(expense => {
+                const category = expense.categoria || "Outros";
+                const amount = Number(expense.valor || 0);
+
+                categories[category] =
+                    (categories[category] || 0) + amount;
+            });
+
+            const heading = document.createElement("h3");
+            heading.textContent = "📊 Gastos por categoria";
+            heading.style.cssText =
+                "color:#ff7900;font-size:17px;margin:22px 0 12px;";
+
+            categoryList.appendChild(heading);
+
+            const entries = Object.entries(categories)
+                .sort((a, b) => b[1] - a[1]);
+
+            if (entries.length === 0) {
+                const empty = document.createElement("p");
+                empty.textContent =
+                    "Ainda não existem despesas para esta seleção.";
+                empty.style.color = "#aaa";
+                categoryList.appendChild(empty);
+            }
+
+            entries.forEach(([category, amount]) => {
+                const item = document.createElement("div");
+
+                item.style.cssText = `
+                    display:flex;
+                    justify-content:space-between;
+                    align-items:center;
+                    gap:12px;
+                    padding:14px;
+                    margin-bottom:8px;
+                    background:#202020;
+                    border:1px solid #383838;
+                    border-radius:10px;
+                `;
+
+                const name = document.createElement("span");
+                name.textContent = category;
+                name.style.color = "#ddd";
+
+                const value = document.createElement("strong");
+                value.textContent = amount.toLocaleString(
+                    "pt-PT",
+                    { style:"currency", currency:"EUR" }
+                );
+                value.style.color = "#ff7900";
+
+                item.append(name, value);
+                categoryList.appendChild(item);
+            });
+        }
     }
 
 
 mqLoadProfileRouteOptions();
+
 loadProfileExpenses();
 
 
