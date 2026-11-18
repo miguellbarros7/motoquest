@@ -13610,9 +13610,18 @@ margemMinimaKm: bestFuelPair.margemMinimaKm,
 desvioKm: Number(bestFuelPair.desvioKm),
 distanciaTotalKm: Number(bestFuelPair.distanciaTotalKm),
 
-		geracao: fuelSearchGeneration,
+		
 routeId: route.id,
-validado: false
+geracao: fuelSearchGeneration,
+validado: false,
+calculoRodoviarioConfirmado: true,
+intervalosDentroDaAutonomia: fuelIntervals.every(
+    intervalo =>
+        Number.isFinite(intervalo.distanciaKm) &&
+        intervalo.distanciaKm >= 0 &&
+        intervalo.distanciaKm <= fuelSafetyLimitKm
+)
+
     };
 }	
 }
