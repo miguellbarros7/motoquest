@@ -12848,7 +12848,7 @@ return {
 	// Ordenar candidatos pelo quilómetro pretendido.
 // Candidatos sem posição GPS válida ficam no fim.
 fuelCandidatesOnRoute.sort((a, b) => {
-    const targetKm = Number(distance);
+   const targetKm = Number(searchKm);
 
     const differenceA =
         Number.isFinite(a.routeKm) &&
