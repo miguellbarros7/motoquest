@@ -12982,10 +12982,9 @@ station.routeKm <= fuelSafetyLimitKm - 20
 )
 .sort((a, b) => {
     // Procurar abastecimento cerca de 30 km antes do limite.
-   const alvoKm = Math.min(
-    Number(searchKm),
-    fuelSafetyLimitKm - 30
-);
+  const alvoKm = Number.isFinite(Number(searchKm))
+    ? Math.min(Number(searchKm), fuelSafetyLimitKm - 30)
+    : fuelSafetyLimitKm - 30;
 
     return Math.abs(a.routeKm - alvoKm) -
            Math.abs(b.routeKm - alvoKm);
