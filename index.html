@@ -15180,6 +15180,9 @@ return;
         routeId: route.id,
         primeira: { ...primeira },
         segunda: { ...segunda },
+		
+bombasParaGuardar: bombasParaGuardar.map(bomba => ({ ...bomba })),
+
         intervalosKm: [...intervalosReais],
         limiteKm: fuelSafetyLimitKm,
         validado: true,
