@@ -14973,6 +14973,10 @@ const kmSegunda = Number(distance);
         locality: station.locality || "",
         latitude: Number(station.latitude),
         longitude: Number(station.longitude),
+		
+routeKm: Number(distance),
+insertion_index: getCandidateInsertionIndex(Number(distance)),
+
         routeId: route.id,
         geracao: window.motoquestFuelGeneration
     };
