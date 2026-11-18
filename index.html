@@ -13396,9 +13396,16 @@ console.log("MotoQuest — qualidade dos pares:", {
 });
 
 // Preferir pares confortáveis, quando existirem.
-const paresParaComparar = paresConfortaveis.length > 0
-    ? paresConfortaveis
-    : paresDentroDoLimite;
+// Só recomendar pares com pelo menos 20 km
+// de margem adicional de autonomia.
+const paresParaComparar = paresConfortaveis;
+
+if (paresConfortaveis.length === 0) {
+    console.warn(
+        "MotoQuest — nenhum par com margem confortável. " +
+        "É necessário procurar outras bombas."
+    );
+}
 
 const bestFuelPair = [...paresParaComparar]
     .sort((a, b) => {
