@@ -30070,10 +30070,8 @@ async function mqLoadProfileRouteOptions() {
             return;
         }
 
-        const total = (data || []).reduce(
-            (sum, expense) => sum + Number(expense.valor || 0),
-            0
-        );
+      const total = (data || []).reduce(
+
 
         summary.innerHTML = `
             <div style="
