@@ -14897,9 +14897,10 @@ addToRouteButton.onclick = async () => {
             longitude: Number(station.longitude),
 			
 
-routeKm: Number(distance),
 
-insertion_index: getCandidateInsertionIndex(Number(distance)),
+routeKm: Number(station.routeKm),
+insertion_index: getCandidateInsertionIndex(Number(station.routeKm)),
+
             routeId: route.id,
             geracao: window.motoquestFuelGeneration
         };
