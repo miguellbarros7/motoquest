@@ -13378,8 +13378,14 @@ window.motoquestFuelPairResults.push({
     primeira: firstPair.primeira.name,
     segunda: firstPair.segunda.name,
 
-    primeiraBomba: { ...firstPair.primeira },
-    segundaBomba: { ...firstPair.segunda },
+    primeiraBomba: {
+    ...firstPair.primeira,
+    insertion_index: firstIndex
+},
+segundaBomba: {
+    ...firstPair.segunda,
+    insertion_index: secondIndex
+},
 
     maiorIntervaloKm: pairMaxKm,
     margemMinimaKm: fuelSafetyLimitKm - pairMaxKm,
