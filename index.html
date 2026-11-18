@@ -13047,7 +13047,9 @@ window.motoquestFuelPairResults = [];
 if (
     Number(distance) > fuelSafetyLimitKm &&
     Array.isArray(window.motoquestFirstFuelCandidates) &&
-    Array.isArray(window.motoquestSecondFuelCandidates)
+    window.motoquestFirstFuelCandidates.length > 0 &&
+    Array.isArray(window.motoquestSecondFuelCandidates) &&
+    window.motoquestSecondFuelCandidates.length > 0
 ) {
     window.motoquestFuelPairs =
         window.motoquestFirstFuelCandidates.flatMap(first =>
