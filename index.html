@@ -3841,8 +3841,8 @@ max-width:100%;
 <section id="profileSection" class="section">
 
 	
-<div id="mqProfileExpenses" style="
-    background:#151515;
+<div id="mqProfileExpenses" class="hidden" style="
+	background:#151515;
     border:1px solid #ff7900;
     border-radius:16px;
     padding:18px;
@@ -29904,6 +29904,42 @@ filter: blur(12px) brightness(.85);
 </style>
 
 <script>
+
+	
+<script>
+/* MOTOQUEST — ABRIR GASTOS NO PERFIL */
+
+(() => {
+    const button = document.getElementById(
+        "openProfileExpensesBtn"
+    );
+
+    const panel = document.getElementById(
+        "mqProfileExpenses"
+    );
+
+    if (!button || !panel) return;
+
+    button.insertAdjacentElement("afterend", panel);
+
+    panel.classList.add("hidden");
+
+    button.addEventListener("click", () => {
+        const willOpen = panel.classList.contains("hidden");
+
+        panel.classList.toggle("hidden", !willOpen);
+        button.setAttribute("aria-expanded", String(willOpen));
+
+        if (willOpen) {
+            panel.scrollIntoView({
+                behavior: "smooth",
+                block: "nearest"
+            });
+        }
+    });
+})();
+</script>
+
 /* MOTOQUEST — FILTROS DOS GASTOS DO PERFIL */
 
 (() => {
