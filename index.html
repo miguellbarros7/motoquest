@@ -15158,6 +15158,24 @@ return;
 
     }
 
+	
+    const bombasParaGuardar = [primeira, segunda].map(bomba => ({
+        name: bomba.name,
+        locality: bomba.locality || "",
+        latitude: Number(bomba.latitude),
+        longitude: Number(bomba.longitude),
+        insertion_index: Number(bomba.insertion_index),
+        routeKm: Number(bomba.routeKm)
+    }));
+
+    console.log("MotoQuest — duas bombas preparadas para guardar:", {
+        routeId: route.id,
+        bombas: bombasParaGuardar,
+        intervalosKm: intervalosReais,
+        gravado: false
+    });
+
+
     window.motoquestDuasBombasValidadas = {
         routeId: route.id,
         primeira: { ...primeira },
