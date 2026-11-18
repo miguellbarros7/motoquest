@@ -19942,16 +19942,18 @@ const visibleHistory = history.filter(
 );
 
 
-    if (!history.length) {
-        container.innerHTML = `
-            <div class="empty">
-                Ainda não visitaste nenhum local.
-            </div>
-        `;
-        return;
-    }
+   
+if (!visibleHistory.length) {
+    container.innerHTML = `
+        <div class="empty">
+            Não existem visitas para apresentar.
+        </div>
+    `;
+    return;
+}
 
-    container.innerHTML = history.map(item => {
+container.innerHTML = visibleHistory.map(item => {
+
 
         const locationName =
             item.locations?.name || "Local";
