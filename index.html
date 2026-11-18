@@ -13525,10 +13525,12 @@ if (
         intervalos: bestFuelPair.intervalos.map(
             intervalo => ({ ...intervalo })
         ),
-        limiteKm: fuelSafetyLimitKm,
-        margemMinimaKm: bestFuelPair.margemMinimaKm,
-       desvioKm: bestFuelPair.desvioKm,
-geracao: fuelSearchGeneration,
+       limiteKm: fuelSafetyLimitKm,
+margemMinimaKm: bestFuelPair.margemMinimaKm,
+desvioKm: bestFuelPair.desvioKm,
+distanciaTotalKm: bestFuelPair.distanciaTotalKm,
+
+		geracao: fuelSearchGeneration,
 validado: false
     };
 }	
