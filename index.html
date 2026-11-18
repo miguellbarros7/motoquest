@@ -13021,6 +13021,10 @@ station.routeKm < km
         window.motoquestSecondFuelCandidates.length
     );
 }
+	// Limpar os resultados anteriores antes de preparar
+// novas combinações de abastecimento.
+window.motoquestFuelPairs = [];
+window.motoquestFuelPairResults = [];
 
 	// Preparar pares de bombas pela ordem do percurso.
 if (
