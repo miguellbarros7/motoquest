@@ -15131,11 +15131,13 @@ insertion_index: getCandidateInsertionIndex(Number(distance)),
             ).join("\n") +
             "\n\nLimite seguro: " +
             fuelSafetyLimitKm.toFixed(1) +
-            " km\n\nEscolhe outra segunda bomba."
+            " km"\n\nA primeira bomba está demasiado longe. " +
+"Escolhe uma primeira bomba mais cedo."
         );
 
-        window.motoquestSegundaBombaEscolhida = null;
-        return;
+       window.motoquestPrimeiraBombaEscolhida = null;
+window.motoquestSegundaBombaEscolhida = null;
+return;
     }
 
 
