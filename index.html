@@ -13752,8 +13752,8 @@ if (proposta.prontaParaConfirmacao) {
 
 
 
-botao.onclick = () => {
-    const atual = window.motoquestFuelProposal;
+botao.onclick = async () => {
+	const atual = window.motoquestFuelProposal;
 	
 if (botao.dataset.confirmacaoEmCurso === "true") {
     return;
