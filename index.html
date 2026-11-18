@@ -12845,6 +12845,30 @@ const getCandidateInsertionIndex = (targetDistanceKm) => {
         Math.min(ordered.length, count)
     );
 };
+	// Passo 218 — Diagnóstico dos troços de abastecimento.
+const diagnosticarTrocoAbastecimento = (bomba) => {
+    const kmBomba = Number(bomba.routeKm);
+    const indiceTroco = getRouteLegIndex(kmBomba);
+    const indiceInsercao = getCandidateInsertionIndex(kmBomba);
+
+    const anterior = indiceTroco !== null
+        ? tripRouteStops[indiceTroco]
+        : null;
+
+    const seguinte = indiceTroco !== null
+        ? tripRouteStops[indiceTroco + 1]
+        : null;
+
+    console.log("MotoQuest — troço de inserção:", {
+        bomba: bomba.name,
+        km: kmBomba,
+        indiceTroco,
+        indiceInsercao,
+        paragemAnterior: anterior?.name ?? null,
+        paragemSeguinte: seguinte?.name ?? null,
+        diagnostico: true
+    });
+};
 
 	// Medir a proximidade de cada bomba ao traçado GPS.
 const fuelCandidatesOnRoute = nearbyFuelCandidates.map(station => {
