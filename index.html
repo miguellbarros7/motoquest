@@ -13695,6 +13695,26 @@ const verificacaoConjunta =
 
 proposta.verificacaoConjunta = verificacaoConjunta;
 
+	
+proposta.referenciaRota = JSON.stringify({
+    routeId: route.id,
+    locationIds: route.location_ids,
+    tripPlan: route.trip_plan
+});
+
+proposta.prontaParaConfirmacao =
+    verificacaoConjunta === true &&
+    proposta.validado === false;
+
+console.log("MotoQuest — proposta preparada:", {
+    bombas: proposta.bombas.map(b => b.name),
+    prontaParaConfirmacao:
+        proposta.prontaParaConfirmacao,
+    rota: proposta.routeId,
+    validado: proposta.validado
+});
+
+
 console.log("MotoQuest — verificação conjunta:", {
     bombas: proposta.bombas.map(b => b.name),
     bombasValidas,
