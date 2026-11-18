@@ -13031,10 +13031,10 @@ if (
     window.motoquestFuelPairs =
         window.motoquestFirstFuelCandidates.flatMap(first =>
             window.motoquestSecondFuelCandidates
-              .filter(second =>
-    second.routeKm > first.routeKm &&
-    second.routeKm - first.routeKm >= 50
+.filter(second =>
+    second.routeKm > first.routeKm
 )
+
                 .map(second => ({
                     primeira: first,
                     segunda: second,
