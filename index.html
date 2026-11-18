@@ -15215,6 +15215,19 @@ return;
         return;
     }
 
+    if (!currentUser?.id) {
+        window.motoquestDuasBombasValidadas = null;
+
+        alert(
+            "⚠️ SESSÃO INVÁLIDA\n\n" +
+            "Não foi possível identificar o utilizador autenticado.\n\n" +
+            "Inicia sessão novamente antes de guardar " +
+            "os abastecimentos.\n\n" +
+            "Nenhuma alteração foi guardada."
+        );
+        return;
+    }
+
 	
     const bombasParaGuardar = [primeira, segunda].map(bomba => ({
         name: bomba.name,
