@@ -9191,9 +9191,24 @@ expensesRouteBtn.addEventListener("click", async () => {
         filter.value = routeId;
     }
 
-    if ([...routeSelect.options].some(option => option.value === routeId)) {
+  
+    // Selecionar automaticamente a rota que abriu os Gastos
+    const selectedRouteExists = [...routeSelect.options].some(
+        option => option.value === routeId
+    );
+
+    if (selectedRouteExists) {
         routeSelect.value = routeId;
+        routeSelect.dispatchEvent(
+            new Event("change", { bubbles: true })
+        );
+    } else {
+        console.warn(
+            "A rota selecionada não está disponível nos Gastos:",
+            routeId
+        );
     }
+
 
     await mqLoadExpenses();
     mqRenderExpenses();
