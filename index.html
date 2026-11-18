@@ -13852,8 +13852,13 @@ bestDisplay.geracao === window.motoquestFuelGeneration
                 : null
         );
 
-    const fuelLines = proposal.bombas.map((bomba, index) =>
-        `${index + 1}. ${bomba.name} — km ${Number(bomba.routeKm).toFixed(0)}`
+if (!proposal) {
+    proposalBox.style.display = "none";
+    return;
+}
+
+const fuelLines = proposal.bombas.map((bomba, index) =>
+	`${index + 1}. ${bomba.name} — km ${Number(bomba.routeKm).toFixed(0)}`
     );
 
     const intervalLines = proposal.intervalos.map(intervalo =>
