@@ -13702,9 +13702,20 @@ proposta.referenciaRota = JSON.stringify({
     tripPlan: route.trip_plan
 });
 
+
 proposta.prontaParaConfirmacao =
     verificacaoConjunta === true &&
-    proposta.validado === false;
+    proposta.validado === false &&
+    Array.isArray(proposta.bombas) &&
+    proposta.bombas.length === 2 &&
+    Array.isArray(proposta.intervalos) &&
+    proposta.intervalos.length === 3 &&
+    proposta.bombas.every(b =>
+        Number.isInteger(Number(b.insertion_index)) &&
+        Number.isFinite(Number(b.latitude)) &&
+        Number.isFinite(Number(b.longitude))
+    );
+
 
 console.log("MotoQuest — proposta preparada:", {
     bombas: proposta.bombas.map(b => b.name),
