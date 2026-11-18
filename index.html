@@ -19985,12 +19985,45 @@ ${item.photo_url ? `
     decoding="async"
 >
   
+
 ` : ""}
+
+<button
+    type="button"
+    class="mq-hide-visit-btn"
+    data-visit-id="${escapeHtml(String(item.id))}"
+    title="Remover visita do histórico"
+    aria-label="Remover visita do histórico"
+    style="
+        width:36px;
+        height:36px;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        flex-shrink:0;
+        padding:0;
+        background:transparent;
+        color:#ff7900;
+        border:1px solid #ff7900;
+        border-radius:50%;
+        cursor:pointer;
+    "
+>
+    <svg width="16" height="16" viewBox="0 0 24 24"
+        fill="none" stroke="currentColor"
+        stroke-width="1.8"
+        stroke-linecap="round"
+        stroke-linejoin="round">
+        <path d="M3 6h18M8 6V4h8v2M5 6l1 14h12l1-14"/>
+        <path d="M10 10v6M14 10v6"/>
+    </svg>
+</button>
 
 </div>
         `;
 
     }).join("");
+
 }
 
 /* =========================================================
