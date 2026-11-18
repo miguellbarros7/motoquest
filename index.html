@@ -15239,12 +15239,18 @@ return;
             .eq("user_id", currentUser.id)
             .maybeSingle();
 
-    console.log("MotoQuest — estado da rota antes de guardar:", {
-        rota: estadoAtualRota,
-        erro: erroConsultaRota,
-        fuelStopsEhNull: estadoAtualRota?.fuel_stops === null,
-        fuelStopsEhArray: Array.isArray(estadoAtualRota?.fuel_stops)
-    });
+   
+console.log("MotoQuest — estado da rota antes de guardar:", {
+    rota: estadoAtualRota,
+    erro: erroConsultaRota,
+    fuelStopsEhNull: estadoAtualRota?.fuel_stops === null,
+    fuelStopsEhArray: Array.isArray(estadoAtualRota?.fuel_stops),
+    quantidadeBombas: Array.isArray(estadoAtualRota?.fuel_stops)
+        ? estadoAtualRota.fuel_stops.length
+        : 0,
+    revisaoPendenteLocal:
+        route.trip_plan?.fuel_review_pending === true
+});
 
 
 	
