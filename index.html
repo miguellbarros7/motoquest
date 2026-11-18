@@ -12049,7 +12049,26 @@ if (podeRevalidarBombasGuardadas) {
         "border:none;border-radius:8px;" +
         "font-size:12px;font-weight:800;cursor:pointer;";
 
-    revalidateFuelBtn.onclick = () => {
+   
+revalidateFuelBtn.onclick = () => {
+    const bombasGuardadas = route.fuel_stops
+        .map(bomba => ({
+            nome: bomba.name,
+            latitude: Number(bomba.latitude),
+            longitude: Number(bomba.longitude),
+            insertion_index: Number(bomba.insertion_index)
+        }))
+        .sort((a, b) =>
+            a.insertion_index - b.insertion_index
+        );
+
+    console.log("MotoQuest — bombas para cálculo rodoviário:", {
+        routeId: route.id,
+        bombas: bombasGuardadas,
+        limiteKm: fuelSafetyLimitKm
+    });
+};
+
         console.log("MotoQuest — pedido de revalidação:", {
             routeId: route.id,
             bombas: route.fuel_stops.map(bomba => ({
