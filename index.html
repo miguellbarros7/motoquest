@@ -30091,16 +30091,16 @@ async function mqLoadProfileRouteOptions() {
             .filter(Boolean)
     );
 
-    (routesResult.data || []).forEach(route => {
-        if (!routeIds.has(String(route.id))) return;
+   
+(routesResult.data || []).forEach(route => {
+    select.add(
+        new Option(
+            route.name || "Rota sem nome",
+            String(route.id)
+        )
+    );
+});
 
-        select.add(
-            new Option(
-                route.name || "Rota sem nome",
-                String(route.id)
-            )
-        );
-    });
 
     if ([...select.options].some(
         option => option.value === previousRoute
