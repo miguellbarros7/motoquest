@@ -15158,6 +15158,25 @@ return;
 
     }
 
+    const abastecimentosExistentes = Array.isArray(route.fuel_stops)
+        ? route.fuel_stops
+        : [];
+
+    if (abastecimentosExistentes.length > 0) {
+        window.motoquestDuasBombasValidadas = null;
+
+        alert(
+            "⚠️ ESTA ROTA JÁ TEM ABASTECIMENTOS\n\n" +
+            "Foram encontrados " +
+            abastecimentosExistentes.length +
+            " abastecimento(s) guardado(s).\n\n" +
+            "Para evitar substituir bombas existentes, " +
+            "a gravação conjunta fica bloqueada.\n\n" +
+            "Nenhuma alteração foi guardada."
+        );
+        return;
+    }
+
 	
     const bombasParaGuardar = [primeira, segunda].map(bomba => ({
         name: bomba.name,
