@@ -18123,6 +18123,12 @@ avatar.style.backgroundImage = "none";
 const avatarPath =
     currentUser?.user_metadata?.avatar_path;
 
+const topMenuBtn = document.getElementById("topMenuBtn");
+
+if (topMenuBtn) {
+    topMenuBtn.style.backgroundImage = "none";
+    topMenuBtn.textContent = "⋮";
+}
 if (avatarPath) {
     supabaseClient.storage
         .from("avatars")
