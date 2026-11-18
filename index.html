@@ -12965,6 +12965,10 @@ const earlyFuelCandidates = fuelCandidatesOnRoute
 	
 // Preparar candidatas para futura comparação de combinações.
 if (Number(distance) <= fuelSafetyLimitKm) {
+
+    window.motoquestSecondFuelCandidates = [];
+    window.motoquestTestFirstFuel = null;
+	
     window.motoquestFirstFuelCandidates =
         fuelCandidatesOnRoute
             .filter(station =>
