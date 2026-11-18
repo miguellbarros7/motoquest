@@ -7541,9 +7541,15 @@ stopLocation.style.cssText =
 name.append(stopLabel, stopLocation);
 
              
+
 const arrows = document.createElement("div");
+arrows.className = "mq-responsive-stop-actions";
+
 arrows.style.cssText =
-    "display:flex;gap:5px;margin-left:auto;";
+    "display:flex;align-items:center;justify-content:flex-end;" +
+    "gap:5px;margin-left:auto;flex-wrap:wrap;" +
+    "max-width:100%;box-sizing:border-box;";
+
 
 const upBtn = document.createElement("button");
 upBtn.type = "button";
