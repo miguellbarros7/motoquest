@@ -9156,13 +9156,26 @@ expensesRouteBtn.addEventListener("click", async () => {
     );
 
 
+   
     if (!panel || !routesPanel) {
         console.error("Painel de gastos não encontrado.");
         return;
     }
 
-    // Aproveitar o painel existente dentro das Rotas
+    const routeId = expensesRouteBtn.dataset.routeId;
+
+    // Fechar se os Gastos desta rota já estiverem abertos
+    if (
+        !panel.classList.contains("hidden") &&
+        panel.dataset.activeRouteId === routeId
+    ) {
+        panel.classList.add("hidden");
+        return;
+    }
+
+    // Abrir Gastos da rota selecionada
     routesPanel.appendChild(panel);
+    panel.dataset.activeRouteId = routeId;
     panel.classList.remove("hidden");
 
     // Preparar os dados da rota selecionada
