@@ -14922,10 +14922,13 @@ routeKm: Number(distance),
   
     const primeira = window.motoquestPrimeiraBombaEscolhida;
 
-    if (
-        String(primeira.routeId) !== String(route.id) ||
-        primeira.geracao !== window.motoquestFuelGeneration
-    ) {
+   
+if (
+    String(primeira.routeId) !== String(route.id) ||
+    !Number.isFinite(Number(primeira.latitude)) ||
+    !Number.isFinite(Number(primeira.longitude))
+) {
+
         window.motoquestPrimeiraBombaEscolhida = null;
         alert("A rota mudou. Escolhe novamente a primeira bomba.");
         return;
