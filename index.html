@@ -13751,11 +13751,30 @@ if (proposta.prontaParaConfirmacao) {
     `;
 
 
-botao.onclick = async () => {
 
+botao.onclick = () => {
+    const atual = window.motoquestFuelProposal;
 
-    searchButton.insertAdjacentElement("afterend", botao);
+    if (
+        !atual ||
+        atual !== proposta ||
+        atual.prontaParaConfirmacao !== true ||
+        atual.geracao !== window.motoquestFuelGeneration
+    ) {
+        alert("A proposta mudou. Pesquisa novamente os postos.");
+        return;
+    }
+
+    alert(
+        "⛽ Proposta preparada:\n\n" +
+        atual.bombas.map(b => b.name).join(" → ") +
+        "\n\nA gravação conjunta ainda não está ativada."
+    );
+};
+
+searchButton.insertAdjacentElement("afterend", botao);
 }
+
 
 
 
