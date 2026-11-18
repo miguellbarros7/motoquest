@@ -30070,7 +30070,25 @@ async function mqLoadProfileRouteOptions() {
             return;
         }
 
-      const total = (data || []).reduce(
+
+const routeFilter = document.getElementById(
+    "mqProfileRouteFilter"
+);
+
+const selectedRoute = routeFilter
+    ? routeFilter.value
+    : "all";
+
+const filteredExpenses = (data || []).filter(expense => {
+    if (selectedRoute === "all") return true;
+
+    return String(expense.rota_id || "") === selectedRoute;
+});
+
+const total = filteredExpenses.reduce(
+    (sum, expense) => sum + Number(expense.valor || 0),
+    0
+);
 
 
         summary.innerHTML = `
