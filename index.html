@@ -13873,9 +13873,8 @@ proposal.bombas.length !== 2 ||
     Number(bomba.routeKm) >= 0
 )
 ) {
-    proposalBox.style.display = "none";
-    return;
-}
+     proposalBox.style.display = "none";
+} else {
 
 const fuelLines = proposal.bombas.map((bomba, index) =>
 	`${index + 1}. ${bomba.name} — km ${Number(bomba.routeKm).toFixed(0)}`
@@ -13915,8 +13914,9 @@ avisoMargem,
 "⚠️ Proposta ainda não validada nem guardada."
     ].join("\n");
 
-    proposalBox.style.whiteSpace = "pre-line";
+     proposalBox.style.whiteSpace = "pre-line";
     proposalBox.style.display = "block";
+}
 }
 }
 }
