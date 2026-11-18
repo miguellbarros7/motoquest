@@ -12249,7 +12249,27 @@ const stations = await findFuelStations(
     searchLatitude,
     searchLongitude
 );
+// TESTE: procurar bombas 30 km antes do limite de autonomia.
+if (index === 0) {
+    const alvoTesteKm = Math.max(0, fuelSafetyLimitKm - 30);
+    const pontoTeste = getPointAtKm(alvoTesteKm);
 
+    if (pontoTeste) {
+        const bombasTeste = await findFuelStations(
+            Number(pontoTeste.latitude),
+            Number(pontoTeste.longitude)
+        );
+
+        console.log("MotoQuest — pesquisa experimental km 273:", {
+            kmPesquisado: alvoTesteKm.toFixed(1),
+            latitude: pontoTeste.latitude,
+            longitude: pontoTeste.longitude,
+            bombasEncontradas: bombasTeste.length,
+            nomes: bombasTeste.map(bomba => bomba.name)
+        });
+    }
+}
+	
 			// Diagnóstico da pesquisa de postos.
 console.log("MotoQuest — origem da pesquisa de postos:", {
     paragemPretendidaKm: Number(distance),
