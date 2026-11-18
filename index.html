@@ -18040,13 +18040,22 @@ document.getElementById("profilePhotoInput")
             .from("avatars")
             .createSignedUrl(filePath, 3600);
 
-        if (data?.signedUrl) {
-            avatar.style.backgroundImage =
-                `url("${data.signedUrl}")`;
-            avatar.textContent = "";
+       
+if (data?.signedUrl) {
+    avatar.style.backgroundImage =
+        `url("${data.signedUrl}")`;
 
+    avatar.textContent = "";
 
-        }
+    const topMenuBtn = document.getElementById("topMenuBtn");
+
+    if (topMenuBtn) {
+        topMenuBtn.style.backgroundImage =
+            `url("${data.signedUrl}")`;
+
+        topMenuBtn.textContent = "";
+    }
+}
 
         alert("Fotografia atualizada! 🏍️");
     });
