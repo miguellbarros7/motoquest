@@ -18044,6 +18044,8 @@ document.getElementById("profilePhotoInput")
             avatar.style.backgroundImage =
                 `url("${data.signedUrl}")`;
             avatar.textContent = "";
+
+
         }
 
         alert("Fotografia atualizada! 🏍️");
@@ -18140,10 +18142,14 @@ if (avatarPath) {
                 return;
             }
 
-            avatar.style.backgroundImage =
-                `url("${data.signedUrl}")`;
+            
+if (topMenuBtn) {
+    topMenuBtn.style.backgroundImage =
+        `url("${data.signedUrl}")`;
 
-            avatar.textContent = "";
+    topMenuBtn.textContent = "";
+}
+
         });
 }
 
