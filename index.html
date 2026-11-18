@@ -12096,8 +12096,8 @@ if (podeRevalidarBombasGuardadas) {
         "font-size:12px;font-weight:800;cursor:pointer;";
 
    
-revalidateFuelBtn.onclick = () => {
-    const bombasGuardadas = route.fuel_stops
+revalidateFuelBtn.onclick = async () => {
+	const bombasGuardadas = route.fuel_stops
         .map(bomba => ({
             nome: bomba.name,
             latitude: Number(bomba.latitude),
