@@ -12069,14 +12069,7 @@ revalidateFuelBtn.onclick = () => {
     });
 };
 
-        console.log("MotoQuest — pedido de revalidação:", {
-            routeId: route.id,
-            bombas: route.fuel_stops.map(bomba => ({
-                nome: bomba.name,
-                posicao: bomba.insertion_index
-            }))
-        });
-    };
+
 
     pendingFuelWarning.appendChild(revalidateFuelBtn);
 }
