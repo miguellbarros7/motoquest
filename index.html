@@ -12083,7 +12083,7 @@ if (
 
         
 // Usar a distância sugerida pelo planeador para cada paragem.
-const searchKm = Number(distance);
+let searchKm = Number(distance);
 		const stopLocation = getPointAtKm(searchKm);console.log("MotoQuest — localização do abastecimento:", distance, stopLocation);        
 
 if (stopLocation) {
