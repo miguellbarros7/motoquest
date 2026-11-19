@@ -16219,7 +16219,10 @@ if (!confirmarPrimeiraBomba) {
 }
 
 window.motoquestPrimeiraBombaEscolhida.confirmada = true;
+	
 
+stationResults.style.display = "none";
+searchButton.setAttribute("aria-expanded", "false");
 
 } catch (erro) {
     window.motoquestBombaUnicaValidada = null;
