@@ -9389,16 +9389,10 @@ expensesRouteBtn.addEventListener("click", async () => {
 
     // Preparar os dados da rota selecionada
    
-const rotaSelecionada = mqExpenseEl("mqExpenseRoute").value;
-
 mqExpenseResetForm();
-
-mqExpenseEl("mqExpenseRoute").value = rotaSelecionada;
-
 mqExpenseMessage("");
 
 await mqLoadExpenses();
-
 
     const filter = document.getElementById("mqExpensesRouteFilter");
     const routeSelect = document.getElementById("mqExpenseRoute");
@@ -22343,10 +22337,17 @@ mqExpenseEl("mqExpenseForm").addEventListener(
             if (result.error) throw result.error;
 
           
+
+const rotaSelecionada = mqExpenseEl("mqExpenseRoute").value;
+
 mqExpenseResetForm();
+
+mqExpenseEl("mqExpenseRoute").value = rotaSelecionada;
+
 mqExpenseMessage("");
 
 await mqLoadExpenses();
+
 
 document.getElementById("mqExpenseSuccessModal").style.display = "flex";
 
