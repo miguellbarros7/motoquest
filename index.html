@@ -15839,7 +15839,14 @@ overlay.querySelector("[data-preco98]").textContent =
 });
 
 
-        if (!confirmar) return;
+
+if (!confirmar) {
+    window.motoquestPrimeiraBombaEscolhida = null;
+    window.motoquestSegundaBombaEscolhida = null;
+    window.motoquestBombaUnicaValidada = null;
+    window.motoquestDuasBombasValidadas = null;
+    return;
+}
 
         const bombaParaGuardar = {
             name: primeiraBomba.name,
