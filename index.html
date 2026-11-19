@@ -7046,6 +7046,11 @@ stopsBtn.onclick = async (event) => {
 summaryBtn.style.opacity = "1";
 summaryBtn.style.cursor = "pointer";
 
+
+expensesRouteBtn.disabled = false;
+expensesRouteBtn.style.opacity = "1";
+expensesRouteBtn.style.cursor = "pointer";
+
     return;
 }
 
@@ -7062,6 +7067,11 @@ arrow.style.cursor = "not-allowed";
 summaryBtn.disabled = true;
 summaryBtn.style.opacity = "0.35";
 summaryBtn.style.cursor = "not-allowed";
+	
+expensesRouteBtn.disabled = true;
+expensesRouteBtn.style.opacity = "0.35";
+expensesRouteBtn.style.cursor = "not-allowed";
+
 summaryPanel.classList.add("hidden");    
     if (stopsLoaded) return;
     stopsPanel.textContent = "A carregar paragens...";
