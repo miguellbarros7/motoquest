@@ -15553,12 +15553,117 @@ insertion_index: getCandidateInsertionIndex(Number(station.routeKm)),
             geracao: window.motoquestFuelGeneration
         };
 
-      alert(
-    "✅ BOMBA SELECIONADA\n\n" +
-    station.name +
-    "\n\nAinda não foi guardada.\n" +
-    "Vamos verificar se esta bomba é suficiente para a rota."
-);
+  
+const primeiraBomba =
+    window.motoquestPrimeiraBombaEscolhida;
+
+let bombaUnicaSuficiente = false;
+
+try {
+    const paragensTeste = [...ordered];
+
+    paragensTeste.splice(
+        Number(primeiraBomba.insertion_index),
+        0,
+        {
+            name: primeiraBomba.name,
+            latitude: Number(primeiraBomba.latitude),
+            longitude: Number(primeiraBomba.longitude),
+            isFuelStop: true
+        }
+    );
+
+    if (tripMeetingPoint) {
+        paragensTeste.unshift(tripMeetingPoint);
+    }
+
+    if (tripDeparturePoint) {
+        paragensTeste.unshift(tripDeparturePoint);
+    }
+
+    if (tripEndPoint) {
+        paragensTeste.push(tripEndPoint);
+    }
+
+    const coordenadas = paragensTeste
+        .map(p => `${Number(p.longitude)},${Number(p.latitude)}`)
+        .join(";");
+
+    const resultado = await motoquestCalculateRoute(
+        coordenadas,
+        route.trip_plan,
+        false
+    );
+
+    const trocos = resultado?.routes?.[0]?.legs;
+
+    if (
+        resultado?.code !== "Ok" ||
+        !Array.isArray(trocos) ||
+        trocos.length !== paragensTeste.length - 1
+    ) {
+        throw new Error("Percurso rodoviário incompleto.");
+    }
+
+    let kmAcumulados = 0;
+    const intervalos = [];
+
+    trocos.forEach((troco, indice) => {
+        kmAcumulados += Number(troco.distance) / 1000;
+
+        if (paragensTeste[indice + 1].isFuelStop === true) {
+            intervalos.push(kmAcumulados);
+            kmAcumulados = 0;
+        }
+    });
+
+    intervalos.push(kmAcumulados);
+
+    bombaUnicaSuficiente =
+        intervalos.length === 2 &&
+        Number.isFinite(fuelSafetyLimitKm) &&
+        fuelSafetyLimitKm > 0 &&
+        intervalos.every(km =>
+            Number.isFinite(km) &&
+            km >= 0 &&
+            km <= fuelSafetyLimitKm
+        );
+
+    window.motoquestBombaUnicaValidada =
+        bombaUnicaSuficiente
+            ? {
+                routeId: route.id,
+                bomba: { ...primeiraBomba },
+                intervalosKm: [...intervalos],
+                limiteKm: fuelSafetyLimitKm
+            }
+            : null;
+
+    alert(
+        bombaUnicaSuficiente
+            ? "✅ UMA BOMBA É SUFICIENTE\n\n" +
+              primeiraBomba.name +
+              "\n\nA autonomia foi validada.\n" +
+              "Ainda não foi guardada."
+            : "⚠️ É NECESSÁRIO OUTRO ABASTECIMENTO\n\n" +
+              "Esta bomba não garante autonomia suficiente " +
+              "para completar toda a rota."
+    );
+
+} catch (erro) {
+    window.motoquestBombaUnicaValidada = null;
+
+    console.error(
+        "Erro ao validar uma bomba:",
+        erro
+    );
+
+    alert(
+        "⚠️ Não foi possível validar a autonomia.\n" +
+        "Nenhuma bomba foi guardada."
+    );
+}
+
         console.log(
             "MotoQuest — primeira bomba selecionada:",
             window.motoquestPrimeiraBombaEscolhida
