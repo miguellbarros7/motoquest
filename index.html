@@ -15639,16 +15639,92 @@ try {
             }
             : null;
 
+   
+    if (bombaUnicaSuficiente) {
+        const validacao = window.motoquestBombaUnicaValidada;
+
+        if (
+            !currentUser?.id ||
+            !validacao ||
+            String(validacao.routeId) !== String(route.id) ||
+            primeiraBomba.geracao !== window.motoquestFuelGeneration
+        ) {
+            alert("⚠️ Sessão ou seleção desatualizada. Pesquisa novamente.");
+            return;
+        }
+
+        const confirmar = confirm(
+            "⛽ GUARDAR UMA BOMBA\n\n" +
+            primeiraBomba.name +
+            "\n\nTroços: " +
+            validacao.intervalosKm
+                .map(km => km.toFixed(1) + " km")
+                .join(" / ") +
+            "\n\nConfirmas que queres guardar este abastecimento?"
+        );
+
+        if (!confirmar) return;
+
+        const bombaParaGuardar = {
+            name: primeiraBomba.name,
+            locality: primeiraBomba.locality || "",
+            latitude: Number(primeiraBomba.latitude),
+            longitude: Number(primeiraBomba.longitude),
+            insertion_index: Number(primeiraBomba.insertion_index),
+            routeKm: Number(primeiraBomba.routeKm)
+        };
+
+        const { data, error } = await supabaseClient
+            .from("routes")
+            .update({
+                fuel_stops: [bombaParaGuardar],
+                trip_plan: {
+                    ...(route.trip_plan || {}),
+                    fuel_review_pending: false
+                }
+            })
+            .eq("id", route.id)
+            .eq("user_id", currentUser.id)
+            .eq("route_type", "personal")
+            .or("fuel_stops.is.null,fuel_stops.eq.[]")
+            .select("id");
+
+        if (error || !Array.isArray(data) || data.length !== 1) {
+            console.error("Erro ao guardar bomba única:", error);
+
+            alert(
+                "⚠️ Não foi possível guardar a bomba.\n" +
+                "Verifica se a rota já tem abastecimentos."
+            );
+            return;
+        }
+
+        route.fuel_stops = [bombaParaGuardar];
+
+        route.trip_plan = {
+            ...(route.trip_plan || {}),
+            fuel_review_pending: false
+        };
+
+        window.motoquestPrimeiraBombaEscolhida = null;
+        window.motoquestBombaUnicaValidada = null;
+
+        alert(
+            "✅ BOMBA GUARDADA COM SUCESSO\n\n" +
+            primeiraBomba.name +
+            "\n\nA rota tem agora um abastecimento guardado."
+        );
+
+        return;
+    }
+
     alert(
-        bombaUnicaSuficiente
-            ? "✅ UMA BOMBA É SUFICIENTE\n\n" +
-              primeiraBomba.name +
-              "\n\nA autonomia foi validada.\n" +
-              "Ainda não foi guardada."
-            : "⚠️ É NECESSÁRIO OUTRO ABASTECIMENTO\n\n" +
-              "Esta bomba não garante autonomia suficiente " +
-              "para completar toda a rota."
+        "⚠️ É NECESSÁRIO OUTRO ABASTECIMENTO\n\n" +
+        "Esta bomba não garante autonomia suficiente " +
+        "para completar toda a rota.\n\n" +
+        "Escolhe uma segunda bomba."
     );
+
 
 } catch (erro) {
     window.motoquestBombaUnicaValidada = null;
