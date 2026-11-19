@@ -16511,11 +16511,41 @@ fuelSafetyLimitKm.toFixed(1) +
 
         );
 
-     
+
 window.motoquestDuasBombasValidadas = null;
 window.motoquestPrimeiraBombaEscolhida = null;
 window.motoquestSegundaBombaEscolhida = null;
+
+// Repor visualmente a primeira paragem.
+const primeiraParagemVisual = [...fuelPlanner.querySelectorAll("div")]
+    .find(element =>
+        element.textContent?.includes("1.ª BOMBA CONFIRMADA") &&
+        element.children.length === 0
+    );
+
+if (primeiraParagemVisual) {
+    const linha = primeiraParagemVisual.parentElement;
+    const botao = linha?.querySelector("button");
+
+    primeiraParagemVisual.textContent =
+        "Paragem 1 · Abastecer por volta do km " +
+        Math.round(Number(plannedStops[0]));
+
+    primeiraParagemVisual.style.color = "#fff";
+    primeiraParagemVisual.style.fontWeight = "";
+
+    linha.style.borderColor = "#444";
+
+    if (botao) {
+        botao.textContent = "⛽ POSTOS PRÓXIMOS";
+        botao.disabled = false;
+        botao.style.color = "#ff7900";
+        botao.style.borderColor = "#ff7900";
+    }
+}
+
 return;
+
 
     }
 
