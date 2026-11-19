@@ -15195,6 +15195,64 @@ intervals.push(sinceFuel);
 stationResults.textContent =
     "⏳ A validar bombas pela autonomia real...";
 
+	
+const validarPrimeiroTrocoCandidato = async station => {
+    const indice = getCandidateInsertionIndex(station.routeKm);
+
+    if (indice === null) return false;
+
+    const paragens = [...ordered];
+
+    paragens.splice(indice, 0, {
+        name: station.name,
+        latitude: Number(station.latitude),
+        longitude: Number(station.longitude),
+        isFuelStop: true
+    });
+
+    if (tripMeetingPoint) paragens.unshift(tripMeetingPoint);
+    if (tripDeparturePoint) paragens.unshift(tripDeparturePoint);
+    if (tripEndPoint) paragens.push(tripEndPoint);
+
+    const coordenadas = paragens
+        .map(p => `${Number(p.longitude)},${Number(p.latitude)}`)
+        .join(";");
+
+    const resultado = await motoquestCalculateRoute(
+        coordenadas,
+        route.trip_plan,
+        false
+    );
+
+    const trocos = resultado?.routes?.[0]?.legs;
+    const indiceBomba = paragens.findIndex(
+        p => p.isFuelStop === true
+    );
+
+    if (
+        resultado?.code !== "Ok" ||
+        !Array.isArray(trocos) ||
+        trocos.length !== paragens.length - 1 ||
+        indiceBomba <= 0
+    ) {
+        return false;
+    }
+
+    const primeiroTrocoKm = trocos
+        .slice(0, indiceBomba)
+        .reduce((total, troco) => {
+            const distancia = Number(troco.distance) / 1000;
+            return total + distancia;
+        }, 0);
+
+    return (
+        Number.isFinite(primeiroTrocoKm) &&
+        primeiroTrocoKm >= 0 &&
+        primeiroTrocoKm <= fuelSafetyLimitKm
+    );
+};
+
+
 const approvedFuelCandidates = [];
 
 
