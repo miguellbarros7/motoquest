@@ -15263,6 +15263,21 @@ for (const station of fuelCandidatesOnRoute
     )
     .slice(0, 8)) {
     try {
+
+	
+if (index === 0) {
+    const primeiraBombaValida =
+        await validarPrimeiroTrocoCandidato(station);
+
+    if (!primeiraBombaValida) {
+        console.log(
+            "MotoQuest — bomba excluída por autonomia:",
+            station.name
+        );
+        continue;
+    }
+}
+
         const addEvaluation =
             await checkCandidateRoute(station, null);
 
