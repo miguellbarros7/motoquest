@@ -12873,9 +12873,30 @@ searchButton.textContent =
         padding:8px 0;
     `;
 
-    searchButton.onclick = async () => {
-        searchButton.disabled = true;
-        stationResults.textContent = "🔎 A procurar postos próximos...";
+  
+searchButton.onclick = async () => {
+
+    // Se a lista estiver aberta, fechá-la.
+    if (stationResults.style.display !== "none") {
+        stationResults.style.display = "none";
+        searchButton.setAttribute("aria-expanded", "false");
+        return;
+    }
+
+    // Se já pesquisámos os postos, voltar a mostrar a lista.
+    if (stationResults.dataset.loaded === "true") {
+        stationResults.style.display = "block";
+        searchButton.setAttribute("aria-expanded", "true");
+        return;
+    }
+
+    // Primeira abertura: pesquisar os postos.
+    stationResults.style.display = "block";
+    searchButton.setAttribute("aria-expanded", "true");
+    searchButton.disabled = true;
+    stationResults.textContent = "🔎 A procurar postos próximos...";
+    stationResults.dataset.loaded = "true";
+
 		// Identificar a versão do planeador desta pesquisa.
 const fuelSearchGeneration =
     window.motoquestFuelGeneration;
