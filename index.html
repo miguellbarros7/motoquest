@@ -16103,14 +16103,23 @@ window.motoquestDuasBombasValidadas.gravado = true;
             gravado: true
         });
 
-        alert(
-            "✅ DUAS BOMBAS GUARDADAS\n\n" +
-            primeira.name + "\n" +
-            segunda.name + "\n\n" +
-            "Os dois abastecimentos foram guardados juntos no Supabase."
-        );
+       
+alert(
+    "✅ DUAS BOMBAS GUARDADAS\n\n" +
+    primeira.name + "\n" +
+    segunda.name + "\n\n" +
+    "Os dois abastecimentos foram guardados juntos no Supabase."
+);
 
-        return;
+// Atualizar automaticamente o planeador após guardar.
+window.motoquestPrimeiraBombaEscolhida = null;
+window.motoquestSegundaBombaEscolhida = null;
+window.motoquestDuasBombasValidadas = null;
+
+summaryPanel.classList.add("hidden");
+summaryBtn.click();
+
+return;
 
     } catch (erroGuardarBombas) {
         console.error(
