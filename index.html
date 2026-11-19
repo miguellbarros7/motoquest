@@ -16756,7 +16756,7 @@ const confirmarDuasBombas = await new Promise(resolve => {
 
     overlay.innerHTML = `
         <div role="dialog" aria-modal="true"
-            aria-label="Guardar duas bombas?"
+            aria-label="Confirmar segunda bomba?"
             style="
                 width:100%;
                 max-width:370px;
@@ -16790,8 +16790,7 @@ const confirmarDuasBombas = await new Promise(resolve => {
                 line-height:1.7;
                 margin:0 0 16px;
             ">
-                Confirmas que queres guardar estes dois abastecimentos?
-            </p>
+Confirmas esta segunda bomba?            </p>
 
             <div style="
                 color:#ff7900;
@@ -16800,22 +16799,16 @@ const confirmarDuasBombas = await new Promise(resolve => {
                 line-height:1.7;
                 margin-bottom:16px;
             ">
-                <div data-bomba="primeira"></div>
-                <div data-bomba="segunda"></div>
+                <div data-bomba="primeira" style="display:none;"></div>
+<div data-bomba="segunda"></div>
             </div>
 
-            <div style="
-                color:#aaa;
-                font-size:14px;
-                line-height:1.7;
-                margin-bottom:20px;
-            ">
-                <div>Intervalos rodoviários</div>
+        
+<div style="display:none;">
+    <div data-intervalos></div>
+    <div data-autonomia></div>
+</div>
 
-                <div data-intervalos style="color:#fff;"></div>
-
-                <div data-autonomia style="margin-top:8px;"></div>
-            </div>
 
             <div style="display:flex;gap:10px;">
 
@@ -16854,8 +16847,8 @@ const confirmarDuasBombas = await new Promise(resolve => {
     overlay.querySelector('[data-bomba="primeira"]').textContent =
         "1.ª bomba: " + primeira.name;
 
-    overlay.querySelector('[data-bomba="segunda"]').textContent =
-        "2.ª bomba: " + segunda.name;
+ overlay.querySelector('[data-bomba="segunda"]').textContent =
+    segunda.name;
 
     const intervalos = overlay.querySelector("[data-intervalos]");
 
