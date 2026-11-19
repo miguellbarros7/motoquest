@@ -9388,10 +9388,17 @@ expensesRouteBtn.addEventListener("click", async () => {
     panel.classList.remove("hidden");
 
     // Preparar os dados da rota selecionada
-    mqExpenseResetForm();
-    mqExpenseMessage("");
+   
+const rotaSelecionada = mqExpenseEl("mqExpenseRoute").value;
 
-    await mqLoadExpenseRoutes();
+mqExpenseResetForm();
+
+mqExpenseEl("mqExpenseRoute").value = rotaSelecionada;
+
+mqExpenseMessage("");
+
+await mqLoadExpenses();
+
 
     const filter = document.getElementById("mqExpensesRouteFilter");
     const routeSelect = document.getElementById("mqExpenseRoute");
