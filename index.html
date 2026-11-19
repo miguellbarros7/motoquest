@@ -15511,9 +15511,12 @@ addToRouteButton.onclick = async () => {
 		
 window.motoquestDuasBombasValidadas = null;
 
-        window.motoquestPrimeiraBombaEscolhida = {
-            name: station.name,
-            locality: station.locality || "",
+       
+window.motoquestPrimeiraBombaEscolhida = {
+    name: station.name,
+    locality: station.locality || "",
+    fuelPrices: station.fuelPrices || null,
+
             latitude: Number(station.latitude),
             longitude: Number(station.longitude),
 			
@@ -15681,17 +15684,70 @@ const confirmar = await new Promise(resolve => {
                 Confirmas que queres guardar este abastecimento?
             </p>
 
-            <div data-bomba style="
-                color:#ff7900;
-                font-size:17px;
-                font-weight:900;
-                margin-bottom:16px;
-                overflow-wrap:anywhere;
-            "></div>
+           
+<div style="
+    background:#232323;
+    border:1px solid #353535;
+    border-radius:12px;
+    padding:18px 15px;
+    margin-bottom:20px;
+    text-align:center;
+">
 
-            
+    <div data-bomba style="
+        color:#ff7900;
+        font-size:19px;
+        font-weight:900;
+        margin-bottom:8px;
+        overflow-wrap:anywhere;
+    "></div>
+
+    <div style="
+        color:#aaa;
+        font-size:11px;
+        font-weight:800;
+        letter-spacing:1px;
+        margin-bottom:14px;
+    ">
+        PREÇOS DO COMBUSTÍVEL
+    </div>
+
+    <div style="
+        border-top:1px solid #444;
+        padding-top:12px;
+    ">
+
+        <div style="
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            gap:8px;
+            margin-bottom:12px;
+            font-size:13px;
+        ">
+            <span style="color:#ccc;">⛽ Gasolina 95</span>
+            <strong data-preco95 style="color:#ff7900;">
+                Preço indisponível
+            </strong>
+        </div>
+
+        <div style="
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            gap:8px;
+            font-size:13px;
+        ">
+            <span style="color:#ccc;">⛽ Gasolina 98</span>
+            <strong data-preco98 style="color:#ff7900;">
+                Preço indisponível
+            </strong>
+        </div>
+
+    </div>
+</div>
+
 <div data-trocos style="display:none;"></div>
-
 
             <div style="display:flex;gap:10px;">
 
@@ -15733,6 +15789,31 @@ const confirmar = await new Promise(resolve => {
         validacao.intervalosKm
             .map(km => km.toFixed(1) + " km")
             .join(" / ");
+
+	
+const formatarPrecoBomba = fuelData => {
+    const preco = Number(fuelData?.price);
+
+    if (!Number.isFinite(preco) || preco <= 0) {
+        return "Preço indisponível";
+    }
+
+    return preco.toLocaleString("pt-PT", {
+        minimumFractionDigits: 3,
+        maximumFractionDigits: 3
+    }) + " €/L";
+};
+
+overlay.querySelector("[data-preco95]").textContent =
+    formatarPrecoBomba(
+        primeiraBomba.fuelPrices?.gasoline95
+    );
+
+overlay.querySelector("[data-preco98]").textContent =
+    formatarPrecoBomba(
+        primeiraBomba.fuelPrices?.gasoline98
+    );
+
 
     document.body.appendChild(overlay);
 
