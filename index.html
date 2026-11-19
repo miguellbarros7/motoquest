@@ -16036,6 +16036,29 @@ return;
 
     }
 
+const primeiroTrocoKm = intervalos[0];
+
+if (
+    !Number.isFinite(primeiroTrocoKm) ||
+    primeiroTrocoKm > fuelSafetyLimitKm
+) {
+    alert(
+        "⚠️ PRIMEIRA BOMBA FORA DA AUTONOMIA SEGURA\n\n" +
+        "Distância rodoviária até ao posto: " +
+        primeiroTrocoKm.toFixed(1) + " km\n\n" +
+        "Limite seguro: " +
+        fuelSafetyLimitKm.toFixed(1) + " km\n\n" +
+        "Escolhe uma primeira bomba mais cedo."
+    );
+
+    window.motoquestPrimeiraBombaEscolhida = null;
+    window.motoquestSegundaBombaEscolhida = null;
+    window.motoquestBombaUnicaValidada = null;
+    window.motoquestDuasBombasValidadas = null;
+
+    return;
+}
+
 const confirmarPrimeiraBomba = await new Promise(resolve => {
     const overlay = document.createElement("div");
 
