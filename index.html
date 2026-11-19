@@ -16219,11 +16219,30 @@ if (!confirmarPrimeiraBomba) {
     return;
 }
 
+
 window.motoquestPrimeiraBombaEscolhida.confirmada = true;
-	
 
 stationResults.style.display = "none";
 searchButton.setAttribute("aria-expanded", "false");
+
+// Indicação visual da primeira bomba confirmada.
+stop.style.borderColor = "#32834a";
+
+text.textContent =
+    "✅ 1.ª BOMBA CONFIRMADA · " +
+    primeiraBomba.name +
+    " · Km " +
+    Number(primeiraBomba.routeKm).toLocaleString("pt-PT", {
+        maximumFractionDigits: 1
+    });
+
+text.style.color = "#8de6a1";
+text.style.fontWeight = "800";
+
+searchButton.textContent = "✅ CONFIRMADA";
+searchButton.disabled = true;
+searchButton.style.color = "#8de6a1";
+searchButton.style.borderColor = "#32834a";
 
 } catch (erro) {
     window.motoquestBombaUnicaValidada = null;
