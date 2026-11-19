@@ -12836,64 +12836,7 @@ text.textContent =
         
 stop.append(icon, text);
 
-	if (index === 1) {
-    const kmInput = document.createElement("input");
 
-    kmInput.type = "number";
-    kmInput.min = "0";
-    kmInput.max = String(Math.floor(km));
-    kmInput.step = "10";
-    kmInput.value = String(Math.round(searchKm));
-    kmInput.title = "Quilómetro para procurar abastecimento";
-
-    kmInput.style.cssText = `
-        width:65px;
-        padding:8px 5px;
-        background:#171717;
-        color:#fff;
-        border:1px solid #ff7900;
-        border-radius:7px;
-        font-size:12px;
-        text-align:center;
-    `;
-
-    stop.appendChild(kmInput);
-		kmInput.onchange = () => {
-    const novoKm = Number(kmInput.value);
-
-    if (
-        !Number.isFinite(novoKm) ||
-        novoKm < 0 ||
-        novoKm > km
-    ) {
-        kmInput.value = String(Math.round(searchKm));
-        return;
-    }
-
-    const novaPosicao = getPointAtKm(novoKm);
-
-    if (!novaPosicao) {
-        kmInput.value = String(Math.round(searchKm));
-        return;
-    }
-
-    searchKm = novoKm;
-    stopLocation = novaPosicao;
-
-    stop.dataset.latitude = String(novaPosicao.latitude);
-    stop.dataset.longitude = String(novaPosicao.longitude);
-
-    text.textContent =
-        "Paragem 2 · Procurar abastecimento por volta do km " +
-        Math.round(searchKm);
-
-    console.log(
-        "MotoQuest — novo km de pesquisa:",
-        searchKm,
-        stopLocation
-    );
-};
-}
 
 
 
