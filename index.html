@@ -16011,12 +16011,214 @@ return;
 
     }
 
-    alert(
-        "⚠️ É NECESSÁRIO OUTRO ABASTECIMENTO\n\n" +
-        "Esta bomba não garante autonomia suficiente " +
-        "para completar toda a rota.\n\n" +
-        "Escolhe uma segunda bomba."
-    );
+const confirmarPrimeiraBomba = await new Promise(resolve => {
+    const overlay = document.createElement("div");
+
+    overlay.style.cssText = `
+        position:fixed;
+        inset:0;
+        z-index:99999;
+        background:rgba(0,0,0,.85);
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        padding:20px;
+        box-sizing:border-box;
+    `;
+
+    overlay.innerHTML = `
+        <div role="dialog"
+             aria-modal="true"
+             aria-label="Confirmar primeira bomba"
+             style="
+                width:100%;
+                max-width:370px;
+                max-height:90vh;
+                overflow-y:auto;
+                box-sizing:border-box;
+                background:#191919;
+                border:1px solid #ff7900;
+                border-radius:18px;
+                padding:28px 22px;
+                text-align:center;
+                box-shadow:0 20px 60px #000a;
+             ">
+
+            <div style="
+                font-size:36px;
+                margin-bottom:14px;
+            ">⛽</div>
+
+            <div style="
+                color:#ff7900;
+                font-size:21px;
+                font-weight:900;
+                margin-bottom:12px;
+            ">
+                Confirmar primeira bomba?
+            </div>
+
+            <p style="
+                color:#aaa;
+                font-size:14px;
+                line-height:1.7;
+                margin:0 0 16px;
+            ">
+                Esta rota precisa de dois abastecimentos.
+                Confirma a primeira bomba para depois
+                escolheres a segunda.
+            </p>
+
+            <div style="
+                background:#232323;
+                border:1px solid #353535;
+                border-radius:12px;
+                padding:18px 15px;
+                margin-bottom:20px;
+            ">
+                <div data-bomba style="
+                    color:#ff7900;
+                    font-size:19px;
+                    font-weight:900;
+                    margin-bottom:8px;
+                    overflow-wrap:anywhere;
+                "></div>
+
+                <div style="
+                    color:#aaa;
+                    font-size:11px;
+                    font-weight:800;
+                    letter-spacing:1px;
+                    margin-bottom:14px;
+                ">
+                    PREÇOS DO COMBUSTÍVEL
+                </div>
+
+                <div style="
+                    border-top:1px solid #444;
+                    padding-top:12px;
+                ">
+                    <div style="
+                        display:flex;
+                        justify-content:space-between;
+                        gap:8px;
+                        margin-bottom:12px;
+                        font-size:13px;
+                    ">
+                        <span style="color:#ccc;">
+                            ⛽ Gasolina 95
+                        </span>
+                        <strong data-preco95
+                            style="color:#ff7900;">
+                        </strong>
+                    </div>
+
+                    <div style="
+                        display:flex;
+                        justify-content:space-between;
+                        gap:8px;
+                        font-size:13px;
+                    ">
+                        <span style="color:#ccc;">
+                            ⛽ Gasolina 98
+                        </span>
+                        <strong data-preco98
+                            style="color:#ff7900;">
+                        </strong>
+                    </div>
+                </div>
+            </div>
+
+            <div style="display:flex;gap:10px;">
+                <button type="button"
+                    data-action="cancel"
+                    style="
+                        flex:1;
+                        padding:13px 8px;
+                        background:#303030;
+                        color:#fff;
+                        border:1px solid #484848;
+                        border-radius:10px;
+                        font-weight:800;
+                        cursor:pointer;
+                    ">
+                    CANCELAR
+                </button>
+
+                <button type="button"
+                    data-action="confirm"
+                    style="
+                        flex:1;
+                        padding:13px 8px;
+                        background:#ff7900;
+                        color:#111;
+                        border:0;
+                        border-radius:10px;
+                        font-weight:900;
+                        cursor:pointer;
+                    ">
+                    CONFIRMAR
+                </button>
+            </div>
+        </div>
+    `;
+
+    const formatarPreco = fuelData => {
+        const preco = Number(fuelData?.price);
+
+        return Number.isFinite(preco) && preco > 0
+            ? preco.toLocaleString("pt-PT", {
+                minimumFractionDigits:3,
+                maximumFractionDigits:3
+            }) + " €/L"
+            : "Preço indisponível";
+    };
+
+    overlay.querySelector("[data-bomba]").textContent =
+        primeiraBomba.name;
+
+    overlay.querySelector("[data-preco95]").textContent =
+        formatarPreco(
+            primeiraBomba.fuelPrices?.gasoline95
+        );
+
+    overlay.querySelector("[data-preco98]").textContent =
+        formatarPreco(
+            primeiraBomba.fuelPrices?.gasoline98
+        );
+
+    document.body.appendChild(overlay);
+
+    const fechar = confirmado => {
+        document.removeEventListener("keydown", onKeyDown);
+        overlay.remove();
+        resolve(confirmado);
+    };
+
+    const onKeyDown = event => {
+        if (event.key === "Escape") fechar(false);
+    };
+
+    document.addEventListener("keydown", onKeyDown);
+
+    overlay.querySelector('[data-action="cancel"]').onclick =
+        () => fechar(false);
+
+    overlay.querySelector('[data-action="confirm"]').onclick =
+        () => fechar(true);
+
+    overlay.querySelector('[data-action="cancel"]').focus();
+});
+
+if (!confirmarPrimeiraBomba) {
+    window.motoquestPrimeiraBombaEscolhida = null;
+    window.motoquestSegundaBombaEscolhida = null;
+    window.motoquestBombaUnicaValidada = null;
+    window.motoquestDuasBombasValidadas = null;
+    return;
+}
+
+window.motoquestPrimeiraBombaEscolhida.confirmada = true;
 
 
 } catch (erro) {
