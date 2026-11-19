@@ -15620,15 +15620,143 @@ try {
             return;
         }
 
-        const confirmar = confirm(
-            "⛽ GUARDAR UMA BOMBA\n\n" +
-            primeiraBomba.name +
-            "\n\nTroços: " +
-            validacao.intervalosKm
-                .map(km => km.toFixed(1) + " km")
-                .join(" / ") +
-            "\n\nConfirmas que queres guardar este abastecimento?"
-        );
+       
+const confirmar = await new Promise(resolve => {
+    const overlay = document.createElement("div");
+
+    overlay.style.cssText = `
+        position:fixed;
+        inset:0;
+        z-index:99999;
+        background:rgba(0,0,0,.82);
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        padding:20px;
+        box-sizing:border-box;
+    `;
+
+    overlay.innerHTML = `
+        <div role="dialog" aria-modal="true"
+            aria-label="Guardar uma bomba?"
+            style="
+                width:100%;
+                max-width:370px;
+                max-height:90vh;
+                overflow-y:auto;
+                box-sizing:border-box;
+                background:#191919;
+                border:1px solid #ff7900;
+                border-radius:18px;
+                padding:28px 22px;
+                text-align:center;
+                box-shadow:0 20px 60px #000a;
+            ">
+
+            <div style="font-size:36px;margin-bottom:14px;">
+                ⛽
+            </div>
+
+            <div style="
+                color:#ff7900;
+                font-size:21px;
+                font-weight:900;
+                margin-bottom:12px;
+            ">
+                Guardar uma bomba?
+            </div>
+
+            <p style="
+                color:#aaa;
+                font-size:14px;
+                line-height:1.7;
+                margin:0 0 16px;
+            ">
+                Confirmas que queres guardar este abastecimento?
+            </p>
+
+            <div data-bomba style="
+                color:#ff7900;
+                font-size:17px;
+                font-weight:900;
+                margin-bottom:16px;
+                overflow-wrap:anywhere;
+            "></div>
+
+            <div style="
+                color:#aaa;
+                font-size:14px;
+                line-height:1.7;
+                margin-bottom:22px;
+            ">
+                <div>Troços rodoviários</div>
+                <div data-trocos style="color:#fff;"></div>
+            </div>
+
+            <div style="display:flex;gap:10px;">
+
+                <button type="button" data-action="cancel"
+                    style="
+                        flex:1;
+                        padding:13px 8px;
+                        background:#303030;
+                        color:#fff;
+                        border:1px solid #484848;
+                        border-radius:10px;
+                        font-weight:800;
+                        cursor:pointer;
+                    ">
+                    CANCELAR
+                </button>
+
+                <button type="button" data-action="confirm"
+                    style="
+                        flex:1;
+                        padding:13px 8px;
+                        background:#ff6a00;
+                        color:#111;
+                        border:0;
+                        border-radius:10px;
+                        font-weight:900;
+                        cursor:pointer;
+                    ">
+                    CONFIRMAR
+                </button>
+            </div>
+        </div>
+    `;
+
+    overlay.querySelector("[data-bomba]").textContent =
+        primeiraBomba.name;
+
+    overlay.querySelector("[data-trocos]").textContent =
+        validacao.intervalosKm
+            .map(km => km.toFixed(1) + " km")
+            .join(" / ");
+
+    document.body.appendChild(overlay);
+
+    const finish = value => {
+        document.removeEventListener("keydown", onKeyDown);
+        overlay.remove();
+        resolve(value);
+    };
+
+    const onKeyDown = event => {
+        if (event.key === "Escape") finish(false);
+    };
+
+    document.addEventListener("keydown", onKeyDown);
+
+    overlay.querySelector('[data-action="cancel"]').onclick =
+        () => finish(false);
+
+    overlay.querySelector('[data-action="confirm"]').onclick =
+        () => finish(true);
+
+    overlay.querySelector('[data-action="cancel"]').focus();
+});
+
 
         if (!confirmar) return;
 
