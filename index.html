@@ -16204,7 +16204,10 @@ route.trip_plan = {
     fuel_review_pending: false
 };
 
-window.motoquestDuasBombasValidadas.gravado = true;
+
+if (window.motoquestDuasBombasValidadas) {
+    window.motoquestDuasBombasValidadas.gravado = true;
+}
 
 
         console.log("MotoQuest — duas bombas guardadas:", {
