@@ -15520,6 +15520,18 @@ addToRouteButton.style.cssText = `
 addToRouteButton.onclick = async () => {
 
 
+if (
+    !window.motoquestPrimeiraBombaEscolhida &&
+    index > 0
+) {
+    alert(
+        "⚠️ PRIMEIRA BOMBA POR CONFIRMAR\n\n" +
+        "A seleção anterior foi anulada porque " +
+        "a autonomia não foi validada.\n\n" +
+        "Escolhe primeiro uma bomba na Paragem 1."
+    );
+    return;
+}
     if (!window.motoquestPrimeiraBombaEscolhida) {
 		
 window.motoquestDuasBombasValidadas = null;
