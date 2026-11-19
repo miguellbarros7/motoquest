@@ -16146,6 +16146,25 @@ const confirmarDuasBombas = await new Promise(resolve => {
 });
 
 
+if (!confirmarDuasBombas) {
+    window.motoquestDuasBombasValidadas = null;
+    return;
+}
+
+if (!currentUser?.id) {
+    window.motoquestDuasBombasValidadas = null;
+    alert("⚠️ Sessão inválida. Inicia sessão novamente.");
+    return;
+}
+
+const bombasParaGuardar = [primeira, segunda].map(bomba => ({
+    name: bomba.name,
+    locality: bomba.locality || "",
+    latitude: Number(bomba.latitude),
+    longitude: Number(bomba.longitude),
+    insertion_index: Number(bomba.insertion_index),
+    routeKm: Number(bomba.routeKm)
+}));
 	
     try {
         const { data: rotasAtualizadas, error: erroGuardar } =
