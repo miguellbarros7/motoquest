@@ -15709,13 +15709,19 @@ try {
         window.motoquestPrimeiraBombaEscolhida = null;
         window.motoquestBombaUnicaValidada = null;
 
-        alert(
-            "✅ BOMBA GUARDADA COM SUCESSO\n\n" +
-            primeiraBomba.name +
-            "\n\nA rota tem agora um abastecimento guardado."
-        );
+     
+alert(
+    "✅ BOMBA GUARDADA COM SUCESSO\n\n" +
+    primeiraBomba.name +
+    "\n\nA rota tem agora um abastecimento guardado."
+);
 
-        return;
+// Reconstruir o resumo e o planeador com os dados atualizados.
+summaryPanel.classList.add("hidden");
+summaryBtn.click();
+
+return;
+
     }
 
     alert(
