@@ -15288,6 +15288,40 @@ if (index === 0) {
         continue;
     }
 }
+		
+if (index === 1) {
+    const primeira =
+        window.motoquestPrimeiraBombaEscolhida;
+
+    if (
+        !primeira ||
+        primeira.confirmada !== true ||
+        String(primeira.routeId) !== String(route.id)
+    ) {
+        continue;
+    }
+
+    const primeiraParaValidar = {
+        ...primeira,
+        insertion_index: Number(primeira.insertion_index)
+    };
+
+    const resultadoConjunto = await checkCandidateRoute(
+        station,
+        null,
+        [primeiraParaValidar]
+    );
+
+    if (resultadoConjunto.status !== "safe") {
+        console.log(
+            "MotoQuest — segunda bomba excluída:",
+            station.name,
+            resultadoConjunto.status
+        );
+        continue;
+    }
+}
+
 
         const addEvaluation =
             await checkCandidateRoute(station, null);
