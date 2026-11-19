@@ -16967,12 +16967,143 @@ if (window.motoquestDuasBombasValidadas) {
         });
 
        
-alert(
-    "✅ DUAS BOMBAS GUARDADAS\n\n" +
-    primeira.name + "\n" +
-    segunda.name + "\n\n" +
-    "Os dois abastecimentos foram guardados juntos no Supabase."
-);
+
+await new Promise(resolve => {
+    const overlay = document.createElement("div");
+
+    overlay.style.cssText = `
+        position:fixed;
+        inset:0;
+        z-index:999999;
+        background:rgba(0,0,0,.85);
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        padding:20px;
+        box-sizing:border-box;
+    `;
+
+    overlay.innerHTML = `
+        <div role="dialog" aria-modal="true"
+             aria-label="Duas bombas guardadas"
+             style="
+                background:#1b1c22;
+                border:1px solid #ff7900;
+                border-radius:20px;
+                padding:30px 24px;
+                width:100%;
+                max-width:390px;
+                box-sizing:border-box;
+                text-align:center;
+                color:#fff;
+                box-shadow:0 20px 60px rgba(0,0,0,.5);
+             ">
+
+            <div style="font-size:38px;margin-bottom:12px;">
+                ✅
+            </div>
+
+            <div style="
+                color:#ff7900;
+                font-size:21px;
+                font-weight:800;
+                margin-bottom:8px;
+            ">
+                OPERAÇÃO CONCLUÍDA
+            </div>
+
+            <div style="
+                color:#aaa;
+                font-size:14px;
+                margin-bottom:22px;
+            ">
+                Dois abastecimentos guardados com sucesso
+            </div>
+
+            <div style="
+                background:#252525;
+                border:1px solid #444;
+                border-radius:12px;
+                padding:16px;
+                text-align:left;
+                margin-bottom:20px;
+            ">
+                <div style="
+                    display:flex;
+                    align-items:center;
+                    gap:12px;
+                    margin-bottom:14px;
+                ">
+                    <span style="font-size:22px;">⛽</span>
+                    <div>
+                        <div style="color:#aaa;font-size:12px;">
+                            1.ª BOMBA
+                        </div>
+                        <div data-primeira style="
+                            color:#ff7900;
+                            font-weight:700;
+                            font-size:16px;
+                        "></div>
+                    </div>
+                </div>
+
+                <div style="height:1px;background:#444;
+                            margin-bottom:14px;"></div>
+
+                <div style="
+                    display:flex;
+                    align-items:center;
+                    gap:12px;
+                ">
+                    <span style="font-size:22px;">⛽</span>
+                    <div>
+                        <div style="color:#aaa;font-size:12px;">
+                            2.ª BOMBA
+                        </div>
+                        <div data-segunda style="
+                            color:#ff7900;
+                            font-weight:700;
+                            font-size:16px;
+                        "></div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="
+                color:#aaa;
+                font-size:13px;
+                line-height:1.6;
+                margin-bottom:22px;
+            ">
+                Os abastecimentos foram guardados na rota.
+            </div>
+
+            <button data-ok style="
+                background:#ff7900;
+                color:#111;
+                border:0;
+                border-radius:10px;
+                padding:13px 48px;
+                font-size:15px;
+                font-weight:800;
+                cursor:pointer;
+            ">OK</button>
+        </div>
+    `;
+
+    overlay.querySelector("[data-primeira]").textContent =
+        primeira.name;
+
+    overlay.querySelector("[data-segunda]").textContent =
+        segunda.name;
+
+    overlay.querySelector("[data-ok]").onclick = () => {
+        overlay.remove();
+        resolve();
+    };
+
+    document.body.appendChild(overlay);
+});
 
 // Atualizar automaticamente o planeador após guardar.
 window.motoquestPrimeiraBombaEscolhida = null;
