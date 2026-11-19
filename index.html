@@ -15811,11 +15811,115 @@ const confirmar = await new Promise(resolve => {
         window.motoquestBombaUnicaValidada = null;
 
      
-alert(
-    "✅ BOMBA GUARDADA COM SUCESSO\n\n" +
-    primeiraBomba.name +
-    "\n\nA rota tem agora um abastecimento guardado."
-);
+
+await new Promise(resolve => {
+    const overlay = document.createElement("div");
+
+    overlay.style.cssText = `
+        position:fixed;
+        inset:0;
+        z-index:99999;
+        background:rgba(0,0,0,.85);
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        padding:20px;
+        box-sizing:border-box;
+    `;
+
+    overlay.innerHTML = `
+        <div role="dialog" aria-modal="true"
+             aria-label="Bomba guardada com sucesso"
+             style="
+                width:100%;
+                max-width:390px;
+                background:#191919;
+                border:1px solid #ff7900;
+                border-radius:18px;
+                padding:30px 24px;
+                box-sizing:border-box;
+                text-align:center;
+                box-shadow:0 20px 60px #000a;
+             ">
+
+            <div style="font-size:38px;margin-bottom:12px;">
+                ✅
+            </div>
+
+            <div style="
+                color:#ff7900;
+                font-size:22px;
+                font-weight:900;
+                margin-bottom:16px;
+            ">
+                Operação concluída
+            </div>
+
+            <div style="
+                color:#fff;
+                font-size:16px;
+                font-weight:800;
+                margin-bottom:18px;
+            ">
+                Bomba guardada com sucesso!
+            </div>
+
+            <div data-posto style="
+                color:#ff7900;
+                font-size:20px;
+                font-weight:900;
+                margin-bottom:18px;
+                overflow-wrap:anywhere;
+            "></div>
+
+            <p style="
+                color:#bbb;
+                font-size:14px;
+                line-height:1.7;
+                margin:0 0 24px;
+            ">
+                A rota tem agora um abastecimento guardado.
+            </p>
+
+            <button type="button" data-action="ok"
+                style="
+                    background:#ff7900;
+                    color:#111;
+                    border:0;
+                    border-radius:10px;
+                    padding:13px 50px;
+                    font-weight:900;
+                    font-size:15px;
+                    cursor:pointer;
+                ">
+                OK
+            </button>
+        </div>
+    `;
+
+    overlay.querySelector("[data-posto]").textContent =
+        primeiraBomba.name;
+
+    document.body.appendChild(overlay);
+
+    const fechar = () => {
+        document.removeEventListener("keydown", onKeyDown);
+        overlay.remove();
+        resolve();
+    };
+
+    const onKeyDown = event => {
+        if (event.key === "Escape" || event.key === "Enter") {
+            fechar();
+        }
+    };
+
+    document.addEventListener("keydown", onKeyDown);
+
+    overlay.querySelector('[data-action="ok"]').onclick = fechar;
+    overlay.querySelector('[data-action="ok"]').focus();
+});
+
 
 // Reconstruir o resumo e o planeador com os dados atualizados.
 summaryPanel.classList.add("hidden");
