@@ -14346,11 +14346,12 @@ if (proposta.prontaParaConfirmacao) {
 
     const botao = document.createElement("button");
     botao.id = "mq-confirmar-duas-bombas";
-    botao.type = "button";
     
 
-botao.onclick = () => {
-    botao.style.cssText = `
+botao.type = "button";
+
+botao.style.cssText = `
+
         display:block;
         width:100%;
         padding:14px;
