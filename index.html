@@ -15247,6 +15247,15 @@ const validarPrimeiroTrocoCandidato = async station => {
 
     return (
         Number.isFinite(primeiroTrocoKm) &&
+		
+console.log("MotoQuest — VALIDAÇÃO DA LISTA", {
+    bomba: station.name,
+    kmRodoviarios: primeiroTrocoKm,
+    limiteSeguro: fuelSafetyLimitKm,
+    aprovada: Number.isFinite(primeiroTrocoKm) &&
+        primeiroTrocoKm <= fuelSafetyLimitKm
+});
+
         primeiroTrocoKm >= 0 &&
         primeiroTrocoKm <= fuelSafetyLimitKm
     );
@@ -16110,6 +16119,13 @@ return;
     }
 
 const primeiroTrocoKm = intervalos[0];
+	
+console.log("MotoQuest — VALIDAÇÃO AO ADICIONAR", {
+    bomba: primeiraBomba.name,
+    kmRodoviarios: primeiroTrocoKm,
+    limiteSeguro: fuelSafetyLimitKm
+});
+
 
 if (
     !Number.isFinite(primeiroTrocoKm) ||
