@@ -9387,12 +9387,16 @@ expensesRouteBtn.addEventListener("click", async () => {
     panel.dataset.activeRouteId = routeId;
     panel.classList.remove("hidden");
 
+ 
     // Preparar os dados da rota selecionada
-   
-mqExpenseResetForm();
-mqExpenseMessage("");
+    mqExpenseResetForm();
+    mqExpenseMessage("");
 
-await mqLoadExpenses();
+    // Carregar as rotas antes de selecionar a rota atual
+    await mqLoadExpenseRoutes();
+
+    await mqLoadExpenses();
+
 
     const filter = document.getElementById("mqExpensesRouteFilter");
     const routeSelect = document.getElementById("mqExpenseRoute");
