@@ -12944,7 +12944,7 @@ const stations = await findFuelStations(
 // TESTE: procurar postos intermédios no km 520.
 if (index === 1) {
     const pontoIntermedio = getPointAtKm(520);
-
+let resultadoConjunto = null;
     if (pontoIntermedio) {
         const bombasIntermedias = await findFuelStations(
             Number(pontoIntermedio.latitude),
@@ -15323,8 +15323,12 @@ if (index === 1) {
 }
 
 
-        const addEvaluation =
-            await checkCandidateRoute(station, null);
+      
+const addEvaluation =
+    index === 1
+        ? resultadoConjunto
+        : await checkCandidateRoute(station, null);
+
 
        
 let bestEvaluation = addEvaluation;
